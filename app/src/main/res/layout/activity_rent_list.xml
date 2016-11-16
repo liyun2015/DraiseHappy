@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ToolbarTheme">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:hint="请输入你想去的办公空间"
+            android:textSize="14sp"
+            android:textColorHint="@color/font_black_4"
+            android:imeOptions="actionSearch"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_search"
+            android:background="@drawable/background_all_buildings_search_bg" />
+    </android.support.v7.widget.Toolbar>
+    <com.uban.rent.ui.view.filterview.DropDownMenu
+        android:id="@+id/dropDownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ddmenuTextSize="13sp"
+        app:ddtextUnselectedColor="@color/colorGray"
+        app:ddtextSelectedColor="@color/colorAccent"
+        app:dddividerColor="@color/colorGray"
+        app:ddunderlineColor="@color/colorGray"
+        app:ddmenuSelectedIcon="@drawable/ic_expand_more_red_24dp"
+        app:ddmaskColor="#88888888"
+        app:ddmenuBackgroundColor="@color/white"
+        app:ddmenuUnselectedIcon="@drawable/ic_expand_more_gray_24dp"
+        tools:context="com.uban.rent.ui.activity.MainListActivity">
+
+        <!--
+         app:ddmenuTextSize="13sp" //tab字体大小
+        app:ddtextUnselectedColor="@color/drop_down_unselected" //tab未选中颜色
+        app:ddtextSelectedColor="@color/drop_down_selected" //tab选中颜色
+        app:dddividerColor="@color/gray"    //分割线颜色
+        app:ddunderlineColor="@color/gray"  //下划线颜色
+        app:ddmenuSelectedIcon="@mipmap/drop_down_selected_icon" //tab选中状态图标
+        app:ddmenuUnselectedIcon="@mipmap/drop_down_unselected_icon"//tab未选中状态图标
+        app:ddmaskColor="@color/mask_color"     //遮罩颜色，一般是半透明
+        app:ddmenuBackgroundColor="@color/white" //tab 背景颜色
+        -->
+    </com.uban.rent.ui.view.filterview.DropDownMenu>
+
+</LinearLayout>

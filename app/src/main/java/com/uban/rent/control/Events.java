@@ -1,0 +1,37 @@
+package com.uban.rent.control;
+
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+/**
+ * Events 事件定义基类
+ * Created by dawabos on 2016/8/11.
+ * Email dawabo@163.com
+ */
+public class Events<T> {
+
+    //所有事件的CODE
+    public static final int EVENTS_NORMAL_TYPE = 0;
+
+    //枚举
+    @IntDef({EVENTS_NORMAL_TYPE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface EventCode {}
+
+
+    public @Events.EventCode int code;
+    public T content;
+
+    public static <O> Events<O> setContent(O t) {
+        Events<O> events = new Events<>();
+        events.content = t;
+        return events;
+    }
+
+    public <T> T getContent() {
+        return (T) content;
+    }
+
+}

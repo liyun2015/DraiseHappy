@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.uban.rent.ui.activity.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_home_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@android:color/white" />
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:clickable="true" />
+
+
+    <LinearLayout
+        android:id="@+id/lLayout_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:background="#00000000"
+        android:visibility="gone">
+        <ListView
+            android:id="@+id/home_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:divider="#77000000"
+            android:dividerHeight="0.1dp"
+            android:listSelector="?android:attr/selectableItemBackground" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.uban.rent.ui.activity.SpaceDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/include_toolbar" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/call_phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:text="400-810-6698"/>
+    <ScrollView
+        android:layout_below="@id/top_view"
+        android:layout_above="@id/call_phone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.uban.rent.ui.view.banner.LoopViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="#2200ff00" />
+
+                <TextView
+                    android:id="@+id/image_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="10dp"
+                    android:textColor="@android:color/white"
+                    android:background="@color/colorGray"
+                    android:padding="5dp"
+                    android:text="1/5" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="科技寺－北新桥"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorGray"
+                android:drawableLeft="@drawable/background_with_shadow"
+                android:text="北京市东城区东四北大街107号 科林大厦B座107室"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#F1F5FC"
+                    android:padding="2dp"
+                    android:text="东城－东直门"
+                    android:textColor="@color/color_hint_gray"
+                    android:textSize="12sp" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#F1F5FC"
+                    android:padding="2dp"
+                    android:text="100个工位在租"
+                    android:textColor="@color/color_hint_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/divider_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_panorama"
+                        android:gravity="center"
+                        android:text="全景体验" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="0.1dp"
+                    android:layout_height="30dp"
+                    android:background="@color/divider_1" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_peripheral_matching"
+                        android:gravity="center"
+                        android:text="周边配套" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider_2"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="空间介绍"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:text="简介"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorGray"
+                android:text="由一帮北美归国的小伙伴共同打造,为您带来最酷最前沿的北美创业思潮。众舍主旨共同理想,共同方向,共同分享即众想,众向,众享的创业理念..."/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:text="硬件配套"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="会议室"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_conference_room"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="休闲区"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_leisure_area"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="文印一体"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_wen_yin"
+                    android:textColor="@color/colorGray"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="展开"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_expand_more_gray_24dp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:text="企业服务"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="法律咨询"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_legal_advice"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="注册年检"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_annual_registration"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="税务"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_tax"
+                    android:textColor="@color/colorGray"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="展开"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_expand_more_gray_24dp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:text="技术指标"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="建筑面积"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="7000m²"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="公共空间占比"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="35%"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="层数"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="7层"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="平均工位面积"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="3.2m²/工位"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGray"/>
+            </LinearLayout>
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/divider_1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider_2"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_space_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextColor="@color/colorPrimary"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/divider_1" />
+            <com.uban.rent.ui.view.UbanListView
+                android:id="@+id/lv_space_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/divider_1"
+                android:dividerHeight="0.1dp"
+                android:background="@android:color/white"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#302F35</color>
+    <color name="colorPrimaryDark">#302F35</color>
+    <color name="colorAccent">#FF5254</color>
+    <color name="colorGray">#666666</color>
+
+    <!--灰白-->
+    <color name="white">#FFFFFF</color>
+    <color name="color_hint_gray">#999999</color>
+
+    <!-- material design black font color -->
+    <color name="font_black_0">#212121</color>
+    <color name="font_black_1">#424242</color>
+    <color name="font_black_2">#616161</color>
+    <color name="font_black_3">#757575</color>
+    <color name="font_black_4">#9E9E9E</color>
+    <color name="font_black_5">#BDBDBD</color>
+    <color name="font_black_6">#E0E0E0</color>
+    <color name="font_black_7">#F7F7F7</color>
+
+    <!-- divider -->
+    <color name="divider_1">#BDBDBD</color>
+    <color name="divider_2">#E5E5E6</color>
+</resources>

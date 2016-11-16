@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.uban.rent.ui.activity.SearchActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back_white_24dp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:hint="请输入你想去的办公空间"
+            android:textSize="14sp"
+            android:textColorHint="@color/font_black_4"
+            android:imeOptions="actionSearch"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:layout_marginLeft="50dp"
+            android:drawablePadding="5dp"
+            android:layout_marginRight="20dp"
+            android:drawableLeft="@drawable/ic_search_black"
+            android:background="@drawable/background_all_buildings_search_bg" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="大家都在搜"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorGray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/divider_1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="搜索记录"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorGray"/>
+    <com.uban.rent.ui.view.UbanListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

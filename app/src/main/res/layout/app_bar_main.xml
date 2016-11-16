@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.uban.rent.ui.activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <include layout="@layout/include_toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_main" />
+
+    <TextView
+        android:id="@+id/btn_close_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="330dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/background_with_shadow"
+        android:drawableRight="@drawable/ic_expand_more_red_24dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:text="收起"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_switching"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@android:color/white"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/ic_fab_filter" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@android:color/white"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/ic_fab_location" />
+
+</android.support.design.widget.CoordinatorLayout>
