@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        _instance = this;//
+        _instance = this;//this
         SDKInitializer.initialize(this);
         ImageLoadUtils.initImageLoader(getApplicationContext());
     }
