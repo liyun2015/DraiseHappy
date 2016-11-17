@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +43,10 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestHomeData;
@@ -137,8 +141,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
+        registerEvents();
         initData();
         initView();
+    }
+
+    private void registerEvents() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_SEARCH_TYPE)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        SearchHomeViewEvents searchHomeViewEvents = events.getContent();
+                        keyWord = searchHomeViewEvents.getKeyWords();
+                        clearOverlay();
+                        initData();
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.i("EventError",throwable.getMessage());
+                    }
+                })
+                .create();
     }
 
     private double locationX = 116.486388;

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
+import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.flowlayout.FlowLayout;
 import com.uban.rent.ui.view.flowlayout.TagAdapter;
@@ -69,7 +73,7 @@ public class SearchActivity extends BaseActivity {
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                //Toast.makeText(mContext, mVals[position], Toast.LENGTH_SHORT).show();
+                sendEvents(mVals[position]);
                 saveHistory(mVals[position]);
                 return true;
             }
@@ -83,11 +87,18 @@ public class SearchActivity extends BaseActivity {
         });
     }
 
+    private void sendEvents(String values){
+        SearchHomeViewEvents searchHomeViewEvents = new SearchHomeViewEvents();
+        searchHomeViewEvents.setKeyWords(values);
+        RxBus.getInstance().send(Events.EVENTS_SEARCH_TYPE,searchHomeViewEvents);
+        finish();
+    }
+
     private void loadHistory(){
         SharedPreferences sp = getSharedPreferences(KEY_SP_HISTORY, 0);
         String history = sp.getString(KEY_HISTORY, HISTORY_HINT);
         cleanHistoryDates.setVisibility(history.equals(HISTORY_HINT)?View.GONE:View.VISIBLE);
-        String[] historys = history.split(",");
+        final String[] historys = history.split(",");
         // 保留前6条数据
         if (historys.length > 6) {
             String[] newArrays = new String[6]; // 实现数组之间的复制
@@ -100,6 +111,13 @@ public class SearchActivity extends BaseActivity {
         } else {
             historyAdapter.notifyDataSetChanged();
         }
+
+        searchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sendEvents(historys[i]);
+            }
+        });
     }
 
     public void saveHistory(String text) {
