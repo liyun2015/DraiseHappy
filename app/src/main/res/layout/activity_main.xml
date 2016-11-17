@@ -24,6 +24,50 @@
         app:itemIconTint="@android:color/white"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
-        app:itemTextAppearance="@style/TextAppearance" />
+        app:itemTextAppearance="@style/TextAppearance">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#413F48"
+                android:layout_marginBottom="80dp"
+                android:layout_alignParentBottom="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="切换城市："
+                    android:drawableLeft="@drawable/ic_select_city"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="30dp"
+                    android:textColor="@android:color/white"/>
+                <TextView
+                    android:id="@+id/select_city_bj"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:text="北京"/>
+                <TextView
+                    android:id="@+id/select_city_sh"
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="上海"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

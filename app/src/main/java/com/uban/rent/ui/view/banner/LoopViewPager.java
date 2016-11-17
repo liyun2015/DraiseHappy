@@ -21,11 +21,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
-
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +49,6 @@ public class LoopViewPager extends ViewPager {
      */
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(android.os.Message msg) {
-            Log.e(TAG, "mHandler.handleMessage(" + msg + ")" +
-                    " mIsLoopPicture=" + mIsLoopPicture + ", isSelected=" + isSelected());
             if (mIsLoopPicture && mAdapter.getCount() > 0) {
                 int position = getCurrentItem() + 1;
                 setCurrentItem(position);
@@ -87,13 +83,11 @@ public class LoopViewPager extends ViewPager {
     }
 
     public void setLooperPic(boolean looperPic) {
-        Log.e(TAG, ">> setLooperPic(" + looperPic + ")");
         mIsLoopPicture = looperPic;
         loopPictureIfNeed();
     }
 
     public void loopPictureIfNeed() {
-        Log.e(TAG, ">> loopPictureIfNeed(" + mIsLoopPicture + ")");
         mHandler.removeMessages(MSG_LOOP_PICTURE);
         mHandler.sendEmptyMessageDelayed(MSG_LOOP_PICTURE, DELAY_LONG_DUTATION);
     }
@@ -107,7 +101,6 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
-        Log.e(TAG, ">> setAdapter(" + adapter + ")");
         mAdapter = new LoopPagerAdapterWrapper(adapter);
         mAdapter.setBoundaryCaching(mBoundaryCaching);
         mAdapter.setBoundaryLooping(mBoundaryLooping);
@@ -187,7 +180,6 @@ public class LoopViewPager extends ViewPager {
 
         @Override
         public void onPageSelected(int position) {
-            Log.e(TAG, ">> onPageSelected(" + position + ")");
             int realPosition = mAdapter.toRealPosition(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
@@ -205,7 +197,6 @@ public class LoopViewPager extends ViewPager {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            Log.e(TAG, ">> onPageScrolled(" + position + ")");
             int realPosition = position;
             if (mAdapter != null) {
                 realPosition = mAdapter.toRealPosition(position);

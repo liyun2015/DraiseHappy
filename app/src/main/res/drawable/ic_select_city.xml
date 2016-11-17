@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="17dp"
+    android:height="13.5dp"
+    android:viewportWidth="34"
+    android:viewportHeight="27">
+
+    <group
+        android:translateX="-56.000000"
+        android:translateY="-1261.000000">
+        <group
+            android:translateX="56.000000"
+            android:translateY="1260.000000">
+            <path
+                android:fillType="evenOdd"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="2"
+                android:strokeLineCap="round"
+                android:pathData="M1.0003,8.1261 L33.0003,8.1261" />
+            <group
+                android:translateX="21.000000"
+                android:translateY="0.626100">
+                <path
+                    android:fillColor="#FFFFFF"
+                    android:fillType="evenOdd"
+                    android:strokeWidth="1"
+                    android:pathData="M11.9993,8.4792 C11.8433,8.4792 11.6853,8.4412 11.5363,8.3582 L0.7863,2.3782
+C0.2973,2.1062 0.1083,1.4642 0.3643,0.9442 C0.6203,0.4252 1.2233,0.2222
+1.7143,0.4952 L12.4643,6.4752 C12.9533,6.7472 13.1423,7.3892 12.8863,7.9092
+C12.7073,8.2712 12.3593,8.4792 11.9993,8.4792" />
+            </group>
+            <path
+                android:fillType="evenOdd"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="2"
+                android:strokeLineCap="round"
+                android:pathData="M1.0003,21.1261 L33.0003,21.1261" />
+            <path
+                android:fillColor="#FFFFFF"
+                android:fillType="evenOdd"
+                android:strokeWidth="1"
+                android:pathData="M11.7493,27.6261 C11.5933,27.6261 11.4353,27.5911 11.2863,27.5141
+L0.5363,22.0131 C0.0473,21.7631 -0.1417,21.1721 0.1143,20.6931 C0.3703,20.2151
+0.9733,20.0281 1.4643,20.2811 L12.2143,25.7821 C12.7033,26.0321 12.8923,26.6231
+12.6363,27.1021 C12.4573,27.4351 12.1093,27.6261 11.7493,27.6261" />
+        </group>
+    </group>
+</vector>

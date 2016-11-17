@@ -53,12 +53,6 @@ public class HeaderConfig {
      * @return
      */
     public static String ubanCity(){
-        String city = (String)SPUtils.get(App.getInstance(), Constants.UBAN_CITY, "");
-        if(Constants.CITY_STR[0].equals(city)){
-            city = Constants.CITY_ID[0];
-        }else if(Constants.CITY_STR[1].equals(city)){
-            city = Constants.CITY_ID[1];
-        }
-        return city;
+        return (String)SPUtils.get(App.getInstance(), Constants.UBAN_CITY, "");
     }
 }

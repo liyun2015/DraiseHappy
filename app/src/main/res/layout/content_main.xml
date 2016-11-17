@@ -33,12 +33,13 @@
         android:orientation="vertical"
         android:background="#00000000"
         android:visibility="gone">
-        <ListView
-            android:id="@+id/home_list"
+        <include layout="@layout/include_marker_top_view"/>
+
+        <com.uban.rent.ui.view.UbanListView
+            android:id="@+id/lv_marker_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:divider="#77000000"
+            android:divider="@color/divider_1"
             android:dividerHeight="0.1dp"
             android:listSelector="?android:attr/selectableItemBackground" />
     </LinearLayout>

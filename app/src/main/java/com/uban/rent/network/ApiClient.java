@@ -2,6 +2,7 @@ package com.uban.rent.network;
 
 
 import com.uban.rent.module.HomeDatasBean;
+import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 
@@ -22,5 +23,7 @@ public interface ApiClient {
 
     //空间详情
     @POST("/mainapi/officespaceBasicProvider/officeSpaceInfo")
-    Observable<String> getOfficeSpaceInfo(@Body RequestSpaceDetail requestSpaceDetail);
+    Observable<SpaceDetailBean> getOfficeSpaceInfo(@Body RequestSpaceDetail requestSpaceDetail);
+
+
 }

@@ -15,9 +15,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -43,13 +43,17 @@ import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.HomeDatasBean;
+import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestHomeData;
+import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.SPUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -69,8 +73,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     Toolbar toolbar;
     @Bind(R.id.content_main)
     LinearLayout contentMain;
-    @Bind(R.id.fab_switching)
-    FloatingActionButton fabSwitching;
+    @Bind(R.id.fab_clean_search)
+    FloatingActionButton fabCleanSearch;
     @Bind(R.id.nav_view)
     NavigationView navigationView;
     @Bind(R.id.drawer_layout)
@@ -79,23 +83,38 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TabLayout tabHomeSelect;
     @Bind(R.id.bmapView)
     MapView mMapView;
-    @Bind(R.id.home_list)
-    ListView homeList;
+    @Bind(R.id.lv_marker_list)
+    UbanListView lvMarkerList;
     @Bind(R.id.fab_location)
     FloatingActionButton fabLocation;
     @Bind(R.id.btn_close_list)
     TextView btnCloseList;
     @Bind(R.id.lLayout_list_view)
     LinearLayout lLayoutListView;
+    @Bind(R.id.select_city_bj)
+    TextView selectCityBj;
+    @Bind(R.id.select_city_sh)
+    TextView selectCitySh;
+    @Bind(R.id.iv_marker_images)
+    ImageView ivMarkerImages;
+    @Bind(R.id.tv_marker_name)
+    TextView tvMarkerName;
+    @Bind(R.id.tv_marker_location)
+    TextView tvMarkerLocation;
+    @Bind(R.id.tv_marker_gongwei)
+    TextView tvMarkerGongwei;
+    @Bind(R.id.tv_marker_price)
+    TextView tvMarkerPrice;
+    @Bind(R.id.tv_marker_price_type)
+    TextView tvMarkerPriceType;
+    @Bind(R.id.tag_marker_view)
+    TabLayout tagMarkerView;
+    @Bind(R.id.rl_marker_space_detail)
+    RelativeLayout rlMarkerSpaceDetail;
     private BaiduMap mBaiduMap;
-    private ArrayAdapter<String> mAdapter;
-    private List<String> mDatas = new ArrayList<>(Arrays.asList("nadd", "adf", "faf++", "Rubsdfdsfy", "Jsonfsdf",
-            "sdfsdHTML", "nadd", "adf", "faf++", "Rubsdfdsfy", "Jsonfsdf",
-            "sdfsdHTML", "nadd", "adf", "faf++", "Rubsdfdsfy", "Jsonfsdf",
-            "sdfsdHTML", "nadd", "adf", "faf++", "Rubsdfdsfy", "Jsonfsdf",
-            "sdfsdHTML"));
-    private boolean isShowListView = true;
     private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
+    private static final String[] TITLE_MARKER_NAME = new String[]{"时租", "日租", "月租"};
+    private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 起", "元/天 起", "元/月 起"};
     private static final String KEY_BUNDLE = "Bundle";
     private LocationClient mLocClient;
     private MyLocationListenner myListener = new MyLocationListenner();
@@ -106,6 +125,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int accuracyCircleFillColor = 0xAAFFFF88;
     private static final int accuracyCircleStrokeColor = 0xAA00FF00;
 
+    private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
+    private int officeSpaceBasicInfoId;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -169,7 +190,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext,getString(R.string.str_result_error));
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error));
                     }
                 }, new Action0() {
                     @Override
@@ -180,6 +201,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initView() {
+        saveCity(Constants.CITY_ID[0]);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -216,6 +238,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
         });
+        tagMarkerView.setTabMode(TabLayout.MODE_FIXED);
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[0]));
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[1]));
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[2]));
+
+        tagMarkerView.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tvMarkerPriceType.setText(TITLE_PRICE_TYPE[tab.getPosition()]);
+                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         initMapView();
     }
 
@@ -235,22 +279,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
+
     private void showMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
         int resID = 0;
-        if (shortRentFlag==0){
+        if (shortRentFlag == 0) {
             resID = R.drawable.ic_marker_space_normal;
-        }else if (shortRentFlag==1){
+        } else if (shortRentFlag == 1) {
             resID = R.drawable.ic_marker_mobile_office_normal;
-        }else if (shortRentFlag==2){
+        } else if (shortRentFlag == 2) {
             resID = R.drawable.ic_marker_conference_activities_normal;
         }
-        if (datasBean.getShortestFlag()==Constants.SHORT_NEAR_FLAG){
+        if (datasBean.getShortestFlag() == Constants.SHORT_NEAR_FLAG) {
             TextView textView = new TextView(this);
             textView.setText("距离最近");
             textView.setTextColor(Color.WHITE);
             textView.setGravity(Gravity.CENTER);
             textView.setTextSize(12f);
-            textView.setPadding(0,0,0,12);
+            textView.setPadding(0, 0, 0, 12);
             textView.setBackgroundResource(R.drawable.ic_marker_near_windows);
             LatLng pt = new LatLng(datasBean.getMapY(), datasBean.getMapX());
             //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
@@ -270,6 +315,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mMarkerBase.setExtraInfo(bundle);
         mBaiduMap.setOnMarkerClickListener(markerOnclick);
     }
+
     BaiduMap.OnMarkerClickListener markerOnclick = new BaiduMap.OnMarkerClickListener() {
 
         @Override
@@ -279,36 +325,99 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return false;
             }
 
-            HomeDatasBean.ResultsBean.DatasBean datasBean  = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
+            HomeDatasBean.ResultsBean.DatasBean datasBean = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
             LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
             MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
             MapStatusUpdate msu = MapStatusUpdateFactory.newMapStatus(mMapStatus);
             mBaiduMap.animateMapStatus(msu, 400);
             int resID = 0;
-            if (shortRentFlag==0){
+            if (shortRentFlag == 0) {
                 resID = R.drawable.ic_marker_space_checked;
-            }else if (shortRentFlag==1){
+            } else if (shortRentFlag == 1) {
                 resID = R.drawable.ic_marker_mobile_office_checked;
-            }else if (shortRentFlag==2){
+            } else if (shortRentFlag == 2) {
                 resID = R.drawable.ic_marker_conference_activities_checked;
             }
             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(resID);
             marker.setIcon(bitmapDescriptor);
             mMarkerBase = marker;
+
+            ininMarkerList(datasBean);
             return true;
         }
     };
+
+    private void ininMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
+        RequestSpaceDetail requestHomeMarkerList = new RequestSpaceDetail();
+        requestHomeMarkerList.setOfficespaceBasicinfoId(datasBean.getOfficespaceBasicinfoId());
+        requestHomeMarkerList.setLocationX(datasBean.getMapX());
+        requestHomeMarkerList.setLocationY(datasBean.getMapY());
+        ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestHomeMarkerList)
+                .compose(this.<SpaceDetailBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<SpaceDetailBean, Boolean>() {
+                    @Override
+                    public Boolean call(SpaceDetailBean spaceDetailBean) {
+                        return spaceDetailBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<SpaceDetailBean, SpaceDetailBean.ResultsBean>() {
+                    @Override
+                    public SpaceDetailBean.ResultsBean call(SpaceDetailBean spaceDetailBean) {
+                        return spaceDetailBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<SpaceDetailBean.ResultsBean>() {
+                    @Override
+                    public void call(SpaceDetailBean.ResultsBean resultsBean) {
+                        officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
+                        // ImageLoadUtils.displayHeadIcon(resultsBean.getPicList().get(0).getImgPath(),ivMarkerImages);
+                        tvMarkerName.setText(resultsBean.getSpaceCnName());
+                        tvMarkerLocation.setText(resultsBean.getAddress());
+                        tvMarkerPrice.setText(String.valueOf(resultsBean.getMarketPrice()));
+                        tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
+                        List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen = new ArrayList<>();
+                        spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
+                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
+                        lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
+                        isShowBottomView(true);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "数据加载失败");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+
     public void clearOverlay() {
         mBaiduMap.clear();
         mMarkerBase = null;
     }
+
+    /**
+     * 显示底部View
+     *
+     * @param b true显示
+     */
     private void isShowBottomView(boolean b) {
-        //tabHomeSelect.setAnimation(isShowListView ? AnimationUtils.loadAnimation(mContext, R.anim.dd_menu_out) : AnimationUtils.loadAnimation(mContext, R.anim.dd_menu_in));
-        tabHomeSelect.setVisibility(isShowListView ? View.GONE : View.VISIBLE);
-        btnCloseList.setVisibility(isShowListView ? View.VISIBLE : View.GONE);
-        fabLocation.setVisibility(isShowListView ? View.GONE : View.VISIBLE);
-        lLayoutListView.setVisibility(isShowListView ? View.VISIBLE : View.GONE);
-        isShowListView = !b;
+        tabHomeSelect.setVisibility(b ? View.GONE : View.VISIBLE);
+        btnCloseList.setVisibility(b ? View.VISIBLE : View.GONE);
+        fabLocation.setVisibility(b ? View.GONE : View.VISIBLE);
+        fabCleanSearch.setVisibility(b ? View.GONE : View.VISIBLE);
+        lLayoutListView.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -317,7 +426,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (lLayoutListView.getVisibility() == View.VISIBLE) {
+                isShowBottomView(false);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -376,14 +489,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.fab_switching, R.id.fab_location, R.id.btn_close_list})
+    @OnClick({R.id.fab_clean_search, R.id.fab_location, R.id.btn_close_list, R.id.select_city_bj, R.id.select_city_sh,R.id.rl_marker_space_detail})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab_switching:
-                /*mAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, mDatas);
-                homeList.setAdapter(mAdapter);
-                isShowBottomView(isShowListView);*/
-                goActivity(SpaceDetailActivity.class);
+            case R.id.fab_clean_search:
+                keyWord = "";
+                initData();
                 break;
             case R.id.fab_location:
                 isFirstLoc = true;
@@ -397,11 +508,41 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 accuracyCircleFillColor, accuracyCircleStrokeColor));
                 break;
             case R.id.btn_close_list:
-                isShowBottomView(isShowListView);
+                isShowBottomView(false);
+                break;
+            case R.id.select_city_bj:
+                saveCity(Constants.CITY_ID[0]);
+                break;
+            case R.id.select_city_sh:
+                saveCity(Constants.CITY_ID[1]);
+                break;
+            case R.id.rl_marker_space_detail:
+                Intent intent = new Intent();
+                intent.putExtra(SpaceDetailActivity.OFFICE_SPACE_BASIC_INFO_ID,officeSpaceBasicInfoId);
+                intent.putExtra(SpaceDetailActivity.LOCATION_X,locationX);
+                intent.putExtra(SpaceDetailActivity.LOCATION_Y,locationY);
+                intent.setClass(mContext,SpaceDetailActivity.class);
+                startActivity(intent);
                 break;
         }
     }
 
+    /**
+     * 选择保存城市
+     *
+     * @param cityId
+     */
+    private void saveCity(String cityId) {
+        if (cityId.equals(Constants.CITY_ID[0])) {
+            selectCityBj.setTextColor(Color.parseColor("#FF5254"));
+            selectCitySh.setTextColor(Color.WHITE);
+            SPUtils.put(mContext, Constants.UBAN_CITY, Constants.CITY_ID[0]);
+        } else {
+            SPUtils.put(mContext, Constants.UBAN_CITY, Constants.CITY_ID[1]);
+            selectCitySh.setTextColor(Color.parseColor("#FF5254"));
+            selectCityBj.setTextColor(Color.WHITE);
+        }
+    }
 
 
     /**

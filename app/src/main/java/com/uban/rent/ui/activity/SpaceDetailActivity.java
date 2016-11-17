@@ -11,26 +11,33 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
+import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.banner.LoopViewPager;
+import com.uban.rent.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 
 /**
  * 空间详情页
  */
 public class SpaceDetailActivity extends BaseActivity {
+    public static final String OFFICE_SPACE_BASIC_INFO_ID = "officeSpaceBasicInfoId";
+    public static final String LOCATION_X = "location_x";
+    public static final String LOCATION_Y = "location_y";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -45,8 +52,11 @@ public class SpaceDetailActivity extends BaseActivity {
     private static final String[] TITLE_NAME = new String[]{"时租", "日租", "月租"};
     @Bind(R.id.lv_space_detail)
     UbanListView lvSpaceDetail;
-    private List<String> mDatas = new ArrayList<>(Arrays.asList("nadd", "adf", "fafff", "dfdsfy", "fsdf"));
 
+    private int officeSpaceBasicInfoId  = 0;
+    private double locationx  = 0;
+    private double locationy  = 0;
+    private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -54,26 +64,58 @@ public class SpaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initView();
+        officeSpaceBasicInfoId =  getIntent().getIntExtra(OFFICE_SPACE_BASIC_INFO_ID,0);
+        locationx = getIntent().getDoubleExtra(LOCATION_X,0.0);
+        locationy=  getIntent().getDoubleExtra(LOCATION_Y,0.0);
         initData();
+        initView();
 
     }
 
     private void initData() {
         RequestSpaceDetail requestSpaceDetail = new RequestSpaceDetail();
-        requestSpaceDetail.setOfficespaceBasicinfoId(2);
+        requestSpaceDetail.setOfficespaceBasicinfoId(officeSpaceBasicInfoId);
+        requestSpaceDetail.setLocationX(locationx);
+        requestSpaceDetail.setLocationY(locationy);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestSpaceDetail)
-                .compose(this.<String>bindToLifecycle())
-                .compose(RxSchedulersHelper.<String>io_main())
-                .subscribe(new Action1<String>() {
+                .compose(this.<SpaceDetailBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())
+                .doOnSubscribe(new Action0() {
                     @Override
-                    public void call(String s) {
-
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<SpaceDetailBean, Boolean>() {
+                    @Override
+                    public Boolean call(SpaceDetailBean spaceDetailBean) {
+                        return spaceDetailBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<SpaceDetailBean, SpaceDetailBean.ResultsBean>() {
+                    @Override
+                    public SpaceDetailBean.ResultsBean call(SpaceDetailBean spaceDetailBean) {
+                        return spaceDetailBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<SpaceDetailBean.ResultsBean>() {
+                    @Override
+                    public void call(SpaceDetailBean.ResultsBean resultsBean) {
+                        List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen = new ArrayList<>();
+                        spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
+                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
+                        lvSpaceDetail.setAdapter(spaceDetailRentTypeAdapter);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        ToastUtil.makeText(mContext, "数据加载失败");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
                     }
                 });
     }
@@ -91,13 +133,11 @@ public class SpaceDetailActivity extends BaseActivity {
         tabSpaceDetail.addTab(tabSpaceDetail.newTab().setText(TITLE_NAME[0]));
         tabSpaceDetail.addTab(tabSpaceDetail.newTab().setText(TITLE_NAME[1]));
         tabSpaceDetail.addTab(tabSpaceDetail.newTab().setText(TITLE_NAME[2]));
-        SpaceDetailRentTypeAdapter mAdapter = new SpaceDetailRentTypeAdapter(mContext,mDatas);
-        lvSpaceDetail.setAdapter(mAdapter);
 
         tabSpaceDetail.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // ToastUtil.makeText(mContext,tab.getPosition()+"");
+                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
             }
 
             @Override

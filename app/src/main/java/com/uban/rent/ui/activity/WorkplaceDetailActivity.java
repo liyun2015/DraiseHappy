@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
  * 工位详情页
  */
 public class WorkplaceDetailActivity extends BaseActivity {
+    public static final String KEY_ID = "ID";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -34,6 +35,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @Bind(R.id.activity_workplace)
     RelativeLayout activityWorkplace;
 
+    private int workPlaceId;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -41,6 +43,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        workPlaceId = getIntent().getIntExtra(KEY_ID,0);
         initView();
     }
 

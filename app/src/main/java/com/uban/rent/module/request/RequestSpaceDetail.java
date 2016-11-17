@@ -7,6 +7,8 @@ package com.uban.rent.module.request;
  */
 public class RequestSpaceDetail {
     private int officespaceBasicinfoId;
+    private double locationX;
+    private double locationY;
 
     public int getOfficespaceBasicinfoId() {
         return officespaceBasicinfoId;
@@ -14,5 +16,21 @@ public class RequestSpaceDetail {
 
     public void setOfficespaceBasicinfoId(int officespaceBasicinfoId) {
         this.officespaceBasicinfoId = officespaceBasicinfoId;
+    }
+
+    public double getLocationX() {
+        return locationX;
+    }
+
+    public void setLocationX(double locationX) {
+        this.locationX = locationX;
+    }
+
+    public double getLocationY() {
+        return locationY;
+    }
+
+    public void setLocationY(double locationY) {
+        this.locationY = locationY;
     }
 }
