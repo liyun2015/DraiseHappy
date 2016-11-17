@@ -19,7 +19,7 @@ import java.io.File;
 public class IntentUtils {
 
     private IntentUtils() {
-        throw new UnsupportedOperationException("u can't fuck me...");
+        throw new UnsupportedOperationException("exception...");
     }
 
     /**

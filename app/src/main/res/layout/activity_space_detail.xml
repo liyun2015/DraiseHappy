@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.uban.rent.ui.activity.SpaceDetailActivity">
 
@@ -92,7 +93,7 @@
                     android:background="#F1F5FC"
                     android:padding="2dp"
                     android:text="东城－东直门"
-                    android:textColor="@color/color_hint_gray"
+                    android:textColor="@color/colorGrayHint"
                     android:textSize="12sp" />
 
                 <Space
@@ -105,7 +106,7 @@
                     android:background="#F1F5FC"
                     android:padding="2dp"
                     android:text="100个工位在租"
-                    android:textColor="@color/color_hint_gray"
+                    android:textColor="@color/colorGrayHint"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -119,7 +120,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:gravity="center">
 
                 <RelativeLayout

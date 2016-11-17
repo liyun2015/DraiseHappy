@@ -7,7 +7,7 @@
 
     <!--灰白-->
     <color name="white">#FFFFFF</color>
-    <color name="color_hint_gray">#999999</color>
+    <color name="colorGrayHint">#999999</color>
 
     <!-- material design black font color -->
     <color name="font_black_0">#212121</color>

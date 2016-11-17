@@ -39,6 +39,9 @@ public class RequestInterceptor implements Interceptor {
             Request compressedRequest = originalRequest.newBuilder()
                     .header("Cache-Control", CACHE_CONTROL_NETWORK)
                     .header(Constants.TOKEN, HeaderConfig.token())
+                    .header(Constants.UBAN_TOKEN, HeaderConfig.ubanToken())
+                    .header(Constants.UBAN_CITY, HeaderConfig.ubanCity())
+                    .header(Constants.RESERVED, Constants.RESERVED_PHONE)
                     .build();
             Response response = chain.proceed(compressedRequest);
             return response;

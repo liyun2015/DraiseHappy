@@ -1,5 +1,6 @@
 package com.uban.rent.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
-import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 
 import butterknife.Bind;
@@ -91,7 +91,14 @@ public class WorkplaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                ToastUtil.makeText(mContext, "分享");
+                Intent share_intent = new Intent();
+                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+                share_intent.setType("text/plain");//设置分享内容的类型
+                share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享内容标题");//添加分享内容标题
+                share_intent.putExtra(Intent.EXTRA_TEXT, "分享内容");//添加分享内容
+                //创建分享的Dialog
+                share_intent = Intent.createChooser(share_intent, "分享");
+                startActivity(share_intent);
                 break;
         }
 

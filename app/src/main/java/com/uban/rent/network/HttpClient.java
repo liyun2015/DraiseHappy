@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class HttpClient {
 
-    public static final String BASE_URL = "http://ht.test.uban.com";
+    public static final String BASE_URL = "http://192.168.0.3:30104";
 
     private static HttpClient mInstance;
     private Retrofit singleton;
@@ -45,7 +45,7 @@ public class HttpClient {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(7676, TimeUnit.MILLISECONDS)
                 .connectTimeout(7676, TimeUnit.MILLISECONDS)
-                //.addNetworkInterceptor(interceptor)
+                .addNetworkInterceptor(interceptor)
                 .addInterceptor(new RequestInterceptor())
                 .cache(cache)
                 .build();

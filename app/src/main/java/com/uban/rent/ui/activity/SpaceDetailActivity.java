@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.request.RequestSpaceDetail;
+import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.UbanListView;
@@ -21,6 +24,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
+
 
 /**
  * 空间详情页
@@ -50,7 +55,27 @@ public class SpaceDetailActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        initData();
 
+    }
+
+    private void initData() {
+        RequestSpaceDetail requestSpaceDetail = new RequestSpaceDetail();
+        requestSpaceDetail.setOfficespaceBasicinfoId(2);
+        ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestSpaceDetail)
+                .compose(this.<String>bindToLifecycle())
+                .compose(RxSchedulersHelper.<String>io_main())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
     }
 
     private void initView() {
