@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -127,6 +128,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private int officeSpaceBasicInfoId;
+    List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -134,6 +136,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        spaceDeskTypePriceListBeen = new ArrayList<>();
         initData();
         initView();
     }
@@ -260,6 +263,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
         });
+        lvMarkerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
+                Intent intent = new Intent();
+                intent.setClass(mContext, WorkplaceDetailActivity.class);
+                intent.putExtra(WorkplaceDetailActivity.KEY_ID,spaceDeskTypePriceListBean.getId());
+                startActivity(intent);
+            }
+        });
         initMapView();
     }
 
@@ -382,7 +395,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         tvMarkerLocation.setText(resultsBean.getAddress());
                         tvMarkerPrice.setText(String.valueOf(resultsBean.getMarketPrice()));
                         tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
-                        List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen = new ArrayList<>();
+                        spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
                         spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
                         lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
