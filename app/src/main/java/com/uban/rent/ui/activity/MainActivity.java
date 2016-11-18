@@ -231,7 +231,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 /*mAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, mDatas);
                 homeList.setAdapter(mAdapter);
                 isShowBottomView(isShowListView);*/
-                goActivity(WorkplaceDetailActivity.class);
+                goActivity(CreateOrdersActivity.class);
+//                goActivity(WorkplaceDetailActivity.class);
                 break;
             case R.id.fab_location:
                 isFirstLoc = true;

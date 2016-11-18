@@ -60,7 +60,7 @@
         <activity android:name=".ui.activity.WorkplaceDetailActivity" />
         <activity android:name=".ui.activity.OrdersDetailActivity" />
         <activity android:name=".ui.activity.CreateOrdersActivity" />
-        <activity android:name=".ui.activity.ShowPhotosActivity"></activity>
+        <activity android:name=".ui.activity.ShowPhotosActivity" />
     </application>
 
 </manifest>
