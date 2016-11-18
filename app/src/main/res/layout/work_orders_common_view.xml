@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -93,6 +94,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="15dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_height="wrap_content">
         <TextView
@@ -120,23 +122,31 @@
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
     </RelativeLayout>
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/divider_2"
-        android:layout_height="0.6dp"/>
+        android:background="@color/white"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider_2"
+            android:layout_height="0.6dp"/>
+    </LinearLayout>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:text="预定信息"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="15dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
@@ -169,6 +179,7 @@
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
@@ -199,6 +210,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="15dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
 
         <TextView
@@ -223,6 +235,7 @@
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/end_time"
@@ -243,19 +256,23 @@
             android:textColor="@color/colorGray"
             android:textSize="13sp" />
     </RelativeLayout>
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/divider_2"
-        android:layout_height="0.6dp"/>
+        android:background="@color/white"
+        android:padding="15dp"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider_2"
+            android:layout_height="0.6dp"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        android:paddingTop="15dp"
+        android:background="@color/white"
         android:paddingBottom="10dp"
         android:layout_height="wrap_content">
         <TextView
@@ -295,7 +312,9 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/white"
         android:paddingRight="15dp"
+        android:paddingBottom="15dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -338,5 +357,9 @@
             android:text="200元"
             android:id="@+id/price_in_tota" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider_2"
+        android:layout_height="0.6dp"/>
 
 </LinearLayout>

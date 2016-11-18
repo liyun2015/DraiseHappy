@@ -32,44 +32,6 @@ public class CreateOrdersActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.order_create)
     TextView orderCreate;
-    @Bind(R.id.textView)
-    TextView textView;
-    @Bind(R.id.price_of_hour)
-    TextView priceOfHour;
-    @Bind(R.id.station_str)
-    TextView stationStr;
-    @Bind(R.id.add_btn)
-    ImageView addBtn;
-    @Bind(R.id.numder_of_stations)
-    TextView numderOfStations;
-    @Bind(R.id.reduce_btn)
-    ImageView reduceBtn;
-    @Bind(R.id.right_arrows)
-    ImageView rightArrows;
-    @Bind(R.id.start_time)
-    TextView startTime;
-    @Bind(R.id.right_arrows1)
-    ImageView rightArrows1;
-    @Bind(R.id.end_time)
-    TextView endTime;
-    @Bind(R.id.right_textstr)
-    TextView rightTextstr;
-    @Bind(R.id.total_time)
-    TextView totalTime;
-    @Bind(R.id.switch_btn_one)
-    CheckBox switchBtnOne;
-    @Bind(R.id.switch_btn_two)
-    CheckBox switchBtnTwo;
-    @Bind(R.id.top_view)
-    RelativeLayout topView;
-    @Bind(R.id.total_price)
-    TextView totalPrice;
-    @Bind(R.id.bottom_view)
-    LinearLayout bottomView;
-    @Bind(R.id.bottom_line)
-    View bottomLine;
-    @Bind(R.id.textView2)
-    TextView textView2;
 
     @Override
     protected int getLayoutId() {
@@ -123,7 +85,7 @@ public class CreateOrdersActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_create://提交订单
-                goActivity(OrdersDetailActivity.class);
+                goActivity(OrderPaymentActivity.class);
                 break;
             case R.id.add_btn://加
                 break;
