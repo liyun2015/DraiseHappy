@@ -17,6 +17,7 @@ public class Constants {
     public static final int STATUS_CODE_SUCCESS = 0;
     public static final int SHORT_NEAR_FLAG = 1;
     public static final String APP_IMG_URL_640_420 = "http://img1.static.uban.com/%s-w640x420";
+    public static final String PHONE_NUMBER = "400-810-6698";
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/%s-n240x180";
     public static final String APP_IMG_PANORAMA_URL = "http://img1.static.uban.com/%s-w2048x1024N";
 }

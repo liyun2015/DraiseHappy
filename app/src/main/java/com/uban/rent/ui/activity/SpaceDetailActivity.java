@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
@@ -20,12 +22,14 @@ import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.PhoneUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -52,11 +56,20 @@ public class SpaceDetailActivity extends BaseActivity {
     private static final String[] TITLE_NAME = new String[]{"时租", "日租", "月租"};
     @Bind(R.id.lv_space_detail)
     UbanListView lvSpaceDetail;
+    @Bind(R.id.top_view)
+    RelativeLayout topView;
+    @Bind(R.id.call_phone)
+    TextView callPhone;
+    @Bind(R.id.rl_panorama)
+    RelativeLayout rlPanorama;
+    @Bind(R.id.rl_supporting)
+    RelativeLayout rlSupporting;
 
-    private int officeSpaceBasicInfoId  = 0;
-    private double locationx  = 0;
-    private double locationy  = 0;
+    private int officeSpaceBasicInfoId = 0;
+    private double locationx = 0;
+    private double locationy = 0;
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -64,9 +77,9 @@ public class SpaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        officeSpaceBasicInfoId =  getIntent().getIntExtra(OFFICE_SPACE_BASIC_INFO_ID,0);
-        locationx = getIntent().getDoubleExtra(LOCATION_X,0.0);
-        locationy=  getIntent().getDoubleExtra(LOCATION_Y,0.0);
+        officeSpaceBasicInfoId = getIntent().getIntExtra(OFFICE_SPACE_BASIC_INFO_ID, 0);
+        locationx = getIntent().getDoubleExtra(LOCATION_X, 0.0);
+        locationy = getIntent().getDoubleExtra(LOCATION_Y, 0.0);
         initData();
         initView();
 
@@ -127,8 +140,13 @@ public class SpaceDetailActivity extends BaseActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setTitle("");
         }
+        toolbarContentText.setText("空间详情");
+        topView.setFocusable(true);
+        topView.setFocusableInTouchMode(true);
+        topView.requestFocus();
+
+
         tabSpaceDetail.setTabMode(TabLayout.MODE_FIXED);
         tabSpaceDetail.addTab(tabSpaceDetail.newTab().setText(TITLE_NAME[0]));
         tabSpaceDetail.addTab(tabSpaceDetail.newTab().setText(TITLE_NAME[1]));
@@ -186,5 +204,18 @@ public class SpaceDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.call_phone, R.id.rl_panorama, R.id.rl_supporting})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.call_phone:
+                PhoneUtils.call(mContext,Constants.PHONE_NUMBER);
+                break;
+            case R.id.rl_panorama:
+                break;
+            case R.id.rl_supporting:
+                break;
+        }
     }
 }
