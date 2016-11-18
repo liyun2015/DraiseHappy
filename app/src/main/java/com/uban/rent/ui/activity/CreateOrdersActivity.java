@@ -20,6 +20,7 @@ import butterknife.OnClick;
  * 创建工位订单
  */
 public class CreateOrdersActivity extends BaseActivity {
+    public static final String KEY_SPACEDESK_ID = "spaceDeskId";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
