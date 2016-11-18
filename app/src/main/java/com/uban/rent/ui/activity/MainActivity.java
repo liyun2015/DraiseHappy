@@ -56,6 +56,7 @@ import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.ImageLoadUtils;
 import com.uban.rent.util.SPUtils;
 
 import java.util.ArrayList;
@@ -121,6 +122,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
     private static final String[] TITLE_MARKER_NAME = new String[]{"时租", "日租", "月租"};
     private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 起", "元/天 起", "元/月 起"};
+    private static final int KEY_ORDER_ALL = 0;
+    private static final int KEY_MOBILE_OFFICE = 1;
+    private static final int KEY_MEETIONGS_EVENTS = 2;
     private static final String KEY_BUNDLE = "Bundle";
     private LocationClient mLocClient;
     private MyLocationListenner myListener = new MyLocationListenner();
@@ -220,7 +224,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, getString(R.string.str_result_error));
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error)+throwable.getMessage());
                     }
                 }, new Action0() {
                     @Override
@@ -246,9 +250,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         tabHomeSelect.setTabMode(TabLayout.MODE_FIXED);
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[0]));
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[1]));
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[2]));
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_ORDER_ALL]));
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MOBILE_OFFICE]));
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MEETIONGS_EVENTS]));
 
         tabHomeSelect.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -269,14 +273,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
         tagMarkerView.setTabMode(TabLayout.MODE_FIXED);
-        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[0]));
-        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[1]));
-        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[2]));
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[KEY_ORDER_ALL]));
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[KEY_MOBILE_OFFICE]));
+        tagMarkerView.addTab(tagMarkerView.newTab().setText(TITLE_MARKER_NAME[KEY_MEETIONGS_EVENTS]));
 
         tagMarkerView.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                tvMarkerPriceType.setText(TITLE_PRICE_TYPE[tab.getPosition()]);
+
                 spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
             }
 
@@ -321,12 +325,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void showMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
-        int resID = 0;
-        if (shortRentFlag == 0) {
+        int resID = KEY_ORDER_ALL;
+        if (shortRentFlag == KEY_ORDER_ALL) {
             resID = R.drawable.ic_marker_space_normal;
-        } else if (shortRentFlag == 1) {
+        } else if (shortRentFlag == KEY_MOBILE_OFFICE) {
             resID = R.drawable.ic_marker_mobile_office_normal;
-        } else if (shortRentFlag == 2) {
+        } else if (shortRentFlag == KEY_MEETIONGS_EVENTS) {
             resID = R.drawable.ic_marker_conference_activities_normal;
         }
         if (datasBean.getShortestFlag() == Constants.SHORT_NEAR_FLAG) {
@@ -370,12 +374,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
             MapStatusUpdate msu = MapStatusUpdateFactory.newMapStatus(mMapStatus);
             mBaiduMap.animateMapStatus(msu, 400);
-            int resID = 0;
-            if (shortRentFlag == 0) {
+            int resID = KEY_ORDER_ALL;
+            if (shortRentFlag == KEY_ORDER_ALL) {
                 resID = R.drawable.ic_marker_space_checked;
-            } else if (shortRentFlag == 1) {
+            } else if (shortRentFlag == KEY_MOBILE_OFFICE) {
                 resID = R.drawable.ic_marker_mobile_office_checked;
-            } else if (shortRentFlag == 2) {
+            } else if (shortRentFlag == KEY_MEETIONGS_EVENTS) {
                 resID = R.drawable.ic_marker_conference_activities_checked;
             }
             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(resID);
@@ -417,10 +421,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
-                        // ImageLoadUtils.displayHeadIcon(resultsBean.getPicList().get(0).getImgPath(),ivMarkerImages);
+                        String imageUrl = String.format(Constants.APP_IMG_URL_640_420,resultsBean.getPicList().get(0).getImgPath());
+                         ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
                         tvMarkerName.setText(resultsBean.getSpaceCnName());
                         tvMarkerLocation.setText(resultsBean.getAddress());
+
+                        if (resultsBean.getFloorHourPrice()==KEY_ORDER_ALL){
+                            tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
+                            tvMarkerPriceType.setText(TITLE_PRICE_TYPE[KEY_MOBILE_OFFICE]);
+                        }
                         tvMarkerPrice.setText(String.valueOf(resultsBean.getMarketPrice()));
+
                         tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
                         spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
@@ -431,7 +442,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, "数据加载失败");
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error)+throwable.getMessage());
                         hideLoadingView();
                     }
                 }, new Action0() {

@@ -173,7 +173,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
                     android:layout_toLeftOf="@+id/station_str"
-                    android:src="@drawable/add_icon" />
+                    android:src="@drawable/ic_pay_add" />
                 <TextView
                     android:id="@+id/numder_of_stations"
                     android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
-                    android:src="@drawable/reduce_icon"
+                    android:src="@drawable/ic_pay_reduce"
                     android:layout_toLeftOf="@+id/numder_of_stations" />
             </RelativeLayout>
 
@@ -368,7 +368,7 @@
                     android:text="支付宝"
                     android:textColor="@color/colorGray"
                     android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/alipay_icon"
+                    android:drawableLeft="@drawable/ic_pay_alipay"
                     android:drawablePadding="10dp"
                     android:layout_centerVertical="true"
                     android:textSize="15sp"
@@ -397,7 +397,7 @@
                     android:text="微信支付"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/wechat_icon"
+                    android:drawableLeft="@drawable/ic_pay_wechat"
                     android:textColor="@color/colorGray"
                     android:layout_centerVertical="true"
                     android:textSize="15sp"

@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.uban.rent.BuildConfig;
+import com.uban.rent.R;
 
 /**
  * ImageLoadUtils Imageloader统一封装配置Helper
@@ -147,9 +148,9 @@ public class ImageLoadUtils {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-//                .showImageForEmptyUri(R.drawable.none)
-//                .showImageOnFail(R.drawable.none)
-//                .showImageOnLoading(R.drawable.none)
+                .showImageForEmptyUri(R.drawable.ic_normal)
+                .showImageOnFail(R.drawable.ic_normal)
+                .showImageOnLoading(R.drawable.ic_normal)
                 .build();
     }
 
@@ -199,9 +200,9 @@ public class ImageLoadUtils {
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .resetViewBeforeLoading(true)
-//                .showImageOnLoading(R.drawable.none)
-//                .showImageForEmptyUri(R.drawable.none)
-//                .showImageOnFail(R.drawable.none)
+                .showImageOnLoading(R.drawable.ic_normal)
+                .showImageForEmptyUri(R.drawable.ic_normal)
+                .showImageOnFail(R.drawable.ic_normal)
                 .build();
     }
 
