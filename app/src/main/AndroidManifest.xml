@@ -61,7 +61,8 @@
         <activity android:name=".ui.activity.OrdersDetailActivity" />
         <activity android:name=".ui.activity.CreateOrdersActivity" />
         <activity android:name=".ui.activity.ShowPhotosActivity" />
-        <activity android:name=".ui.activity.UserOrderActivity"></activity>
+        <activity android:name=".ui.activity.UserOrderActivity" />
+        <activity android:name=".ui.activity.OrderPaymentActivity"></activity>
     </application>
 
 </manifest>

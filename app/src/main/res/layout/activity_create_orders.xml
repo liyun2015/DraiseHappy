@@ -202,6 +202,7 @@
                 android:background="@color/divider_2"
                 android:layout_height="0.6dp"/>
             <RelativeLayout
+                android:id="@+id/start_time_layout"
                 android:layout_width="match_parent"
                 android:padding="15dp"
                 android:layout_height="wrap_content">
@@ -240,6 +241,7 @@
                 android:background="@color/divider_2"
                 android:layout_height="0.6dp"/>
             <RelativeLayout
+                android:id="@+id/end_time_layout"
                 android:layout_width="match_parent"
                 android:padding="15dp"
                 android:layout_height="wrap_content">

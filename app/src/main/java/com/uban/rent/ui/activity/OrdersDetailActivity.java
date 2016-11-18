@@ -3,6 +3,7 @@ package com.uban.rent.ui.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.uban.rent.R;
@@ -28,14 +29,22 @@ public class OrdersDetailActivity extends BaseActivity {
         initView();
     }
     private void initView() {
-        toolbarContentText.setText("订单详情");
         setSupportActionBar(toolbar);
+        toolbarContentText.setText("订单详情");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

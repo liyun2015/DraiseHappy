@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
@@ -54,6 +57,16 @@ public class CreateOrdersActivity extends BaseActivity {
     CheckBox switchBtnOne;
     @Bind(R.id.switch_btn_two)
     CheckBox switchBtnTwo;
+    @Bind(R.id.top_view)
+    RelativeLayout topView;
+    @Bind(R.id.total_price)
+    TextView totalPrice;
+    @Bind(R.id.bottom_view)
+    LinearLayout bottomView;
+    @Bind(R.id.bottom_line)
+    View bottomLine;
+    @Bind(R.id.textView2)
+    TextView textView2;
 
     @Override
     protected int getLayoutId() {
@@ -77,23 +90,46 @@ public class CreateOrdersActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    private void goActivity(Class<?> cls){
-        startActivity(new Intent(mContext,cls));
+
+    private void goActivity(Class<?> cls) {
+        startActivity(new Intent(mContext, cls));
     }
-    @OnClick(R.id.order_create)
+
+
+    @OnClick({R.id.order_create, R.id.add_btn, R.id.reduce_btn,R.id.start_time_layout, R.id.end_time_layout})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.order_create:
+            case R.id.order_create://提交订单
                 goActivity(OrdersDetailActivity.class);
+                break;
+            case R.id.add_btn://加
+                break;
+            case R.id.reduce_btn://减
+                break;
+            case R.id.start_time_layout://开始时间
+                break;
+            case R.id.end_time_layout://结束时间
                 break;
             default:
                 break;
-
         }
     }
+
 }
