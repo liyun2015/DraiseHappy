@@ -1,5 +1,6 @@
 package com.uban.rent.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
-import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 
 import butterknife.Bind;
@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
  * 工位详情页
  */
 public class WorkplaceDetailActivity extends BaseActivity {
+    public static final String KEY_ID = "ID";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -34,6 +35,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @Bind(R.id.activity_workplace)
     RelativeLayout activityWorkplace;
 
+    private int workPlaceId;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -41,6 +43,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        workPlaceId = getIntent().getIntExtra(KEY_ID,0);
         initView();
     }
 
@@ -91,7 +94,14 @@ public class WorkplaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                ToastUtil.makeText(mContext, "分享");
+                Intent share_intent = new Intent();
+                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+                share_intent.setType("text/plain");//设置分享内容的类型
+                share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享内容标题");//添加分享内容标题
+                share_intent.putExtra(Intent.EXTRA_TEXT, "分享内容");//添加分享内容
+                //创建分享的Dialog
+                share_intent = Intent.createChooser(share_intent, "分享");
+                startActivity(share_intent);
                 break;
         }
 

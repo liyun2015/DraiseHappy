@@ -14,9 +14,10 @@ public class Events<T> {
 
     //所有事件的CODE
     public static final int EVENTS_NORMAL_TYPE = 0;
+    public static final int EVENTS_SEARCH_TYPE = 1;
 
     //枚举
-    @IntDef({EVENTS_NORMAL_TYPE})
+    @IntDef({EVENTS_NORMAL_TYPE,EVENTS_SEARCH_TYPE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}
 

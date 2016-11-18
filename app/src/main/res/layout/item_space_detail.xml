@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="wrap_content">
 
    <LinearLayout
@@ -9,6 +10,7 @@
        android:orientation="horizontal"
        android:gravity="center">
        <TextView
+           android:id="@+id/tv_space_name"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
@@ -17,6 +19,7 @@
            android:textColor="@color/colorPrimary"
            android:text="独立空间"/>
        <TextView
+           android:id="@+id/tv_price"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
@@ -25,6 +28,7 @@
            android:textColor="@color/colorPrimary"
            android:text="32元/时"/>
        <TextView
+           android:id="@+id/tv_create_order"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
