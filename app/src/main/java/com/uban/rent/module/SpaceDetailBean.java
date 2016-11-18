@@ -149,7 +149,7 @@ public class SpaceDetailBean {
         private int intentPrice;
         private String spaceBrand;
         private String address;
-        private int perStationArea;
+        private double perStationArea;
         private int shortestFlag;
         /**
          * category : 1
@@ -572,11 +572,11 @@ public class SpaceDetailBean {
             this.address = address;
         }
 
-        public int getPerStationArea() {
+        public double getPerStationArea() {
             return perStationArea;
         }
 
-        public void setPerStationArea(int perStationArea) {
+        public void setPerStationArea(double perStationArea) {
             this.perStationArea = perStationArea;
         }
 

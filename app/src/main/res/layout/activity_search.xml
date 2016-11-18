@@ -17,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="12dp"
-            android:src="@drawable/ic_arrow_back_white_24dp"/>
+            android:src="@drawable/ic_arrow_back"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edit_search"
