@@ -4,7 +4,7 @@
     android:id="@+id/activity_orders_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/font_black_7"
     tools:context="com.uban.rent.ui.activity.OrdersDetailActivity">
     <RelativeLayout
         android:id="@+id/top_view"
@@ -25,7 +25,6 @@
             android:layout_height="50dp"
             android:layout_weight="7"
             android:gravity="center"
-            android:background="#4Dffffff"
             android:textColor="@color/colorGrayHint"
             android:textSize="15sp"
             android:text="取消订单" />
@@ -44,7 +43,7 @@
         android:id="@+id/bottom_line"
         android:layout_above="@id/bottom_view"
         android:layout_width="match_parent"
-        android:background="@color/font_black_7"
+        android:background="@color/divider_2"
         android:layout_height="0.6dp"/>
     <ScrollView
         android:layout_width="match_parent"
@@ -57,98 +56,6 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
             <include layout="@layout/work_orders_common_view" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.6dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/font_black_7"
-                android:layout_height="10dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/divider_2"
-                android:layout_height="0.6dp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="15dp"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="支付方式"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="在线支付"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorGray"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/divider_2"
-                android:layout_height="0.6dp"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    android:id="@+id/switch_btn_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:button="@drawable/checkbox_style"
-                    android:layout_alignParentRight="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="支付宝"
-                    android:textColor="@color/colorGray"
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/ic_pay_alipay"
-                    android:drawablePadding="10dp"
-                    android:layout_centerVertical="true"
-                    android:textSize="15sp"
-                    android:layout_alignParentLeft="true" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/divider_2"
-                android:layout_height="0.6dp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
-
-                <CheckBox
-                    android:id="@+id/switch_btn_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:button="@drawable/checkbox_style"
-                    android:layout_alignParentRight="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="微信支付"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/ic_pay_wechat"
-                    android:textColor="@color/colorGray"
-                    android:layout_centerVertical="true"
-                    android:textSize="15sp"
-                    android:layout_alignParentLeft="true" />
-            </RelativeLayout>
         </LinearLayout>
-
     </ScrollView>
 </RelativeLayout>
