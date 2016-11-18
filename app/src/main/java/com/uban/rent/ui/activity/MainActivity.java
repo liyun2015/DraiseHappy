@@ -134,6 +134,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean isFirstLoc = true; // 是否首次定位
     private static final int accuracyCircleFillColor = 0xAAFFFF88;
     private static final int accuracyCircleStrokeColor = 0xAA00FF00;
+    public static final String COLOR_ACCENT = "#FF5254";
 
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private int officeSpaceBasicInfoId;
@@ -585,12 +586,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void saveCity(String cityId) {
         if (cityId.equals(Constants.CITY_ID[0])) {
-            selectCityBj.setTextColor(Color.parseColor("#FF5254"));
+            selectCityBj.setTextColor(Color.parseColor(COLOR_ACCENT));
             selectCitySh.setTextColor(Color.WHITE);
             SPUtils.put(mContext, Constants.UBAN_CITY, Constants.CITY_ID[0]);
         } else {
             SPUtils.put(mContext, Constants.UBAN_CITY, Constants.CITY_ID[1]);
-            selectCitySh.setTextColor(Color.parseColor("#FF5254"));
+            selectCitySh.setTextColor(Color.parseColor(COLOR_ACCENT));
             selectCityBj.setTextColor(Color.WHITE);
         }
     }
