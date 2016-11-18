@@ -16,6 +16,7 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
@@ -39,7 +40,7 @@ import static com.uban.rent.ui.activity.SpaceDetailActivity.KEY_BUILD_SPACE_DETA
  * 工位详情页
  */
 public class WorkplaceDetailActivity extends BaseActivity {
-    public static final String KEY_WORKPLACE_DETAIL_ID = "keyWorkplaceDetailId";
+    public static final String KEY_BUILD_WORK_PLACE_DETAIL = "keyWorkplaceDetail";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -53,8 +54,8 @@ public class WorkplaceDetailActivity extends BaseActivity {
     RelativeLayout activityWorkplace;
     @Bind(R.id.top_view)
     RelativeLayout topView;
-    @Bind(R.id.price)
-    TextView price;
+    @Bind(R.id.tv_price)
+    TextView tvPrice;
     @Bind(R.id.order_create)
     TextView orderCreate;
     @Bind(R.id.bottom_view)
@@ -73,8 +74,14 @@ public class WorkplaceDetailActivity extends BaseActivity {
     TextView tvWorkplaceNotice;
     @Bind(R.id.rl_go_space_detail)
     RelativeLayout rlGoSpaceDetail;
+    @Bind(R.id.tv_price_type)
+    TextView tvPriceType;
     private RequestGoSpaceDetail requestGoSpaceDetail;
-    private int workPlaceId;
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetail;
+    private int mWorkPlaceId;
+    private int mPrice;
+    private int mPriceType;
+    private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
 
     @Override
     protected int getLayoutId() {
@@ -84,14 +91,17 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
-        workPlaceId = getIntent().getIntExtra(KEY_WORKPLACE_DETAIL_ID, 0);
+        requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
+        mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
+        mPrice = requestGoWorkPlaceDetail.getPrice();
+        mPriceType = requestGoWorkPlaceDetail.getPriceType();
         initView();
         initData();
     }
 
     private void initData() {
         RequestWorkplaceDetail requestWorkplaceDetail = new RequestWorkplaceDetail();
-        requestWorkplaceDetail.setOfficespaceWorkdeskinfoId(workPlaceId);
+        requestWorkplaceDetail.setOfficespaceWorkdeskinfoId(mWorkPlaceId);
         ServiceFactory.getProvideHttpService().getOfficespaceWorkdeskInfo(requestWorkplaceDetail)
                 .compose(this.<WorkplaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<WorkplaceDetailBean>io_main())
@@ -138,7 +148,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
                 resultsBean.getPicList()) {
             images.add(String.format(Constants.APP_IMG_URL_640_420, picListBean.getImgPath()));
         }
-        if (images==null&&images.size()>0){
+        if (images == null && images.size() > 0) {
             return;
         }
         BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
@@ -172,6 +182,8 @@ public class WorkplaceDetailActivity extends BaseActivity {
         tvWorkplaceDesc.setText(resultsBean.getRentDesc());
         tvWorkplaceTime.setText(resultsBean.getWorkTime());
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
+        tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
+        tvPrice.setText(String.valueOf(mPrice));
     }
 
     private void initView() {
@@ -227,8 +239,8 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @OnClick(R.id.rl_go_space_detail)
     public void onClick() {
         Intent intent = new Intent();
-        intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
-        intent.setClass(mContext,SpaceDetailActivity.class);
+        intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL, requestGoSpaceDetail);
+        intent.setClass(mContext, SpaceDetailActivity.class);
         startActivity(intent);
     }
 }

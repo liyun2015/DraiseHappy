@@ -52,6 +52,7 @@ import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
@@ -71,7 +72,6 @@ import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -141,7 +141,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private int officeSpaceBasicInfoId;
-    List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
+    private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
+    private int mPriceType = 0;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -289,7 +290,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tagMarkerView.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                mPriceType = tab.getPosition();
                 spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
             }
 
@@ -306,16 +307,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         lvMarkerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
+
                 Intent intent = new Intent();
                 intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_WORKPLACE_DETAIL_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
                 startActivity(intent);
             }
         });
         initMapView();
     }
-
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
+        SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
+        RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
+        int price = KEY_ORDER_ALL;
+        if (mPriceType == KEY_ORDER_ALL) {
+            price = spaceDeskTypePriceListBean.getHourPrice();
+        } else if (mPriceType == KEY_MOBILE_OFFICE) {
+            price = spaceDeskTypePriceListBean.getDayPrice();
+        } else if (mPriceType == KEY_MEETIONGS_EVENTS) {
+            price = spaceDeskTypePriceListBean.getWorkDeskPrice();
+        }
+        requestGoWorkPlaceDetail.setPrice(price);
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
+        requestGoWorkPlaceDetail.setPriceType(mPriceType);
+        return requestGoWorkPlaceDetail;
+    }
     private void initMapView() {
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);

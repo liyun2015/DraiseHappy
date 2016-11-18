@@ -18,6 +18,7 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
@@ -96,6 +97,10 @@ public class SpaceDetailActivity extends BaseActivity {
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen ;
     private RequestGoSpaceDetail requestGoSpaceDetail;
+    private int mPriceType = 0;
+    private static final int KEY_ORDER_ALL = 0;
+    private static final int KEY_MOBILE_OFFICE = 1;
+    private static final int KEY_MEETIONGS_EVENTS = 2;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -229,6 +234,7 @@ public class SpaceDetailActivity extends BaseActivity {
         tabSpaceDetail.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                mPriceType = tab.getPosition();
                 spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
             }
 
@@ -246,14 +252,30 @@ public class SpaceDetailActivity extends BaseActivity {
         lvSpaceDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
                 Intent intent = new Intent();
                 intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_WORKPLACE_DETAIL_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
                 intent.putExtra(KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
                 startActivity(intent);
             }
         });
+    }
+
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
+        SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
+        RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
+        int price = KEY_ORDER_ALL;
+        if (mPriceType == KEY_ORDER_ALL) {
+            price = spaceDeskTypePriceListBean.getHourPrice();
+        } else if (mPriceType == KEY_MOBILE_OFFICE) {
+            price = spaceDeskTypePriceListBean.getDayPrice();
+        } else if (mPriceType == KEY_MEETIONGS_EVENTS) {
+            price = spaceDeskTypePriceListBean.getWorkDeskPrice();
+        }
+        requestGoWorkPlaceDetail.setPrice(price);
+        requestGoWorkPlaceDetail.setPriceType(mPriceType);
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
+        return requestGoWorkPlaceDetail;
     }
 
     private void lookMoreDesc(boolean b){
