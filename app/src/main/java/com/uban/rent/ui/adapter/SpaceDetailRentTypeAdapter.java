@@ -48,6 +48,8 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                 Intent intent = new Intent();
                 intent.setClass(context, CreateOrdersActivity.class);
                 intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_NAME,"name");
+                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ADDRESS,"address");
                 context.startActivity(intent);
             }
         });
