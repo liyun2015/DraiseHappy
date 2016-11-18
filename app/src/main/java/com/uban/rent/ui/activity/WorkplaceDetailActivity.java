@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -143,6 +144,8 @@ public class WorkplaceDetailActivity extends BaseActivity {
     }
 
     private void setBannerImags(WorkplaceDetailBean.ResultsBean resultsBean) {
+        viewpager.setBackgroundResource(R.drawable.ic_normal);
+        imageDesc.setVisibility(View.GONE);
         List<String> images = new ArrayList<>();
         for (WorkplaceDetailBean.ResultsBean.PicListBean picListBean :
                 resultsBean.getPicList()) {
@@ -151,6 +154,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
         if (images == null || images.size() <= 0) {
             return;
         }
+        imageDesc.setVisibility(View.VISIBLE);
         BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
         bannerPicAdapter.setData(images);
         viewpager.setAdapter(bannerPicAdapter);

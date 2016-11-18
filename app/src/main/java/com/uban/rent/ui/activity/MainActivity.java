@@ -468,7 +468,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
                             tvMarkerPriceType.setText(TITLE_PRICE_TYPE[KEY_MOBILE_OFFICE]);
                         }
-                        tvMarkerPrice.setText(String.valueOf(resultsBean.getMarketPrice()));
+                        tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorHourPrice()));
 
                         tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
                         spaceDeskTypePriceListBeen.clear();

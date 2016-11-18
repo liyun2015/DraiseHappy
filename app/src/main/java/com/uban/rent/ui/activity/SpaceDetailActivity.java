@@ -101,6 +101,8 @@ public class SpaceDetailActivity extends BaseActivity {
     private static final int KEY_ORDER_ALL = 0;
     private static final int KEY_MOBILE_OFFICE = 1;
     private static final int KEY_MEETIONGS_EVENTS = 2;
+    private ArrayList<String> panoramaImages = new ArrayList<>();
+    private ArrayList<String> panoramaDesc = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -198,8 +200,17 @@ public class SpaceDetailActivity extends BaseActivity {
         });
     }
 
+    private void setPanorama(SpaceDetailBean.ResultsBean resultsBean) {
+        for (SpaceDetailBean.ResultsBean.Pic3dListBean pic3dListBean:
+             resultsBean.getPic3dList()) {
+            panoramaImages.add(String.format(Constants.APP_IMG_PANORAMA_URL,pic3dListBean.getImgPath()));
+            panoramaDesc.add(pic3dListBean.getImgDesc());
+        }
+    }
+
     private void initViewData(SpaceDetailBean.ResultsBean resultsBean) {
         setBannerImages(resultsBean);//头部banner图片
+        setPanorama(resultsBean);
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvSpaceName.setText(resultsBean.getSpaceCnName());
         tvSpaceAddress.setText(resultsBean.getAddress());
@@ -316,7 +327,15 @@ public class SpaceDetailActivity extends BaseActivity {
                 PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
                 break;
             case R.id.rl_panorama:
-                goActivity(PanoramaActivity.class);
+                if (panoramaImages.size()>0){
+                    Intent houseDetailPanorama = new Intent();
+                    houseDetailPanorama.setClass(mContext, PanoramaActivity.class);
+                    houseDetailPanorama.putExtra(PanoramaActivity.PANORAMA_IMAGE_URL, panoramaImages);
+                    houseDetailPanorama.putExtra(PanoramaActivity.PANORAMA_IMAGE_DESC, panoramaDesc);
+                    startActivity(houseDetailPanorama);
+                }else {
+                    ToastUtil.makeText(mContext,"全景拍摄中");
+                }
                 break;
             case R.id.rl_supporting:
                 Intent intent = new Intent();
@@ -329,9 +348,5 @@ public class SpaceDetailActivity extends BaseActivity {
                 lookMoreDesc(isLookMoreDesc);
                 break;
         }
-    }
-
-    private void goActivity(Class<?> cls){
-        startActivity(new Intent(mContext,cls));
     }
 }

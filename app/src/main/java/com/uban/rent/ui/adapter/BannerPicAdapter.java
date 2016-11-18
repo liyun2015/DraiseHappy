@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by hejunlin on 2016/8/25.
+ * BannerPicAdapter
+ * Created by dawabos on 2016/11/18.
+ * Email dawabo@163.com
  */
 public class BannerPicAdapter extends PagerAdapter {
 
