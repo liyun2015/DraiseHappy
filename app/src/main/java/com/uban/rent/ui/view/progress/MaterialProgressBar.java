@@ -152,7 +152,7 @@ public class MaterialProgressBar extends ProgressBar {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        // isHardwareAccelerated() only works when attached to ic_member window.
+        // isHardwareAccelerated() only works when attached to ic_home_meun_member window.
         fixCanvasScalingWhenHardwareAccelerated();
     }
 
@@ -221,9 +221,9 @@ public class MaterialProgressBar extends ProgressBar {
     }
 
     /**
-     * Get whether the current drawable is showing ic_member background. The default is {@code true}.
+     * Get whether the current drawable is showing ic_home_meun_member background. The default is {@code true}.
      *
-     * @return Whether the current drawable is showing ic_member background, or {@code false} if the
+     * @return Whether the current drawable is showing ic_home_meun_member background, or {@code false} if the
      * drawable does not implement {@link ShowBackgroundDrawable}.
      */
     public boolean getShowProgressBackground() {
@@ -236,10 +236,10 @@ public class MaterialProgressBar extends ProgressBar {
     }
 
     /**
-     * Set whether the current drawable should show ic_member background. The default is {@code true}.
+     * Set whether the current drawable should show ic_home_meun_member background. The default is {@code true}.
      *
      * @param show Whether background should be shown. When {@code false}, does nothing if the
-     *             progress drawable does not implement {@link ShowBackgroundDrawable}, otherwise ic_member
+     *             progress drawable does not implement {@link ShowBackgroundDrawable}, otherwise ic_home_meun_member
      *             {@link IllegalStateException} is thrown.
      * @throws IllegalStateException If {@code show} is {@code true} but the current drawable
      * does not implement {@link ShowBackgroundDrawable}.

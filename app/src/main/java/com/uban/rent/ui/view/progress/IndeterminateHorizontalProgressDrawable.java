@@ -38,7 +38,7 @@ public class IndeterminateHorizontalProgressDrawable extends BaseIndeterminatePr
     private RectTransformX mRect2TransformX = new RectTransformX(RECT_2_TRANSFORM_X);
 
     /**
-     * Create ic_member new {@code IndeterminateHorizontalProgressDrawable}.
+     * Create ic_home_meun_member new {@code IndeterminateHorizontalProgressDrawable}.
      *
      * @param context the {@code Context} for retrieving style information.
      */

@@ -10,7 +10,7 @@ import android.graphics.PorterDuff;
 public class DrawableCompat {
 
     /**
-     * Parses ic_member {@link PorterDuff.Mode} from ic_member tintMode attribute's enum value.
+     * Parses ic_home_meun_member {@link PorterDuff.Mode} from ic_home_meun_member tintMode attribute's enum value.
      */
     public static PorterDuff.Mode parseTintMode(int value, PorterDuff.Mode defaultMode) {
         switch (value) {

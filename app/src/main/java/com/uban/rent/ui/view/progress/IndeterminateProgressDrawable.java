@@ -30,7 +30,7 @@ public class IndeterminateProgressDrawable extends BaseIndeterminateProgressDraw
     private RingRotation mRingRotation = new RingRotation();
 
     /**
-     * Create ic_member new {@code IndeterminateProgressDrawable}.
+     * Create ic_home_meun_member new {@code IndeterminateProgressDrawable}.
      *
      * @param context the {@code Context} for retrieving style information.
      */
@@ -94,7 +94,7 @@ public class IndeterminateProgressDrawable extends BaseIndeterminateProgressDraw
         int saveCount = canvas.save();
         canvas.rotate(mRingRotation.mRotation);
 
-        // startAngle starts at 3 o'clock on ic_member watch.
+        // startAngle starts at 3 o'clock on ic_home_meun_member watch.
         float startAngle = -90 + 360 * (mRingPathTransform.mTrimPathOffset
                 + mRingPathTransform.mTrimPathStart);
         float sweepAngle = 360 * (mRingPathTransform.mTrimPathEnd

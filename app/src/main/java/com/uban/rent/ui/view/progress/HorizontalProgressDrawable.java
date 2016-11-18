@@ -42,7 +42,7 @@ public class HorizontalProgressDrawable extends LayerDrawable implements Intrins
     private int mSecondaryProgressTintColor;
 
     /**
-     * Create ic_member new {@code HorizontalProgressDrawable}.
+     * Create ic_home_meun_member new {@code HorizontalProgressDrawable}.
      *
      * @param context the {@code Context} for retrieving style information.
      */
@@ -126,7 +126,7 @@ public class HorizontalProgressDrawable extends LayerDrawable implements Intrins
         ColorStateList backgroundTint;
         if (tint != null) {
             if (!tint.isOpaque()) {
-                Log.w(TAG, "setTintList() called with ic_member non-opaque ColorStateList, its original alpha will be discarded");
+                Log.w(TAG, "setTintList() called with ic_home_meun_member non-opaque ColorStateList, its original alpha will be discarded");
             }
             backgroundTint = tint.withAlpha(Math.round(0xFF * mBackgroundAlpha));
         } else {

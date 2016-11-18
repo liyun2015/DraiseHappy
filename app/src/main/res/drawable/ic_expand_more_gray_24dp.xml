@@ -1,9 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="24dp"
-        android:height="24dp"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+    android:width="11.34dp"
+    android:height="6.67dp"
+    android:viewportWidth="17"
+    android:viewportHeight="10">
+
     <path
-        android:fillColor="@color/colorGray"
-        android:pathData="M16.59,8.59L12,13.17 7.41,8.59 6,10l6,6 6,-6z"/>
+        android:name="canvas_background"
+        android:pathData="M-1,-1 L581,-1 L581,401 L-1,401 L-1,-1 Z" />
+    <path
+        android:name="Fill-1-Copy"
+        android:fillColor="#666666"
+        android:fillType="evenOdd"
+        android:strokeColor="#666666"
+        android:strokeWidth="1"
+        android:pathData="M16,1.591 C16,1.75403,15.939,1.91602,15.82,2.03302 L8.85602,8.85199
+C8.65302,9.05103,8.34802,9.05103,8.14398,8.85199 L1.17999,2.03302
+C0.958984,1.81598,0.937988,1.44299,1.13501,1.19897
+C1.33099,0.955017,1.66998,0.932983,1.89099,1.15002 L8.49902,7.62 L15.107,1.15002
+C15.328,0.932983,15.667,0.955017,15.863,1.19897
+C15.954,1.31201,15.998,1.45203,15.998,1.591" />
 </vector>

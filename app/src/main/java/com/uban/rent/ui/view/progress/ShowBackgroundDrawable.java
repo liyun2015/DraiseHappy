@@ -6,19 +6,19 @@
 package com.uban.rent.ui.view.progress;
 
 /**
- * A {@code Drawable} that has ic_member background.
+ * A {@code Drawable} that has ic_home_meun_member background.
  */
 public interface ShowBackgroundDrawable {
 
     /**
-     * Get whether this drawable is showing ic_member background. The default is {@code true}.
+     * Get whether this drawable is showing ic_home_meun_member background. The default is {@code true}.
      *
-     * @return Whether this drawable is showing ic_member background.
+     * @return Whether this drawable is showing ic_home_meun_member background.
      */
     boolean getShowBackground();
 
     /**
-     * Set whether this drawable should show ic_member background. The default is {@code true}.
+     * Set whether this drawable should show ic_home_meun_member background. The default is {@code true}.
      *
      * @param show Whether background should be shown.
      */

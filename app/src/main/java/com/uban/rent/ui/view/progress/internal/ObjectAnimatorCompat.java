@@ -12,7 +12,7 @@ import android.util.Property;
 
 /**
  * Helper for accessing features in {@link ObjectAnimator} introduced after API level 11 (for
- * {@link android.animation.PropertyValuesHolder}) in ic_member backward compatible fashion.
+ * {@link android.animation.PropertyValuesHolder}) in ic_home_meun_member backward compatible fashion.
  */
 public class ObjectAnimatorCompat {
 
@@ -21,11 +21,11 @@ public class ObjectAnimatorCompat {
     /**
      * Constructs and returns an ObjectAnimator that animates between color values. A single
      * value implies that that value is the one being animated to. Two values imply starting
-     * and ending values. More than two values imply ic_member starting value, values to animate through
+     * and ending values. More than two values imply ic_home_meun_member starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
      * the duration of the animation).
      *
-     * @param target The object whose property is to be animated. This object should have ic_member public
+     * @param target The object whose property is to be animated. This object should have ic_home_meun_member public
      *               method on it called {@code setName()}, where {@code name} is the value of the
      *               {@code propertyName} parameter.
      * @param propertyName The name of the property being animated.
@@ -42,7 +42,7 @@ public class ObjectAnimatorCompat {
     /**
      * Constructs and returns an ObjectAnimator that animates between color values. A single
      * value implies that that value is the one being animated to. Two values imply starting
-     * and ending values. More than two values imply ic_member starting value, values to animate through
+     * and ending values. More than two values imply ic_home_meun_member starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
      * the duration of the animation).
      *
@@ -60,7 +60,7 @@ public class ObjectAnimatorCompat {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates coordinates along ic_member {@code Path} using
+     * Constructs and returns an ObjectAnimator that animates coordinates along ic_home_meun_member {@code Path} using
      * two properties. A {@code Path} animation moves in two dimensions, animating coordinates
      * {@code (x, y)} together to follow the line. In this variation, the coordinates are floats
      * that are set to separate properties designated by {@code xPropertyName} and
@@ -84,7 +84,7 @@ public class ObjectAnimatorCompat {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates coordinates along ic_member {@code Path} using
+     * Constructs and returns an ObjectAnimator that animates coordinates along ic_home_meun_member {@code Path} using
      * two properties. A {@code Path} animation moves in two dimensions, animating coordinates
      * {@code (x, y)} together to follow the line. In this variation, the coordinates are floats
      * that are set to separate properties, {@code xProperty} and {@code yProperty}.
@@ -104,7 +104,7 @@ public class ObjectAnimatorCompat {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates coordinates along ic_member {@code Path} using
+     * Constructs and returns an ObjectAnimator that animates coordinates along ic_home_meun_member {@code Path} using
      * two properties. A {@code Path} animation moves in two dimensions, animating coordinates
      * {@code (x, y)} together to follow the line. In this variation, the coordinates are integers
      * that are set to separate properties designated by {@code xPropertyName} and
@@ -128,7 +128,7 @@ public class ObjectAnimatorCompat {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates coordinates along ic_member {@code Path} using
+     * Constructs and returns an ObjectAnimator that animates coordinates along ic_home_meun_member {@code Path} using
      * two properties. A {@code Path} animation moves in two dimensions, animating coordinates
      * {@code (x, y)} together to follow the line. In this variation, the coordinates are integers
      * that are set to separate properties, {@code xProperty} and {@code yProperty}.
