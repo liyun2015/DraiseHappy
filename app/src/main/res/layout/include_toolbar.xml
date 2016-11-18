@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,8 +14,9 @@
             android:id="@+id/toolbar_content_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/app_name"
+            android:text="@string/app_name"
             android:textSize="18sp"
+            android:gravity="center"
             android:textColor="@android:color/white"
             android:layout_gravity="center" />
     </android.support.v7.widget.Toolbar>

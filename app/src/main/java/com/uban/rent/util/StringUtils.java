@@ -216,7 +216,7 @@ public class StringUtils {
             -10328, -10322, -10315, -10309,
             -10307, -10296, -10281, -10274, -10270, -10262, -10260, -10256, -10254};
 
-    private static String[] pyStr = new String[]{"ic_member", "ai", "an", "ang", "ao", "ba", "bai", "ban", "bang", "bao",
+    private static String[] pyStr = new String[]{"ic_home_meun_member", "ai", "an", "ang", "ao", "ba", "bai", "ban", "bang", "bao",
             "bei", "ben", "beng", "bi", "bian",
             "biao", "bie", "bin", "bing", "bo", "bu", "ca", "cai", "can", "cang", "cao", "ce", "ceng", "cha", "chai",
             "chan", "chang", "chao", "che",

@@ -15,7 +15,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/background_filling_uban_black"
+        android:background="@drawable/ic_filling_small_round_black"
         android:orientation="horizontal">
 
 

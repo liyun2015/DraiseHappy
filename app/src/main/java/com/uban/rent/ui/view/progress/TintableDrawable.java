@@ -29,7 +29,7 @@ public interface TintableDrawable {
      * To clear the tint, pass {@code null} to
      * {@link #setTintList(ColorStateList)}.
      * </p>
-     * <p class="note"><strong>Note:</strong> Setting ic_member color filter via
+     * <p class="note"><strong>Note:</strong> Setting ic_home_meun_member color filter via
      * {@link Drawable#setColorFilter(ColorFilter)} or
      * {@link Drawable#setColorFilter(int, PorterDuff.Mode)} overrides tint.
      * </p>
@@ -41,13 +41,13 @@ public interface TintableDrawable {
     void setTint(@ColorInt int tintColor);
 
     /**
-     * Specifies tint color for this drawable as ic_member color state list.
+     * Specifies tint color for this drawable as ic_home_meun_member color state list.
      * <p>
      * A Drawable's drawing content will be blended together with its tint
      * before it is drawn to the screen. This functions similarly to
      * {@link Drawable#setColorFilter(int, PorterDuff.Mode)}.
      * </p>
-     * <p class="note"><strong>Note:</strong> Setting ic_member color filter via
+     * <p class="note"><strong>Note:</strong> Setting ic_home_meun_member color filter via
      * {@link Drawable#setColorFilter(ColorFilter)} or
      * {@link Drawable#setColorFilter(int, PorterDuff.Mode)} overrides tint.
      * </p>
@@ -60,12 +60,12 @@ public interface TintableDrawable {
     void setTintList(@Nullable ColorStateList tint);
 
     /**
-     * Specifies ic_member tint blending mode for this drawable.
+     * Specifies ic_home_meun_member tint blending mode for this drawable.
      * <p>
      * Defines how this drawable's tint color should be blended into the drawable
      * before it is drawn to screen. Default tint mode is {@link PorterDuff.Mode#SRC_IN}.
      * </p>
-     * <p class="note"><strong>Note:</strong> Setting ic_member color filter via
+     * <p class="note"><strong>Note:</strong> Setting ic_home_meun_member color filter via
      * {@link Drawable#setColorFilter(ColorFilter)} or
      * {@link Drawable#setColorFilter(int, PorterDuff.Mode)} overrides tint.
      * </p>

@@ -16,7 +16,7 @@
             android:id="@+id/search_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="12dp"
+            android:padding="17dp"
             android:src="@drawable/ic_arrow_back"/>
 
         <android.support.v7.widget.AppCompatEditText
@@ -34,7 +34,7 @@
             android:drawablePadding="5dp"
             android:layout_marginRight="20dp"
             android:drawableLeft="@drawable/ic_search_black"
-            android:background="@drawable/background_all_buildings_search_bg" />
+            android:background="@drawable/ic_filling_half_round_white" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"

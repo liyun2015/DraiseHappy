@@ -2,6 +2,7 @@ package com.uban.rent.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -69,6 +70,7 @@ import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -226,6 +228,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtil.makeText(mContext, getString(R.string.str_result_error)+throwable.getMessage());
+                        hideLoadingView();
                     }
                 }, new Action0() {
                     @Override
@@ -243,6 +246,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        toolbarContentText.setText("");
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        toolbarContentText.setCompoundDrawables(null,null,drawable,null);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -350,9 +357,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
         //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(resID);
+        View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
+        markerView.setBackgroundResource(resID);
+        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
         //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmap);
+        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);
         //在地图上添加Marker，并显示
         mMarkerBase = (Marker) mBaiduMap.addOverlay(option);
         Bundle bundle = new Bundle();
@@ -383,7 +392,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             } else if (shortRentFlag == KEY_MEETIONGS_EVENTS) {
                 resID = R.drawable.ic_marker_conference_activities_checked;
             }
-            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(resID);
+            View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
+            markerView.setBackgroundResource(resID);
+            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
             marker.setIcon(bitmapDescriptor);
             mMarkerBase = marker;
 
@@ -498,10 +509,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify ic_member parent activity in AndroidManifest.xml.
+        // as you specify ic_home_meun_member parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case R.id.action_search:
+                isShowBottomView(false);
                 goActivity(SearchActivity.class);
                 break;
         }
@@ -546,8 +558,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (view.getId()) {
             case R.id.fab_clean_search:
                 keyWord = "";
-                //initData();
-                goActivity(CreateOrdersActivity.class);
+                initData();
+//                goActivity(CreateOrdersActivity.class);
                 break;
             case R.id.fab_location:
                 isFirstLoc = true;

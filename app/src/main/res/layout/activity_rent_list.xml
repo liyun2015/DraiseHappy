@@ -25,7 +25,7 @@
             android:padding="5dp"
             android:singleLine="true"
             android:drawableLeft="@drawable/ic_search"
-            android:background="@drawable/background_all_buildings_search_bg" />
+            android:background="@drawable/ic_filling_half_round_white" />
     </android.support.v7.widget.Toolbar>
     <com.uban.rent.ui.view.filterview.DropDownMenu
         android:id="@+id/dropDownMenu"
@@ -36,10 +36,10 @@
         app:ddtextSelectedColor="@color/colorAccent"
         app:dddividerColor="@color/colorGray"
         app:ddunderlineColor="@color/colorGray"
-        app:ddmenuSelectedIcon="@drawable/ic_expand_more_red_24dp"
+        app:ddmenuSelectedIcon="@drawable/ic_expand_more_red"
         app:ddmaskColor="#88888888"
         app:ddmenuBackgroundColor="@color/white"
-        app:ddmenuUnselectedIcon="@drawable/ic_expand_more_gray_24dp"
+        app:ddmenuUnselectedIcon="@drawable/ic_expand_more_gray"
         tools:context="com.uban.rent.ui.activity.MainListActivity">
 
         <!--

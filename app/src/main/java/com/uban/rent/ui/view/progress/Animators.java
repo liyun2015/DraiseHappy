@@ -75,7 +75,7 @@ class Animators {
     }
 
     /**
-     * Create ic_member backported Animator for
+     * Create ic_home_meun_member backported Animator for
      * {@code @android:anim/progress_indeterminate_horizontal_rect1}.
      *
      * @param target The object whose properties are to be animated.
@@ -103,7 +103,7 @@ class Animators {
     }
 
     /**
-     * Create ic_member backported Animator for
+     * Create ic_home_meun_member backported Animator for
      * {@code @android:anim/progress_indeterminate_horizontal_rect2}.
      *
      * @param target The object whose properties are to be animated.
@@ -131,7 +131,7 @@ class Animators {
     }
 
     /**
-     * Create ic_member backported Animator for {@code @android:anim/progress_indeterminate_material}.
+     * Create ic_home_meun_member backported Animator for {@code @android:anim/progress_indeterminate_material}.
      *
      * @param target The object whose properties are to be animated.
      * @return An Animator object that is set up to behave the same as the its native counterpart.
@@ -163,7 +163,7 @@ class Animators {
     }
 
     /**
-     * Create ic_member backported Animator for
+     * Create ic_home_meun_member backported Animator for
      * {@code @android:anim/progress_indeterminate_rotation_material}.
      *
      * @param target The object whose properties are to be animated.

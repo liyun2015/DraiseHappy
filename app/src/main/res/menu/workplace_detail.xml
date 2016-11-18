@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_share"
-        android:icon="@drawable/ic_workplace_shared"
+        android:icon="@drawable/ic_shared"
         android:title="分享"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>

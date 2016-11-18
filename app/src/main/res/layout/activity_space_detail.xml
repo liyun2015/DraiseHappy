@@ -46,21 +46,25 @@
                 <com.uban.rent.ui.view.banner.LoopViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="#2200ff00" />
+                    android:layout_height="250dp"/>
 
                 <TextView
                     android:id="@+id/image_desc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
+                    android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:background="@color/colorGray"
+                    android:background="@drawable/ic_filling_half_round_gray"
                     android:padding="5dp"
                     android:text="1/5" />
             </FrameLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/divider_1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,9 +128,11 @@
                 android:gravity="center">
 
                 <RelativeLayout
+                    android:id="@+id/rl_panorama"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:padding="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -143,9 +149,11 @@
                     android:layout_height="30dp"
                     android:background="@color/divider_1" />
                 <RelativeLayout
+                    android:id="@+id/rl_supporting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:padding="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -265,11 +273,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="展开"
+                    android:text="更多"
                     android:gravity="center"
                     android:textSize="12sp"
                     android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_expand_more_gray_24dp"
+                    android:drawableTop="@drawable/ic_expand_more_gray"
                     android:textColor="@color/colorPrimary"/>
             </LinearLayout>
             <View
@@ -327,11 +335,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="展开"
+                    android:text="更多"
                     android:gravity="center"
                     android:textSize="12sp"
                     android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_expand_more_gray_24dp"
+                    android:drawableTop="@drawable/ic_expand_more_gray"
                     android:textColor="@color/colorPrimary"/>
             </LinearLayout>
             <View

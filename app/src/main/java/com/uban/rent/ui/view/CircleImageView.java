@@ -205,7 +205,7 @@ public class CircleImageView extends ImageView {
     }
 
     /**
-     * Set ic_member color to be drawn behind the circle-shaped drawable. Note that
+     * Set ic_home_meun_member color to be drawn behind the circle-shaped drawable. Note that
      * this has no effect if the drawable is opaque or no drawable is set.
      *
      * @param fillColor The color to be drawn behind the drawable
@@ -224,10 +224,10 @@ public class CircleImageView extends ImageView {
     }
 
     /**
-     * Set ic_member color to be drawn behind the circle-shaped drawable. Note that
+     * Set ic_home_meun_member color to be drawn behind the circle-shaped drawable. Note that
      * this has no effect if the drawable is opaque or no drawable is set.
      *
-     * @param fillColorRes The color resource to be resolved to ic_member color and
+     * @param fillColorRes The color resource to be resolved to ic_home_meun_member color and
      *                     drawn behind the drawable
      *
      * @deprecated Fill color support is going to be removed in the future
