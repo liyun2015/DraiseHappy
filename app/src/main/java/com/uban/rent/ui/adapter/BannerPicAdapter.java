@@ -50,6 +50,7 @@ public class BannerPicAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
+
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner_image, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.image_banner);
         ImageLoadUtils.displayImage(images.get(position),imageView);
@@ -62,6 +63,9 @@ public class BannerPicAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (images==null||images.size()<=0){
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.setClass(mContext, ShowPhotosActivity.class);
                 intent.putExtra(ShowPhotosActivity.KEY_URL,images.get(position));

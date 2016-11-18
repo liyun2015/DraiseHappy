@@ -308,9 +308,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+
                 Intent intent = new Intent();
                 intent.setClass(mContext, WorkplaceDetailActivity.class);
                 intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
                 startActivity(intent);
             }
         });
@@ -331,6 +333,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
         return requestGoWorkPlaceDetail;
+    }
+    private RequestGoSpaceDetail requestGoSpaceDetailBean(){
+        RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
+        requestGoSpaceDetail.setLocationX(locationX);
+        requestGoSpaceDetail.setLocationY(locationY);
+        requestGoSpaceDetail.setOfficeSpaceBasicInfoId(officeSpaceBasicInfoId);
+        return requestGoSpaceDetail;
     }
     private void initMapView() {
         mMapView.showZoomControls(false);
@@ -598,12 +607,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 saveCity(Constants.CITY_ID[1]);
                 break;
             case R.id.rl_marker_space_detail:
-                RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
-                requestGoSpaceDetail.setLocationX(locationX);
-                requestGoSpaceDetail.setLocationY(locationY);
-                requestGoSpaceDetail.setOfficeSpaceBasicInfoId(officeSpaceBasicInfoId);
                 Intent intent = new Intent();
-                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
                 intent.setClass(mContext,SpaceDetailActivity.class);
                 startActivity(intent);
                 break;

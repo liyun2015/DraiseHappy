@@ -148,7 +148,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
                 resultsBean.getPicList()) {
             images.add(String.format(Constants.APP_IMG_URL_640_420, picListBean.getImgPath()));
         }
-        if (images == null && images.size() > 0) {
+        if (images == null || images.size() <= 0) {
             return;
         }
         BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
