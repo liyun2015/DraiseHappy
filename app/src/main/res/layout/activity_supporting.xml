@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_supporting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.uban.rent.ui.activity.SupportingActivity">
+    <include layout="@layout/include_toolbar"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+        <RadioGroup
+            android:id="@+id/mainRg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_subway"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_baidumap_subway_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="地铁"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_bus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_baidumap_bus_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="公交"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_restaurant"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_baidumap_canting_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="餐厅"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_bank"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_baidumap_bank_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="银行"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_hotel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_baidumap_hotel_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="酒店"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/btn_baidu_map_gym"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_baidumap_jianshen_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="健身房"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RadioGroup>
+    </RelativeLayout>
+</LinearLayout>

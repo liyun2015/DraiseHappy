@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,7 +56,6 @@ import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
-import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.ImageLoadUtils;
 import com.uban.rent.util.SPUtils;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.bmapView)
     MapView mMapView;
     @Bind(R.id.lv_marker_list)
-    UbanListView lvMarkerList;
+    ListView lvMarkerList;
     @Bind(R.id.fab_location)
     FloatingActionButton fabLocation;
     @Bind(R.id.btn_close_list)
@@ -433,7 +433,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
-                        String imageUrl = String.format(Constants.APP_IMG_URL_640_420,resultsBean.getPicList().get(0).getImgPath());
+                        String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
                          ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
                         tvMarkerName.setText(resultsBean.getSpaceCnName());
                         tvMarkerLocation.setText(resultsBean.getAddress());
