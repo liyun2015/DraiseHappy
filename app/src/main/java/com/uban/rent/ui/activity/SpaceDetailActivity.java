@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
@@ -43,9 +45,7 @@ import rx.functions.Func1;
  * 空间详情页
  */
 public class SpaceDetailActivity extends BaseActivity {
-    public static final String OFFICE_SPACE_BASIC_INFO_ID = "officeSpaceBasicInfoId";
-    public static final String LOCATION_X = "location_x";
-    public static final String LOCATION_Y = "location_y";
+    public static final String KEY_BUILD_SPACE_DETAIL = "BUILD_SPACE_DETAIL";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -94,7 +94,8 @@ public class SpaceDetailActivity extends BaseActivity {
     private double locationx = 0;
     private double locationy = 0;
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
-
+    private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen ;
+    private RequestGoSpaceDetail requestGoSpaceDetail;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -102,9 +103,11 @@ public class SpaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        officeSpaceBasicInfoId = getIntent().getIntExtra(OFFICE_SPACE_BASIC_INFO_ID, 0);
-        locationx = getIntent().getDoubleExtra(LOCATION_X, 0.0);
-        locationy = getIntent().getDoubleExtra(LOCATION_Y, 0.0);
+        spaceDeskTypePriceListBeen = new ArrayList<>();
+        requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
+        locationx = requestGoSpaceDetail.getLocationX();
+        locationy = requestGoSpaceDetail.getLocationY();
+        officeSpaceBasicInfoId = requestGoSpaceDetail.getOfficeSpaceBasicInfoId();
         initData();
         initView();
 
@@ -140,7 +143,7 @@ public class SpaceDetailActivity extends BaseActivity {
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         initViewData(resultsBean);
-                        List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen = new ArrayList<>();
+                        spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
                         spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
                         lvSpaceDetail.setAdapter(spaceDetailRentTypeAdapter);
@@ -159,7 +162,39 @@ public class SpaceDetailActivity extends BaseActivity {
                 });
     }
 
+    private void setBannerImages(SpaceDetailBean.ResultsBean resultsBean){
+        List<String> images = new ArrayList<>();
+        for (SpaceDetailBean.ResultsBean.PicListBean picListBean:
+                resultsBean.getPicList()) {
+            images.add(String.format(Constants.APP_IMG_URL_640_420,picListBean.getImgPath()));
+        }
+        if (images==null&&images.size()>0){
+            return;
+        }
+        BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(this);
+        bannerPicAdapter.setData(images);
+        viewpager.setAdapter(bannerPicAdapter);
+        imageDesc.setText(1 + "/" + viewpager.getAdapter().getCount());
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                imageDesc.setText(position + 1 + "/" + viewpager.getAdapter().getCount());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
     private void initViewData(SpaceDetailBean.ResultsBean resultsBean) {
+        setBannerImages(resultsBean);//头部banner图片
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvSpaceName.setText(resultsBean.getSpaceCnName());
         tvSpaceAddress.setText(resultsBean.getAddress());
@@ -208,22 +243,15 @@ public class SpaceDetailActivity extends BaseActivity {
             }
         });
 
-        viewpager.setAdapter(new BannerPicAdapter(this));
-        imageDesc.setText(1 + "/" + viewpager.getAdapter().getCount());
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        lvSpaceDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                imageDesc.setText(position + 1 + "/" + viewpager.getAdapter().getCount());
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
+                Intent intent = new Intent();
+                intent.setClass(mContext, WorkplaceDetailActivity.class);
+                intent.putExtra(WorkplaceDetailActivity.KEY_WORKPLACE_DETAIL_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
+                startActivity(intent);
             }
         });
     }

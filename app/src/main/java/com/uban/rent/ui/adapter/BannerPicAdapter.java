@@ -24,17 +24,15 @@ public class BannerPicAdapter extends PagerAdapter {
 
     private Context mContext;
 
-    private List<String> images = new ArrayList<>();
+    private List<String> images ;
     public BannerPicAdapter(Context mContext) {
         this.mContext = mContext;
-        images.add("http://upload.chinapet.com/forum/201410/29/145243zrrcz5o6nt3r7cl2.jpg");
-        images.add("http://file.cbda.cn/uploadfile/2015/0330/20150330041852447.jpg");
-        images.add("http://a4.att.hudong.com/38/47/19300001391844134804474917734_950.png");
-        images.add("http://img6.faloo.com/Picture/0x0/0/183/183463.jpg");
-        images.add("http://img3.duitang.com/uploads/item/201507/30/20150730163111_YZT5S.thumb.700_0.jpeg");
-
+        images = new ArrayList<>();
     }
 
+    public void setData(List<String> images){
+        this.images = images;
+    }
     @Override
     public int getCount() {
         return images.size();

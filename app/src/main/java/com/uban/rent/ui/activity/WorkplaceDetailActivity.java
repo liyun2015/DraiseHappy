@@ -7,22 +7,39 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.WorkplaceDetailBean;
+import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestWorkplaceDetail;
+import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
+import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
+import com.uban.rent.util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
+import static com.uban.rent.ui.activity.SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL;
 
 /**
  * 工位详情页
  */
 public class WorkplaceDetailActivity extends BaseActivity {
-    public static final String KEY_ID = "ID";
+    public static final String KEY_WORKPLACE_DETAIL_ID = "keyWorkplaceDetailId";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -34,8 +51,31 @@ public class WorkplaceDetailActivity extends BaseActivity {
     TextView imageDesc;
     @Bind(R.id.activity_workplace)
     RelativeLayout activityWorkplace;
-
+    @Bind(R.id.top_view)
+    RelativeLayout topView;
+    @Bind(R.id.price)
+    TextView price;
+    @Bind(R.id.order_create)
+    TextView orderCreate;
+    @Bind(R.id.bottom_view)
+    LinearLayout bottomView;
+    @Bind(R.id.tv_workplace_name)
+    TextView tvWorkplaceName;
+    @Bind(R.id.tv_workplace_station)
+    TextView tvWorkplaceStation;
+    @Bind(R.id.tv_workplace_address)
+    TextView tvWorkplaceAddress;
+    @Bind(R.id.tv_workplace_desc)
+    TextView tvWorkplaceDesc;
+    @Bind(R.id.tv_workplace_time)
+    TextView tvWorkplaceTime;
+    @Bind(R.id.tv_workplace_notice)
+    TextView tvWorkplaceNotice;
+    @Bind(R.id.rl_go_space_detail)
+    RelativeLayout rlGoSpaceDetail;
+    private RequestGoSpaceDetail requestGoSpaceDetail;
     private int workPlaceId;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -43,20 +83,67 @@ public class WorkplaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        workPlaceId = getIntent().getIntExtra(KEY_ID,0);
+        requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
+        workPlaceId = getIntent().getIntExtra(KEY_WORKPLACE_DETAIL_ID, 0);
         initView();
+        initData();
     }
 
-    private void initView() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
+    private void initData() {
+        RequestWorkplaceDetail requestWorkplaceDetail = new RequestWorkplaceDetail();
+        requestWorkplaceDetail.setOfficespaceWorkdeskinfoId(workPlaceId);
+        ServiceFactory.getProvideHttpService().getOfficespaceWorkdeskInfo(requestWorkplaceDetail)
+                .compose(this.<WorkplaceDetailBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<WorkplaceDetailBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<WorkplaceDetailBean, Boolean>() {
+                    @Override
+                    public Boolean call(WorkplaceDetailBean workplaceDetailBean) {
+                        return workplaceDetailBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<WorkplaceDetailBean, WorkplaceDetailBean.ResultsBean>() {
+                    @Override
+                    public WorkplaceDetailBean.ResultsBean call(WorkplaceDetailBean workplaceDetailBean) {
+                        return workplaceDetailBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<WorkplaceDetailBean.ResultsBean>() {
+                    @Override
+                    public void call(WorkplaceDetailBean.ResultsBean resultsBean) {
+                        initDataView(resultsBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
 
-        viewpager.setAdapter(new BannerPicAdapter(this));
+    private void setBannerImags(WorkplaceDetailBean.ResultsBean resultsBean) {
+        List<String> images = new ArrayList<>();
+        for (WorkplaceDetailBean.ResultsBean.PicListBean picListBean :
+                resultsBean.getPicList()) {
+            images.add(String.format(Constants.APP_IMG_URL_640_420, picListBean.getImgPath()));
+        }
+        if (images==null&&images.size()>0){
+            return;
+        }
+        BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
+        bannerPicAdapter.setData(images);
+        viewpager.setAdapter(bannerPicAdapter);
         imageDesc.setText(1 + "/" + viewpager.getAdapter().getCount());
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -74,6 +161,28 @@ public class WorkplaceDetailActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void initDataView(WorkplaceDetailBean.ResultsBean resultsBean) {
+        setBannerImags(resultsBean);
+        toolbarContentText.setText(resultsBean.getSpaceCnName());
+        tvWorkplaceName.setText(resultsBean.getSpaceCnName());
+        tvWorkplaceStation.setText(String.valueOf(resultsBean.getRentNum()));
+        tvWorkplaceAddress.setText(resultsBean.getAddress());
+        tvWorkplaceDesc.setText(resultsBean.getRentDesc());
+        tvWorkplaceTime.setText(resultsBean.getWorkTime());
+        tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
+    }
+
+    private void initView() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        toolbarContentText.setText("工位详情");
     }
 
     @Override
@@ -113,5 +222,13 @@ public class WorkplaceDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.rl_go_space_detail)
+    public void onClick() {
+        Intent intent = new Intent();
+        intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
+        intent.setClass(mContext,SpaceDetailActivity.class);
+        startActivity(intent);
     }
 }

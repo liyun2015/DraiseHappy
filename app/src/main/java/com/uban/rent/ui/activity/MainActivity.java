@@ -51,6 +51,7 @@ import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
@@ -308,7 +309,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
                 Intent intent = new Intent();
                 intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(WorkplaceDetailActivity.KEY_WORKPLACE_DETAIL_ID,spaceDeskTypePriceListBean.getId());
                 startActivity(intent);
             }
         });
@@ -581,10 +582,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 saveCity(Constants.CITY_ID[1]);
                 break;
             case R.id.rl_marker_space_detail:
+                RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
+                requestGoSpaceDetail.setLocationX(locationX);
+                requestGoSpaceDetail.setLocationY(locationY);
+                requestGoSpaceDetail.setOfficeSpaceBasicInfoId(officeSpaceBasicInfoId);
                 Intent intent = new Intent();
-                intent.putExtra(SpaceDetailActivity.OFFICE_SPACE_BASIC_INFO_ID,officeSpaceBasicInfoId);
-                intent.putExtra(SpaceDetailActivity.LOCATION_X,locationX);
-                intent.putExtra(SpaceDetailActivity.LOCATION_Y,locationY);
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetail);
                 intent.setClass(mContext,SpaceDetailActivity.class);
                 startActivity(intent);
                 break;

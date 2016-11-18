@@ -3,8 +3,10 @@ package com.uban.rent.network;
 
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
+import com.uban.rent.module.request.RequestWorkplaceDetail;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -25,5 +27,7 @@ public interface ApiClient {
     @POST("/mainapi/officespaceBasicProvider/officeSpaceInfo")
     Observable<SpaceDetailBean> getOfficeSpaceInfo(@Body RequestSpaceDetail requestSpaceDetail);
 
-
+    //工位详情
+    @POST("/mainapi/officespaceDeskBasicProvider/officespaceWorkdeskInfo")
+    Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
 }

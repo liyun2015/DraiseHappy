@@ -50,14 +50,17 @@
 
                 <TextView
                     android:id="@+id/image_desc"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:background="@drawable/ic_filling_half_round_gray"
-                    android:padding="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="1/5" />
             </FrameLayout>
 
@@ -83,7 +86,7 @@
                 android:layout_marginTop="5dp"
                 android:textSize="13sp"
                 android:textColor="@color/colorGray"
-                android:drawableLeft="@drawable/ic_location_small"
+                android:drawableLeft="@drawable/location_icon"
                 android:text="北京市东城区东四北大街107号 科林大厦B座107室"/>
 
             <LinearLayout

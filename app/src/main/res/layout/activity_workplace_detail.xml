@@ -45,10 +45,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="vertical"
+        android:layout_above="@id/bottom_view"
         android:layout_below="@id/top_view"
-        android:layout_above="@id/bottom_view">
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,8 +62,7 @@
                 <com.uban.rent.ui.view.banner.LoopViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="#2200ff00" />
+                    android:layout_height="250dp" />
 
                 <TextView
                     android:id="@+id/image_desc"
@@ -71,14 +70,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
-                    android:background="@color/colorGray"
-                    android:padding="5dp"
+                    android:background="@drawable/ic_filling_half_round_gray"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="1/5"
                     android:textColor="@android:color/white" />
             </FrameLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/divider_1" />
 
             <RelativeLayout
+                android:id="@+id/rl_go_space_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -89,24 +96,28 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_workplace_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="WE+中区广场"
                         android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
+
                         <TextView
+                            android:id="@+id/tv_workplace_station"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15"
                             android:textColor="@color/colorAccent"
                             android:textSize="12sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -116,106 +127,120 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tv_workplace_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="北京市东城区东四北大街107号 科林大厦B座107室"
                         android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/location_icon"
+                        android:text="北京市东城区东四北大街107号 科林大厦B座107室"
                         android:textColor="@color/colorGray"
-                        android:textSize="12sp"
-                        android:id="@+id/textView3" />
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_arrow_right_gray"/>
+                    android:src="@drawable/ic_arrow_right_gray" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <TextView
+                android:id="@+id/tv_workplace_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="12sp"
+                android:text="由一帮北美归国的小伙伴共同打造,为您带来最酷最前沿的北美创业思潮。众舍主旨共同理想,共同方向,共同分享即众想,众向,众享的创业理念..."
                 android:textColor="@color/colorGray"
-                android:text="由一帮北美归国的小伙伴共同打造,为您带来最酷最前沿的北美创业思潮。众舍主旨共同理想,共同方向,共同分享即众想,众向,众享的创业理念..."/>
+                android:textSize="12sp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备和服务"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="14sp" />
+                android:layout_marginTop="10dp"
+                android:text="设备和服务"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="免费饮品"
-                    android:textSize="12sp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/ic_conference_room"
-                    android:textColor="@color/colorGray"/>
+                    android:gravity="center"
+                    android:text="免费饮品"
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="广告位"
-                    android:textSize="12sp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/ic_leisure_area"
-                    android:textColor="@color/colorGray"/>
+                    android:gravity="center"
+                    android:text="广告位"
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_wen_yin"
+                    android:gravity="center"
                     android:text="下午茶"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_wen_yin"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="空气净化器"
-                    android:gravity="center"
-                    android:textSize="12sp"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/ic_wen_yin"
-                    android:textColor="@color/colorGray"/>
+                    android:gravity="center"
+                    android:text="空气净化器"
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.3"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textSize="12sp"
+                    android:layout_weight="0.3"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/ic_arrow_right_gray"
-                    android:textColor="@color/colorPrimary"/>
+                    android:gravity="right"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -229,60 +254,58 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="营业时间"/>
+                    android:text="营业时间" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="工作日"/>
+                    android:text="工作日" />
+
                 <TextView
+                    android:id="@+id/tv_workplace_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="09:00-21:00"/>
+                    android:text="09:00-21:00" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="预定须知"
                 android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_workplace_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:textSize="14sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorGray"
                 android:text="1.每种工位需要至少提前多久预定?"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorGray"
-                android:text="1.每种工位需要至少提前多久预定?"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorGray"
-                android:text="1.每种工位需要至少提前多久预定?"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:textColor="@color/colorGray" />
+
+
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
