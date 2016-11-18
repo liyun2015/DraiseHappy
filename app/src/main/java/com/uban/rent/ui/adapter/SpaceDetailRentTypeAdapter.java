@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.WorkplaceDetailActivity;
+import com.uban.rent.ui.activity.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
 
@@ -19,13 +19,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * SpaceDetailRentTypeAdapter
+ * SpaceDetailRentTypeAdapter 首页底部弹出列表
  * Created by dawabos on 2016/11/16.
  * Email dawabo@163.com
  */
 
 public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean, UbanListView> {
-    private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
     private int type;
     public SpaceDetailRentTypeAdapter(Context context, List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list) {
         super(context, list);
@@ -46,8 +45,10 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(context, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_ID,spaceDeskTypePriceListBean.getId());
+                intent.setClass(context, CreateOrdersActivity.class);
+                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_NAME,"name");
+                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ADDRESS,"address");
                 context.startActivity(intent);
             }
         });

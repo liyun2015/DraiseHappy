@@ -23,6 +23,9 @@ import butterknife.OnClick;
  * 创建工位订单
  */
 public class CreateOrdersActivity extends BaseActivity {
+    public static final String KEY_SPACEDESK_ID = "spaceDeskId";
+    public static final String KEY_SPACEDESK_NAME = "spaceDeskName";
+    public static final String KEY_SPACEDESK_ADDRESS = "spaceDeskAddress";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -75,6 +78,9 @@ public class CreateOrdersActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        int spaceDeskId = getIntent().getIntExtra(KEY_SPACEDESK_ID,0);
+        String spaceDeskName = getIntent().getStringExtra(KEY_SPACEDESK_NAME);
+        String spaceDeskAddress = getIntent().getStringExtra(KEY_SPACEDESK_ADDRESS);
         initView();
     }
 
