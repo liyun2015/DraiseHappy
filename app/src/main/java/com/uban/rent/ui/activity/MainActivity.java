@@ -559,7 +559,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.fab_clean_search:
                 keyWord = "";
                 initData();
-//                goActivity(CreateOrdersActivity.class);
                 break;
             case R.id.fab_location:
                 isFirstLoc = true;
