@@ -14,7 +14,7 @@
             <path
                 android:fillColor="#D8D8D8"
                 android:fillType="evenOdd"
-                android:strokeWidth="1"
+                android:strokeWidth="0.5"
                 android:pathData="M0,75.4148121 C0,70.7986752 4.06284495,67 9,67 C13.937155,67 18,70.7986752
 18,75.4148121 C18,79.8866798 10.4399824,89.5997873 9,89.5997873
 C7.55998375,89.5997873 0,79.8866798 0,75.4148121 Z M8.82524993,78.8675276
