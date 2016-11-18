@@ -45,10 +45,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_view"
-        android:layout_below="@id/top_view"
         android:fillViewport="true"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +122,8 @@
                         android:text="北京市东城区东四北大街107号 科林大厦B座107室"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/colorGray"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp"
+                        android:id="@+id/textView3" />
                 </LinearLayout>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -222,27 +224,27 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="50dp"
-               android:layout_marginLeft="10dp"
-               android:gravity="center_vertical"
-               android:orientation="horizontal">
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="营业时间"/>
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="10dp"
-                   android:layout_marginRight="10dp"
-                   android:text="工作日"/>
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="09:00-21:00"/>
-           </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="营业时间"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="工作日"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09:00-21:00"/>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
