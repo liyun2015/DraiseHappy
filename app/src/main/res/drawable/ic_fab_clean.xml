@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="51dp"
+    android:height="51dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+
+    <path
+        android:name="iconfont-guanbi-4-copy"
+        android:fillColor="#302F35"
+        android:fillType="evenOdd"
+        android:strokeColor="#302F35"
+        android:strokeWidth="1"
+        android:pathData="M17.365,16 L30.3123,2.9666 C30.8632,2.41201,30.9808,1.63707,30.5751,1.2356
+C30.1694,0.834133,29.3939,0.958217,28.843,1.51281 L15.9083,14.5336
+L2.97352,1.51281 C2.42258,0.95826,1.64715,0.834133,1.24144,1.2356
+C0.835718,1.63707,0.953395,2.41201,1.50425,2.9666 L14.4516,16 L1.50421,29.0334
+C0.95331,29.588,0.835718,30.363,1.24144,30.7644
+C1.64715,31.1659,2.42258,31.0418,2.97344,30.4872 L15.9083,17.4664
+L28.843,30.4872 C29.3939,31.0417,30.1694,31.1659,30.5751,30.7644
+C30.9808,30.363,30.8632,29.588,30.3123,29.0334 L17.365,16 Z" />
+</vector>
