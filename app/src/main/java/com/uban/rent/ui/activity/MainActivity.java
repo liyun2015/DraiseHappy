@@ -49,6 +49,7 @@ import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.SearchHomeViewEvents;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
@@ -143,6 +144,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int officeSpaceBasicInfoId;
     private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
     private int mPriceType = 0;
+    private CreateOrderParamaBean createOrderParamaBean;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -458,24 +460,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .subscribe(new Action1<SpaceDetailBean.ResultsBean>() {
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
-                        officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
-                        String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
-                         ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
-                        tvMarkerName.setText(resultsBean.getSpaceCnName());
-                        tvMarkerLocation.setText(resultsBean.getAddress());
 
-                        if (resultsBean.getFloorHourPrice()==KEY_ORDER_ALL){
-                            tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
-                            tvMarkerPriceType.setText(TITLE_PRICE_TYPE[KEY_MOBILE_OFFICE]);
-                        }
-                        tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorHourPrice()));
+                        createOrderParamaBean =new CreateOrderParamaBean();
+                        createOrderParamaBean.setPriceType(mPriceType);
+                        createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
+                        createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
 
-                        tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
-                        spaceDeskTypePriceListBeen.clear();
-                        spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
-                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
-                        lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
-                        isShowBottomView(true);
+                        loadBottomDataView(resultsBean);//加载弹出列表数据
+
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -489,6 +481,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         hideLoadingView();
                     }
                 });
+    }
+
+    private void loadBottomDataView(SpaceDetailBean.ResultsBean resultsBean) {
+        officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
+        String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
+        ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
+        tvMarkerName.setText(resultsBean.getSpaceCnName());
+        tvMarkerLocation.setText(resultsBean.getAddress());
+
+        if (resultsBean.getFloorHourPrice()==KEY_ORDER_ALL){
+            tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
+            tvMarkerPriceType.setText(TITLE_PRICE_TYPE[KEY_MOBILE_OFFICE]);
+        }
+        tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorHourPrice()));
+
+        tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
+        spaceDeskTypePriceListBeen.clear();
+        spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
+        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);
+        lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
+        isShowBottomView(true);
     }
 
     public void clearOverlay() {

@@ -22,6 +22,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
@@ -125,6 +126,7 @@ public class SpaceDetailActivity extends BaseActivity {
     private ArrayList<String> equipmentsnames;
     private ArrayList<String> servicesImages;
     private ArrayList<String> servicesnames;
+    private CreateOrderParamaBean createOrderParamaBean;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -177,9 +179,13 @@ public class SpaceDetailActivity extends BaseActivity {
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         initViewData(resultsBean);
+                        createOrderParamaBean =new CreateOrderParamaBean();
+                        createOrderParamaBean.setPriceType(mPriceType);
+                        createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
+                        createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
                         spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
-                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen);
+                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);
                         lvSpaceDetail.setAdapter(spaceDetailRentTypeAdapter);
                     }
                 }, new Action1<Throwable>() {

@@ -12,7 +12,7 @@ public class CreateOrderParamaBean implements Serializable{
     private int spaceDeskId;
     private String spaceDeskName;
     private String spaceDeskAddress;
-    private double price;
+    private int price;
     private int priceType;
     private int workDeskPriceType;
 
@@ -40,11 +40,11 @@ public class CreateOrderParamaBean implements Serializable{
         this.spaceDeskAddress = spaceDeskAddress;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

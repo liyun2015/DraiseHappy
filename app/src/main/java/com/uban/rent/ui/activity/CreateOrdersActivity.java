@@ -17,16 +17,17 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
-import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
+import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
-import com.uban.rent.util.CommonUtil;
-import com.uban.rent.util.Constants;
-import com.uban.rent.util.TimeUtils;
 import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
 import com.uban.rent.ui.view.wheelview.WheelView;
 import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
+import com.uban.rent.util.CommonUtil;
+import com.uban.rent.util.Constants;
+import com.uban.rent.util.TimeUtils;
 
 import java.util.Calendar;
 
@@ -41,9 +42,7 @@ import rx.functions.Func1;
  * 创建订单
  */
 public class CreateOrdersActivity extends BaseActivity {
-    public static final String KEY_SPACEDESK_ID = "spaceDeskId";
-    public static final String KEY_SPACEDESK_NAME = "spaceDeskName";
-    public static final String KEY_SPACEDESK_ADDRESS = "spaceDeskAddress";
+    public static final String KEY_CREATE_ORDER_PARAME_BEAN = "createOrderParamaBean";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -79,9 +78,15 @@ public class CreateOrdersActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        int spaceDeskId = getIntent().getIntExtra(KEY_SPACEDESK_ID, 0);
-        String spaceDeskName = getIntent().getStringExtra(KEY_SPACEDESK_NAME);
-        String spaceDeskAddress = getIntent().getStringExtra(KEY_SPACEDESK_ADDRESS);
+        CreateOrderParamaBean createOrderParamaBean = (CreateOrderParamaBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_PARAME_BEAN);
+        int spaceDeskId = createOrderParamaBean.getSpaceDeskId();
+        String spaceDeskName = createOrderParamaBean.getSpaceDeskName();
+        String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
+        int priceType = createOrderParamaBean.getPriceType();
+        int price = createOrderParamaBean.getPrice();
+        int workDeskPriceType = createOrderParamaBean.getWorkDeskPriceType();
+
+
         initView();
     }
 

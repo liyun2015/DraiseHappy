@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.UBBaseAdapter;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.ui.activity.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
@@ -18,6 +19,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.R.attr.type;
+
 /**
  * SpaceDetailRentTypeAdapter 首页底部弹出列表
  * Created by dawabos on 2016/11/16.
@@ -25,9 +28,11 @@ import butterknife.ButterKnife;
  */
 
 public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean, UbanListView> {
-    private int type;
-    public SpaceDetailRentTypeAdapter(Context context, List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list) {
+    private int mPriceType;
+    private CreateOrderParamaBean createOrderParamaBean;
+    public SpaceDetailRentTypeAdapter(Context context, List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list,CreateOrderParamaBean createOrderParamaBean) {
         super(context, list);
+        this.createOrderParamaBean = createOrderParamaBean;
     }
 
     @Override
@@ -41,18 +46,27 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        createOrderParamaBean.setPriceType(mPriceType);
+        if (mPriceType ==0){
+            createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getHourPrice());
+        }else if (mPriceType ==1){
+            createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getDayPrice());
+        }else if (mPriceType==2){
+            createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getWorkDeskPrice());
+        }
+
+        createOrderParamaBean.setWorkDeskPriceType(spaceDeskTypePriceListBean.getWorkDeskType());
+        createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
+        holder.bind(type,spaceDeskTypePriceListBean);
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, CreateOrdersActivity.class);
-                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ID,spaceDeskTypePriceListBean.getId());
-                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_NAME,"name");
-                intent.putExtra(CreateOrdersActivity.KEY_SPACEDESK_ADDRESS,"address");
+                intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
                 context.startActivity(intent);
             }
         });
-        holder.bind(type,spaceDeskTypePriceListBean);
         return convertView;
     }
 
@@ -61,8 +75,8 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         notifyDataSetChanged();
     }
 
-    public void setPriceType(int type){
-        this.type = type;
+    public void setPriceType(int mPriceType){
+        this.mPriceType = mPriceType;
         notifyDataSetChanged();
     }
 
@@ -78,14 +92,14 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
             ButterKnife.bind(this, view);
         }
 
-        private void bind(int type,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
+        private void bind(int mPriceType,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
             //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
             tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()-1]);
-            if (type ==0){
+            if (mPriceType ==0){
                 tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
-            }else if (type ==1){
+            }else if (mPriceType ==1){
                 tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
-            }else if (type==2){
+            }else if (mPriceType==2){
                 tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
             }
         }
