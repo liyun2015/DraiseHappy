@@ -60,7 +60,7 @@
         android:id="@+id/bottom_line"
         android:layout_above="@id/bottom_view"
         android:layout_width="match_parent"
-        android:background="@color/divider_2"
+        android:background="@color/divider_1"
         android:layout_height="0.1dp"/>
     <ScrollView
         android:layout_width="match_parent"
@@ -153,7 +153,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
 
             <RelativeLayout
@@ -183,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:id="@+id/meeting_room_num_layout"
@@ -224,7 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -281,7 +281,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -338,7 +338,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:id="@+id/start_time_layout"
@@ -378,7 +378,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:id="@+id/end_time_layout"
@@ -418,7 +418,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -458,7 +458,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:background="@color/divider_2"
+                android:background="@color/divider_1"
                 android:layout_height="0.1dp"/>
 
         </LinearLayout>

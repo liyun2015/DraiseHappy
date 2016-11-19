@@ -39,7 +39,6 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.uban.rent.ui.activity.SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL;
 
 /**
  * 工位详情页
@@ -103,7 +102,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         equipmentServicesImages = new ArrayList<>();
         equipmentServicesnames = new ArrayList<>();
-        requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
+        requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL);
         requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
         mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
         mPrice = requestGoWorkPlaceDetail.getPrice();
@@ -250,7 +249,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void shareMsg(Context context, String activityTitle, String msgTitle, String msgText) {
+    public void shareMsg(Context context, String activityTitle, String msgTitle, String msgText) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
@@ -259,7 +258,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
         context.startActivity(Intent.createChooser(intent, activityTitle));
     }
 
-    @OnClick({ R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list})
+    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list,R.id.order_create})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_go_space_detail:
@@ -271,10 +270,16 @@ public class WorkplaceDetailActivity extends BaseActivity {
             case R.id.iv_show_equipment_service_list:
                 Intent serviceIntent = new Intent();
                 serviceIntent.setClass(mContext, EquipmentServiceActivity.class);
-                serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST,equipmentServicesnames);
-                serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST,equipmentServicesImages);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST, equipmentServicesnames);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST, equipmentServicesImages);
                 startActivity(serviceIntent);
+                break;
+            case R.id.order_create:
+                Intent orderIntent = new Intent();
+                orderIntent.setClass(mContext,CreateOrdersActivity.class);
+                startActivity(orderIntent);
                 break;
         }
     }
+
 }

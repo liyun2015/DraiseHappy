@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.uban.rent.util.wheelview.adapter;
+package com.uban.rent.ui.view.wheelview.adapter;
 
 import android.content.Context;
 

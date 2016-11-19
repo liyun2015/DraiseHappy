@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.uban.rent.util.wheelview.adapter;
+package com.uban.rent.ui.view.wheelview.adapter;
 
 import android.database.DataSetObserver;
 import android.view.View;

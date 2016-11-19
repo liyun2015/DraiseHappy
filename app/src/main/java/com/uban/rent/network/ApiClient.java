@@ -30,4 +30,6 @@ public interface ApiClient {
     //工位详情
     @POST("/mainapi/officespaceDeskBasicProvider/officespaceWorkdeskInfo")
     Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
+
+    
 }

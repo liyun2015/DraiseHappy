@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.uban.rent.util.wheelview;
+package com.uban.rent.ui.view.wheelview;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -34,7 +34,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.uban.rent.R;
-import com.uban.rent.util.wheelview.adapter.WheelViewAdapter;
+import com.uban.rent.ui.view.wheelview.adapter.WheelViewAdapter;
 
 import java.util.LinkedList;
 import java.util.List;

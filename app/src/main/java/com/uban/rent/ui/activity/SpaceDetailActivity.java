@@ -263,7 +263,7 @@ public class SpaceDetailActivity extends BaseActivity {
         tvSpaceLocation.setText(resultsBean.getSpaceDistrict() + "－" + resultsBean.getSpaceBusinessArea());
         tvStationNums.setText(resultsBean.getRentNum() + "个工位在租");
         tvSpaceDesc.setText(resultsBean.getSpaceProfile());
-        tvSpaceArea.setText(resultsBean.getSpaceArea() + "m²");
+        tvSpaceArea.setText(StringUtils.removeZero(resultsBean.getSpaceArea()) + "m²");
         tvSpacePublicRate.setText(resultsBean.getSpaceProportion() + "%");
         tvSpaceLayers.setText(resultsBean.getSpaceFloor() + "层");
         tvSpaceStationArea.setText(StringUtils.removeZero(String.valueOf(resultsBean.getPerStationArea())) + "m²/工位");

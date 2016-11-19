@@ -17,17 +17,15 @@ import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.TimeUtils;
-import com.uban.rent.util.wheelview.OnWheelScrollListener;
-import com.uban.rent.util.wheelview.WheelView;
-import com.uban.rent.util.wheelview.adapter.NumericWheelAdapter;
+import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
+import com.uban.rent.ui.view.wheelview.WheelView;
+import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
 
 import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.uban.rent.util.TimeUtils.getDay;
 
 /**
  * 创建工位订单
