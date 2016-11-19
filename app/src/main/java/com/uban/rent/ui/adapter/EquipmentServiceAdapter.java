@@ -37,7 +37,7 @@ public class EquipmentServiceAdapter extends UBBaseAdapter<String, ListView> {
         String image = listImages.get(i);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_detail_service_equipment, null);
+            convertView = View.inflate(context, R.layout.item_equipment_service, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
