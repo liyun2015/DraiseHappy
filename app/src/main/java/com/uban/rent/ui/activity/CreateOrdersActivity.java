@@ -6,10 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
@@ -32,7 +28,9 @@ public class CreateOrdersActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.order_create)
     TextView orderCreate;
-
+    @Bind(R.id.numder_of_stations)
+    TextView numder_of_stations;
+    private int loctionNum=1;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_create_orders;
@@ -55,6 +53,7 @@ public class CreateOrdersActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        numder_of_stations.setText(String.valueOf(loctionNum));
     }
 
     @Override
@@ -88,8 +87,14 @@ public class CreateOrdersActivity extends BaseActivity {
                 goActivity(OrderPaymentActivity.class);
                 break;
             case R.id.add_btn://加
+                loctionNum=loctionNum+1;
+                numder_of_stations.setText(String.valueOf(loctionNum));
                 break;
             case R.id.reduce_btn://减
+                if(loctionNum>1){
+                    loctionNum=loctionNum-1;
+                    numder_of_stations.setText(String.valueOf(loctionNum));
+                }
                 break;
             case R.id.start_time_layout://开始时间
                 break;
