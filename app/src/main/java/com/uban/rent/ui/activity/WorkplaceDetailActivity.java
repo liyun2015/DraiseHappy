@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
@@ -92,7 +93,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
     private ArrayList<String> equipmentServicesImages;
     private ArrayList<String> equipmentServicesnames;
-
+    private CreateOrderParamaBean createOrderParamaBean;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -209,6 +210,14 @@ public class WorkplaceDetailActivity extends BaseActivity {
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
         tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
         tvPrice.setText(String.valueOf(mPrice));
+
+        createOrderParamaBean = new CreateOrderParamaBean();
+        createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
+        createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
+        createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceWorkdeskinfoId());
+        createOrderParamaBean.setPrice(mPriceType);
+        createOrderParamaBean.setPrice(mPrice);
+        createOrderParamaBean.setWorkDeskType(resultsBean.getWorkDeskType());
     }
 
     private void initView() {
@@ -277,6 +286,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
             case R.id.order_create:
                 Intent orderIntent = new Intent();
                 orderIntent.setClass(mContext,CreateOrdersActivity.class);
+                orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
                 startActivity(orderIntent);
                 break;
         }

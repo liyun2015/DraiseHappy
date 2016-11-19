@@ -14,7 +14,15 @@ public class CreateOrderParamaBean implements Serializable{
     private String spaceDeskAddress;
     private int price;
     private int priceType;
-    private int workDeskPriceType;
+    private int workDeskType;
+
+    public int getWorkDeskType() {
+        return workDeskType;
+    }
+
+    public void setWorkDeskType(int workDeskType) {
+        this.workDeskType = workDeskType;
+    }
 
     public int getSpaceDeskId() {
         return spaceDeskId;
@@ -56,11 +64,4 @@ public class CreateOrderParamaBean implements Serializable{
         this.priceType = priceType;
     }
 
-    public int getWorkDeskPriceType() {
-        return workDeskPriceType;
-    }
-
-    public void setWorkDeskPriceType(int workDeskPriceType) {
-        this.workDeskPriceType = workDeskPriceType;
-    }
 }

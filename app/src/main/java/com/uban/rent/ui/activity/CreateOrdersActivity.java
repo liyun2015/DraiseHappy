@@ -84,7 +84,7 @@ public class CreateOrdersActivity extends BaseActivity {
         String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
         int priceType = createOrderParamaBean.getPriceType();
         int price = createOrderParamaBean.getPrice();
-        int workDeskPriceType = createOrderParamaBean.getWorkDeskPriceType();
+        int workDeskPriceType = createOrderParamaBean.getWorkDeskType();
 
 
         initView();
