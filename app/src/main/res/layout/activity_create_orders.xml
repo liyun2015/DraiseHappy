@@ -453,4 +453,12 @@
 
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:id="@+id/darkening_background_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="@drawable/darkening_background">
+    </LinearLayout>
 </RelativeLayout>

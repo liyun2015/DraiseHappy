@@ -18,4 +18,34 @@ public class TimeUtils {
             return "";
         }
     }
+    public static int getDay(int year, int month) {
+        int day = 30;
+        boolean flag = false;
+        switch (year % 4) {
+            case 0:
+                flag = true;
+                break;
+            default:
+                flag = false;
+                break;
+        }
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                day = 31;
+                break;
+            case 2:
+                day = flag ? 29 : 28;
+                break;
+            default:
+                day = 30;
+                break;
+        }
+        return day;
+    }
 }
