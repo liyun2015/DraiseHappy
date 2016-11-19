@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,12 +51,13 @@ import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
-import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.ImageLoadUtils;
 import com.uban.rent.util.SPUtils;
@@ -70,7 +72,6 @@ import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.bmapView)
     MapView mMapView;
     @Bind(R.id.lv_marker_list)
-    UbanListView lvMarkerList;
+    ListView lvMarkerList;
     @Bind(R.id.fab_location)
     FloatingActionButton fabLocation;
     @Bind(R.id.btn_close_list)
@@ -140,7 +141,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private int officeSpaceBasicInfoId;
-    List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
+    private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
+    private int mPriceType = 0;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -288,7 +290,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tagMarkerView.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                mPriceType = tab.getPosition();
                 spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
             }
 
@@ -305,16 +307,40 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         lvMarkerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(i);
+
+
                 Intent intent = new Intent();
                 intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_ID,spaceDeskTypePriceListBean.getId());
+                intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
                 startActivity(intent);
             }
         });
         initMapView();
     }
-
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
+        SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
+        RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
+        int price = KEY_ORDER_ALL;
+        if (mPriceType == KEY_ORDER_ALL) {
+            price = spaceDeskTypePriceListBean.getHourPrice();
+        } else if (mPriceType == KEY_MOBILE_OFFICE) {
+            price = spaceDeskTypePriceListBean.getDayPrice();
+        } else if (mPriceType == KEY_MEETIONGS_EVENTS) {
+            price = spaceDeskTypePriceListBean.getWorkDeskPrice();
+        }
+        requestGoWorkPlaceDetail.setPrice(price);
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
+        requestGoWorkPlaceDetail.setPriceType(mPriceType);
+        return requestGoWorkPlaceDetail;
+    }
+    private RequestGoSpaceDetail requestGoSpaceDetailBean(){
+        RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
+        requestGoSpaceDetail.setLocationX(locationX);
+        requestGoSpaceDetail.setLocationY(locationY);
+        requestGoSpaceDetail.setOfficeSpaceBasicInfoId(officeSpaceBasicInfoId);
+        return requestGoSpaceDetail;
+    }
     private void initMapView() {
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
@@ -433,7 +459,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
-                        String imageUrl = String.format(Constants.APP_IMG_URL_640_420,resultsBean.getPicList().get(0).getImgPath());
+                        String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
                          ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
                         tvMarkerName.setText(resultsBean.getSpaceCnName());
                         tvMarkerLocation.setText(resultsBean.getAddress());
@@ -442,7 +468,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
                             tvMarkerPriceType.setText(TITLE_PRICE_TYPE[KEY_MOBILE_OFFICE]);
                         }
-                        tvMarkerPrice.setText(String.valueOf(resultsBean.getMarketPrice()));
+                        tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorHourPrice()));
 
                         tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
                         spaceDeskTypePriceListBeen.clear();
@@ -582,9 +608,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.rl_marker_space_detail:
                 Intent intent = new Intent();
-                intent.putExtra(SpaceDetailActivity.OFFICE_SPACE_BASIC_INFO_ID,officeSpaceBasicInfoId);
-                intent.putExtra(SpaceDetailActivity.LOCATION_X,locationX);
-                intent.putExtra(SpaceDetailActivity.LOCATION_Y,locationY);
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
                 intent.setClass(mContext,SpaceDetailActivity.class);
                 startActivity(intent);
                 break;

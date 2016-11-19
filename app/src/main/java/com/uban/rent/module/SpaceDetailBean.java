@@ -105,7 +105,7 @@ public class SpaceDetailBean {
     public static class ResultsBean {
         private String activityForecast;
         private int cityId;
-        private int spaceArea;
+        private double spaceArea;
         private String equipment;
         private int type;
         private String propertyCorp;
@@ -220,11 +220,11 @@ public class SpaceDetailBean {
             this.cityId = cityId;
         }
 
-        public int getSpaceArea() {
+        public double getSpaceArea() {
             return spaceArea;
         }
 
-        public void setSpaceArea(int spaceArea) {
+        public void setSpaceArea(double spaceArea) {
             this.spaceArea = spaceArea;
         }
 

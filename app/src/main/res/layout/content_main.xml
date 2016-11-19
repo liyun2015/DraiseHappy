@@ -35,7 +35,7 @@
         android:visibility="gone">
         <include layout="@layout/include_marker_top_view"/>
 
-        <com.uban.rent.ui.view.UbanListView
+        <ListView
             android:id="@+id/lv_marker_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
