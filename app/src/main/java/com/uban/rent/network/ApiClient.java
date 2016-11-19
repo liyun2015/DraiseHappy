@@ -4,6 +4,8 @@ package com.uban.rent.network;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.WorkplaceDetailBean;
+import com.uban.rent.module.request.CreatShortRentOrderBean;
+import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
@@ -30,4 +32,8 @@ public interface ApiClient {
     //工位详情
     @POST("/mainapi/officespaceDeskBasicProvider/officespaceWorkdeskInfo")
     Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
+
+    //订单提交
+    @POST("/mainapi/officespaceSROrderProvider/creatShortRentOrder")
+    Observable<CreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 }
