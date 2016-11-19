@@ -110,11 +110,11 @@ public class CreateOrdersActivity extends BaseActivity {
             case R.id.order_create://提交订单
                 goActivity(OrderPaymentActivity.class);
                 break;
-            case R.id.add_btn://加
+            case R.id.add_btn://加月
                 loctionNum = loctionNum + 1;
                 numder_of_stations.setText(String.valueOf(loctionNum));
                 break;
-            case R.id.reduce_btn://减
+            case R.id.reduce_btn://减月
                 if (loctionNum > 1) {
                     loctionNum = loctionNum - 1;
                     numder_of_stations.setText(String.valueOf(loctionNum));

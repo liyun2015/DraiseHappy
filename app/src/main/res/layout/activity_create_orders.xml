@@ -77,17 +77,17 @@
             android:paddingTop="18dp"
             android:layout_height="wrap_content">
 
-
+            <!--工位大楼名称-->
             <TextView
+                android:id="@+id/build_office_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="WE+中区广场"
                 android:textStyle="bold"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:id="@+id/textView2" />
-
+                android:textSize="16sp" />
+            <!--工位大楼地址-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/colorGray"
                 android:textSize="12sp"
-                android:id="@+id/textView" />
+                android:id="@+id/build_office_address" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -107,15 +107,18 @@
                 android:gravity="center_vertical"
                 android:background="@color/font_black_9"
                 android:layout_height="wrap_content">
+                <!--工位或办公室str-->
                 <TextView
+                    android:id="@+id/station_or_office_str"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="独立工位"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp" />
+                <!--单价-->
                 <TextView
-                    android:id="@+id/price_of_hour"
+                    android:id="@+id/unit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="50元/时"
@@ -123,16 +126,19 @@
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
+                <!--出租种类（月日时）-->
                 <TextView
+                    android:id="@+id/term_of_lease_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/price_of_hour"
+                    android:layout_toLeftOf="@id/unit_price"
                     android:layout_marginRight="15dp"
                     android:text="时租"
                     android:textColor="@color/colorGray"
                     android:textSize="15sp" />
 
             </RelativeLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,6 +157,7 @@
                 android:layout_height="0.1dp"/>
 
             <RelativeLayout
+                android:id="@+id/meeting_room_name_layout"
                 android:layout_width="match_parent"
                 android:padding="15dp"
                 android:background="@color/white"
@@ -163,7 +170,7 @@
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
                 <TextView
-                    android:id="@+id/meeting_room_str"
+                    android:id="@+id/meeting_room_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="会议室(中)"
@@ -179,6 +186,7 @@
                 android:background="@color/divider_2"
                 android:layout_height="0.1dp"/>
             <RelativeLayout
+                android:id="@+id/meeting_room_num_layout"
                 android:layout_width="match_parent"
                 android:padding="15dp"
                 android:background="@color/white"
@@ -211,61 +219,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp" />
             </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="15dp"
-                android:background="@color/white"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="时间"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/time_str"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="工位"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-                <ImageView
-                    android:id="@+id/month_add_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/time_str"
-                    android:src="@drawable/ic_pay_add" />
-                <TextView
-                    android:id="@+id/numder_of_months"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/month_add_btn"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
-                <ImageView
-                    android:id="@+id/reduce_btn_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/ic_pay_reduce"
-                    android:layout_toLeftOf="@+id/numder_of_months" />
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -287,9 +240,10 @@
                     android:textSize="14sp" />
                 <TextView
                     android:id="@+id/station_str"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:text="月"
+                    android:text="工位"
+                    android:gravity="center"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/colorGray"
@@ -299,17 +253,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="12dp"
                     android:layout_toLeftOf="@+id/station_str"
                     android:src="@drawable/ic_pay_add" />
                 <TextView
                     android:id="@+id/numder_of_stations"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:textStyle="bold"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/add_btn"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
@@ -318,11 +273,67 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/ic_pay_reduce"
                     android:layout_toLeftOf="@+id/numder_of_stations" />
             </RelativeLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@color/divider_2"
+                android:layout_height="0.1dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="15dp"
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="时间"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorGray"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/time_str"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="月"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/colorGray"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/month_add_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_toLeftOf="@+id/time_str"
+                    android:src="@drawable/ic_pay_add" />
+                <TextView
+                    android:id="@+id/numder_of_months"
+                    android:layout_width="30dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/month_add_btn"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/reduce_btn_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_pay_reduce"
+                    android:layout_toLeftOf="@+id/numder_of_months" />
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
@@ -400,7 +411,6 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
-
 
             </RelativeLayout>
 
