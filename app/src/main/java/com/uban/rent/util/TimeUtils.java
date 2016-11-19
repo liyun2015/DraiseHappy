@@ -1,6 +1,8 @@
 package com.uban.rent.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * TimeUtils 时间工具类
@@ -47,5 +49,16 @@ public class TimeUtils {
                 break;
         }
         return day;
+    }
+    public static long geTimestampTimes(String dateStr,String formatStr){
+        SimpleDateFormat simpleDateFormat =new SimpleDateFormat(formatStr);
+        Date date = null;
+        try {
+            date = simpleDateFormat .parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long time = date.getTime();
+        return time/1000;
     }
 }
