@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="258dp">
+    <TextView
+        android:id="@+id/date_textView"
+        android:layout_width="match_parent"
+        android:layout_height="43.0dip"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="选择日期"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="visible" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <com.uban.rent.util.wheelview.WheelView
+            android:id="@+id/month_wheelView"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <com.uban.rent.util.wheelview.WheelView
+            android:id="@+id/day_wheelView"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <com.uban.rent.util.wheelview.WheelView
+            android:id="@+id/time_wheelView"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
+    <!-- 底部按钮 -->
+
+    <LinearLayout
+        android:id="@+id/date_confirmAndCancle_LinearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.0dip"
+            android:background="@color/divider_1" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45.0dip"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <!-- 取消 -->
+
+            <TextView
+                android:id="@+id/time_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="0.5dip"
+                android:layout_height="match_parent"
+                android:background="@color/divider_1" />
+
+            <!-- 确定 -->
+
+            <TextView
+                android:id="@+id/time_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

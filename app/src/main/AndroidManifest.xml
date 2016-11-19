@@ -64,6 +64,7 @@
         <activity android:name=".ui.activity.ShowPhotosActivity" />
         <activity android:name=".ui.activity.UserOrderActivity" />
         <activity android:name=".ui.activity.OrderPaymentActivity" />
+        <activity android:name=".ui.activity.RefundOrderActivity"/>
         <activity android:name=".ui.activity.PanoramaActivity" />
         <activity android:name=".ui.activity.SupportingActivity" />
         <activity android:name=".ui.activity.EquipmentServiceActivity"></activity>

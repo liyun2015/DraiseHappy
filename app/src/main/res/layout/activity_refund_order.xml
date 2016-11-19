@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_refund_order"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.uban.rent.ui.activity.RefundOrderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/top_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/include_toolbar" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退款须知"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1、每种工位需要至少提前多久预定？"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2、每种工位需要至少提前多久预定？"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3、每种工位需要至少提前多久预定？"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4、每种工位需要至少提前多久预定？"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5、每种工位需要至少提前多久预定？"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="@color/divider_1"
+            android:layout_height="0.1dp"/>
+        <RadioGroup
+            android:id="@+id/refund_cause_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/refund_cause_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
+                android:button="@drawable/checkbox_style"
+                android:textSize="15sp"
+                android:text="    我要重新预定"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/refund_cause_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorGray"
+                android:button="@drawable/checkbox_style"
+                android:textSize="15sp"
+                android:text="    下错订单" />
+            <RadioButton
+                android:id="@+id/refund_cause_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorGray"
+                android:button="@drawable/checkbox_style"
+                android:textSize="15sp"
+                android:text="    下错订单" />
+            <RadioButton
+                android:id="@+id/refund_cause_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorGray"
+                android:button="@drawable/checkbox_style"
+                android:textSize="15sp"
+                android:text="    不需要预定了" />
+            <RadioButton
+                android:id="@+id/refund_cause_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:button="@drawable/checkbox_style"
+                android:textSize="15sp"
+                android:textColor="@color/colorGray"
+                android:text="    其他" />
+        </RadioGroup>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/bottom_submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="退款须知"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
+    <View
+        android:layout_above="@+id/bottom_submit_btn"
+        android:layout_width="match_parent"
+        android:background="@color/divider_1"
+        android:layout_height="0.1dp"/>
+</RelativeLayout>
