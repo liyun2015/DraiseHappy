@@ -55,4 +55,14 @@ public class HeaderConfig {
     public static String ubanCity(){
         return (String)SPUtils.get(App.getInstance(), Constants.UBAN_CITY, "");
     }
+
+    public static String cityShorthand(){
+        if (ubanCity().equals(Constants.CITY_ID[0])){
+            return "bj";
+        }else if (ubanCity().equals(Constants.CITY_ID[1])){
+            return "sh";
+        }else {
+            return "";
+        }
+    }
 }

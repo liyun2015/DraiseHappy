@@ -1,5 +1,6 @@
 package com.uban.rent.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,8 +22,10 @@ import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
+import com.uban.rent.network.config.HeaderConfig;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
+import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 import com.uban.rent.util.Constants;
@@ -29,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -77,12 +81,18 @@ public class WorkplaceDetailActivity extends BaseActivity {
     RelativeLayout rlGoSpaceDetail;
     @Bind(R.id.tv_price_type)
     TextView tvPriceType;
+    @Bind(R.id.gridview_work_place_detail)
+    GridView gridviewWorkPlaceDetail;
+    @Bind(R.id.iv_show_equipment_service_list)
+    ImageView ivShowEquipmentServiceList;
     private RequestGoSpaceDetail requestGoSpaceDetail;
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetail;
     private int mWorkPlaceId;
     private int mPrice;
     private int mPriceType;
     private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
+    private ArrayList<String> equipmentServicesImages;
+    private ArrayList<String> equipmentServicesnames;
 
     @Override
     protected int getLayoutId() {
@@ -91,6 +101,8 @@ public class WorkplaceDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        equipmentServicesImages = new ArrayList<>();
+        equipmentServicesnames = new ArrayList<>();
         requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
         requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
         mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
@@ -177,8 +189,18 @@ public class WorkplaceDetailActivity extends BaseActivity {
         });
     }
 
+    private void setaEquipmentServiceList(WorkplaceDetailBean.ResultsBean resultsBean) {
+        for (WorkplaceDetailBean.ResultsBean.ServiceListBean serviceListBean :
+                resultsBean.getServiceList()) {
+            equipmentServicesnames.add(serviceListBean.getFieldName());
+            equipmentServicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + serviceListBean.getFieldImg());
+        }
+    }
+
     private void initDataView(WorkplaceDetailBean.ResultsBean resultsBean) {
+        setaEquipmentServiceList(resultsBean);
         setBannerImags(resultsBean);
+        gridviewWorkPlaceDetail.setAdapter(new WorkPlaceServiceGradViewAdapter(mContext, resultsBean.getServiceList(), gridviewWorkPlaceDetail));
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvWorkplaceName.setText(resultsBean.getSpaceCnName());
         tvWorkplaceStation.setText(String.valueOf(resultsBean.getRentNum()));
@@ -204,7 +226,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.workplace_detail, menu);
+        getMenuInflater().inflate(R.menu.share_detail, menu);
         return true;
     }
 
@@ -219,32 +241,40 @@ public class WorkplaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                Intent share_intent = new Intent();
-                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
-                share_intent.setType("text/plain");//设置分享内容的类型
-                share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享内容标题");//添加分享内容标题
-                share_intent.putExtra(Intent.EXTRA_TEXT, "分享内容");//添加分享内容
-                //创建分享的Dialog
-                share_intent = Intent.createChooser(share_intent, "分享");
-                startActivity(share_intent);
+                String msgTitle = tvWorkplaceName.getText().toString();
+                String msgText = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/gongwei-" + mWorkPlaceId + ".html";
+                shareMsg(mContext, "工位详情分享", msgTitle, msgText);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public static void shareMsg(Context context, String activityTitle, String msgTitle, String msgText) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
+        intent.putExtra(Intent.EXTRA_TEXT, msgText);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intent, activityTitle));
     }
 
-    @OnClick(R.id.rl_go_space_detail)
-    public void onClick() {
-        Intent intent = new Intent();
-        intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL, requestGoSpaceDetail);
-        intent.setClass(mContext, SpaceDetailActivity.class);
-        startActivity(intent);
+    @OnClick({ R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_go_space_detail:
+                Intent intent = new Intent();
+                intent.setClass(mContext, SpaceDetailActivity.class);
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL, requestGoSpaceDetail);
+                startActivity(intent);
+                break;
+            case R.id.iv_show_equipment_service_list:
+                Intent serviceIntent = new Intent();
+                serviceIntent.setClass(mContext, EquipmentServiceActivity.class);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST,equipmentServicesnames);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST,equipmentServicesImages);
+                startActivity(serviceIntent);
+                break;
+        }
     }
 }

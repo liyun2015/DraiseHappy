@@ -156,15 +156,15 @@
                         android:drawableLeft="@drawable/location_icon"
                         android:text="北京市东城区东四北大街107号 科林大厦B座107室"
                         android:textColor="@color/colorGray"
+                        android:drawablePadding="5dp"
                         android:textSize="12sp" />
                 </LinearLayout>
-
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/ic_arrow_right_gray" />
             </RelativeLayout>
 
@@ -200,66 +200,38 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_conference_room"
-                    android:gravity="center"
-                    android:text="免费饮品"
-                    android:textColor="@color/colorGray"
-                    android:textSize="12sp" />
-
-                <TextView
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <GridView
+                    android:id="@+id/gridview_work_place_detail"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_height="60dp"
+                    android:columnWidth="50dp"
+                    android:numColumns="4"
+                    android:horizontalSpacing="5dp"
+                    android:verticalSpacing="10dp"
+                    android:stretchMode="columnWidth"
+                    android:cacheColorHint="#00000000"
+                    android:listSelector="#00000000"
+                    android:scrollbars="none"
+                    android:background="#00000000"
+                    tools:listitem="@layout/item_detail_service_equipment"
+                    android:layout_margin="10dp"
+                    android:gravity="center"/>
+                <ImageView
+                    android:id="@+id/iv_show_equipment_service_list"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_leisure_area"
-                    android:gravity="center"
-                    android:text="广告位"
-                    android:textColor="@color/colorGray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_wen_yin"
                     android:gravity="center"
-                    android:text="下午茶"
-                    android:textColor="@color/colorGray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="12sp"
                     android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_wen_yin"
-                    android:gravity="center"
-                    android:text="空气净化器"
-                    android:textColor="@color/colorGray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:drawablePadding="5dp"
-                    android:drawableRight="@drawable/ic_arrow_right_gray"
-                    android:gravity="right"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
+                    android:src="@drawable/ic_arrow_right_gray"
+                    android:textColor="@color/colorPrimary"/>
             </LinearLayout>
 
             <View

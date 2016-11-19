@@ -20,4 +20,5 @@ public class Constants {
     public static final String APP_IMG_URL_640_420 = "http://img1.static.uban.com/cybg/%s-w640x420";
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/cybg/%s-n240x180";
     public static final String APP_IMG_PANORAMA_URL = "http://img1.static.uban.com/cybg/%s-w2048x1024N";
+    public static final String APP_IMG_URL_EQUIPMENT_SERVICE = "http://img2.static.uban.com/spacelogo/";
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <ImageView
+        android:id="@+id/iv_service_equipment_image"
+        android:layout_width="34.55dp"
+        android:scaleType="fitXY"
+        android:layout_height="32.82dp"/>
+    <TextView
+        android:id="@+id/tv_service_equipment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:drawablePadding="5dp"
+        android:textColor="@color/colorGray"
+        tools:text="会议室"/>
+
+</LinearLayout>
