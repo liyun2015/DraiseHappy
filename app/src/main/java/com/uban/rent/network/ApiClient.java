@@ -36,4 +36,8 @@ public interface ApiClient {
     //订单提交
     @POST("/mainapi/officespaceSROrderProvider/creatShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
+
+    //订单支付后提交
+//    @POST("/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
+//    Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 }
