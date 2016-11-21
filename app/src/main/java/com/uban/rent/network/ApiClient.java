@@ -7,6 +7,8 @@ import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestHomeData;
+import com.uban.rent.module.request.RequestOrderDetailBean;
+import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.RequestRentOrderList;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
@@ -34,13 +36,21 @@ public interface ApiClient {
     @POST("/mainapi/officespaceDeskBasicProvider/officespaceWorkdeskInfo")
     Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
 
-    //订单提交
+    //创建订单
     @POST("/mainapi/officespaceSROrderProvider/creatShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 
     //订单支付后提交
-//    @POST("/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
-//    Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
+    @POST("http://192.168.0.21:30104/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
+    Observable<RequestCreatShortRentOrderBean> paymentShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
+
+    //取消订单
+    @POST("/mainapi/officespaceSROrderProvider/cancelShortRentOrder")
+    Observable<RequestCreatShortRentOrderBean> cancelShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
+
+    //订单详情
+    @POST("/mainapi/officespaceSROrderProvider/officespaceShortRentOrderInfo")
+    Observable<RequestCreatShortRentOrderBean> getOrderDetail(@Body RequestOrderDetailBean requestOrderDetailBean);
 
     //订单列表
     @POST("/mainapi/officespaceSROrderProvider/shortRentOrder")

@@ -8,10 +8,18 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
+import com.uban.rent.module.request.RequestOrderDetailBean;
+import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.util.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static com.uban.rent.ui.activity.order.OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN;
 
@@ -67,10 +75,47 @@ public class OrdersDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        RequestCreatShortRentOrderBean.ResultsBean resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
-//        orderNumber.setText(resultsBean.getOrderNo());
-//        orderTime.setText(resultsBean.getCancleAt());
-//        orderState.
+        RequestOrderDetailBean requestOrderDetailBean=new RequestOrderDetailBean();
+        requestOrderDetailBean.setOrderNo("12336");
+        ServiceFactory.getProvideHttpService().getOrderDetail(requestOrderDetailBean)
+                .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
+                    @Override
+                    public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<RequestCreatShortRentOrderBean, RequestCreatShortRentOrderBean.ResultsBean>() {
+                    @Override
+                    public RequestCreatShortRentOrderBean.ResultsBean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<RequestCreatShortRentOrderBean.ResultsBean>() {
+                    @Override
+                    public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+                        //处理返回结果
+                        int status = resultsBean.getPayStatus();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 
     @Override

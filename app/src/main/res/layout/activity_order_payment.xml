@@ -162,6 +162,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/cancel_order_btn"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="7"
