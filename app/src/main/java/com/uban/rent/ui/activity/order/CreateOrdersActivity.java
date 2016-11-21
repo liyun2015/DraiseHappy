@@ -154,8 +154,8 @@ public class CreateOrdersActivity extends BaseActivity {
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         numder_of_stations.setText(String.valueOf(loctionNum));
         numderOfMonths.setText(String.valueOf(monthNum));
-        startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH:mm"));
-        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH:mm"));
+        startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH")+":00");
+        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH")+":00");
     }
 
     @Override
@@ -187,7 +187,7 @@ public class CreateOrdersActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.order_create://提交订单
                 submitOrder();
-                goActivity(OrderPaymentActivity.class);
+               //goActivity(OrderPaymentActivity.class);
                 break;
             case R.id.add_btn://加工位
                 loctionNum = loctionNum + 1;
@@ -226,24 +226,25 @@ public class CreateOrdersActivity extends BaseActivity {
     private void submitOrder() {
         String orderStart = startTime.getText().toString().trim();
         String orderEnd = endTime.getText().toString().trim();
-        if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
+        if (TextUtils.isEmpty(orderStart) && TextUtils.isEmpty(orderEnd)) {
             return;
         }
-        int startTimes = (int) TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
-        int endTimes = (int) TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-        int rentTime = (endTimes - startTimes) / 3600;
+        int startTimes = (int)TimeUtils.geTimestampTimes(cruYear+"年"+orderStart, "yyyy年MM月dd日 HH:mm");
+        int endTimes = (int)TimeUtils.geTimestampTimes(cruYear+"年"+orderEnd, "yyyy年MM月dd日 HH:mm");
+        int rentTime = (endTimes-startTimes)/3600;
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
         requestCreatOrder.setPayMoney(23599);
-        requestCreatOrder.setFailureTime(System.currentTimeMillis() / 1000);
+        //requestCreatOrder.setFailureTime(System.currentTimeMillis() / 1000);
         requestCreatOrder.setCellPhone("13693133934");
         requestCreatOrder.setRentType(1);
         requestCreatOrder.setReserved("android");
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(3);
         requestCreatOrder.setWorkDeskNum(12);
+        requestCreatOrder.setSpaceId(27);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
