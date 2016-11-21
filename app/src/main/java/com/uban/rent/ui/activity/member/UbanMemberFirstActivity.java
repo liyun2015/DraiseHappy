@@ -1,6 +1,8 @@
 package com.uban.rent.ui.activity.member;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,11 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.util.Constants;
+import com.uban.rent.util.PhoneUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.functions.Action1;
 
 public class UbanMemberFirstActivity extends BaseActivity {
 
@@ -24,13 +31,17 @@ public class UbanMemberFirstActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.top_view)
-    RelativeLayout topView;
+    AppBarLayout topView;
     @Bind(R.id.bottom_view)
     LinearLayout bottomView;
     @Bind(R.id.bottom_line)
     View bottomLine;
     @Bind(R.id.activity_uban_member)
     RelativeLayout activityUbanMember;
+    @Bind(R.id.member_call_phone)
+    LinearLayout memberCallPhone;
+    @Bind(R.id.create_member)
+    TextView createMember;
 
     @Override
     protected int getLayoutId() {
@@ -60,16 +71,12 @@ public class UbanMemberFirstActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.share_detail, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify ic_home_meun_member parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
@@ -82,10 +89,27 @@ public class UbanMemberFirstActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    private void callPhone() {
+        RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
+                            PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
+                        } else {
+                            ToastUtil.makeText(mContext, "未授权");
+                        }
+                    }
+                });
+    }
+    @OnClick({R.id.member_call_phone, R.id.create_member})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.member_call_phone:
+                callPhone();
+                break;
+            case R.id.create_member:
+                break;
+        }
     }
 }

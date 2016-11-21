@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.uban.rent.ui.activity.member.UbanMemberFirstActivity">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <include layout="@layout/include_toolbar" />
-    </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/bottom_view"
@@ -22,6 +22,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/member_call_phone"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -40,6 +41,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/create_member"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -104,8 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_member_card"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"/>
 
             <TextView

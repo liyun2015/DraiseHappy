@@ -10,7 +10,7 @@ import com.uban.rent.R;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.CreateOrdersActivity;
+import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
 

@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.uban.rent.ui.activity.SpaceDetailActivity">
+    tools:context="com.uban.rent.ui.activity.detail.SpaceDetailActivity">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <include layout="@layout/include_toolbar" />
-    </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:id="@+id/bottom_view"

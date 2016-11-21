@@ -57,7 +57,10 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.member.UbanMemberFirstActivity;
+import com.uban.rent.ui.activity.detail.WorkplaceDetailActivity;
+import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -572,7 +575,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 goActivity(UbanMemberFirstActivity.class);
                 break;
             case R.id.nav_order:
-                goActivity(UserOrderActivity.class);
+                goActivity(OrderListActivity.class);
                 break;
             case R.id.nav_message:
                 break;

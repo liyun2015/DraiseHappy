@@ -1,8 +1,9 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.detail;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,8 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.network.config.HeaderConfig;
 import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.activity.order.CreateOrdersActivity;
+import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
@@ -58,7 +61,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
     @Bind(R.id.activity_workplace)
     RelativeLayout activityWorkplace;
     @Bind(R.id.top_view)
-    RelativeLayout topView;
+    AppBarLayout topView;
     @Bind(R.id.tv_price)
     TextView tvPrice;
     @Bind(R.id.order_create)

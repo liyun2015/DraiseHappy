@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.order;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class UserOrderActivity extends BaseActivity {
+public class OrderListActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;

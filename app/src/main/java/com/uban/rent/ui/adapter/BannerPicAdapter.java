@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.uban.rent.R;
-import com.uban.rent.ui.activity.ShowPhotosActivity;
+import com.uban.rent.ui.activity.components.ShowPhotosActivity;
 import com.uban.rent.util.ImageLoadUtils;
 
 import java.util.ArrayList;

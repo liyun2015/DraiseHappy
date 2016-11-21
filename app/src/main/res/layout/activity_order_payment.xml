@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/font_black_7"
     android:orientation="vertical"
-    tools:context="com.uban.rent.ui.activity.OrderPaymentActivity">
+    tools:context="com.uban.rent.ui.activity.order.OrderPaymentActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
