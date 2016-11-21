@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.uban.rent.ui.activity.LoginActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/include_toolbar" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_login_logo" />
+
+
+    <EditText
+        android:id="@+id/et_login_phone_num"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/background_login_input"
+        android:drawableLeft="@drawable/ic_login_phone_normal"
+        android:drawablePadding="10dp"
+        android:hint="请输入手机号"
+        android:inputType="number"
+        android:maxLength="11"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="#898989"
+        android:textSize="14sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <EditText
+            android:id="@+id/et_login_code_num"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/background_login_input"
+            android:drawableLeft="@drawable/ic_login_password_normal"
+            android:drawablePadding="10dp"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textColor="@android:color/white"
+            android:textColorHint="#898989"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_login_code_zx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:text="获取验证码"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_login_login_submit"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_filling_uban_blue"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGrayHint"
+            android:textSize="12sp"
+            android:text="点击登录，即表示已阅读并同意"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"
+            android:text="《优办移动办公服务条款》"/>
+    </LinearLayout>
+</LinearLayout>

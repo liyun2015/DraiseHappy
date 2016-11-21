@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.other;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;

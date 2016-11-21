@@ -30,7 +30,7 @@
         <item name="android:textSize">18sp</item>
     </style>
     <style name="AppSplash" parent="AppTheme">
-        <!--<item name="android:windowBackground">@drawable/ic_splash_app</item>-->
+        <item name="android:windowBackground">@drawable/ic_normal</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>

@@ -43,9 +43,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
-        <activity
-            android:name=".ui.activity.MainActivity"
+        <activity android:name=".ui.activity.SplashAppActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -55,29 +53,89 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SearchActivity" />
-        <activity android:name=".ui.activity.MainListActivity" />
-        <activity android:name=".ui.activity.detail.SpaceDetailActivity" />
-        <activity android:name=".ui.activity.detail.WorkplaceDetailActivity" />
-        <activity android:name=".ui.activity.order.OrdersDetailActivity" />
-        <activity android:name=".ui.activity.order.CreateOrdersActivity" />
-        <activity android:name=".ui.activity.components.ShowPhotosActivity" />
-        <activity android:name=".ui.activity.order.OrderListActivity" />
-        <activity android:name=".ui.activity.order.OrderPaymentActivity" />
-        <activity android:name=".ui.activity.RefundOrderActivity" />
-        <activity android:name=".ui.activity.components.PanoramaActivity" />
-        <activity android:name=".ui.activity.components.SupportingActivity" />
-        <activity android:name=".ui.activity.components.EquipmentServiceActivity" />
-        <activity android:name=".ui.activity.member.MemberFirstActivity" />
-        <activity android:name=".ui.activity.member.MemberActivity" />
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.SearchActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.MainListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.detail.SpaceDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.detail.WorkplaceDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.order.OrdersDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.order.CreateOrdersActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.components.ShowPhotosActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.order.OrderListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.order.OrderPaymentActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.other.RefundOrderActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.components.PanoramaActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.components.SupportingActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.components.EquipmentServiceActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.member.MemberFirstActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.member.MemberCreateActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.activity.member.MemberStatusActivity" />
-        <activity android:name=".ui.activity.member.MemberFinalActivity" />
-        <activity android:name=".ui.activity.other.SettingActivity"></activity>
+        <activity android:name=".ui.activity.member.MemberStatusActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.member.MemberFinalActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.other.SettingActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+
     </application>
 
 </manifest>
