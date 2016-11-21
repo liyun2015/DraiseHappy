@@ -4,7 +4,7 @@ package com.uban.rent.network;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.WorkplaceDetailBean;
-import com.uban.rent.module.request.CreatShortRentOrderBean;
+import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
@@ -35,5 +35,5 @@ public interface ApiClient {
 
     //订单提交
     @POST("/mainapi/officespaceSROrderProvider/creatShortRentOrder")
-    Observable<CreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
+    Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 }

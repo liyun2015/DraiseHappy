@@ -1,7 +1,5 @@
 package com.uban.rent.module.request;
 
-import static com.baidu.location.b.g.S;
-
 /**
  * Created by Administrator on 2016/11/19.
  */
@@ -30,7 +28,7 @@ public class RequestCreatOrder {
     private int endTime;
     private int cityId;
     private double payMoney;
-    private String reserved;
+    private String reserved = "android";
     private int workDeskType;
     private int rentTime;
     private int rentType;

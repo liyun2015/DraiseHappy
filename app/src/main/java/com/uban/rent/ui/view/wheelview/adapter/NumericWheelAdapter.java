@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.uban.rent.util.wheelview.adapter;
+package com.uban.rent.ui.view.wheelview.adapter;
 
 import android.content.Context;
 import android.view.View;

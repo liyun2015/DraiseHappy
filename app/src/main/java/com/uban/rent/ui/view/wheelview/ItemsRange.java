@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.uban.rent.util.wheelview;
+package com.uban.rent.ui.view.wheelview;
 
 /**
  * Range for visible items.

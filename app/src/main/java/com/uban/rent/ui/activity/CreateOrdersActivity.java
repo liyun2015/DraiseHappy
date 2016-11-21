@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -17,16 +18,17 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
-import com.uban.rent.module.request.CreatShortRentOrderBean;
+import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
+import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
+import com.uban.rent.ui.view.wheelview.WheelView;
+import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
-import com.uban.rent.util.wheelview.OnWheelScrollListener;
-import com.uban.rent.util.wheelview.WheelView;
-import com.uban.rent.util.wheelview.adapter.NumericWheelAdapter;
 
 import java.util.Calendar;
 
@@ -37,15 +39,11 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.baidu.location.b.g.S;
-
 /**
  * 创建订单
  */
 public class CreateOrdersActivity extends BaseActivity {
-    public static final String KEY_SPACEDESK_ID = "spaceDeskId";
-    public static final String KEY_SPACEDESK_NAME = "spaceDeskName";
-    public static final String KEY_SPACEDESK_ADDRESS = "spaceDeskAddress";
+    public static final String KEY_CREATE_ORDER_PARAME_BEAN = "createOrderParamaBean";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -66,6 +64,56 @@ public class CreateOrdersActivity extends BaseActivity {
     TextView endTime;
     @Bind(R.id.total_time)
     TextView totalTime;
+    @Bind(R.id.top_view)
+    RelativeLayout topView;
+    @Bind(R.id.total_price)
+    TextView totalPrice;
+    @Bind(R.id.bottom_view)
+    LinearLayout bottomView;
+    @Bind(R.id.bottom_line)
+    View bottomLine;
+    @Bind(R.id.build_office_name)
+    TextView buildOfficeName;
+    @Bind(R.id.build_office_address)
+    TextView buildOfficeAddress;
+    @Bind(R.id.station_or_office_str)
+    TextView stationOrOfficeStr;
+    @Bind(R.id.unit_price)
+    TextView unitPrice;
+    @Bind(R.id.term_of_lease_type)
+    TextView termOfLeaseType;
+    @Bind(R.id.meeting_room_name)
+    TextView meetingRoomName;
+    @Bind(R.id.meeting_room_name_layout)
+    RelativeLayout meetingRoomNameLayout;
+    @Bind(R.id.meeting_room_numstr)
+    TextView meetingRoomNumstr;
+    @Bind(R.id.meeting_room_num)
+    TextView meetingRoomNum;
+    @Bind(R.id.meeting_room_num_layout)
+    RelativeLayout meetingRoomNumLayout;
+    @Bind(R.id.station_str)
+    TextView stationStr;
+    @Bind(R.id.add_btn)
+    ImageView addBtn;
+    @Bind(R.id.reduce_btn)
+    ImageView reduceBtn;
+    @Bind(R.id.time_str)
+    TextView timeStr;
+    @Bind(R.id.month_add_btn)
+    ImageView monthAddBtn;
+    @Bind(R.id.reduce_btn_month)
+    ImageView reduceBtnMonth;
+    @Bind(R.id.right_arrows)
+    ImageView rightArrows;
+    @Bind(R.id.start_time_layout)
+    RelativeLayout startTimeLayout;
+    @Bind(R.id.right_arrows1)
+    ImageView rightArrows1;
+    @Bind(R.id.end_time_layout)
+    RelativeLayout endTimeLayout;
+    @Bind(R.id.right_textstr)
+    TextView rightTextstr;
     private int loctionNum = 1;
     private int monthNum = 1;
     private LayoutInflater mInflater;
@@ -81,9 +129,16 @@ public class CreateOrdersActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        int spaceDeskId = getIntent().getIntExtra(KEY_SPACEDESK_ID, 0);
-        String spaceDeskName = getIntent().getStringExtra(KEY_SPACEDESK_NAME);
-        String spaceDeskAddress = getIntent().getStringExtra(KEY_SPACEDESK_ADDRESS);
+        CreateOrderParamaBean createOrderParamaBean = (CreateOrderParamaBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_PARAME_BEAN);
+        int spaceDeskId = createOrderParamaBean.getSpaceDeskId();
+        String spaceDeskName = createOrderParamaBean.getSpaceDeskName();
+        String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
+        int priceType = createOrderParamaBean.getPriceType();
+        int price = createOrderParamaBean.getPrice();
+        int workDeskType = createOrderParamaBean.getWorkDeskType();
+
+        buildOfficeName.setText(spaceDeskName);
+        buildOfficeAddress.setText(spaceDeskAddress);
         initView();
     }
 
@@ -191,29 +246,29 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setWorkDeskNum(12);
         requestCreatOrder.setSpaceId(27);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
-                .compose(this.<CreatShortRentOrderBean>bindToLifecycle())
-                .compose(RxSchedulersHelper.<CreatShortRentOrderBean>io_main())
+                .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         showLoadingView();
                     }
                 })
-                .filter(new Func1<CreatShortRentOrderBean, Boolean>() {
+                .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
                     @Override
-                    public Boolean call(CreatShortRentOrderBean creatShortRentOrderBean) {
-                        return creatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
-                .map(new Func1<CreatShortRentOrderBean, CreatShortRentOrderBean.ResultsBean>() {
+                .map(new Func1<RequestCreatShortRentOrderBean, RequestCreatShortRentOrderBean.ResultsBean>() {
                     @Override
-                    public CreatShortRentOrderBean.ResultsBean call(CreatShortRentOrderBean creatShortRentOrderBean) {
-                        return creatShortRentOrderBean.getResults();
+                    public RequestCreatShortRentOrderBean.ResultsBean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getResults();
                     }
                 })
-                .subscribe(new Action1<CreatShortRentOrderBean.ResultsBean>() {
+                .subscribe(new Action1<RequestCreatShortRentOrderBean.ResultsBean>() {
                     @Override
-                    public void call(CreatShortRentOrderBean.ResultsBean resultsBean) {
+                    public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
                         int state = resultsBean.getState();
                         goActivity(OrderPaymentActivity.class);
@@ -322,9 +377,9 @@ public class CreateOrdersActivity extends BaseActivity {
         month_wheelView.setCurrentItem(curMonth - 1);
         day_wheelView.setCurrentItem(curDate - 1);
         timeWheelView.setCurrentItem(curHour - 1);
-        outMonthStr=String.valueOf(curMonth);
-        outDayStr=String.valueOf(curDate);
-        hourStr=String.valueOf(curHour);
+        outMonthStr = String.valueOf(curMonth);
+        outDayStr = String.valueOf(curDate);
+        hourStr = String.valueOf(curHour);
     }
 
     private void initTotalTime() {
@@ -333,10 +388,10 @@ public class CreateOrdersActivity extends BaseActivity {
         if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
             long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
             long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-            int total_time =  (int)(endTime-startTime);
-            if(total_time>0){
-                totalTime.setText(String.valueOf(total_time/3600));
-            }else{
+            int total_time = (int) (endTime - startTime);
+            if (total_time > 0) {
+                totalTime.setText(String.valueOf(total_time / 3600));
+            } else {
                 ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
                 totalTime.setText("0");
             }

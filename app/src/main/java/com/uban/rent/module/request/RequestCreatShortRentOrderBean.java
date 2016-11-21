@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Administrator on 2016/11/19.
  */
 
-public class CreatShortRentOrderBean {
+public class RequestCreatShortRentOrderBean {
 
     /**
      * msg : 成功

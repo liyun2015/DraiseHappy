@@ -9,9 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.view.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,11 +60,27 @@ public class ShowPhotosActivity extends BaseActivity {
     }
 
     private void initData() {
-       String url =  getIntent().getStringExtra(KEY_URL);
-        Bitmap bitmap = ImageLoader.getInstance().loadImageSync(url);
-        imageShow.setImageBitmap(bitmap);
-        mAttacher = new PhotoViewAttacher(imageShow);
-        mAttacher.update();
+        String url =  getIntent().getStringExtra(KEY_URL);
+        showLoadingView();
+        RequestQueue mQueuess = Volley.newRequestQueue(this);
+        ImageRequest imageRequests = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        hideLoadingView();
+                        imageShow.setImageBitmap(bitmap);
+                        mAttacher = new PhotoViewAttacher(imageShow);
+                        mAttacher.update();
+                    }
+
+                }, 0, 0,ImageView.ScaleType.CENTER, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideLoadingView();
+                ToastUtil.makeText(mContext, "加载失败！");
+            }
+        });
+        mQueuess.add(imageRequests);
     }
 
     @Override

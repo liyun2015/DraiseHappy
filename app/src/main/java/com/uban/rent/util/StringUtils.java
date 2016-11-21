@@ -344,7 +344,8 @@ public class StringUtils {
         return sb.toString();
     }
     //去掉多余的小数点后的零
-    public static String removeZero(String mStr){
+    public static String removeZero(Object inputStr){
+        String mStr = String.valueOf(inputStr);
         if(mStr.indexOf(".") > 0){
             mStr = mStr.replaceAll("0+?$", "");//去掉多余的0
             mStr = mStr.replaceAll("[.]$", "");//如最后一位是.则去掉

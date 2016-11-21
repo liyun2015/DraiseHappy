@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/font_black_7"
     tools:context="com.uban.rent.ui.activity.CreateOrdersActivity">
+
     <RelativeLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
@@ -13,6 +14,7 @@
 
         <include layout="@layout/include_toolbar" />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
@@ -24,24 +26,26 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="2"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="合计:"
                 android:textColor="@color/colorGray"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="合计:" />
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginLeft="8dp"
-                android:textStyle="bold"
+                android:text="￥100元"
                 android:textColor="@color/colorAccent"
-                android:text="￥100元" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
@@ -55,83 +59,87 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:id="@+id/bottom_line"
-        android:layout_above="@id/bottom_view"
         android:layout_width="match_parent"
-        android:background="@color/divider_2"
-        android:layout_height="0.1dp"/>
+        android:layout_height="0.1dp"
+        android:layout_above="@id/bottom_view"
+        android:background="@color/divider_1" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:layout_below="@id/top_view"
         android:layout_above="@id/bottom_line"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/top_view"
+        android:scrollbars="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingTop="18dp"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:paddingTop="18dp">
 
             <!--工位大楼名称-->
             <TextView
                 android:id="@+id/build_office_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WE+中区广场"
-                android:textStyle="bold"
                 android:layout_marginLeft="15dp"
+                android:text="WE+中区广场"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
             <!--工位大楼地址-->
             <TextView
+
+                android:id="@+id/build_office_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/location_icon"
                 android:drawablePadding="5dp"
                 android:text="北京东城区东四北大街107号  科林大厦B座108室"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/colorGray"
-                android:textSize="12sp"
-                android:id="@+id/build_office_address" />
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
                 android:background="@color/font_black_9"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:padding="15dp">
                 <!--工位或办公室str-->
                 <TextView
                     android:id="@+id/station_or_office_str"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="独立工位"
-                    android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
                 <!--单价-->
                 <TextView
                     android:id="@+id/unit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="50元/时"
                     android:layout_alignParentRight="true"
+                    android:text="50元/时"
                     android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
                 <!--出租种类（月日时）-->
                 <TextView
                     android:id="@+id/term_of_lease_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/unit_price"
                     android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/unit_price"
                     android:text="时租"
                     android:textColor="@color/colorGray"
                     android:textSize="15sp" />
@@ -141,112 +149,124 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="预定信息"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:textStyle="bold"
+                android:text="预定信息"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_1" />
 
             <RelativeLayout
                 android:id="@+id/meeting_room_name_layout"
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="名称"
                     android:layout_centerVertical="true"
+                    android:text="名称"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/meeting_room_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:text="会议室(中)"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
-            <RelativeLayout
-                android:id="@+id/meeting_room_num_layout"
-                android:layout_width="match_parent"
-                android:padding="15dp"
-                android:background="@color/white"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="预定数量"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/meeting_room_numstr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="间"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/meeting_room_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/meeting_room_numstr"
-                    android:layout_marginRight="30dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
             <RelativeLayout
+                android:id="@+id/meeting_room_num_layout"
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="预定数量"
                     android:layout_centerVertical="true"
+                    android:text="预定数量"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/meeting_room_numstr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="间"
+                    android:textColor="@color/colorGray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/meeting_room_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_toLeftOf="@id/meeting_room_numstr"
+                    android:text="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="预定数量"
+                    android:textColor="@color/colorGray"
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/station_str"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:text="工位"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="工位"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
                 <ImageView
                     android:id="@+id/add_btn"
                     android:layout_width="wrap_content"
@@ -255,55 +275,62 @@
                     android:layout_marginRight="12dp"
                     android:layout_toLeftOf="@+id/station_str"
                     android:src="@drawable/ic_pay_add" />
+
                 <TextView
                     android:id="@+id/numder_of_stations"
                     android:layout_width="30dp"
-                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textStyle="bold"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/add_btn"
+                    android:gravity="center"
+                    android:text="10"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/reduce_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_pay_reduce"
-                    android:layout_toLeftOf="@+id/numder_of_stations" />
+                    android:layout_toLeftOf="@+id/numder_of_stations"
+                    android:src="@drawable/ic_pay_reduce" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="时间"
                     android:layout_centerVertical="true"
+                    android:text="时间"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/time_str"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:text="月"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="月"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
                 <ImageView
                     android:id="@+id/month_add_btn"
                     android:layout_width="wrap_content"
@@ -312,102 +339,110 @@
                     android:layout_marginRight="12dp"
                     android:layout_toLeftOf="@+id/time_str"
                     android:src="@drawable/ic_pay_add" />
+
                 <TextView
                     android:id="@+id/numder_of_months"
                     android:layout_width="30dp"
-                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textStyle="bold"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/month_add_btn"
+                    android:gravity="center"
+                    android:text="10"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/reduce_btn_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_pay_reduce"
-                    android:layout_toLeftOf="@+id/numder_of_months" />
+                    android:layout_toLeftOf="@+id/numder_of_months"
+                    android:src="@drawable/ic_pay_reduce" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
             <RelativeLayout
                 android:id="@+id/start_time_layout"
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
 
                 <ImageView
                     android:id="@+id/right_arrows"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right_gray"
-                    android:layout_alignParentRight="true" />
+                    android:src="@drawable/ic_arrow_right_gray" />
+
                 <TextView
                     android:id="@+id/start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11月17日  15:50"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
                     android:layout_toLeftOf="@id/right_arrows"
+                    android:text="11月17日  15:50"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="开始时间"
                     android:layout_centerVertical="true"
+                    android:text="开始时间"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
             <RelativeLayout
                 android:id="@+id/end_time_layout"
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
+
                 <ImageView
                     android:id="@+id/right_arrows1"
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right_gray"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right_gray" />
+
                 <TextView
                     android:id="@+id/end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11月17日  18:50"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
                     android:layout_toLeftOf="@id/right_arrows1"
+                    android:text="11月17日  18:50"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="结束时间"
                     android:layout_centerVertical="true"
+                    android:text="结束时间"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
 
@@ -415,59 +450,61 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginRight="15dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_1" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/right_textstr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:text="时"
                     android:textColor="@color/colorGray"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/total_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
                     android:layout_toLeftOf="@id/right_textstr"
-                    android:textSize="15sp" />
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="时间"
                     android:textColor="@color/colorGray"
-                    android:textSize="14sp"
-                    android:layout_centerVertical="true" />
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:background="@color/divider_2"
-                android:layout_height="0.1dp"/>
+                android:layout_height="0.1dp"
+                android:background="@color/divider_1" />
 
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/darkening_background_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:background="@drawable/darkening_background"
         android:orientation="vertical"
-        android:background="@drawable/darkening_background">
-    </LinearLayout>
+        android:visibility="gone"></LinearLayout>
 </RelativeLayout>
