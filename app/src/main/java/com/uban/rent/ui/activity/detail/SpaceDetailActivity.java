@@ -37,7 +37,7 @@ import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.EquipmentGridViewAdapter;
 import com.uban.rent.ui.adapter.ServiceGridViewAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
-import com.uban.rent.ui.view.EllipsizeText;
+import com.uban.rent.ui.view.textview.EllipsizeText;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.banner.LoopViewPager;

@@ -230,7 +230,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
 
-            <com.uban.rent.ui.view.EllipsizeText
+            <com.uban.rent.ui.view.textview.EllipsizeText
                 android:id="@+id/tv_space_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
