@@ -267,7 +267,6 @@ public class CreateOrdersActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.order_create://提交订单
                 submitOrder();
-                //goActivity(OrderPaymentActivity.class);
                 break;
             case R.id.add_btn://加工位
                 loctionNum = loctionNum + 1;
