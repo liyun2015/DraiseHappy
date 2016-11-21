@@ -343,7 +343,7 @@ public class SpaceDetailActivity extends BaseActivity {
         }
         requestGoWorkPlaceDetail.setPrice(price);
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
-        requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(officeSpaceBasicInfoId);
         return requestGoWorkPlaceDetail;
     }
 
