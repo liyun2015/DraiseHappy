@@ -54,7 +54,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         }
 
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
-        createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
+        //createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
         holder.bind(mPriceType,spaceDeskTypePriceListBean);
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
