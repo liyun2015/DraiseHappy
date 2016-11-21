@@ -23,7 +23,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class UbanMemberFirstActivity extends BaseActivity {
+public class MemberFirstActivity extends BaseActivity {
 
 
     @Bind(R.id.toolbar_content_text)

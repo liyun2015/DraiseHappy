@@ -4,7 +4,7 @@
     android:id="@+id/activity_uban_member"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uban.rent.ui.activity.member.UbanMemberFirstActivity">
+    tools:context="com.uban.rent.ui.activity.member.MemberFirstActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"

@@ -14,7 +14,7 @@ import com.uban.rent.base.BaseActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class UbanMemberActivity extends BaseActivity {
+public class MemberActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;

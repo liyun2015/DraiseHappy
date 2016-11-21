@@ -68,8 +68,10 @@
         <activity android:name=".ui.activity.components.PanoramaActivity" />
         <activity android:name=".ui.activity.components.SupportingActivity" />
         <activity android:name=".ui.activity.components.EquipmentServiceActivity" />
-        <activity android:name=".ui.activity.member.UbanMemberFirstActivity" />
-        <activity android:name=".ui.activity.member.UbanMemberActivity"></activity>
+        <activity android:name=".ui.activity.member.MemberFirstActivity" />
+        <activity android:name=".ui.activity.member.MemberActivity" />
+        <activity android:name=".ui.activity.member.MemberCreateActivity" />
+        <activity android:name=".ui.activity.member.MemberStatusActivity"></activity>
     </application>
 
 </manifest>
