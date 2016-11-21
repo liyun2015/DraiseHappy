@@ -217,7 +217,7 @@ public class WorkplaceDetailActivity extends BaseActivity {
         createOrderParamaBean = new CreateOrderParamaBean();
         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
-        createOrderParamaBean.setSpaceDeskId(mWorkPlaceId);
+        createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceWorkdeskinfoId());
         createOrderParamaBean.setPrice(mPriceType);
         createOrderParamaBean.setPrice(mPrice);
         createOrderParamaBean.setWorkDeskType(resultsBean.getWorkDeskType());

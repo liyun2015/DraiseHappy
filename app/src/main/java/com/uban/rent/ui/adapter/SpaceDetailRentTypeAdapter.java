@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  */
 
 public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean, UbanListView> {
-    private int mPriceType;
+    private int mPriceType = 0;
     private CreateOrderParamaBean createOrderParamaBean;
     public SpaceDetailRentTypeAdapter(Context context, List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list,CreateOrderParamaBean createOrderParamaBean) {
         super(context, list);

@@ -469,9 +469,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         createOrderParamaBean.setPriceType(mPriceType);
                         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
                         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
-                        createOrderParamaBean.setSpaceDeskId(officeSpaceBasicInfoId);
-
+                        createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceBasicinfoId());
                         loadBottomDataView(resultsBean);//加载弹出列表数据
+
 
                     }
                 }, new Action1<Throwable>() {
