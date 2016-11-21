@@ -187,6 +187,7 @@ public class SpaceDetailActivity extends BaseActivity {
                         createOrderParamaBean.setPriceType(mPriceType);
                         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
                         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
+                        createOrderParamaBean.setSpaceDeskId(officeSpaceBasicInfoId);
                         spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
                         spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);

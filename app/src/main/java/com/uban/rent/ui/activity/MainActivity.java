@@ -469,6 +469,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         createOrderParamaBean.setPriceType(mPriceType);
                         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
                         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
+                        createOrderParamaBean.setSpaceDeskId(officeSpaceBasicInfoId);
 
                         loadBottomDataView(resultsBean);//加载弹出列表数据
 
