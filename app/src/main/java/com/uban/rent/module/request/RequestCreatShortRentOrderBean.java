@@ -1,12 +1,13 @@
 package com.uban.rent.module.request;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**创建订单
  * Created by Administrator on 2016/11/19.
  */
 
-public class RequestCreatShortRentOrderBean {
+public class RequestCreatShortRentOrderBean implements Serializable{
 
     /**
      * msg : 成功
@@ -98,7 +99,8 @@ public class RequestCreatShortRentOrderBean {
         this.statusCode = statusCode;
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable {
+
         private String areaName;
         private int beginTime;
         private String buyerEmail;
@@ -201,7 +203,23 @@ public class RequestCreatShortRentOrderBean {
         private int workDeskId;
         private int workDeskNum;
         private int workDeskType;
+        private String creatAt;
+        private int failureAt;
+        public String getCreatAt() {
+            return creatAt;
+        }
 
+        public void setCreatAt(String creatAt) {
+            this.creatAt = creatAt;
+        }
+
+        public int getFailureAt() {
+            return failureAt;
+        }
+
+        public void setFailureAt(int failureAt) {
+            this.failureAt = failureAt;
+        }
         public String getAreaName() {
             return areaName;
         }
@@ -626,7 +644,7 @@ public class RequestCreatShortRentOrderBean {
             this.workDeskType = workDeskType;
         }
 
-        public static class OfficespaceBasicinfoBean {
+        public static class OfficespaceBasicinfoBean implements Serializable {
             private String activityForecast;
             private String address;
             private int allRentNum;
@@ -1064,7 +1082,7 @@ public class RequestCreatShortRentOrderBean {
                 this.picList = picList;
             }
 
-            public static class Pic3dListBean {
+            public static class Pic3dListBean implements Serializable {
                 private int cityId;
                 private String imgDesc;
                 private String imgFormat;
@@ -1139,7 +1157,7 @@ public class RequestCreatShortRentOrderBean {
                 }
             }
 
-            public static class PicListBean {
+            public static class PicListBean implements Serializable {
                 private int cityId;
                 private String imgDesc;
                 private String imgFormat;

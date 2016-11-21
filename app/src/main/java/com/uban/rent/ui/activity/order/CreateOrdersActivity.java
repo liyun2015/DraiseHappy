@@ -30,6 +30,7 @@ import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -257,8 +258,13 @@ public class CreateOrdersActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    private void goActivity(Class<?> cls) {
-        startActivity(new Intent(mContext, cls));
+    private void goActivity(Class<?> cls,RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext,cls);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
+        orderIntent.putExtras(bundle);
+        startActivity(orderIntent);
     }
 
 
@@ -368,8 +374,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        int state = resultsBean.getState();
-                        goActivity(OrderPaymentActivity.class);
+                        goActivity(OrderPaymentActivity.class,resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
