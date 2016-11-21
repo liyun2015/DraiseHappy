@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.uban.rent.ui.activity.SpaceDetailActivity">
 
     <RelativeLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <include layout="@layout/include_toolbar" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/call_phone"
+    <RelativeLayout
+        android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorAccent"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:text="400-810-6698"/>
+        android:background="@color/colorAccent">
+        <TextView
+            android:id="@+id/call_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/ic_phone_white_small"
+            android:gravity="center_vertical"
+            android:text="400-810-6698"
+            android:textColor="@android:color/white"
+            android:drawablePadding="5dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
+        android:layout_above="@id/bottom_view"
         android:layout_below="@+id/top_view"
-        android:layout_above="@id/call_phone">
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +55,7 @@
                 <com.uban.rent.ui.view.banner.LoopViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"/>
+                    android:layout_height="250dp" />
 
                 <TextView
                     android:id="@+id/image_desc"
@@ -54,20 +63,21 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
                     android:background="@drawable/ic_filling_half_round_gray"
-                    android:paddingTop="5dp"
+                    android:gravity="center"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="1/5" />
+                    android:paddingTop="5dp"
+                    android:text="1/5"
+                    android:textColor="@android:color/white" />
             </FrameLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:background="@color/divider_1"/>
+                android:background="@color/divider_1" />
+
             <TextView
                 android:id="@+id/tv_space_name"
                 android:layout_width="wrap_content"
@@ -84,10 +94,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:textSize="13sp"
-                android:textColor="@color/colorGray"
                 android:drawableLeft="@drawable/location_icon"
-                android:text="北京市东城区东四北大街107号 科林大厦B座107室"/>
+                android:text="北京市东城区东四北大街107号 科林大厦B座107室"
+                android:textColor="@color/colorGray"
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,8 +155,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/ic_panorama"
+                        android:drawablePadding="10dp"
                         android:gravity="center"
                         android:text="全景体验" />
                 </RelativeLayout>
@@ -155,6 +165,7 @@
                     android:layout_width="0.1dp"
                     android:layout_height="30dp"
                     android:background="@color/divider_1" />
+
                 <RelativeLayout
                     android:id="@+id/rl_supporting"
                     android:layout_width="0dp"
@@ -166,8 +177,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/ic_peripheral_matching"
+                        android:drawablePadding="10dp"
                         android:gravity="center"
                         android:text="周边配套" />
                 </RelativeLayout>
@@ -179,10 +190,12 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/divider_2"/>
+                android:background="@color/divider_2" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -193,67 +206,71 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:text="空间介绍"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:text="空间介绍"/>
+                android:textStyle="bold" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/divider_1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp"
-                android:text="简介"/>
+                android:text="简介"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <com.uban.rent.ui.view.EllipsizeText
                 android:id="@+id/tv_space_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="12sp"
                 android:lineSpacingExtra="9dp"
+                android:text="由一帮北美归国的小伙伴共同打造,为您带来最酷最前沿的北美创业思潮。众舍主旨共同理想,共同方向,共同分享即众想,众向,众享的创业理念..."
                 android:textColor="@color/colorGray"
-                android:text="由一帮北美归国的小伙伴共同打造,为您带来最酷最前沿的北美创业思潮。众舍主旨共同理想,共同方向,共同分享即众想,众向,众享的创业理念..."/>
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/tv_look_more_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:text="展开"
                 android:textColor="@color/colorGray"
-                android:text="展开"/>
+                android:textSize="14sp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/divider_1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp"
-                android:text="硬件配套"/>
+                android:text="硬件配套"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
                 <!--
            1.Android:numColumns=”auto_fit”   //GridView的列数设置为自动
            2.android:columnWidth=”90dp "       //每列的宽度，也就是Item的宽度
@@ -274,185 +291,204 @@
                 <GridView
                     android:id="@+id/gridview_equipment_space_detail"
                     android:layout_width="0dp"
-                    android:layout_weight="4"
                     android:layout_height="60dp"
-                    android:columnWidth="50dp"
-                    android:numColumns="3"
-                    android:horizontalSpacing="5dp"
-                    android:verticalSpacing="10dp"
-                    android:stretchMode="columnWidth"
-                    android:cacheColorHint="#00000000"
-                    android:listSelector="#00000000"
-                    android:background="#00000000"
-                    android:scrollbars="none"
                     android:layout_margin="10dp"
-                    android:gravity="center"/>
+                    android:layout_weight="4"
+                    android:background="#00000000"
+                    android:cacheColorHint="#00000000"
+                    android:columnWidth="50dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="5dp"
+                    android:listSelector="#00000000"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10dp" />
+
                 <ImageView
                     android:id="@+id/iv_showEquipmentList"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="12sp"
+                    android:layout_weight="1"
                     android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:src="@drawable/ic_arrow_right_gray"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp"
-                android:text="企业服务"/>
+                android:text="企业服务"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <GridView
                     android:id="@+id/gridview_service_space_detail"
                     android:layout_width="0dp"
-                    android:layout_weight="4"
                     android:layout_height="60dp"
-                    android:columnWidth="50dp"
-                    android:numColumns="3"
-                    android:horizontalSpacing="5dp"
-                    android:verticalSpacing="10dp"
-                    android:stretchMode="columnWidth"
-                    android:cacheColorHint="#00000000"
-                    android:scrollbars="none"
-                    android:listSelector="#00000000"
-                    android:background="#00000000"
                     android:layout_margin="10dp"
-                    android:gravity="center"/>
+                    android:layout_weight="4"
+                    android:background="#00000000"
+                    android:cacheColorHint="#00000000"
+                    android:columnWidth="50dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="5dp"
+                    android:listSelector="#00000000"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10dp" />
+
                 <ImageView
                     android:id="@+id/iv_showServiceList"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="12sp"
+                    android:layout_weight="1"
                     android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:src="@drawable/ic_arrow_right_gray"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp"
-                android:text="技术指标"/>
+                android:text="技术指标"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:layout_margin="10dp">
+                android:paddingTop="5dp">
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="建筑面积"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/tv_space_area"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="7000m²"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="公共空间占比"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/tv_space_public_rate"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="35%"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:layout_margin="10dp">
+                android:paddingTop="5dp">
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="层数"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/tv_space_layers"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="7层"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="平均工位面积"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/tv_space_station_area"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="3.2m²/工位"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp" />
             </LinearLayout>
-            <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/divider_1" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/divider_2"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/divider_1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider_2" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_space_detail"
                 android:layout_width="match_parent"
@@ -460,18 +496,20 @@
                 android:background="@android:color/white"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabSelectedTextColor="@color/colorAccent"
-                app:tabTextColor="@color/colorPrimary"/>
+                app:tabTextColor="@color/colorPrimary" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="@color/divider_1" />
+
             <com.uban.rent.ui.view.UbanListView
                 android:id="@+id/lv_space_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white"
                 android:divider="@color/divider_1"
-                android:dividerHeight="0.1dp"
-                android:background="@android:color/white"/>
+                android:dividerHeight="0.1dp" />
 
 
         </LinearLayout>

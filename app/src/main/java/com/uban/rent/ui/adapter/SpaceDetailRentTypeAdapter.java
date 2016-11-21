@@ -19,8 +19,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static android.R.attr.type;
-
 /**
  * SpaceDetailRentTypeAdapter 首页底部弹出列表
  * Created by dawabos on 2016/11/16.
@@ -57,7 +55,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
 
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
         createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
-        holder.bind(type,spaceDeskTypePriceListBean);
+        holder.bind(mPriceType,spaceDeskTypePriceListBean);
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

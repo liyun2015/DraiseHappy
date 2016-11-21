@@ -57,6 +57,7 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.activity.member.UbanMemberFirstActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -568,6 +569,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_member:
+                goActivity(UbanMemberFirstActivity.class);
                 break;
             case R.id.nav_order:
                 goActivity(UserOrderActivity.class);
