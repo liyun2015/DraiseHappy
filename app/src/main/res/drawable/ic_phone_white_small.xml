@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="15dp"
+    android:height="15dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <path
+        android:name="iconfont-iconfontdianhua"
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:strokeWidth="1"
+        android:pathData="M8.24767,9.53783 C10.1919,7.59164,11.8868,6.3936,8.4409,2.1038
+C4.99464,-2.18586,2.69601,1.10819,0.809883,2.99443
+C-1.36332,5.16933,0.695564,13.2764,8.70896,21.2914
+C16.7225,29.3029,24.8315,31.3653,27.0062,29.1887
+C28.8925,27.3042,32.1849,25.0075,27.897,21.5597
+C23.6092,18.1117,22.4091,19.8065,20.4628,21.7526
+C19.1017,23.1083,15.6649,20.2715,12.695,17.3036
+C9.72519,14.3356,6.88639,10.897,8.24767,9.53783 Z" />
+</vector>

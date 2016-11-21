@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.order;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

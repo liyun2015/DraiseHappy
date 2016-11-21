@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.order;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,9 +1,10 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.detail;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -29,6 +30,9 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.HeaderConfig;
 import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.components.PanoramaActivity;
+import com.uban.rent.ui.activity.components.SupportingActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.EquipmentGridViewAdapter;
 import com.uban.rent.ui.adapter.ServiceGridViewAdapter;
@@ -72,7 +76,7 @@ public class SpaceDetailActivity extends BaseActivity {
     @Bind(R.id.lv_space_detail)
     UbanListView lvSpaceDetail;
     @Bind(R.id.top_view)
-    RelativeLayout topView;
+    AppBarLayout topView;
     @Bind(R.id.call_phone)
     TextView callPhone;
     @Bind(R.id.rl_panorama)

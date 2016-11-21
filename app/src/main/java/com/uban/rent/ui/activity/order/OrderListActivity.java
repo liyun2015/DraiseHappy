@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.order;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,9 +13,7 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.adapter.FragmentTabAdapter;
-import com.uban.rent.ui.fragment.order.MeetingsEventsFragment;
-import com.uban.rent.ui.fragment.order.MobileOfficeFragment;
-import com.uban.rent.ui.fragment.order.OrderAllFragment;
+import com.uban.rent.ui.fragment.OrderListFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class UserOrderActivity extends BaseActivity {
+public class OrderListActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -34,11 +32,11 @@ public class UserOrderActivity extends BaseActivity {
     TabLayout tabUserOrder;
     @Bind(R.id.activity_user_order)
     CoordinatorLayout activityUserOrder;
-    private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
     @Bind(R.id.view_pager_user_order)
     ViewPager viewPagerUserOrder;
-
     private List<Fragment> listFragments;
+
+    private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_order;
@@ -58,13 +56,10 @@ public class UserOrderActivity extends BaseActivity {
         }
         toolbarContentText.setText("我的订单");
         listFragments = new ArrayList<>();
-        listFragments.add(OrderAllFragment.newInstance("1"));
-        listFragments.add(MobileOfficeFragment.newInstance("1"));
-        listFragments.add(MeetingsEventsFragment.newInstance("1"));
+        for (int i = 0; i < TITLE_NAME.length; i++) {
+            listFragments.add(OrderListFragment.newInstance(i));
+        }
         tabUserOrder.setTabMode(TabLayout.MODE_FIXED);
-        tabUserOrder.addTab(tabUserOrder.newTab().setText(TITLE_NAME[0]));
-        tabUserOrder.addTab(tabUserOrder.newTab().setText(TITLE_NAME[1]));
-        tabUserOrder.addTab(tabUserOrder.newTab().setText(TITLE_NAME[2]));
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
         viewPagerUserOrder.setAdapter(fAdapter);
         tabUserOrder.setupWithViewPager(viewPagerUserOrder);

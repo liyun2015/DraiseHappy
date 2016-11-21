@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.components;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

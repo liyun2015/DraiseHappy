@@ -10,7 +10,7 @@ import com.uban.rent.R;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.CreateOrdersActivity;
+import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
 
@@ -18,8 +18,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.type;
 
 /**
  * SpaceDetailRentTypeAdapter 首页底部弹出列表
@@ -57,7 +55,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
 
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
         createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
-        holder.bind(type,spaceDeskTypePriceListBean);
+        holder.bind(mPriceType,spaceDeskTypePriceListBean);
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
