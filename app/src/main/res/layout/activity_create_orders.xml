@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="￥100元"
+                android:text="￥0元"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="WE+中区广场"
+                tools:text="WE+中区广场"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -103,7 +103,7 @@
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/location_icon"
                 android:drawablePadding="5dp"
-                android:text="北京东城区东四北大街107号  科林大厦B座108室"
+                tools:text="北京东城区东四北大街107号  科林大厦B座108室"
                 android:textColor="@color/colorGray"
                 android:textSize="12sp" />
 
@@ -119,7 +119,7 @@
                     android:id="@+id/station_or_office_str"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="独立工位"
+                    tools:text="独立工位"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="50元/时"
+                    tools:text="50元/时"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -140,12 +140,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@id/unit_price"
-                    android:text="时租"
+                    tools:text="时租"
                     android:textColor="@color/colorGray"
                     android:textSize="15sp" />
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="营业时间： 工作日  09:00-18:00"
+                android:textColor="@color/colorGray"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_1" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -163,86 +178,97 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/divider_1" />
+            <!--会议室有关-->
+            <LinearLayout
+                android:id="@+id/meeting_room_number_layout"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/meeting_room_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="名称"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/meeting_room_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="会议室(中)"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_1" />
+
+                <RelativeLayout
+                    android:id="@+id/meeting_room_num_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/meeting_room_numstr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="间"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/meeting_room_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="30dp"
+                        android:layout_toLeftOf="@id/meeting_room_numstr"
+                        android:text="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="预定数量"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14sp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/textView" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_1" />
+
+            </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/meeting_room_name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="名称"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/meeting_room_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="会议室(中)"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/divider_1" />
-
-            <RelativeLayout
-                android:id="@+id/meeting_room_num_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="预定数量"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/meeting_room_numstr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="间"
-                    android:textColor="@color/colorGray"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/meeting_room_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="30dp"
-                    android:layout_toLeftOf="@id/meeting_room_numstr"
-                    android:text="1"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/divider_1" />
-
-            <RelativeLayout
+                android:id="@+id/station_number_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -300,6 +326,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/station_time_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
@@ -307,6 +334,7 @@
                 android:background="@color/divider_1" />
 
             <RelativeLayout
+                android:id="@+id/station_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -406,6 +434,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/start_time_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
@@ -449,6 +478,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/end_time_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="15dp"
@@ -456,6 +486,7 @@
                 android:background="@color/divider_1" />
 
             <RelativeLayout
+                android:id="@+id/total_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

@@ -114,13 +114,34 @@ public class CreateOrdersActivity extends BaseActivity {
     RelativeLayout endTimeLayout;
     @Bind(R.id.right_textstr)
     TextView rightTextstr;
-    private int loctionNum = 1;
-    private int monthNum = 1;
+    @Bind(R.id.meeting_room_number_layout)
+    LinearLayout meetingRoomNumberLayout;
+    @Bind(R.id.station_number_layout)
+    RelativeLayout stationNumberLayout;
+    @Bind(R.id.station_time_layout)
+    RelativeLayout stationTimeLayout;
+    @Bind(R.id.total_time_layout)
+    RelativeLayout totalTimeLayout;
+    @Bind(R.id.end_time_line)
+    View endTimeLine;
+    @Bind(R.id.start_time_line)
+    View startTimeLine;
+    @Bind(R.id.station_time_line)
+    View stationTimeLine;
+    private int loctionNum = 0;
+    private int monthNum = 0;
     private LayoutInflater mInflater;
     private WheelView timeWheelView;
     private WheelView month_wheelView;
     private WheelView day_wheelView;
     private boolean isStartTimePop = false;
+    private int spaceDeskId;
+    private int priceType;//价格类型(1时租  2日租 3月租)
+    private int workDeskType;//工位类型(3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地)
+    private int price;
+    private String orderStart;
+    private String orderEnd;
+    private int rentTime=0;
 
     @Override
     protected int getLayoutId() {
@@ -130,16 +151,71 @@ public class CreateOrdersActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         CreateOrderParamaBean createOrderParamaBean = (CreateOrderParamaBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_PARAME_BEAN);
-        int spaceDeskId = createOrderParamaBean.getSpaceDeskId();
+        spaceDeskId = createOrderParamaBean.getSpaceDeskId();
         String spaceDeskName = createOrderParamaBean.getSpaceDeskName();
         String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
-        int priceType = createOrderParamaBean.getPriceType();
-        int price = createOrderParamaBean.getPrice();
-        int workDeskType = createOrderParamaBean.getWorkDeskType();
-
+        priceType = createOrderParamaBean.getPriceType() + 1;
+        price = createOrderParamaBean.getPrice();
+        workDeskType = createOrderParamaBean.getWorkDeskType();
+        if (workDeskType == 6) {
+            meetingRoomNumberLayout.setVisibility(View.VISIBLE);
+            stationNumberLayout.setVisibility(View.GONE);
+            stationTimeLayout.setVisibility(View.GONE);
+        } else {
+            meetingRoomNumberLayout.setVisibility(View.GONE);
+            stationNumberLayout.setVisibility(View.VISIBLE);
+            stationTimeLayout.setVisibility(View.VISIBLE);
+        }
+        if (workDeskType == 3) {
+            stationOrOfficeStr.setText("hot desk");
+        } else if (workDeskType == 4) {
+            stationOrOfficeStr.setText("独立工位");
+        } else if (workDeskType == 5) {
+            stationOrOfficeStr.setText("开放工位");
+        } else if (workDeskType == 6) {
+            stationOrOfficeStr.setText("会议室");
+        } else if (workDeskType == 7) {
+            stationOrOfficeStr.setText("活动场地");
+        }
+        initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
+        totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
         initView();
+    }
+
+    private void initPriceView() {
+        if (priceType == 1) {
+            termOfLeaseType.setText("时租");
+            unitPrice.setText(price + "元/时");
+            stationTimeLayout.setVisibility(View.GONE);
+            stationTimeLine.setVisibility(View.GONE);
+            endTimeLayout.setVisibility(View.VISIBLE);
+            totalTimeLayout.setVisibility(View.VISIBLE);
+            endTimeLine.setVisibility(View.VISIBLE);
+            startTimeLine.setVisibility(View.VISIBLE);
+        } else if (priceType == 2) {
+            termOfLeaseType.setText("日租");
+            unitPrice.setText(price + "元/日");
+            stationTimeLayout.setVisibility(View.VISIBLE);
+            stationTimeLine.setVisibility(View.VISIBLE);
+            timeStr.setText("日");
+            endTimeLayout.setVisibility(View.GONE);
+            totalTimeLayout.setVisibility(View.GONE);
+            endTimeLine.setVisibility(View.INVISIBLE);
+            startTimeLine.setVisibility(View.INVISIBLE);
+            startTimeLine.setVisibility(View.INVISIBLE);
+        } else if (priceType == 3) {
+            termOfLeaseType.setText("月租");
+            unitPrice.setText(price + "元/月");
+            timeStr.setText("月");
+            stationTimeLayout.setVisibility(View.VISIBLE);
+            stationTimeLine.setVisibility(View.VISIBLE);
+            endTimeLayout.setVisibility(View.GONE);
+            totalTimeLayout.setVisibility(View.GONE);
+            endTimeLine.setVisibility(View.INVISIBLE);
+            startTimeLine.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initView() {
@@ -154,8 +230,12 @@ public class CreateOrdersActivity extends BaseActivity {
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         numder_of_stations.setText(String.valueOf(loctionNum));
         numderOfMonths.setText(String.valueOf(monthNum));
-        startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH")+":00");
-        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH")+":00");
+        if(priceType == 1){
+            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
+        }else{
+            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
+        }
+        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
     }
 
     @Override
@@ -187,27 +267,39 @@ public class CreateOrdersActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.order_create://提交订单
                 submitOrder();
-               //goActivity(OrderPaymentActivity.class);
+                //goActivity(OrderPaymentActivity.class);
                 break;
             case R.id.add_btn://加工位
                 loctionNum = loctionNum + 1;
                 numder_of_stations.setText(String.valueOf(loctionNum));
+                if(priceType != 1){
+                    rentTime = monthNum;
+                }
+                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
                 break;
             case R.id.reduce_btn://减工位
                 if (loctionNum > 0) {
                     loctionNum = loctionNum - 1;
                     numder_of_stations.setText(String.valueOf(loctionNum));
                 }
+                if(priceType != 1){
+                    rentTime = monthNum;
+                }
+                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
                 break;
-            case R.id.month_add_btn://加月
+            case R.id.month_add_btn://加日月
                 monthNum = monthNum + 1;
                 numderOfMonths.setText(String.valueOf(monthNum));
+                rentTime = monthNum;
+                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
                 break;
-            case R.id.reduce_btn_month://减月
+            case R.id.reduce_btn_month://减日月
                 if (monthNum > 0) {
                     monthNum = monthNum - 1;
                     numderOfMonths.setText(String.valueOf(monthNum));
                 }
+                rentTime = monthNum;
+                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
                 break;
             case R.id.start_time_layout://开始时间
                 isStartTimePop = true;
@@ -229,22 +321,29 @@ public class CreateOrdersActivity extends BaseActivity {
         if (TextUtils.isEmpty(orderStart) && TextUtils.isEmpty(orderEnd)) {
             return;
         }
-        int startTimes = (int)TimeUtils.geTimestampTimes(cruYear+"年"+orderStart, "yyyy年MM月dd日 HH:mm");
-        int endTimes = (int)TimeUtils.geTimestampTimes(cruYear+"年"+orderEnd, "yyyy年MM月dd日 HH:mm");
-        int rentTime = (endTimes-startTimes)/3600;
+        int startTimes=0;
+        int endTimes=0;
+        if(priceType==1){
+            startTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderStart, "yyyy年MM月dd日 HH:mm");
+            endTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderEnd, "yyyy年MM月dd日 HH:mm");
+            int rentTimes = (endTimes - startTimes) / 3600;
+            rentTime=rentTimes;
+        }else{
+            startTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderStart, "yyyy年MM月dd日");
+            endTimes=0;
+        }
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
-        requestCreatOrder.setPayMoney(23599);
-        //requestCreatOrder.setFailureTime(System.currentTimeMillis() / 1000);
+        requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
         requestCreatOrder.setCellPhone("13693133934");
-        requestCreatOrder.setRentType(1);
+        requestCreatOrder.setRentType(priceType);
         requestCreatOrder.setReserved("android");
         requestCreatOrder.setRentTime(rentTime);
-        requestCreatOrder.setWorkDeskType(3);
-        requestCreatOrder.setWorkDeskNum(12);
-        requestCreatOrder.setSpaceId(27);
+        requestCreatOrder.setWorkDeskType(workDeskType);
+        requestCreatOrder.setWorkDeskNum(loctionNum);
+        requestCreatOrder.setSpaceId(spaceDeskId);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
@@ -315,7 +414,12 @@ public class CreateOrdersActivity extends BaseActivity {
                 }
                 if (!TextUtils.isEmpty(dateContent)) {
                     if (isStartTimePop) {
-                        startTime.setText(dateContent);
+                        if(priceType == 1){
+                            startTime.setText(dateContent);
+                        }else{
+                            startTime.setText(outMonthStr + "月" + outDayStr
+                                    + "日  ");
+                        }
                     } else {
                         endTime.setText(dateContent);
                     }
@@ -380,20 +484,31 @@ public class CreateOrdersActivity extends BaseActivity {
         outMonthStr = String.valueOf(curMonth);
         outDayStr = String.valueOf(curDate);
         hourStr = String.valueOf(curHour);
+        if(priceType==1){
+            timeWheelView.setVisibility(View.VISIBLE);
+        }else{
+            timeWheelView.setVisibility(View.GONE);
+        }
     }
 
     private void initTotalTime() {
-        String orderStart = startTime.getText().toString().trim();
-        String orderEnd = endTime.getText().toString().trim();
-        if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
-            long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
-            long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-            int total_time = (int) (endTime - startTime);
-            if (total_time > 0) {
-                totalTime.setText(String.valueOf(total_time / 3600));
-            } else {
-                ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
-                totalTime.setText("0");
+        orderStart = startTime.getText().toString().trim();
+        orderEnd = endTime.getText().toString().trim();
+        if(priceType == 1){
+            int startTimes = (int) TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
+            int endTimes = (int) TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
+            rentTime = (endTimes - startTimes) / 3600;
+            if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
+                long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
+                long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
+                int total_time = (int) (endTime - startTime);
+                if (total_time > 0) {
+                    totalTime.setText(String.valueOf(total_time / 3600));
+                    totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                } else {
+                    ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                    totalTime.setText("0");
+                }
             }
         }
     }
