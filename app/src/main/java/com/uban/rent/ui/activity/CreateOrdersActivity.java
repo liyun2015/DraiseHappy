@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -63,6 +64,56 @@ public class CreateOrdersActivity extends BaseActivity {
     TextView endTime;
     @Bind(R.id.total_time)
     TextView totalTime;
+    @Bind(R.id.top_view)
+    RelativeLayout topView;
+    @Bind(R.id.total_price)
+    TextView totalPrice;
+    @Bind(R.id.bottom_view)
+    LinearLayout bottomView;
+    @Bind(R.id.bottom_line)
+    View bottomLine;
+    @Bind(R.id.build_office_name)
+    TextView buildOfficeName;
+    @Bind(R.id.build_office_address)
+    TextView buildOfficeAddress;
+    @Bind(R.id.station_or_office_str)
+    TextView stationOrOfficeStr;
+    @Bind(R.id.unit_price)
+    TextView unitPrice;
+    @Bind(R.id.term_of_lease_type)
+    TextView termOfLeaseType;
+    @Bind(R.id.meeting_room_name)
+    TextView meetingRoomName;
+    @Bind(R.id.meeting_room_name_layout)
+    RelativeLayout meetingRoomNameLayout;
+    @Bind(R.id.meeting_room_numstr)
+    TextView meetingRoomNumstr;
+    @Bind(R.id.meeting_room_num)
+    TextView meetingRoomNum;
+    @Bind(R.id.meeting_room_num_layout)
+    RelativeLayout meetingRoomNumLayout;
+    @Bind(R.id.station_str)
+    TextView stationStr;
+    @Bind(R.id.add_btn)
+    ImageView addBtn;
+    @Bind(R.id.reduce_btn)
+    ImageView reduceBtn;
+    @Bind(R.id.time_str)
+    TextView timeStr;
+    @Bind(R.id.month_add_btn)
+    ImageView monthAddBtn;
+    @Bind(R.id.reduce_btn_month)
+    ImageView reduceBtnMonth;
+    @Bind(R.id.right_arrows)
+    ImageView rightArrows;
+    @Bind(R.id.start_time_layout)
+    RelativeLayout startTimeLayout;
+    @Bind(R.id.right_arrows1)
+    ImageView rightArrows1;
+    @Bind(R.id.end_time_layout)
+    RelativeLayout endTimeLayout;
+    @Bind(R.id.right_textstr)
+    TextView rightTextstr;
     private int loctionNum = 1;
     private int monthNum = 1;
     private LayoutInflater mInflater;
@@ -86,7 +137,8 @@ public class CreateOrdersActivity extends BaseActivity {
         int price = createOrderParamaBean.getPrice();
         int workDeskPriceType = createOrderParamaBean.getWorkDeskType();
 
-
+        buildOfficeName.setText(spaceDeskName);
+        buildOfficeAddress.setText(spaceDeskAddress);
         initView();
     }
 
@@ -177,9 +229,9 @@ public class CreateOrdersActivity extends BaseActivity {
         if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
             return;
         }
-        int startTimes = (int)TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
-        int endTimes = (int)TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-        int rentTime = (endTimes-startTimes)/3600;
+        int startTimes = (int) TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
+        int endTimes = (int) TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
+        int rentTime = (endTimes - startTimes) / 3600;
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
@@ -324,9 +376,9 @@ public class CreateOrdersActivity extends BaseActivity {
         month_wheelView.setCurrentItem(curMonth - 1);
         day_wheelView.setCurrentItem(curDate - 1);
         timeWheelView.setCurrentItem(curHour - 1);
-        outMonthStr=String.valueOf(curMonth);
-        outDayStr=String.valueOf(curDate);
-        hourStr=String.valueOf(curHour);
+        outMonthStr = String.valueOf(curMonth);
+        outDayStr = String.valueOf(curDate);
+        hourStr = String.valueOf(curHour);
     }
 
     private void initTotalTime() {
@@ -335,10 +387,10 @@ public class CreateOrdersActivity extends BaseActivity {
         if (!TextUtils.isEmpty(orderStart) && !TextUtils.isEmpty(orderEnd)) {
             long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
             long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-            int total_time =  (int)(endTime-startTime);
-            if(total_time>0){
-                totalTime.setText(String.valueOf(total_time/3600));
-            }else{
+            int total_time = (int) (endTime - startTime);
+            if (total_time > 0) {
+                totalTime.setText(String.valueOf(total_time / 3600));
+            } else {
                 ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
                 totalTime.setText("0");
             }
