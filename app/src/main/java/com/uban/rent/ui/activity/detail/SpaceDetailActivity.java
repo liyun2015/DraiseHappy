@@ -331,6 +331,11 @@ public class SpaceDetailActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 跳转工位详情参数
+     * @param position
+     * @return
+     */
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position) {
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
@@ -344,7 +349,7 @@ public class SpaceDetailActivity extends BaseActivity {
         }
         requestGoWorkPlaceDetail.setPrice(price);
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
-        requestGoWorkPlaceDetail.setWorkplaceDetailId(officeSpaceBasicInfoId);
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
         return requestGoWorkPlaceDetail;
     }
 

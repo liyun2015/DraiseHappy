@@ -158,7 +158,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
-
         registerEvents();
         initData();
         initView();
@@ -274,8 +273,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         tabHomeSelect.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {ToastUtil.makeText(mContext,Color.parseColor("#C1893B")+"");
-
+            public void onTabSelected(TabLayout.Tab tab) {
                 clearOverlay();
                 shortRentFlag = tab.getPosition();
                 initData();

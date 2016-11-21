@@ -34,8 +34,8 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
-        final SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = list.get(i);
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        final SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = list.get(position);
         ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_space_detail, null);
@@ -44,6 +44,22 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        holder.bind(mPriceType,spaceDeskTypePriceListBean);
+        holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
+                Intent intent = new Intent();
+                intent.setClass(context, CreateOrdersActivity.class);
+                intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                context.startActivity(intent);
+            }
+        });
+        return convertView;
+    }
+
+    //生成订单参数
+    private CreateOrderParamaBean RequestcreateOrderParamaBean(SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean){
         createOrderParamaBean.setPriceType(mPriceType);
         if (mPriceType ==0){
             createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getHourPrice());
@@ -52,20 +68,8 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         }else if (mPriceType==2){
             createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getWorkDeskPrice());
         }
-
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
-        //createOrderParamaBean.setSpaceDeskId(spaceDeskTypePriceListBean.getId());
-        holder.bind(mPriceType,spaceDeskTypePriceListBean);
-        holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(context, CreateOrdersActivity.class);
-                intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                context.startActivity(intent);
-            }
-        });
-        return convertView;
+        return createOrderParamaBean;
     }
 
     public void changeData(List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list) {
@@ -100,6 +104,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
             }else if (mPriceType==2){
                 tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
             }
+
         }
     }
 
