@@ -15,7 +15,7 @@
     <color name="font_black_2">#616161</color>
     <color name="font_black_3">#757575</color>
     <color name="font_black_4">#9E9E9E</color>
-    <color name="font_black_5">#BDBDBD</color>
+    <color name="font_black_5">#D8D8D8</color>
     <color name="font_black_6">#E0E0E0</color>
     <color name="font_black_7">#F7F7F7</color>
     <color name="font_black_9">#F9F9F9</color>
@@ -26,4 +26,5 @@
 
     <!--黄色-->
     <color name="yellow_background">#FFF5BE</color>
+    <color name="green_background">#47BAB1</color>
 </resources>

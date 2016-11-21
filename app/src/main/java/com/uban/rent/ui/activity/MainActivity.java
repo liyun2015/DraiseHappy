@@ -61,6 +61,7 @@ import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.detail.WorkplaceDetailActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
+import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -578,11 +579,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_order:
                 goActivity(OrderListActivity.class);
                 break;
-            case R.id.nav_message:
-                break;
-            case R.id.nav_share:
-                break;
             case R.id.nav_setting:
+                goActivity(SettingActivity.class);
                 break;
         }
 

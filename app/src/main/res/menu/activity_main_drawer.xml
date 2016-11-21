@@ -11,14 +11,6 @@
             android:icon="@drawable/ic_home_meun_order"
             android:title="订单" />
         <item
-            android:id="@+id/nav_message"
-            android:icon="@drawable/ic_home_meun_message"
-            android:title="消息" />
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_home_meun_share"
-            android:title="分享" />
-        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_home_meun_setting"
             android:title="设置" />

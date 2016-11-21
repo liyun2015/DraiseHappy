@@ -1,14 +1,11 @@
 package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,8 +21,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class MemberFirstActivity extends BaseActivity {
-
+public class MemberFinalActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -33,30 +29,21 @@ public class MemberFirstActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.top_view)
     AppBarLayout topView;
+    @Bind(R.id.member_final_call_phone)
+    LinearLayout memberFinalCallPhone;
     @Bind(R.id.bottom_view)
     LinearLayout bottomView;
-    @Bind(R.id.bottom_line)
-    View bottomLine;
-    @Bind(R.id.activity_uban_member)
-    RelativeLayout activityUbanMember;
-    @Bind(R.id.member_call_phone)
-    LinearLayout memberCallPhone;
-    @Bind(R.id.create_member)
-    TextView createMember;
+    @Bind(R.id.activity_member_final)
+    RelativeLayout activityMemberFinal;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_uban_member_first;
+        return R.layout.activity_member_final;
     }
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initData();
         initView();
-    }
-
-    private void initData() {
-
     }
 
     private void initView() {
@@ -71,25 +58,23 @@ public class MemberFirstActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.share_detail, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.action_share:
-                startActivity(new Intent(mContext,MemberFinalActivity.class));
-                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    @OnClick(R.id.member_final_call_phone)
+    public void onClick() {
+        callPhone();
+    }
+
 
     private void callPhone() {
         RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
@@ -104,15 +89,5 @@ public class MemberFirstActivity extends BaseActivity {
                     }
                 });
     }
-    @OnClick({R.id.member_call_phone, R.id.create_member})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.member_call_phone:
-                callPhone();
-                break;
-            case R.id.create_member:
-                startActivity(new Intent(mContext,MemberCreateActivity.class));
-                break;
-        }
-    }
+
 }
