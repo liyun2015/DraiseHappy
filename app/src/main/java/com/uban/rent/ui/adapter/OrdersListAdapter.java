@@ -76,7 +76,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, 
             String beginTime = TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm");
             String endTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm");
             //2016-11-11 20:32:21
-            String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()),"dd-MM-yyyy HH:mm:ss");
+            String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()/1000),"yyyy-MM-dd HH:mm:ss");
             orderTime.setText(beginTime+"至"+endTiem);
             orderCreateTime.setText(createTiem);
             orderPrice.setText(String.valueOf(resultsBean.getDealPrice()));
