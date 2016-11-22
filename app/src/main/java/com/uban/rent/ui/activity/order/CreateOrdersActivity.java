@@ -175,6 +175,7 @@ public class CreateOrdersActivity extends BaseActivity {
             stationOrOfficeStr.setText("开放工位");
         } else if (workDeskType == 6) {
             stationOrOfficeStr.setText("会议室");
+            loctionNum=1;
         } else if (workDeskType == 7) {
             stationOrOfficeStr.setText("活动场地");
         }
