@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
-                android:text="600"/>
+                android:text="0"/>
         </LinearLayout>
         <TextView
             android:id="@+id/create_member_order"

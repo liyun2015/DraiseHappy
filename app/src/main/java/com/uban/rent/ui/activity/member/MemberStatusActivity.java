@@ -13,17 +13,22 @@ import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.VerifyMemberBean;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class MemberStatusActivity extends BaseActivity {
-
+    public static final int memberType = 1;
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -48,7 +53,10 @@ public class MemberStatusActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        initData();
     }
+
+
 
     private void initView() {
         setSupportActionBar(toolbar);
@@ -59,6 +67,36 @@ public class MemberStatusActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
+    }
+
+    private void initData() {
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(memberType);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 
     @Override

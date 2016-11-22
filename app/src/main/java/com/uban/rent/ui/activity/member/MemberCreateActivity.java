@@ -18,20 +18,26 @@ import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.BaseResultsBean;
+import com.uban.rent.module.request.RequestApplyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.uban.rent.util.SPUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
 import rx.functions.Action1;
-
+import rx.functions.Func1;
 
 
 public class MemberCreateActivity extends BaseActivity {
-
+    public static final int memberType = 1;
+    public static final int memberStatus = 1;
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -131,15 +137,55 @@ public class MemberCreateActivity extends BaseActivity {
                 callPhone();
                 break;
             case R.id.create_member_order:
-                startActivity(new Intent(mContext, MemberStatusActivity.class));
+                String name = createMemberName.getText().toString().trim();
+                String phone = (String) SPUtils.get(mContext,Constants.PHONE,"");
+                initData(name,phone);
                 break;
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+   private void initData(String name,String phone){
+       RequestApplyMember requestApplyMember = new RequestApplyMember();
+       requestApplyMember.setPhone(phone);
+       requestApplyMember.setName(name);
+       requestApplyMember.setStatus(memberStatus);
+       requestApplyMember.setType(memberType);
+       ServiceFactory.getProvideHttpService().getApplyMember(requestApplyMember)
+               .compose(this.<BaseResultsBean>bindToLifecycle())
+               .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+               .doOnSubscribe(new Action0() {
+                   @Override
+                   public void call() {
+                       showLoadingView();
+                   }
+               })
+               .filter(new Func1<BaseResultsBean, Boolean>() {
+                   @Override
+                   public Boolean call(BaseResultsBean baseResultsBean) {
+                       return baseResultsBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                   }
+               })
+               .subscribe(new Action1<BaseResultsBean>() {
+                   @Override
+                   public void call(BaseResultsBean baseResultsBean) {
+                       goActivity(MemberStatusActivity.class);
+                   }
+               }, new Action1<Throwable>() {
+                   @Override
+                   public void call(Throwable throwable) {
+                       hideLoadingView();
+                       ToastUtil.makeText(mContext, "申请会员失败");
+                   }
+               }, new Action0() {
+                   @Override
+                   public void call() {
+                       hideLoadingView();
+                   }
+               });
+   }
+
+    private void goActivity(Class<?> cls){
+        startActivity(new Intent(mContext, cls));
+        finish();
     }
 }
