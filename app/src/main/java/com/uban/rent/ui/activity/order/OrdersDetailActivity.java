@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -78,9 +80,21 @@ public class OrdersDetailActivity extends BaseActivity {
     RelativeLayout activityOrdersDetail;
     @Bind(R.id.meeting_room_name)
     TextView meetingRoomName;
+    @Bind(R.id.order_create)
+    TextView orderCreate;
+    @Bind(R.id.making_call)
+    TextView makingCall;
+    @Bind(R.id.bottom_view)
+    LinearLayout bottomView;
+    @Bind(R.id.bottom_line)
+    View bottomLine;
+    @Bind(R.id.cancel_order_btn)
+    TextView cancelOrderBtn;
+    @Bind(R.id.submit_right_btn)
+    RelativeLayout submitRightBtn;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
-    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
+    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待支付", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
     private int workDeskType;
     private int priceType;
 
@@ -112,31 +126,58 @@ public class OrdersDetailActivity extends BaseActivity {
 //        orderTime.setText(ordertime);
         state = resultsBean.getState();
         int failureAt = resultsBean.getFailureAt();
-        if (state == ORDER_TYPE[0]) {
+        if (state == ORDER_TYPE[0]) {//0取消
             orderState.setText(ORDER_TYPE_STR[0]);
+            orderState.setTextColor(getResources().getColor(R.color.colorGrayHint));
             messageRemindStr.setVisibility(View.GONE);
-        } else if (state == ORDER_TYPE[1]) {
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
+        } else if (state == ORDER_TYPE[1]) {//1等待确认
             orderState.setText(ORDER_TYPE_STR[1]);
+            orderState.setTextColor(getResources().getColor(R.color.colorAccent));
             messageRemindStr.setVisibility(View.VISIBLE);
+            bottomView.setVisibility(View.VISIBLE);
+            bottomLine.setVisibility(View.VISIBLE);
+            orderCreate.setVisibility(View.VISIBLE);
+            makingCall.setVisibility(View.GONE);
+            cancelOrderBtn.setText("取消订单");
             TimeCount time = new TimeCount(failureAt, 1000);
             time.start();// 开始计时
-        } else if (state == ORDER_TYPE[2]) {
+        } else if (state == ORDER_TYPE[2]) {//3等待支付
             orderState.setText(ORDER_TYPE_STR[2]);
+            orderState.setTextColor(getResources().getColor(R.color.colorAccent));
             messageRemindStr.setVisibility(View.VISIBLE);
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
             TimeCount time = new TimeCount(failureAt, 1000);
             time.start();// 开始计时
-        } else if (state == ORDER_TYPE[3]) {
+        } else if (state == ORDER_TYPE[3]) {//4支付成功
             orderState.setText(ORDER_TYPE_STR[3]);
+            orderState.setTextColor(getResources().getColor(R.color.green_background));
             messageRemindStr.setVisibility(View.GONE);
-        } else if (state == ORDER_TYPE[4]) {
+            bottomView.setVisibility(View.VISIBLE);
+            bottomLine.setVisibility(View.VISIBLE);
+            orderCreate.setVisibility(View.GONE);
+            makingCall.setVisibility(View.VISIBLE);
+            cancelOrderBtn.setText("申请退款");
+        } else if (state == ORDER_TYPE[4]) {//7退款成功
             orderState.setText(ORDER_TYPE_STR[4]);
+            orderState.setTextColor(getResources().getColor(R.color.green_background));
             messageRemindStr.setVisibility(View.GONE);
-        } else if (state == ORDER_TYPE[5]) {
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
+        } else if (state == ORDER_TYPE[5]) {//9退款中
             orderState.setText(ORDER_TYPE_STR[5]);
+            orderState.setTextColor(getResources().getColor(R.color.colorAccent));
             messageRemindStr.setVisibility(View.GONE);
-        } else if (state == ORDER_TYPE[6]) {
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
+        } else if (state == ORDER_TYPE[6]) {//13支付失效
             orderState.setText(ORDER_TYPE_STR[6]);
+            orderState.setTextColor(getResources().getColor(R.color.colorGrayHint));
             messageRemindStr.setVisibility(View.GONE);
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
         }
         orderBuildName.setText(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         orderBuildAddress.setText(resultsBean.getOfficespaceBasicinfo().getAddress());
@@ -250,6 +291,17 @@ public class OrdersDetailActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @OnClick({R.id.cancel_order_btn, R.id.submit_right_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_order_btn://取消订单
+                break;
+            case R.id.submit_right_btn:// 提交
+                break;
+        }
+    }
+
     class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
@@ -257,19 +309,19 @@ public class OrdersDetailActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-
+            messageRemindStr.setVisibility(View.GONE);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            int isHourOron =(int) millisUntilFinished/(60*60);
-            if(isHourOron>0){
-                int hour = (int)millisUntilFinished/(60*60);
-                int min = (int)(millisUntilFinished%(60*60))/60;
-                int sec = (int)(millisUntilFinished%(60*60))%60;
-                messageRemindStr.setText(hour+"时"+min+"分"+sec+"秒");
-            }else{
-                messageRemindStr.setText("请在"+(int)millisUntilFinished/60+"分"+millisUntilFinished%60+"秒"+"内完成支付，完了会议室就没有了哦！");
+            int isHourOron = (int) millisUntilFinished / (60 * 60);
+            if (isHourOron > 0) {
+                int hour = (int) millisUntilFinished / (60 * 60);
+                int min = (int) (millisUntilFinished % (60 * 60)) / 60;
+                int sec = (int) (millisUntilFinished % (60 * 60)) % 60;
+                messageRemindStr.setText(hour + "时" + min + "分" + sec + "秒");
+            } else {
+                messageRemindStr.setText("请在" + (int) millisUntilFinished / 60 + "分" + millisUntilFinished % 60 + "秒" + "内完成支付，完了会议室就没有了哦！");
             }
         }
     }
