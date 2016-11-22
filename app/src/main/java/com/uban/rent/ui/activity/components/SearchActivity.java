@@ -1,10 +1,13 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.components;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -16,17 +19,19 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.events.SearchHomeViewEvents;
+import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.flowlayout.FlowLayout;
 import com.uban.rent.ui.view.flowlayout.TagAdapter;
 import com.uban.rent.ui.view.flowlayout.TagFlowLayout;
+import com.uban.rent.util.KeyboardUtils;
 
 import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements TextView.OnEditorActionListener{
 
     @Bind(R.id.search_back)
     ImageView searchBack;
@@ -61,6 +66,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initView() {
+        editSearch.setOnEditorActionListener(this);
         TagAdapter<String> tagAdapter = new TagAdapter<String>(mVals) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
@@ -159,5 +165,21 @@ public class SearchActivity extends BaseActivity {
                 cleanHistory();
                 break;
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            String inputStr = editSearch.getText().toString().trim();
+            if (TextUtils.isEmpty(inputStr)){
+                KeyboardUtils.hideSoftInput(mActivity);
+                ToastUtil.makeText(mContext,"搜索内容不能为空");
+            }else {
+                sendEvents(inputStr);
+                saveHistory(inputStr);
+            }
+            return true;
+        }
+        return false;
     }
 }
