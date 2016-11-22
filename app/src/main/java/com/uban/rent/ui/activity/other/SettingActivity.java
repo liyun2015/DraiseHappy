@@ -1,9 +1,12 @@
 package com.uban.rent.ui.activity.other;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -11,6 +14,9 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.activity.LoginActivity;
+import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
+import com.uban.rent.util.SPUtils;
 
 import butterknife.Bind;
 
@@ -35,8 +41,47 @@ public class SettingActivity extends BaseActivity {
         initView();
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, ITEM_LIST);
         lvSetting.setAdapter(stringArrayAdapter);
-
+        lvSetting.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        siginOut();
+                        break;
+                }
+            }
+        });
     }
+
+    /**
+     * 退出登录
+     */
+    private void siginOut() {
+        AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+        alertDialogStyleApp.builder()
+                .setMsg("退出登录")
+                .setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SPUtils.clear(mContext);
+                        Intent intent = new Intent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setClass(mContext, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                }).show();
+    }
+
     private void initView() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
