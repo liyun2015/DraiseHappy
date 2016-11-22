@@ -47,7 +47,7 @@ import rx.functions.Func1;
 /**
  * 工位详情页
  */
-public class WorkplaceDetailActivity extends BaseActivity {
+public class StationDetailActivity extends BaseActivity {
     public static final String KEY_BUILD_WORK_PLACE_DETAIL = "keyWorkplaceDetail";
 
     @Bind(R.id.toolbar_content_text)

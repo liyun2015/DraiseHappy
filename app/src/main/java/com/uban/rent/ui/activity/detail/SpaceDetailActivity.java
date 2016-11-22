@@ -323,8 +323,8 @@ public class SpaceDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
-                intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL, requestGoWorkPlaceDetailBean(i));
+                intent.setClass(mContext, StationDetailActivity.class);
+                intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL, requestGoWorkPlaceDetailBean(i));
                 intent.putExtra(KEY_BUILD_SPACE_DETAIL, requestGoSpaceDetail);
                 startActivity(intent);
             }

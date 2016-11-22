@@ -21,12 +21,11 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.uban.rent.ui.activity.order.OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN;
-
 /**
  * 订单详情页
  */
 public class OrdersDetailActivity extends BaseActivity {
+    public static final String KEY_ORDER_NO = "orderNo";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -51,7 +50,7 @@ public class OrdersDetailActivity extends BaseActivity {
     TextView priceOfType;
     @Bind(R.id.station_str)
     TextView stationStr;
-
+    private String orderNo;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_orders_detail;
@@ -59,6 +58,7 @@ public class OrdersDetailActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        orderNo = getIntent().getStringExtra(KEY_ORDER_NO);
         initView();
     }
 
@@ -76,7 +76,7 @@ public class OrdersDetailActivity extends BaseActivity {
 
     private void initData() {
         RequestOrderDetailBean requestOrderDetailBean=new RequestOrderDetailBean();
-        requestOrderDetailBean.setOrderNo("12336");
+        requestOrderDetailBean.setOrderNo(orderNo);
         ServiceFactory.getProvideHttpService().getOrderDetail(requestOrderDetailBean)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())

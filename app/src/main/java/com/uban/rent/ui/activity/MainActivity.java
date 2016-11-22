@@ -58,8 +58,8 @@ import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
+import com.uban.rent.ui.activity.detail.StationDetailActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
-import com.uban.rent.ui.activity.detail.WorkplaceDetailActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
@@ -317,8 +317,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
                 Intent intent = new Intent();
-                intent.setClass(mContext, WorkplaceDetailActivity.class);
-                intent.putExtra(WorkplaceDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
+                intent.setClass(mContext, StationDetailActivity.class);
+                intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
                 intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
                 startActivity(intent);
             }

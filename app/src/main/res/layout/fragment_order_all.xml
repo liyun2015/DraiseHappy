@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uban.rent.ui.fragment.order.OrderAllFragment">
+    tools:context="com.uban.rent.ui.fragment.OrderListFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_user_order"
@@ -16,6 +16,4 @@
             android:divider="@color/font_black_7"
             android:layout_height="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-
-
 </FrameLayout>

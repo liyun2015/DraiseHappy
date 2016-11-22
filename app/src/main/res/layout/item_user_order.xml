@@ -15,12 +15,14 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
         <TextView
+            android:id="@+id/order_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单编号：161109"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"/>
         <TextView
+            android:id="@+id/order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单状态：支付成功"
@@ -37,6 +39,7 @@
         android:background="@color/divider_1"/>
 
     <TextView
+        android:id="@+id/order_building_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="科技寺－北新桥"
@@ -49,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/order_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
@@ -61,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/order_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
@@ -82,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/order_station_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="独立工位"
@@ -92,6 +98,7 @@
             android:textSize="10sp"
             android:background="#F1F5FC"/>
         <TextView
+            android:id="@+id/order_create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
