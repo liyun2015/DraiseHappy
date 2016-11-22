@@ -42,7 +42,7 @@ public interface ApiClient {
     Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 
     //订单支付后提交
-    @POST("http://192.168.0.21:30104/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
+    @POST("/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> paymentShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
 
     //取消订单
