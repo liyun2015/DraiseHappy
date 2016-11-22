@@ -7,9 +7,11 @@ package com.uban.rent.util;
  */
 
 public class Constants {
-    public static final String UBAN_TOKEN = "ubanToken";
-    public static final String TOKEN = "token";
+    public static final String UBAN_TOKEN = "ubanToken";//session
+    public static final String TOKEN = "token";//time
     public static final String UBAN_CITY = "ubanCity";
+    public static final String NICK_NAME = "nickName";
+    public static final String PHONE = "Phone";
     public static final String RESERVED = "reserved";
     public static final String RESERVED_PHONE = "android";
     public static final String[] CITY_ID= new String[] { "12", "13"};
@@ -21,4 +23,6 @@ public class Constants {
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/cybg/%s-n240x180";
     public static final String APP_IMG_PANORAMA_URL = "http://img1.static.uban.com/cybg/%s-w2048x1024N";
     public static final String APP_IMG_URL_EQUIPMENT_SERVICE = "http://img2.static.uban.com/spacelogo/";
+
+
 }

@@ -1,16 +1,20 @@
 package com.uban.rent.network;
 
 
+import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.HomeDatasBean;
+import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.OrderListBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestHomeData;
+import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestOrderDetailBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.RequestRentOrderList;
+import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 
@@ -25,6 +29,14 @@ import rx.Observable;
  */
 
 public interface ApiClient {
+    //登录
+    @POST("/mainapi/userProvider/loginNew")
+    Observable<LoginInBean> getLogin(@Body RequestLogin requestLogin);
+
+    //发送验证码
+    @POST("/mainapi/userProvider/sendValidSms")
+    Observable<BaseResultsBean> getSendValidSms(@Body RequestSendValid requestSendValid);
+
     //首页数据
     @POST("/mainapi/officespaceBasicProvider/findShortRentOfficesapces")
     Observable<HomeDatasBean> getFindShortRentOfficeSpaces(@Body RequestHomeData requestHomeData);
