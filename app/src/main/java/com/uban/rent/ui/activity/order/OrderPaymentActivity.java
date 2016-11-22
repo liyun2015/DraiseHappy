@@ -126,7 +126,7 @@ public class OrderPaymentActivity extends BaseActivity {
     private void initData() {
         RequestCreatShortRentOrderBean.ResultsBean resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
         orderNum = resultsBean.getOrderNo();
-        orderNumber.setText(orderNum);
+        orderNumber.setText("订单标号："+orderNum);
         orderTime.setText(resultsBean.getCreatAt());
         int state = resultsBean.getState();
         if (state == 3) {
