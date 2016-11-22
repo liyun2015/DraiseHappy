@@ -17,7 +17,6 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
-import com.uban.rent.module.request.RequestRentOrderList;
 import com.uban.rent.network.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -56,6 +55,8 @@ public class OrderPaymentActivity extends BaseActivity {
     TextView cancelOrderBtn;
     private int payType = 1;//1支付宝，2微信
     private String orderNum;
+    private int state;
+    private int workdeskType;
 
     @Override
     protected int getLayoutId() {
@@ -128,10 +129,11 @@ public class OrderPaymentActivity extends BaseActivity {
         orderNum = resultsBean.getOrderNo();
         orderNumber.setText("订单编号："+orderNum);
         orderTime.setText(resultsBean.getCreatAt());
-        int state = resultsBean.getState();
+        state = resultsBean.getState();
         if (state == 3) {
             orderState.setText("等待支付");
         }
+        workdeskType = resultsBean.getWorkDeskType();
     }
 
     @Override
@@ -152,8 +154,11 @@ public class OrderPaymentActivity extends BaseActivity {
     }
 
 
-    private void goActivity(Class<?> cls) {
-        startActivity(new Intent(mContext, cls));
+    private void goActivity(Class<?> cls,RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext,cls);
+        orderIntent.putExtra(OrdersDetailActivity.KEY_ORDER_NUMBER,String.valueOf(resultsBean.getOrderNo()));
+        startActivity(orderIntent);
     }
 
     @OnClick({R.id.cancel_order_btn, R.id.order_create})
@@ -169,14 +174,12 @@ public class OrderPaymentActivity extends BaseActivity {
                 break;
         }
     }
-
+    // 取消订单
     private void cancelShortRentOrder() {
         RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
-        requestPaymentOrder.setDealPrice(2000.00);
         requestPaymentOrder.setOrderNo(orderNum);
-        requestPaymentOrder.setPaymentAtString(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis()/1000),"yyyy-MM-dd"));
-        requestPaymentOrder.setPayType(payType);
-        requestPaymentOrder.setPayStatus(1);
+        requestPaymentOrder.setState(state);
+        requestPaymentOrder.setWorkDeskType(workdeskType);
         ServiceFactory.getProvideHttpService().cancelShortRentOrder(requestPaymentOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
@@ -203,7 +206,7 @@ public class OrderPaymentActivity extends BaseActivity {
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
                         int status = resultsBean.getPayStatus();
-                        goActivity(OrdersDetailActivity.class);
+                        goActivity(OrdersDetailActivity.class,resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -252,7 +255,7 @@ public class OrderPaymentActivity extends BaseActivity {
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
                         int status = resultsBean.getPayStatus();
-                        goActivity(OrdersDetailActivity.class);
+                        goActivity(OrdersDetailActivity.class,resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override

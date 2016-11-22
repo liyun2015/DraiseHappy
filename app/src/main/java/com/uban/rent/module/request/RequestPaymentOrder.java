@@ -19,6 +19,20 @@ public class RequestPaymentOrder {
     private int payStatus;
     private String paymentAtString;
     private double dealPrice;
+    private int state;
+    private int workDeskType;
+    public int getState() {
+        return state;
+    }
+    public void setState(int state) {
+        this.state = state;
+    }
+    public int getWorkDeskType() {
+        return workDeskType;
+    }
+    public void setWorkDeskType(int workDeskType) {
+        this.workDeskType = workDeskType;
+    }
 
     public String getOrderNo() {
         return orderNo;

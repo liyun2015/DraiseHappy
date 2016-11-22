@@ -205,6 +205,16 @@ public class RequestCreatShortRentOrderBean implements Serializable{
         private int workDeskType;
         private String creatAt;
         private int failureAt;
+        private int unitPrice;
+
+        public int getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(int unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
         public String getCreatAt() {
             return creatAt;
         }

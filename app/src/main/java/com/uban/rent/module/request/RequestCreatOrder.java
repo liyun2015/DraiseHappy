@@ -33,6 +33,15 @@ public class RequestCreatOrder {
     private int rentTime;
     private int rentType;
     private long failureTime;
+    private int unitPrice;
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
 
     public String getCellPhone() {
         return cellPhone;
