@@ -1,8 +1,8 @@
-package com.uban.rent.network.config;
+package com.uban.rent.api.config;
 
 
-import com.uban.rent.network.ApiClient;
-import com.uban.rent.network.HttpClient;
+import com.uban.rent.api.ApiClient;
+import com.uban.rent.api.HttpClient;
 
 import java.util.HashMap;
 import java.util.Map;

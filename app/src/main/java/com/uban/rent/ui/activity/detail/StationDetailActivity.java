@@ -24,8 +24,8 @@ import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
-import com.uban.rent.network.config.HeaderConfig;
-import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
@@ -47,7 +47,7 @@ import rx.functions.Func1;
 /**
  * 工位详情页
  */
-public class WorkplaceDetailActivity extends BaseActivity {
+public class StationDetailActivity extends BaseActivity {
     public static final String KEY_BUILD_WORK_PLACE_DETAIL = "keyWorkplaceDetail";
 
     @Bind(R.id.toolbar_content_text)

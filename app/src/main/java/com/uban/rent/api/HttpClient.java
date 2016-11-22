@@ -1,8 +1,8 @@
-package com.uban.rent.network;
+package com.uban.rent.api;
 
 
 import com.uban.rent.App;
-import com.uban.rent.network.config.RequestInterceptor;
+import com.uban.rent.api.config.RequestInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

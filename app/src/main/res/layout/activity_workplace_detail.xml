@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.activity.detail.WorkplaceDetailActivity">
+    tools:context="com.uban.rent.ui.activity.detail.StationDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"

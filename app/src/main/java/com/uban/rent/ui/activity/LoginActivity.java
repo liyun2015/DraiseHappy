@@ -1,5 +1,6 @@
 package com.uban.rent.ui.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,14 +17,24 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.BaseResultsBean;
+import com.uban.rent.module.LoginInBean;
+import com.uban.rent.module.request.RequestLogin;
+import com.uban.rent.module.request.RequestSendValid;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.util.Constants;
+import com.uban.rent.util.SPUtils;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class LoginActivity extends BaseActivity {
 
@@ -147,7 +158,9 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
-                    loginApp();
+                    //loginApp();
+                    startActivity(new Intent(mContext,MainActivity.class));
+                    finish();
                 }
                 break;
         }
@@ -156,29 +169,70 @@ public class LoginActivity extends BaseActivity {
 
     //登录
     private void loginApp() {
-
+        RequestLogin requestLogin = new RequestLogin();
+        requestLogin.setPhone(phone);
+        requestLogin.setCode(code);
+        ServiceFactory.getProvideHttpService().getLogin(requestLogin)
+                .compose(this.<LoginInBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<LoginInBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<LoginInBean, Boolean>() {
+                    @Override
+                    public Boolean call(LoginInBean loginInBean) {
+                        return loginInBean.getStatusCode()== Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<LoginInBean, LoginInBean.ResultsBean>() {
+                    @Override
+                    public LoginInBean.ResultsBean call(LoginInBean loginInBean) {
+                        return loginInBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<LoginInBean.ResultsBean>() {
+                    @Override
+                    public void call(LoginInBean.ResultsBean resultsBean) {
+                        SPUtils.put(mContext,Constants.NICK_NAME,resultsBean.getNickname());
+                        SPUtils.put(mContext, Constants.UBAN_TOKEN,resultsBean.getToken());
+                        SPUtils.put(mContext,Constants.PHONE,resultsBean.getPhone());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext,"登录失败");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
 
     }
 
     //发送验证码
     private void sendCode() {
-       /* ServiceFactory.getProvideHttpService().getSendValidSms(phone)
-                .compose(RxSchedulersHelper.<String>io_main())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
+        RequestSendValid requestSendValid = new RequestSendValid();
+        requestSendValid.setPhone(phone);
+       ServiceFactory.getProvideHttpService().getSendValidSms(requestSendValid)
+               .compose(this.<BaseResultsBean>bindToLifecycle())
+               .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+               .subscribe(new Action1<BaseResultsBean>() {
+                   @Override
+                   public void call(BaseResultsBean baseResultsBean) {
 
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
+                   }
+               }, new Action1<Throwable>() {
+                   @Override
+                   public void call(Throwable throwable) {
 
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
-                    }
-                });*/
+                   }
+               });
     }
 
     class TimeCount extends CountDownTimer {

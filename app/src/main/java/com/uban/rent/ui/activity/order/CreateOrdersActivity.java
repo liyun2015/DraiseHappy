@@ -21,7 +21,7 @@ import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
-import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
 import com.uban.rent.ui.view.wheelview.WheelView;
@@ -30,7 +30,6 @@ import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 import butterknife.Bind;
