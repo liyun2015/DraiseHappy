@@ -1,5 +1,6 @@
 package com.uban.rent.ui.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,7 +22,7 @@ import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
-import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.SPUtils;
@@ -157,7 +158,9 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
-                    loginApp();
+                    //loginApp();
+                    startActivity(new Intent(mContext,MainActivity.class));
+                    finish();
                 }
                 break;
         }

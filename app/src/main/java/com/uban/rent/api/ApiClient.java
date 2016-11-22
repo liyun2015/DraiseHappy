@@ -1,4 +1,4 @@
-package com.uban.rent.network;
+package com.uban.rent.api;
 
 
 import com.uban.rent.module.BaseResultsBean;
@@ -6,7 +6,9 @@ import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.OrderListBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.WorkplaceDetailBean;
+import com.uban.rent.module.request.RequestApplyMember;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestHomeData;
@@ -16,6 +18,7 @@ import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.RequestRentOrderList;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestSpaceDetail;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 
 import retrofit2.http.Body;
@@ -68,4 +71,12 @@ public interface ApiClient {
     //订单列表
     @POST("/mainapi/officespaceSROrderProvider/shortRentOrder")
     Observable<OrderListBean> getShortRentOrder(@Body RequestRentOrderList requestRentOrderList);
+
+    //申请会员
+    @POST("/mainapi/officespaceMemberProvider/applyMember")
+    Observable<BaseResultsBean> getApplyMember(@Body RequestApplyMember requestApplyMember);
+
+    //验证会员
+    @POST("/mainapi/officespaceMemberProvider/verifyMember")
+    Observable<VerifyMemberBean> getVerifyMember(@Body RequestVerifyMember requestVerifyMember);
 }

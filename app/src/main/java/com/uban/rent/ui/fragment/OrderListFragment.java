@@ -13,7 +13,7 @@ import com.uban.rent.base.BaseFragment;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.OrderListBean;
 import com.uban.rent.module.request.RequestRentOrderList;
-import com.uban.rent.network.config.ServiceFactory;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.adapter.OrdersListAdapter;
 import com.uban.rent.ui.view.ToastUtil;

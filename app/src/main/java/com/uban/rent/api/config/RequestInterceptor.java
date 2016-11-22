@@ -1,4 +1,4 @@
-package com.uban.rent.network.config;
+package com.uban.rent.api.config;
 
 
 import com.uban.rent.util.Constants;
