@@ -91,6 +91,7 @@
             android:src="@drawable/ic_arrow_right_gray"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="15dp"
@@ -106,7 +107,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
         <TextView
-            android:id="@+id/price_of_hour"
+            android:id="@+id/price_of_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="50元/时"
@@ -118,12 +119,13 @@
             android:id="@+id/price_of_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/price_of_hour"
+            android:layout_toLeftOf="@id/price_of_order"
             android:layout_marginRight="15dp"
             android:text="时租"
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/white"
@@ -146,6 +148,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
     <RelativeLayout
+        android:id="@+id/meeting_room_name_layout"
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
@@ -160,6 +163,7 @@
             android:textColor="@color/colorGray"
             android:textSize="13sp" />
         <TextView
+            android:id="@+id/meeting_room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -232,6 +236,7 @@
             android:textSize="15sp" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/start_time_layout"
         android:layout_width="match_parent"
         android:padding="15dp"
         android:background="@color/white"
@@ -256,6 +261,7 @@
             android:textSize="13sp" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/end_time_layout"
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
@@ -362,7 +368,7 @@
             android:text="4小时" />
 
         <TextView
-            android:id="@+id/price_single_hour"
+            android:id="@+id/price_single"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"

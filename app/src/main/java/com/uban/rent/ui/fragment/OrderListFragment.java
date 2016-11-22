@@ -93,7 +93,7 @@ public class OrderListFragment extends BaseFragment {
                 OrderListBean.ResultsBean resultsBean = listBeen.get(position);
                 Intent intent = new Intent();
                 intent.setClass(mContext, OrdersDetailActivity.class);
-                intent.putExtra(OrdersDetailActivity.KEY_ORDER_NO,resultsBean.getOrderNo());
+                intent.putExtra(OrdersDetailActivity.KEY_ORDER_NUMBER,resultsBean.getOrderNo());
                 mContext.startActivity(intent);
             }
         });

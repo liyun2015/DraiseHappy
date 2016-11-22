@@ -342,13 +342,14 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
         requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
-        requestCreatOrder.setCellPhone("13693133934");
+        requestCreatOrder.setCellPhone("13693133936");
         requestCreatOrder.setRentType(priceType);
         requestCreatOrder.setReserved("android");
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(workDeskType);
         requestCreatOrder.setWorkDeskNum(loctionNum);
         requestCreatOrder.setSpaceId(spaceDeskId);
+        requestCreatOrder.setUnitPrice(price);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
