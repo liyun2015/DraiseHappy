@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.activity.SearchActivity">
+    tools:context="com.uban.rent.ui.activity.components.SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

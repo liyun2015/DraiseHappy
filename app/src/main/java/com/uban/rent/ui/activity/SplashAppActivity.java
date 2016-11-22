@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -36,7 +37,11 @@ public class SplashAppActivity extends BaseActivity {
     }
 
     private void initData() {
-        goActivity(LoginActivity.class);
+        if (HeaderConfig.isEmptyUbanToken()){
+            goActivity(LoginActivity.class);
+        }else {
+            goActivity(MainActivity.class);
+        }
     }
     private void goActivity(Class<?> cls) {
         startActivity(new Intent(mContext, cls));

@@ -16,13 +16,13 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
-import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.SPUtils;
@@ -158,9 +158,7 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
-                    //loginApp();
-                    startActivity(new Intent(mContext,MainActivity.class));
-                    finish();
+                    loginApp();
                 }
                 break;
         }
@@ -199,6 +197,8 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(mContext,Constants.NICK_NAME,resultsBean.getNickname());
                         SPUtils.put(mContext, Constants.UBAN_TOKEN,resultsBean.getToken());
                         SPUtils.put(mContext,Constants.PHONE,resultsBean.getPhone());
+                        startActivity(new Intent(mContext,MainActivity.class));
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override

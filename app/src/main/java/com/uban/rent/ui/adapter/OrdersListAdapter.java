@@ -80,7 +80,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, 
             orderTime.setText(beginTime+"至"+endTiem);
             orderCreateTime.setText(createTiem);
             orderPrice.setText(String.valueOf(resultsBean.getDealPrice()));
-            orderStationType.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()-1]);
+            orderStationType.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()]);
         }
 
         private String orderStatus(int status){

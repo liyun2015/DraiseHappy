@@ -57,6 +57,7 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.api.config.ServiceFactory;
+import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
