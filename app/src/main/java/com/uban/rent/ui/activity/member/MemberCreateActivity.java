@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,10 +24,14 @@ import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
+
+
 public class MemberCreateActivity extends BaseActivity {
+
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -31,14 +39,30 @@ public class MemberCreateActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.top_view)
     AppBarLayout topView;
-    @Bind(R.id.member_call_phone)
-    LinearLayout memberCallPhone;
-    @Bind(R.id.create_member)
-    TextView createMember;
+    @Bind(R.id.create_member_call_phone)
+    LinearLayout createMemberCallPhone;
+    @Bind(R.id.create_member_total)
+    TextView createMemberTotal;
+    @Bind(R.id.create_member_order)
+    TextView createMemberOrder;
     @Bind(R.id.bottom_view)
     LinearLayout bottomView;
     @Bind(R.id.bottom_line)
     View bottomLine;
+    @Bind(R.id.create_member_name)
+    AppCompatEditText createMemberName;
+    @Bind(R.id.create_member_phone)
+    TextView createMemberPhone;
+    @Bind(R.id.create_member_price)
+    TextView createMemberPrice;
+    @Bind(R.id.create_member_date)
+    TextView createMemberDate;
+    @Bind(R.id.create_member_special_price)
+    TextView createMemberSpecialPrice;
+    @Bind(R.id.create_member_expiry_date)
+    TextView createMemberExpiryDate;
+    @Bind(R.id.create_member_service_provision)
+    TextView createMemberServiceProvision;
     @Bind(R.id.activity_member_create)
     RelativeLayout activityMemberCreate;
 
@@ -61,8 +85,17 @@ public class MemberCreateActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
-    }
 
+        SpannableString createMemberPriceSpannableString = new SpannableString("500");
+        StrikethroughSpan createMemberPriceStrikethroughSpan = new StrikethroughSpan();
+        createMemberPriceSpannableString.setSpan(createMemberPriceStrikethroughSpan, 0, createMemberPriceSpannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        createMemberPrice.setText(createMemberPriceSpannableString);
+
+        SpannableString createMemberDateSpannableString = new SpannableString("元/月");
+        StrikethroughSpan createMemberDateStrikethroughSpan = new StrikethroughSpan();
+        createMemberDateSpannableString.setSpan(createMemberDateStrikethroughSpan, 0, createMemberDateSpannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        createMemberDate.setText(createMemberDateSpannableString);
+    }
 
 
     @Override
@@ -91,15 +124,22 @@ public class MemberCreateActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.member_call_phone, R.id.create_member})
+    @OnClick({R.id.create_member_call_phone, R.id.create_member_order})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.member_call_phone:
+            case R.id.create_member_call_phone:
                 callPhone();
                 break;
-            case R.id.create_member:
-                startActivity(new Intent(mContext,MemberStatusActivity.class));
+            case R.id.create_member_order:
+                startActivity(new Intent(mContext, MemberStatusActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
