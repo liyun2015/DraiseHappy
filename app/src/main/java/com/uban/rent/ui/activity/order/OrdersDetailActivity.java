@@ -1,6 +1,7 @@
 package com.uban.rent.ui.activity.order;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -79,7 +80,7 @@ public class OrdersDetailActivity extends BaseActivity {
     TextView meetingRoomName;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
-    private static final String[] ORDER_TYPE_STR = new String[]{"取消", "等待确认", "等待支付", "支付成功", "退款成功", "退款中", "支付失效"};
+    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
     private int workDeskType;
     private int priceType;
 
@@ -107,22 +108,35 @@ public class OrdersDetailActivity extends BaseActivity {
 
     private void initDataView(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
         orderNumber.setText("订单编号：" + resultsBean.getOrderNo());
-        orderTime.setText(resultsBean.getCreatAt());
+//        String ordertime = TimeUtils.formatTime(String.valueOf((Integer.parseInt(resultsBean.getCreatAt())/1000)),"yyyy-MM-dd HH:mm:ss");
+//        orderTime.setText(ordertime);
         state = resultsBean.getState();
+        int failureAt = resultsBean.getFailureAt();
         if (state == ORDER_TYPE[0]) {
             orderState.setText(ORDER_TYPE_STR[0]);
+            messageRemindStr.setVisibility(View.GONE);
         } else if (state == ORDER_TYPE[1]) {
             orderState.setText(ORDER_TYPE_STR[1]);
+            messageRemindStr.setVisibility(View.VISIBLE);
+            TimeCount time = new TimeCount(failureAt, 1000);
+            time.start();// 开始计时
         } else if (state == ORDER_TYPE[2]) {
             orderState.setText(ORDER_TYPE_STR[2]);
+            messageRemindStr.setVisibility(View.VISIBLE);
+            TimeCount time = new TimeCount(failureAt, 1000);
+            time.start();// 开始计时
         } else if (state == ORDER_TYPE[3]) {
             orderState.setText(ORDER_TYPE_STR[3]);
+            messageRemindStr.setVisibility(View.GONE);
         } else if (state == ORDER_TYPE[4]) {
             orderState.setText(ORDER_TYPE_STR[4]);
+            messageRemindStr.setVisibility(View.GONE);
         } else if (state == ORDER_TYPE[5]) {
             orderState.setText(ORDER_TYPE_STR[5]);
+            messageRemindStr.setVisibility(View.GONE);
         } else if (state == ORDER_TYPE[6]) {
             orderState.setText(ORDER_TYPE_STR[6]);
+            messageRemindStr.setVisibility(View.GONE);
         }
         orderBuildName.setText(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         orderBuildAddress.setText(resultsBean.getOfficespaceBasicinfo().getAddress());
@@ -131,7 +145,6 @@ public class OrdersDetailActivity extends BaseActivity {
             meetingRoomNameLayout.setVisibility(View.VISIBLE);
             stationStr.setText("间");
             orderNumberOfStation.setText("1");
-            meetingRoomName.setText("");
         } else {
             meetingRoomNameLayout.setVisibility(View.GONE);
             stationStr.setText("工位");
@@ -236,5 +249,28 @@ public class OrdersDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            int isHourOron =(int) millisUntilFinished/(60*60);
+            if(isHourOron>0){
+                int hour = (int)millisUntilFinished/(60*60);
+                int min = (int)(millisUntilFinished%(60*60))/60;
+                int sec = (int)(millisUntilFinished%(60*60))%60;
+                messageRemindStr.setText(hour+"时"+min+"分"+sec+"秒");
+            }else{
+                messageRemindStr.setText("请在"+(int)millisUntilFinished/60+"分"+millisUntilFinished%60+"秒"+"内完成支付，完了会议室就没有了哦！");
+            }
+        }
     }
 }

@@ -6,8 +6,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:background="@color/white"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -23,13 +23,13 @@
                 android:text="订单编号：163887"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:text="2016.11.17 20:15:23"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/colorGrayHint"
@@ -39,20 +39,19 @@
             android:id="@+id/order_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="订单状态：等待支付"
             android:layout_marginRight="15dp"
             android:textColor="@color/colorAccent"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:background="@color/font_black_9"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -69,13 +68,13 @@
                 android:layout_marginLeft="15dp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/order_build_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:drawableLeft="@drawable/location_icon"
                 android:drawablePadding="5dp"
                 android:text="北京东城区东四北大街107号  科林大厦B座108室"
@@ -94,7 +93,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_height="wrap_content">
@@ -105,7 +107,7 @@
             android:text="独立工位"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/price_of_order"
             android:layout_width="wrap_content"
@@ -114,7 +116,7 @@
             android:layout_alignParentRight="true"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
         <TextView
             android:id="@+id/price_of_type"
             android:layout_width="wrap_content"
@@ -123,9 +125,8 @@
             android:layout_marginRight="15dp"
             android:text="时租"
             android:textColor="@color/colorGray"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/white"
@@ -135,7 +136,7 @@
         <View
             android:layout_width="match_parent"
             android:background="@color/divider_2"
-            android:layout_height="0.6dp"/>
+            android:layout_height="0.1dp"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -144,7 +145,7 @@
         android:text="预定信息"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        android:paddingTop="15dp"
+        android:paddingTop="10dp"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
     <RelativeLayout
@@ -152,7 +153,7 @@
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        android:paddingTop="15dp"
+        android:paddingTop="10dp"
         android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
@@ -173,7 +174,10 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
@@ -183,15 +187,34 @@
             android:layout_centerVertical="true"
             android:textColor="@color/colorGray"
             android:textSize="13sp" />
-        <TextView
-            android:id="@+id/station_str"
+        <RelativeLayout
+            android:id="@+id/station_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="工位"
-            android:layout_centerVertical="true"
+            android:gravity="center"
             android:layout_alignParentRight="true"
-            android:textColor="@color/colorGray"
-            android:textSize="13sp" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/station"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工位"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:visibility="invisible"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/station_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工位"
+                android:layout_alignLeft="@id/station"
+                android:layout_alignRight="@id/station"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorGray"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/station_num"
             android:layout_width="wrap_content"
@@ -199,7 +222,7 @@
             android:text="12"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/station_str"
+            android:layout_toLeftOf="@id/station_layout"
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -216,14 +239,32 @@
             android:layout_centerVertical="true"
             android:textColor="@color/colorGray"
             android:textSize="13sp" />
-        <TextView
-            android:id="@+id/time_str"
+        <RelativeLayout
+            android:id="@+id/time_str_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="    时"
-            android:textColor="@color/colorGray"
-            android:textSize="13sp"
-            android:layout_alignParentRight="true" />
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工位"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/time_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textView"
+                android:layout_alignRight="@id/textView"
+                android:gravity="center"
+                android:text="时"
+                android:textColor="@color/colorGray"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/time_num"
             android:layout_width="wrap_content"
@@ -231,14 +272,17 @@
             android:text="4"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/time_str"
+            android:layout_toLeftOf="@id/time_str_layout"
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/start_time_layout"
         android:layout_width="match_parent"
-        android:padding="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/white"
         android:layout_height="wrap_content">
 
@@ -289,12 +333,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/white"
-        android:padding="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="wrap_content">
         <View
             android:layout_width="match_parent"
             android:background="@color/divider_2"
-            android:layout_height="0.6dp"/>
+            android:layout_height="0.1dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -344,7 +391,7 @@
         android:paddingLeft="15dp"
         android:background="@color/white"
         android:paddingRight="15dp"
-        android:paddingBottom="15dp"
+        android:paddingBottom="10dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -387,9 +434,5 @@
             android:text="200元"
             android:id="@+id/price_in_tota" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider_2"
-        android:layout_height="0.6dp"/>
 
 </LinearLayout>

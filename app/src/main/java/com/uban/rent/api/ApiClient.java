@@ -41,35 +41,35 @@ public interface ApiClient {
     Observable<BaseResultsBean> getSendValidSms(@Body RequestSendValid requestSendValid);
 
     //首页数据
-    @POST("/mainapi/officespaceBasicProvider/findShortRentOfficesapces")
+    @POST("/mainapi/dzofficespaceBasicProvider/findShortRentOfficesapces")
     Observable<HomeDatasBean> getFindShortRentOfficeSpaces(@Body RequestHomeData requestHomeData);
 
     //空间详情
-    @POST("/mainapi/officespaceBasicProvider/officeSpaceInfo")
+    @POST("/mainapi/dzofficespaceBasicProvider/officeSpaceInfo")
     Observable<SpaceDetailBean> getOfficeSpaceInfo(@Body RequestSpaceDetail requestSpaceDetail);
 
     //工位详情
-    @POST("/mainapi/officespaceDeskBasicProvider/officespaceWorkdeskInfo")
+    @POST("/mainapi/dzofficespaceDeskBasicProvider/officespaceWorkdeskInfo")
     Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
 
     //创建订单
-    @POST("/mainapi/officespaceSROrderProvider/creatShortRentOrder")
+    @POST("/mainapi/dzofficespaceSROrderProvider/creatShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 
     //订单支付后提交
-    @POST("/mainapi/officespaceSROrderProvider/paymentShortRentOrder")
+    @POST("/mainapi/dzofficespaceSROrderProvider/paymentShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> paymentShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
 
     //取消订单
-    @POST("/mainapi/officespaceSROrderProvider/cancelShortRentOrder")
+    @POST("/mainapi/dzofficespaceSROrderProvider/cancelShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> cancelShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
 
     //订单详情
-    @POST("/mainapi/officespaceSROrderProvider/officespaceShortRentOrderInfo")
+    @POST("/mainapi/dzofficespaceSROrderProvider/officespaceShortRentOrderInfo")
     Observable<RequestCreatShortRentOrderBean> getOrderDetail(@Body RequestOrderDetailBean requestOrderDetailBean);
 
     //订单列表
-    @POST("/mainapi/officespaceSROrderProvider/shortRentOrder")
+    @POST("/mainapi/dzofficespaceSROrderProvider/shortRentOrder")
     Observable<OrderListBean> getShortRentOrder(@Body RequestRentOrderList requestRentOrderList);
 
     //申请会员
