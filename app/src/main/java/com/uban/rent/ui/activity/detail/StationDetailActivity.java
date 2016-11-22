@@ -220,6 +220,8 @@ public class StationDetailActivity extends BaseActivity {
         createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceWorkdeskinfoId());
         createOrderParamaBean.setPriceType(mPriceType);
         createOrderParamaBean.setPrice(mPrice);
+        createOrderParamaBean.setWorkHoursBegin(resultsBean.getWorkHoursBegin());
+        createOrderParamaBean.setWorkHoursEnd(resultsBean.getWorkHoursEnd());
         createOrderParamaBean.setWorkDeskType(resultsBean.getWorkDeskType());
     }
 

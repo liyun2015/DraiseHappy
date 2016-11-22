@@ -39,15 +39,12 @@ public class OrderListFragment extends BaseFragment {
     ListView lvUserOrder;
     @Bind(R.id.swipe_refresh_user_order)
     SwipeRefreshLayout swipeRefreshUserOrder;
-    private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
     private int workDeskType;
     private Handler handler;
     private List<OrderListBean.ResultsBean> listBeen;
     private OrdersListAdapter ordersListAdapter;
     private int currentPage = 1;
-    private static final int KEY_ORDER_ALL = 0;
-    private static final int KEY_MOBILE_OFFICE = 1;
-    private static final int KEY_MEETIONGS_EVENTS = 2;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order_all;

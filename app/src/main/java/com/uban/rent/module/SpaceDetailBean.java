@@ -806,6 +806,30 @@ public class SpaceDetailBean {
             private int hourPrice;
             private int cityId;
             private int dayPrice;
+            /**
+             * 营业时间起 格式为09:00
+             */
+            private String workHoursBegin;
+            /**
+             * 营业时间止 格式为18:00
+             */
+            private String workHoursEnd;
+
+            public String getWorkHoursBegin() {
+                return workHoursBegin;
+            }
+
+            public void setWorkHoursBegin(String workHoursBegin) {
+                this.workHoursBegin = workHoursBegin;
+            }
+
+            public String getWorkHoursEnd() {
+                return workHoursEnd;
+            }
+
+            public void setWorkHoursEnd(String workHoursEnd) {
+                this.workHoursEnd = workHoursEnd;
+            }
 
             public int getId() {
                 return id;

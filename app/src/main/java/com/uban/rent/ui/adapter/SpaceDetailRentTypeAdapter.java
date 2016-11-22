@@ -61,14 +61,16 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
     //生成订单参数
     private CreateOrderParamaBean RequestcreateOrderParamaBean(SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean){
         createOrderParamaBean.setPriceType(mPriceType);
-        if (mPriceType ==0){
+        if (mPriceType ==Constants.RENT_HOUSE){
             createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getHourPrice());
-        }else if (mPriceType ==1){
+        }else if (mPriceType ==Constants.RENT_DAY){
             createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getDayPrice());
-        }else if (mPriceType==2){
+        }else if (mPriceType==Constants.RENT_MONTH){
             createOrderParamaBean.setPrice(spaceDeskTypePriceListBean.getWorkDeskPrice());
         }
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
+        createOrderParamaBean.setWorkHoursBegin(spaceDeskTypePriceListBean.getWorkHoursBegin());
+        createOrderParamaBean.setWorkHoursEnd(spaceDeskTypePriceListBean.getWorkHoursEnd());
         return createOrderParamaBean;
     }
 
