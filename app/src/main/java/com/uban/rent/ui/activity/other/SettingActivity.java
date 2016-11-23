@@ -90,7 +90,7 @@ public class SettingActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("优办会员");
+        toolbarContentText.setText("设置");
     }
 
 
