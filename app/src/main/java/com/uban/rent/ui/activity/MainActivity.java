@@ -44,6 +44,8 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
@@ -56,7 +58,6 @@ import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
-import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
@@ -248,6 +249,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 });
     }
 
+    /**
+     * 加载头像view
+     */
+    private void initHeadView() {
+        View view = navigationView.getHeaderView(0);
+        ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
+        TextView userName = (TextView) view.findViewById(R.id.user_name);
+        TextView userPhone = (TextView) view.findViewById(R.id.user_phone);
+        userName.setText(HeaderConfig.nickName());
+        userPhone.setText(HeaderConfig.phoneNum());
+        ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+    }
     private void initView() {
         saveCity(Constants.CITY_ID[0]);
         setSupportActionBar(toolbar);
@@ -257,6 +270,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("");
+
+        initHeadView();
+
         Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         toolbarContentText.setCompoundDrawables(null,null,drawable,null);
@@ -326,6 +342,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
         initMapView();
     }
+
+
+
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();

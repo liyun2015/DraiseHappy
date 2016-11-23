@@ -12,6 +12,7 @@ public class Constants {
     public static final String UBAN_CITY = "ubanCity";
     public static final String NICK_NAME = "nickName";
     public static final String PHONE = "Phone";
+    public static final String HEAD_IMAGE = "headImage";
     public static final String RESERVED = "reserved";
     public static final String RESERVED_PHONE = "android";
     public static final String[] CITY_ID= new String[] { "12", "13"};

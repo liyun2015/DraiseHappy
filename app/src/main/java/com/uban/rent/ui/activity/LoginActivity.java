@@ -197,6 +197,7 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(mContext,Constants.NICK_NAME,resultsBean.getNickname());
                         SPUtils.put(mContext, Constants.UBAN_TOKEN,resultsBean.getToken());
                         SPUtils.put(mContext,Constants.PHONE,resultsBean.getPhone());
+                        SPUtils.put(mContext,Constants.HEAD_IMAGE,resultsBean.getHeadphoto());
                         startActivity(new Intent(mContext,MainActivity.class));
                         finish();
                     }

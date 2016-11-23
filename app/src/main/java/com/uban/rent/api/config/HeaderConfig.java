@@ -47,6 +47,33 @@ public class HeaderConfig {
     }
 
     /**
+     * 用户登录手机号
+     * @return
+     */
+    public static String userHeadImage(){
+        String headImage =  (String) SPUtils.get(App.getInstance(),Constants.HEAD_IMAGE,"");
+        if (TextUtils.isEmpty(headImage))
+            return "";
+        else
+            return headImage;
+    }
+
+
+
+    /**
+     * 昵称
+     * @return
+     */
+    public static String nickName(){
+        String nickName =  (String) SPUtils.get(App.getInstance(),Constants.NICK_NAME,"");
+        if (TextUtils.isEmpty(nickName))
+            return "";
+        else
+            return nickName;
+    }
+
+
+    /**
      * 加密时间戳
      * @return
      */

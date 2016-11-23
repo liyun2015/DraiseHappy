@@ -65,28 +65,26 @@
                 android:layout_margin="10dp"
                 android:layout_gravity="center"/>
 
-            <RelativeLayout
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:text="在您抵达地点后，请向工作人员出示此二维码待工作人员扫描确认后方可享受免费hot desk服务。"/>
+
+
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/ic_line_green_4px">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_line_green_2px">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="更多精彩，敬请期待！"
-                            android:textSize="22sp"
-                            android:layout_centerInParent="true"
-                            android:textColor="@color/green_background"/>
-                </RelativeLayout>
-            </RelativeLayout>
+                android:background="@drawable/ic_more_jingcai"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
