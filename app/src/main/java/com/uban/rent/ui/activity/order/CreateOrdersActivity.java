@@ -159,12 +159,11 @@ public class CreateOrdersActivity extends BaseActivity {
         workDeskType = createOrderParamaBean.getWorkDeskType();
         workHoursBegin = createOrderParamaBean.getWorkHoursBegin();
         workHoursEnd = createOrderParamaBean.getWorkHoursEnd();
-
+        initView();
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
         totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
-        initView();
     }
 
     private void initPriceView() {
@@ -346,9 +345,7 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
         requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
-        requestCreatOrder.setCellPhone(HeaderConfig.phoneNum());
         requestCreatOrder.setRentType(priceType);
-        requestCreatOrder.setReserved(Constants.RESERVED_PHONE);
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(workDeskType);
         requestCreatOrder.setWorkDeskNum(loctionNum);
