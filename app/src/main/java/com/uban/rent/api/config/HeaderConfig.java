@@ -35,6 +35,18 @@ public class HeaderConfig {
     }
 
     /**
+     * 用户登录手机号
+     * @return
+     */
+    public static String phoneNum(){
+        String phoneNum =  (String) SPUtils.get(App.getInstance(),Constants.PHONE,"");
+        if (TextUtils.isEmpty(phoneNum))
+            return "";
+        else
+            return phoneNum;
+    }
+
+    /**
      * 加密时间戳
      * @return
      */

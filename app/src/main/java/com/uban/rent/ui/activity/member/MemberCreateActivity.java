@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,6 +73,7 @@ public class MemberCreateActivity extends BaseActivity {
     @Bind(R.id.activity_member_create)
     RelativeLayout activityMemberCreate;
 
+    private String mCreatePhone;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_member_create;
@@ -79,6 +81,7 @@ public class MemberCreateActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        mCreatePhone = (String) SPUtils.get(mContext,Constants.PHONE,"");
         initView();
     }
 
@@ -91,6 +94,7 @@ public class MemberCreateActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
+        createMemberPhone.setText(mCreatePhone);
 
         SpannableString createMemberPriceSpannableString = new SpannableString("500");
         StrikethroughSpan createMemberPriceStrikethroughSpan = new StrikethroughSpan();
@@ -138,8 +142,11 @@ public class MemberCreateActivity extends BaseActivity {
                 break;
             case R.id.create_member_order:
                 String name = createMemberName.getText().toString().trim();
-                String phone = (String) SPUtils.get(mContext,Constants.PHONE,"");
-                initData(name,phone);
+                if (TextUtils.isEmpty(name)){
+                    ToastUtil.makeText(mContext,"请输入姓名");
+                }else {
+                    initData(name,mCreatePhone);
+                }
                 break;
         }
     }

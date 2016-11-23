@@ -19,7 +19,6 @@ package com.uban.rent.ui.view.wheelview;
 /**
  * Wheel adapter interface
  *
- * @deprecated Use WheelViewAdapter
  */
 public interface WheelAdapter {
 	/**

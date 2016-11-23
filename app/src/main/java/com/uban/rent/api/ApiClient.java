@@ -49,7 +49,7 @@ public interface ApiClient {
     Observable<SpaceDetailBean> getOfficeSpaceInfo(@Body RequestSpaceDetail requestSpaceDetail);
 
     //工位详情
-    @POST("/mainapi/dzofficespaceDeskBasicProvider/officespaceWorkdeskInfo")
+    @POST("/mainapi/dzofficespaceWorkdeskProvider/officespaceWorkdeskInfo")
     Observable<WorkplaceDetailBean> getOfficespaceWorkdeskInfo(@Body RequestWorkplaceDetail requestWorkplaceDetail);
 
     //创建订单

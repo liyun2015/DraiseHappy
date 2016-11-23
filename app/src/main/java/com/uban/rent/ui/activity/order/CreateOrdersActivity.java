@@ -1,12 +1,10 @@
 package com.uban.rent.ui.activity.order;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,12 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
-import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
 import com.uban.rent.ui.view.wheelview.WheelView;
@@ -128,9 +127,10 @@ public class CreateOrdersActivity extends BaseActivity {
     View startTimeLine;
     @Bind(R.id.station_time_line)
     View stationTimeLine;
+    @Bind(R.id.tv_work_time)
+    TextView tvWorkTime;
     private int loctionNum = 0;
     private int monthNum = 0;
-    private LayoutInflater mInflater;
     private WheelView timeWheelView;
     private WheelView month_wheelView;
     private WheelView day_wheelView;
@@ -141,8 +141,8 @@ public class CreateOrdersActivity extends BaseActivity {
     private int price;
     private String orderStart;
     private String orderEnd;
-    private int rentTime=0;
-
+    private int rentTime = 0;
+    private  String workHoursBegin,workHoursEnd;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_create_orders;
@@ -157,31 +157,13 @@ public class CreateOrdersActivity extends BaseActivity {
         priceType = createOrderParamaBean.getPriceType() + 1;
         price = createOrderParamaBean.getPrice();
         workDeskType = createOrderParamaBean.getWorkDeskType();
-        if (workDeskType == 6) {
-            meetingRoomNumberLayout.setVisibility(View.VISIBLE);
-            stationNumberLayout.setVisibility(View.GONE);
-            stationTimeLayout.setVisibility(View.GONE);
-        } else {
-            meetingRoomNumberLayout.setVisibility(View.GONE);
-            stationNumberLayout.setVisibility(View.VISIBLE);
-            stationTimeLayout.setVisibility(View.VISIBLE);
-        }
-        if (workDeskType == 3) {
-            stationOrOfficeStr.setText("hot desk");
-        } else if (workDeskType == 4) {
-            stationOrOfficeStr.setText("独立工位");
-        } else if (workDeskType == 5) {
-            stationOrOfficeStr.setText("开放工位");
-        } else if (workDeskType == 6) {
-            stationOrOfficeStr.setText("会议室");
-            loctionNum=1;
-        } else if (workDeskType == 7) {
-            stationOrOfficeStr.setText("活动场地");
-        }
+        workHoursBegin = createOrderParamaBean.getWorkHoursBegin();
+        workHoursEnd = createOrderParamaBean.getWorkHoursEnd();
+
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
-        totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
+        totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
         initView();
     }
 
@@ -228,12 +210,34 @@ public class CreateOrdersActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        tvWorkTime.setText("营业时间： 工作日  "+workHoursBegin+"-"+workHoursEnd);
+        if (workDeskType == 6) {
+            meetingRoomNumberLayout.setVisibility(View.VISIBLE);
+            stationNumberLayout.setVisibility(View.GONE);
+            stationTimeLayout.setVisibility(View.GONE);
+        } else {
+            meetingRoomNumberLayout.setVisibility(View.GONE);
+            stationNumberLayout.setVisibility(View.VISIBLE);
+            stationTimeLayout.setVisibility(View.VISIBLE);
+        }
+        if (workDeskType == 3) {
+            stationOrOfficeStr.setText("hot desk");
+        } else if (workDeskType == 4) {
+            stationOrOfficeStr.setText("独立工位");
+        } else if (workDeskType == 5) {
+            stationOrOfficeStr.setText("开放工位");
+        } else if (workDeskType == 6) {
+            stationOrOfficeStr.setText("会议室");
+            loctionNum = 1;
+        } else if (workDeskType == 7) {
+            stationOrOfficeStr.setText("活动场地");
+        }
+
         numder_of_stations.setText(String.valueOf(loctionNum));
         numderOfMonths.setText(String.valueOf(monthNum));
-        if(priceType == 1){
+        if (priceType == 1) {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
-        }else{
+        } else {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
         }
         endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
@@ -258,9 +262,9 @@ public class CreateOrdersActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    private void goActivity(Class<?> cls,RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+    private void goActivity(Class<?> cls, RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
         Intent orderIntent = new Intent();
-        orderIntent.setClass(mContext,cls);
+        orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
         bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
         orderIntent.putExtras(bundle);
@@ -277,26 +281,26 @@ public class CreateOrdersActivity extends BaseActivity {
             case R.id.add_btn://加工位
                 loctionNum = loctionNum + 1;
                 numder_of_stations.setText(String.valueOf(loctionNum));
-                if(priceType != 1){
+                if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
                 break;
             case R.id.reduce_btn://减工位
                 if (loctionNum > 0) {
                     loctionNum = loctionNum - 1;
                     numder_of_stations.setText(String.valueOf(loctionNum));
                 }
-                if(priceType != 1){
+                if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
                 break;
             case R.id.month_add_btn://加日月
                 monthNum = monthNum + 1;
                 numderOfMonths.setText(String.valueOf(monthNum));
                 rentTime = monthNum;
-                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
                 break;
             case R.id.reduce_btn_month://减日月
                 if (monthNum > 0) {
@@ -304,7 +308,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     numderOfMonths.setText(String.valueOf(monthNum));
                 }
                 rentTime = monthNum;
-                totalPrice.setText("￥ " +  loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
                 break;
             case R.id.start_time_layout://开始时间
                 isStartTimePop = true;
@@ -326,25 +330,25 @@ public class CreateOrdersActivity extends BaseActivity {
         if (TextUtils.isEmpty(orderStart) && TextUtils.isEmpty(orderEnd)) {
             return;
         }
-        int startTimes=0;
-        int endTimes=0;
-        if(priceType==1){
+        int startTimes = 0;
+        int endTimes = 0;
+        if (priceType == 1) {
             startTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderStart, "yyyy年MM月dd日 HH:mm");
             endTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderEnd, "yyyy年MM月dd日 HH:mm");
             int rentTimes = (endTimes - startTimes) / 3600;
-            rentTime=rentTimes;
-        }else{
+            rentTime = rentTimes;
+        } else {
             startTimes = (int) TimeUtils.geTimestampTimes(cruYear + "年" + orderStart, "yyyy年MM月dd日");
-            endTimes=0;
+            endTimes = 0;
         }
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
         requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
-        requestCreatOrder.setCellPhone("13693133936");
+        requestCreatOrder.setCellPhone(HeaderConfig.phoneNum());
         requestCreatOrder.setRentType(priceType);
-        requestCreatOrder.setReserved("android");
+        requestCreatOrder.setReserved(Constants.RESERVED_PHONE);
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(workDeskType);
         requestCreatOrder.setWorkDeskNum(loctionNum);
@@ -375,7 +379,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        goActivity(OrderPaymentActivity.class,resultsBean);
+                        goActivity(OrderPaymentActivity.class, resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -397,7 +401,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private void showTimePopupWindow() {
         // 得到控件
         darkening_background_layout.setVisibility(View.VISIBLE);
-        View timeView = mInflater.inflate(R.layout.choose_time_pop, null);
+        View timeView = getLayoutInflater().inflate(R.layout.choose_time_pop, null);
         // 确定按钮
         TextView budget_sure = (TextView) timeView.findViewById(R.id.time_sure);
         budget_sure.setOnClickListener(new View.OnClickListener() {
@@ -419,9 +423,9 @@ public class CreateOrdersActivity extends BaseActivity {
                 }
                 if (!TextUtils.isEmpty(dateContent)) {
                     if (isStartTimePop) {
-                        if(priceType == 1){
+                        if (priceType == 1) {
                             startTime.setText(dateContent);
-                        }else{
+                        } else {
                             startTime.setText(outMonthStr + "月" + outDayStr
                                     + "日  ");
                         }
@@ -489,9 +493,9 @@ public class CreateOrdersActivity extends BaseActivity {
         outMonthStr = String.valueOf(curMonth);
         outDayStr = String.valueOf(curDate);
         hourStr = String.valueOf(curHour);
-        if(priceType==1){
+        if (priceType == 1) {
             timeWheelView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             timeWheelView.setVisibility(View.GONE);
         }
     }
@@ -499,7 +503,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private void initTotalTime() {
         orderStart = startTime.getText().toString().trim();
         orderEnd = endTime.getText().toString().trim();
-        if(priceType == 1){
+        if (priceType == 1) {
             int startTimes = (int) TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
             int endTimes = (int) TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
             rentTime = (endTimes - startTimes) / 3600;

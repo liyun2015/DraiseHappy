@@ -16,6 +16,31 @@ public class CreateOrderParamaBean implements Serializable{
     private int priceType;
     private int workDeskType;
 
+    /**
+     * 营业时间起 格式为09:00
+     */
+    private String workHoursBegin;
+    /**
+     * 营业时间止 格式为18:00
+     */
+    private String workHoursEnd;
+
+    public String getWorkHoursBegin() {
+        return workHoursBegin;
+    }
+
+    public void setWorkHoursBegin(String workHoursBegin) {
+        this.workHoursBegin = workHoursBegin;
+    }
+
+    public String getWorkHoursEnd() {
+        return workHoursEnd;
+    }
+
+    public void setWorkHoursEnd(String workHoursEnd) {
+        this.workHoursEnd = workHoursEnd;
+    }
+
     public int getWorkDeskType() {
         return workDeskType;
     }
