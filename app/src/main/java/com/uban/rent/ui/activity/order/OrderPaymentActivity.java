@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
@@ -57,7 +59,10 @@ public class OrderPaymentActivity extends BaseActivity {
     private String orderNum;
     private int state;
     private int workdeskType;
-
+    // IWXAPI 是第三方app和微信通信的openapi接口
+    private IWXAPI api;
+    // APP_ID 替换为你的应用从官方网站申请到的合法appId
+    public static final String APP_ID = "wx560d10dd4001d136";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_order_payment;
@@ -66,6 +71,10 @@ public class OrderPaymentActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
+        // 将该app注册到微信
+        api.registerApp(APP_ID);
     }
 
     private void initView() {
@@ -169,10 +178,14 @@ public class OrderPaymentActivity extends BaseActivity {
                 break;
             case R.id.order_create://提交订单
                 paymentShortRentOrder();
+                payOrder();
                 break;
             default:
                 break;
         }
+    }
+
+    private void payOrder() {
     }
     // 取消订单
     private void cancelShortRentOrder() {
