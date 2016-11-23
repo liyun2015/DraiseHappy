@@ -82,20 +82,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorGray"
+                android:paddingLeft="15dp"
                 android:button="@drawable/checkbox_style"
                 android:textSize="15sp"
-                android:text="    我要重新预定"
+                android:text="我要重新预定"
                 android:checked="true" />
 
             <RadioButton
                 android:id="@+id/refund_cause_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorGray"
                 android:button="@drawable/checkbox_style"
                 android:textSize="15sp"
-                android:text="    下错订单" />
+                android:text="下错订单" />
             <RadioButton
                 android:id="@+id/refund_cause_three"
                 android:layout_width="wrap_content"
@@ -104,7 +106,8 @@
                 android:textColor="@color/colorGray"
                 android:button="@drawable/checkbox_style"
                 android:textSize="15sp"
-                android:text="    下错订单" />
+                android:paddingLeft="15dp"
+                android:text="下错订单" />
             <RadioButton
                 android:id="@+id/refund_cause_four"
                 android:layout_width="wrap_content"
@@ -113,7 +116,8 @@
                 android:textColor="@color/colorGray"
                 android:button="@drawable/checkbox_style"
                 android:textSize="15sp"
-                android:text="    不需要预定了" />
+                android:paddingLeft="15dp"
+                android:text="不需要预定了" />
             <RadioButton
                 android:id="@+id/refund_cause_five"
                 android:layout_width="wrap_content"
@@ -121,15 +125,16 @@
                 android:layout_marginTop="10dp"
                 android:button="@drawable/checkbox_style"
                 android:textSize="15sp"
+                android:paddingLeft="15dp"
                 android:textColor="@color/colorGray"
-                android:text="    其他" />
+                android:text="其他" />
         </RadioGroup>
     </LinearLayout>
     <TextView
         android:id="@+id/bottom_submit_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="退款须知"
+        android:text="提交申请"
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:textStyle="bold"
