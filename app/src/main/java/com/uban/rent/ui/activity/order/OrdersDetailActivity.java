@@ -383,7 +383,7 @@ public class OrdersDetailActivity extends BaseActivity {
     private String cancelReason=CANCEL_REASON_STR[0];
     private void showCancelPop() {
         darkeningBackgroundLayout.setVisibility(View.VISIBLE);
-        final View cancelView = mInflater.inflate(R.layout.choose_cancel_reason_pop, null);
+        View cancelView = mInflater.inflate(R.layout.choose_cancel_reason_pop, null);
         cancel_reason_one = (TextView) cancelView.findViewById(R.id.cancel_reason_one);
         cancel_reason_one.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -395,7 +395,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
             }
         });
-        cancel_reason_two = (TextView) cancelView.findViewById(R.id.cancel_reason_one);
+        cancel_reason_two = (TextView) cancelView.findViewById(R.id.cancel_reason_two);
         cancel_reason_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -406,7 +406,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
             }
         });
-        cancel_reason_three = (TextView) cancelView.findViewById(R.id.cancel_reason_one);
+        cancel_reason_three = (TextView) cancelView.findViewById(R.id.cancel_reason_three);
         cancel_reason_three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -417,7 +417,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
             }
         });
-        cancel_reason_four = (TextView) cancelView.findViewById(R.id.cancel_reason_one);
+        cancel_reason_four = (TextView) cancelView.findViewById(R.id.cancel_reason_four);
         cancel_reason_four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
