@@ -314,8 +314,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tagMarkerView.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mPriceType = tab.getPosition();
-                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
+                mPriceType = tab.getPosition()+1;
+                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition()+1);
             }
 
             @Override
@@ -348,12 +348,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
-        int price = KEY_ORDER_ALL;
-        if (mPriceType == KEY_ORDER_ALL) {
+        int price = Constants.RENT_HOUSE;
+        if (mPriceType == Constants.RENT_HOUSE) {
             price = spaceDeskTypePriceListBean.getHourPrice();
-        } else if (mPriceType == KEY_MOBILE_OFFICE) {
+        } else if (mPriceType == Constants.RENT_DAY) {
             price = spaceDeskTypePriceListBean.getDayPrice();
-        } else if (mPriceType == KEY_MEETIONGS_EVENTS) {
+        } else if (mPriceType == Constants.RENT_MONTH) {
             price = spaceDeskTypePriceListBean.getWorkDeskPrice();
         }
         requestGoWorkPlaceDetail.setPrice(price);

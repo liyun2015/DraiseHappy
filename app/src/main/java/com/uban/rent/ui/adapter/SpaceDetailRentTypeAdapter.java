@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  */
 
 public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean, UbanListView> {
-    private int mPriceType = 0;
+    private int mPriceType = 1;
     private CreateOrderParamaBean createOrderParamaBean;
     public SpaceDetailRentTypeAdapter(Context context, List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> list,CreateOrderParamaBean createOrderParamaBean) {
         super(context, list);
@@ -71,6 +71,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         createOrderParamaBean.setWorkDeskType(spaceDeskTypePriceListBean.getWorkDeskType());
         createOrderParamaBean.setWorkHoursBegin(spaceDeskTypePriceListBean.getWorkHoursBegin());
         createOrderParamaBean.setWorkHoursEnd(spaceDeskTypePriceListBean.getWorkHoursEnd());
+        createOrderParamaBean.setWorkDeskId(spaceDeskTypePriceListBean.getId());
         return createOrderParamaBean;
     }
 
@@ -99,11 +100,11 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         private void bind(int mPriceType,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
             //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
             tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()-1]);
-            if (mPriceType ==0){
+            if (mPriceType == Constants.RENT_HOUSE){
                 tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
-            }else if (mPriceType ==1){
+            }else if (mPriceType ==Constants.RENT_DAY){
                 tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
-            }else if (mPriceType==2){
+            }else if (mPriceType==Constants.RENT_MONTH){
                 tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
             }
 

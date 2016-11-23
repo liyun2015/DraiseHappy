@@ -2,11 +2,13 @@ package com.uban.rent.ui.activity.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.CreateOrderParamaBean;
@@ -24,10 +28,8 @@ import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
-import com.uban.rent.api.config.HeaderConfig;
-import com.uban.rent.api.config.ServiceFactory;
-import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
@@ -89,14 +91,14 @@ public class StationDetailActivity extends BaseActivity {
     @Bind(R.id.iv_show_equipment_service_list)
     ImageView ivShowEquipmentServiceList;
     private RequestGoSpaceDetail requestGoSpaceDetail;
-    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetail;
     private int mWorkPlaceId;
     private int mPrice;
     private int mPriceType;
-    private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
+    private static final String[] TITLE_PRICE_TYPE = new String[]{"","元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
     private ArrayList<String> equipmentServicesImages;
     private ArrayList<String> equipmentServicesnames;
     private CreateOrderParamaBean createOrderParamaBean;
+    public static final String TAG = "TTTTTTTTTT";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -106,12 +108,66 @@ public class StationDetailActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         equipmentServicesImages = new ArrayList<>();
         equipmentServicesnames = new ArrayList<>();
-        requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL);
-        requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
-        mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
-        mPrice = requestGoWorkPlaceDetail.getPrice();
-        mPriceType = requestGoWorkPlaceDetail.getPriceType();
         initView();
+        registerScheme();
+    }
+
+    private void registerScheme() {
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            String query = uri.getQuery();
+            /**
+             *     private int spaceDetailId;
+             private double locationX;
+             private double locationY;
+             //工位
+             private int stationDetailId;
+             //订单
+             private int orderPriceType;
+             private int orderPrice;
+             */
+            String stationDetailId = uri.getQueryParameter("stationDetailId");
+            String spaceDetailId = uri.getQueryParameter("spaceDetailId");
+            String orderPriceType = uri.getQueryParameter("orderPriceType");
+            String orderPrice = uri.getQueryParameter("orderPrice");
+            String locationX = uri.getQueryParameter("locationX");
+            String locationY = uri.getQueryParameter("locationY");
+
+            // 完整的url信息
+            String url = uri.toString();
+            Log.e(TAG, "url: " + uri);
+            // scheme部分
+            String scheme = uri.getScheme();
+            Log.e(TAG, "scheme: " + scheme);
+            // host部分
+            String host = uri.getHost();
+            Log.e(TAG, "host: " + host);
+            //port部分
+            int port = uri.getPort();
+            Log.e(TAG, "host: " + port);
+            // 访问路劲
+            String path = uri.getPath();
+            Log.e(TAG, "path: " + path);
+
+            Log.e(TAG, "query: " + query);
+
+            RequestGoSpaceDetail requestGoSpaceDetailScheme = new RequestGoSpaceDetail();
+            requestGoSpaceDetailScheme.setOfficeSpaceBasicInfoId(Integer.parseInt(spaceDetailId));
+            requestGoSpaceDetailScheme.setLocationY(Double.parseDouble(locationY));
+            requestGoSpaceDetailScheme.setLocationX(Double.parseDouble(locationX));
+            requestGoSpaceDetail = requestGoSpaceDetailScheme;
+
+            mWorkPlaceId = Integer.parseInt(stationDetailId);
+            mPrice = Integer.parseInt(orderPrice);
+            mPriceType = Integer.parseInt(orderPriceType);
+        }else {
+            requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL);
+            RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
+            mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
+            mPrice = requestGoWorkPlaceDetail.getPrice();
+            mPriceType = requestGoWorkPlaceDetail.getPriceType();
+        }
         initData();
     }
 
@@ -220,6 +276,7 @@ public class StationDetailActivity extends BaseActivity {
         createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceWorkdeskinfoId());
         createOrderParamaBean.setPriceType(mPriceType);
         createOrderParamaBean.setPrice(mPrice);
+        createOrderParamaBean.setWorkDeskId(mWorkPlaceId);
         createOrderParamaBean.setWorkHoursBegin(resultsBean.getWorkHoursBegin());
         createOrderParamaBean.setWorkHoursEnd(resultsBean.getWorkHoursEnd());
         createOrderParamaBean.setWorkDeskType(resultsBean.getWorkDeskType());

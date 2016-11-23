@@ -114,15 +114,12 @@ public class SpaceDetailActivity extends BaseActivity {
 
     private boolean isLookMoreDesc = true;
     private int officeSpaceBasicInfoId = 0;
-    private double locationx = 0;
-    private double locationy = 0;
+    private double locationX = 116.486388;
+    private double locationY = 40.000828;
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
     private RequestGoSpaceDetail requestGoSpaceDetail;
-    private int mPriceType = 0;
-    private static final int KEY_ORDER_ALL = 0;
-    private static final int KEY_MOBILE_OFFICE = 1;
-    private static final int KEY_MEETIONGS_EVENTS = 2;
+    private int mPriceType = 1;
     private String mSpaceNamePinyin;
     private ArrayList<String> panoramaImages;
     private ArrayList<String> panoramaDesc;
@@ -146,8 +143,8 @@ public class SpaceDetailActivity extends BaseActivity {
         servicesnames = new ArrayList<>();
         spaceDeskTypePriceListBeen = new ArrayList<>();
         requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
-        locationx = requestGoSpaceDetail.getLocationX();
-        locationy = requestGoSpaceDetail.getLocationY();
+        locationX = requestGoSpaceDetail.getLocationX();
+        locationY = requestGoSpaceDetail.getLocationY();
         officeSpaceBasicInfoId = requestGoSpaceDetail.getOfficeSpaceBasicInfoId();
         initData();
         initView();
@@ -156,8 +153,8 @@ public class SpaceDetailActivity extends BaseActivity {
     private void initData() {
         RequestSpaceDetail requestSpaceDetail = new RequestSpaceDetail();
         requestSpaceDetail.setOfficespaceBasicinfoId(officeSpaceBasicInfoId);
-        requestSpaceDetail.setLocationX(locationx);
-        requestSpaceDetail.setLocationY(locationy);
+        requestSpaceDetail.setLocationX(locationX);
+        requestSpaceDetail.setLocationY(locationY);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestSpaceDetail)
                 .compose(this.<SpaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())
@@ -304,8 +301,8 @@ public class SpaceDetailActivity extends BaseActivity {
         tabSpaceDetail.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mPriceType = tab.getPosition();
-                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition());
+                mPriceType = tab.getPosition()+1;
+                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition()+1);
             }
 
             @Override
@@ -339,12 +336,12 @@ public class SpaceDetailActivity extends BaseActivity {
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position) {
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
-        int price = KEY_ORDER_ALL;
-        if (mPriceType == KEY_ORDER_ALL) {
+        int price = 0;
+        if (mPriceType == Constants.RENT_HOUSE) {
             price = spaceDeskTypePriceListBean.getHourPrice();
-        } else if (mPriceType == KEY_MOBILE_OFFICE) {
+        } else if (mPriceType == Constants.RENT_DAY) {
             price = spaceDeskTypePriceListBean.getDayPrice();
-        } else if (mPriceType == KEY_MEETIONGS_EVENTS) {
+        } else if (mPriceType == Constants.RENT_MONTH) {
             price = spaceDeskTypePriceListBean.getWorkDeskPrice();
         }
         requestGoWorkPlaceDetail.setPrice(price);
@@ -433,8 +430,8 @@ public class SpaceDetailActivity extends BaseActivity {
             case R.id.rl_supporting:
                 Intent intent = new Intent();
                 intent.setClass(mContext, SupportingActivity.class);
-                intent.putExtra(SupportingActivity.KEY_LOCATION_X, locationx);
-                intent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationy);
+                intent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
+                intent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
                 startActivity(intent);
                 break;
             case R.id.tv_look_more_desc:
