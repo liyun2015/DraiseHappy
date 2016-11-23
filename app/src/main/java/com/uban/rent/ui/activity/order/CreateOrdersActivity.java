@@ -142,6 +142,8 @@ public class CreateOrdersActivity extends BaseActivity {
     private String orderEnd;
     private int rentTime = 0;
     private  String workHoursBegin,workHoursEnd;
+    private int workDeskId;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_create_orders;
@@ -151,9 +153,10 @@ public class CreateOrdersActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         CreateOrderParamaBean createOrderParamaBean = (CreateOrderParamaBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_PARAME_BEAN);
         spaceDeskId = createOrderParamaBean.getSpaceDeskId();
+        workDeskId = createOrderParamaBean.getWorkDeskId();
         String spaceDeskName = createOrderParamaBean.getSpaceDeskName();
         String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
-        priceType = createOrderParamaBean.getPriceType() + 1;
+        priceType = createOrderParamaBean.getPriceType();
         price = createOrderParamaBean.getPrice();
         workDeskType = createOrderParamaBean.getWorkDeskType();
         workHoursBegin = createOrderParamaBean.getWorkHoursBegin();
@@ -350,6 +353,7 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setWorkDeskNum(loctionNum);
         requestCreatOrder.setSpaceId(spaceDeskId);
         requestCreatOrder.setUnitPrice(price);
+        requestCreatOrder.setWorkdeskId(workDeskId);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
