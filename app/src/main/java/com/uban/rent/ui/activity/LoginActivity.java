@@ -21,8 +21,10 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.SPUtils;
@@ -158,6 +160,7 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
+                    memberStatus();
                     loginApp();
                 }
                 break;
@@ -216,6 +219,32 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private int memberStatus(){
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS){
+                            SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(verifyMemberBean.getStatusCode()));// 0 已申请会员
+                        }else {
+                            SPUtils.put(mContext,Constants.USER_MEMBER,"");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+
+
+
+        return 0;
+    }
     //发送验证码
     private void sendCode() {
         RequestSendValid requestSendValid = new RequestSendValid();

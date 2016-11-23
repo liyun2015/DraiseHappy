@@ -61,6 +61,7 @@ import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.activity.other.SettingActivity;
@@ -594,7 +595,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_member:
-                goActivity(MemberFirstActivity.class);
+                if (HeaderConfig.isMemberStatus()){
+                    goActivity(MemberFinalActivity.class);
+                }else {
+                    goActivity(MemberFirstActivity.class);
+                }
                 break;
             case R.id.nav_order:
                 goActivity(OrderListActivity.class);
@@ -608,6 +613,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,6 +11,7 @@ public class Constants {
     public static final String TOKEN = "token";//time
     public static final String UBAN_CITY = "ubanCity";
     public static final String NICK_NAME = "nickName";
+    public static final String USER_MEMBER = "userMember";
     public static final String PHONE = "Phone";
     public static final String HEAD_IMAGE = "headImage";
     public static final String RESERVED = "reserved";
