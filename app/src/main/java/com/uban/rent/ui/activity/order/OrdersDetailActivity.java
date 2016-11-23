@@ -1,23 +1,33 @@
 package com.uban.rent.ui.activity.order;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestOrderDetailBean;
+import com.uban.rent.module.request.RequestPaymentOrder;
+import com.uban.rent.ui.activity.other.RefundOrderActivity;
 import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
@@ -27,11 +37,15 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.uban.rent.R.id.darkening_background_layout;
+
 /**
  * 订单详情页
  */
 public class OrdersDetailActivity extends BaseActivity {
     public static final String KEY_ORDER_NUMBER = "keyOrderNumber";
+    public static final String KEY_ORDER_STATE = "keyOrderState";
+    public static final String KEY_WORKDESKTYPE = "keyWorkdeskType";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -76,8 +90,6 @@ public class OrdersDetailActivity extends BaseActivity {
     RelativeLayout meetingRoomNameLayout;
     @Bind(R.id.station_str)
     TextView stationStr;
-    @Bind(R.id.activity_orders_detail)
-    RelativeLayout activityOrdersDetail;
     @Bind(R.id.meeting_room_name)
     TextView meetingRoomName;
     @Bind(R.id.order_create)
@@ -92,11 +104,31 @@ public class OrdersDetailActivity extends BaseActivity {
     TextView cancelOrderBtn;
     @Bind(R.id.submit_right_btn)
     RelativeLayout submitRightBtn;
+    @Bind(R.id.station)
+    TextView station;
+    @Bind(R.id.station_layout)
+    RelativeLayout stationLayout;
+    @Bind(R.id.textView)
+    TextView textView;
+    @Bind(R.id.time_str_layout)
+    RelativeLayout timeStrLayout;
+    @Bind(darkening_background_layout)
+    LinearLayout darkeningBackgroundLayout;
+    @Bind(R.id.start_time_layout)
+    RelativeLayout startTimeLayout;
+    @Bind(R.id.activity_orders_detail)
+    RelativeLayout activityOrdersDetail;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
     private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待支付", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
+    private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private int workDeskType;
     private int priceType;
+    private LayoutInflater mInflater;
+    private PopupWindow cancelPopupWindow;
+    private String orderNum;
+    private int workdeskType;
+    private RequestCreatShortRentOrderBean.ResultsBean resultDataBean;
 
     @Override
     protected int getLayoutId() {
@@ -112,6 +144,7 @@ public class OrdersDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbarContentText.setText("订单详情");
         ActionBar actionBar = getSupportActionBar();
+        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -121,9 +154,11 @@ public class OrdersDetailActivity extends BaseActivity {
     }
 
     private void initDataView(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
-        orderNumber.setText("订单编号：" + resultsBean.getOrderNo());
-//        String ordertime = TimeUtils.formatTime(String.valueOf((Integer.parseInt(resultsBean.getCreatAt())/1000)),"yyyy-MM-dd HH:mm:ss");
-//        orderTime.setText(ordertime);
+        resultDataBean=resultsBean;
+        workdeskType = resultsBean.getWorkDeskType();
+        orderNum = resultsBean.getOrderNo();
+        orderNumber.setText("订单编号：" +orderNum );
+        orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         int failureAt = resultsBean.getFailureAt();
         if (state == ORDER_TYPE[0]) {//0取消
@@ -291,15 +326,178 @@ public class OrdersDetailActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
     @OnClick({R.id.cancel_order_btn, R.id.submit_right_btn})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.cancel_order_btn://取消订单
+            case R.id.cancel_order_btn:
+                if(state == ORDER_TYPE[1]){//取消订单
+                    showCancelPop();
+                }else if(state == ORDER_TYPE[3]){//申请退款
+                    Intent intent = new Intent();
+                    intent.putExtra(KEY_ORDER_NUMBER,orderNum);
+                    intent.putExtra(KEY_ORDER_STATE,state);
+                    intent.putExtra(KEY_WORKDESKTYPE,workdeskType);
+                    intent.setClass(mContext, RefundOrderActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.submit_right_btn:// 提交
+                if(state == ORDER_TYPE[1]){//立即支付
+                    goActivity(OrderPaymentActivity.class);
+                }else if(state == ORDER_TYPE[3]){//拨打电话
+                    callPhone();
+                }
+                break;
+            default:
                 break;
         }
+    }
+    //拨打电话
+    private void callPhone() {
+        RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
+                            PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
+                        } else {
+                            ToastUtil.makeText(mContext, "未授权");
+                        }
+                    }
+                });
+    }
+
+    private void goActivity(Class<?> cls) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext,cls);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
+        orderIntent.putExtras(bundle);
+        startActivity(orderIntent);
+    }
+    private TextView cancel_reason_one;
+    private TextView cancel_reason_two;
+    private TextView cancel_reason_three;
+    private TextView cancel_reason_four;
+    private String cancelReason=CANCEL_REASON_STR[0];
+    private void showCancelPop() {
+        darkeningBackgroundLayout.setVisibility(View.VISIBLE);
+        View cancelView = mInflater.inflate(R.layout.choose_cancel_reason_pop, null);
+        cancel_reason_one = (TextView) cancelView.findViewById(R.id.cancel_reason_one);
+        cancel_reason_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelReason=CANCEL_REASON_STR[0];
+                cancel_reason_one.setTextColor(getResources().getColor(R.color.colorPrimary));
+                cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
+            }
+        });
+        cancel_reason_two = (TextView) cancelView.findViewById(R.id.cancel_reason_two);
+        cancel_reason_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelReason=CANCEL_REASON_STR[1];
+                cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_two.setTextColor(getResources().getColor(R.color.colorPrimary));
+                cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
+            }
+        });
+        cancel_reason_three = (TextView) cancelView.findViewById(R.id.cancel_reason_three);
+        cancel_reason_three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelReason=CANCEL_REASON_STR[2];
+                cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_three.setTextColor(getResources().getColor(R.color.colorPrimary));
+                cancel_reason_four.setTextColor(getResources().getColor(R.color.colorGrayHint));
+            }
+        });
+        cancel_reason_four = (TextView) cancelView.findViewById(R.id.cancel_reason_four);
+        cancel_reason_four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelReason=CANCEL_REASON_STR[3];
+                cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
+                cancel_reason_four.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
+        TextView submit_right_btn = (TextView) cancelView.findViewById(R.id.submit_btn);
+        submit_right_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cancelPopupWindow.isShowing()) {
+                    cancelPopupWindow.dismiss();
+                    darkeningBackgroundLayout.setVisibility(View.GONE);
+                }
+                cancelSubmit();
+            }
+        });
+        int screeWidth = getWindowManager().getDefaultDisplay().getWidth();
+        cancelPopupWindow = CommonUtil.ShowBottomPopupWindow(
+                OrdersDetailActivity.this, cancelPopupWindow, cancelView, screeWidth,
+                220, activityOrdersDetail);
+        CommonUtil.setPopupWindowListener(new CommonUtil.PopupWindowListener() {
+
+            @Override
+            public void myDissmiss() {
+                cancelPopupWindow = null;
+                darkeningBackgroundLayout.setVisibility(View.GONE);
+            }
+
+        });
+    }
+
+    private void cancelSubmit() {
+        RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
+        requestPaymentOrder.setOrderNo(orderNum);
+        requestPaymentOrder.setState(state);
+        requestPaymentOrder.setWorkDeskType(workdeskType);
+        requestPaymentOrder.setRefundDesc(cancelReason);
+        ServiceFactory.getProvideHttpService().cancelShortRentOrder(requestPaymentOrder)
+                .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
+                    @Override
+                    public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<RequestCreatShortRentOrderBean, RequestCreatShortRentOrderBean.ResultsBean>() {
+                    @Override
+                    public RequestCreatShortRentOrderBean.ResultsBean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        return requestCreatShortRentOrderBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<RequestCreatShortRentOrderBean.ResultsBean>() {
+                    @Override
+                    public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+                        //处理返回结果
+                        int status = resultsBean.getPayStatus();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 
     class TimeCount extends CountDownTimer {

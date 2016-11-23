@@ -21,6 +21,16 @@ public class RequestPaymentOrder {
     private double dealPrice;
     private int state;
     private int workDeskType;
+    private String refundDesc;
+
+    public String getRefundDesc() {
+        return refundDesc;
+    }
+
+    public void setRefundDesc(String refundDesc) {
+        this.refundDesc = refundDesc;
+    }
+
     public int getState() {
         return state;
     }
