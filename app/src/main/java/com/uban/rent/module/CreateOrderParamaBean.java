@@ -9,12 +9,21 @@ import java.io.Serializable;
  */
 
 public class CreateOrderParamaBean implements Serializable{
+    private int workDeskId;
     private int spaceDeskId;
     private String spaceDeskName;
     private String spaceDeskAddress;
     private int price;
     private int priceType;
     private int workDeskType;
+
+    public int getWorkDeskId() {
+        return workDeskId;
+    }
+
+    public void setWorkDeskId(int workDeskId) {
+        this.workDeskId = workDeskId;
+    }
 
     /**
      * 营业时间起 格式为09:00
