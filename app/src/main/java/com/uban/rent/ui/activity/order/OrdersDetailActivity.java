@@ -158,8 +158,7 @@ public class OrdersDetailActivity extends BaseActivity {
         workdeskType = resultsBean.getWorkDeskType();
         orderNum = resultsBean.getOrderNo();
         orderNumber.setText("订单编号：" +orderNum );
-//        String ordertime = TimeUtils.formatTime(String.valueOf((Integer.parseInt(resultsBean.getCreatAt())/1000)),"yyyy-MM-dd HH:mm:ss");
-//        orderTime.setText(ordertime);
+        orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         int failureAt = resultsBean.getFailureAt();
         if (state == ORDER_TYPE[0]) {//0取消
