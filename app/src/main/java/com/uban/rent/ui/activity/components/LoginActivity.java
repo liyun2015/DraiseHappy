@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.components;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,6 +25,7 @@ import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestVerifyMember;
+import com.uban.rent.ui.activity.MainActivity;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 
 import java.util.concurrent.TimeUnit;
 

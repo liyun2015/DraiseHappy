@@ -117,9 +117,9 @@ public class StationDetailActivity extends BaseActivity {
 
     private void registerScheme() {
         Intent intent = getIntent();
-        Uri uri = intent.getData();
-        if (uri != null) {
-            String query = uri.getQuery();
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String query = uri.getQuery();
             /**
              *     private int spaceDetailId;
              private double locationX;

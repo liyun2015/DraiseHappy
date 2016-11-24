@@ -5,6 +5,7 @@ import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.OrderListBean;
+import com.uban.rent.module.SearchKeyWord;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.WorkplaceDetailBean;
@@ -16,6 +17,7 @@ import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestOrderDetailBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.RequestRentOrderList;
+import com.uban.rent.module.request.RequestSearchKeyWord;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestVerifyMember;
@@ -79,4 +81,8 @@ public interface ApiClient {
     //验证会员
     @POST("/mainapi/officespaceMemberProvider/verifyMember")
     Observable<VerifyMemberBean> getVerifyMember(@Body RequestVerifyMember requestVerifyMember);
+
+    //获取联想词
+    @POST("/mainapi/dzofficespaceBasicProvider/searchKeyWords")
+    Observable<SearchKeyWord> getSearchKeyWords(@Body RequestSearchKeyWord requestSearchKeyWord);
 }

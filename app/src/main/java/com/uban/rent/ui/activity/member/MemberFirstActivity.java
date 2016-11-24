@@ -2,6 +2,7 @@ package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -56,7 +57,11 @@ public class MemberFirstActivity extends BaseActivity {
     }
 
     private void initData() {
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
 
+        }
     }
 
     private void initView() {
