@@ -26,8 +26,6 @@ public class SplashAppActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
-        msgApi.registerApp(Constants.APP_ID);
 
         Observable.timer(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {

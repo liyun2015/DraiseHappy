@@ -2,8 +2,8 @@ package com.uban.rent.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,7 +82,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         initView();
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
-
+        api.registerApp(Constants.APP_ID);
         api.handleIntent(getIntent(), this);
     }
 
@@ -186,7 +186,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 cancelShortRentOrder();
                 break;
             case R.id.order_create://提交订单
-                //paymentShortRentOrder();
                 submitOrder();
                 break;
             default:
@@ -308,7 +307,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private void paymentShortRentOrder() {
         RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
-        requestPaymentOrder.setDealPrice(2000.00);
+        requestPaymentOrder.setDealPrice(resultsBean.getPayMoney());
         requestPaymentOrder.setOrderNo(orderNum);
         requestPaymentOrder.setPaymentAtString(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis()/1000),"yyyy-MM-dd"));
         requestPaymentOrder.setPayType(payType);
@@ -369,24 +368,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             //支付返回调用
-            String msg = "";
-
-            if(resp.errCode == 0)
-            {
-                msg = "支付成功";
+            if(resp.errCode == 0) {
+                ToastUtil.makeText(mContext, "支付成功！");
+                //paymentShortRentOrder();
+            } else if(resp.errCode == -1) {
+                ToastUtil.makeText(mContext, "已取消支付！");
+            } else if(resp.errCode == -2) {
+                ToastUtil.makeText(mContext, "支付失败！");
             }
-            else if(resp.errCode == -1)
-            {
-                msg = "已取消支付";
-            }
-            else if(resp.errCode == -2)
-            {
-                msg = "支付失败";
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("支付结果");
-            builder.setMessage("支付结果"+msg+"=="+resp.errCode);
-            builder.show();
         }
 
     }
