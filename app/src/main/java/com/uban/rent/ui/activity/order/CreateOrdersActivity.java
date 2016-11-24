@@ -167,6 +167,8 @@ public class CreateOrdersActivity extends BaseActivity {
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
         totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+        Calendar calendar = Calendar.getInstance();
+        cruYear = calendar.get(Calendar.YEAR);
     }
 
     private void initPriceView() {
@@ -449,11 +451,11 @@ public class CreateOrdersActivity extends BaseActivity {
                 }
             }
         });
-        Calendar c = Calendar.getInstance();
-        cruYear = c.get(Calendar.YEAR);
-        int curMonth = c.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
-        int curDate = c.get(Calendar.DATE);
-        int curHour = c.get(Calendar.HOUR_OF_DAY);
+        Calendar calendar = Calendar.getInstance();
+        cruYear = calendar.get(Calendar.YEAR);
+        int curMonth = calendar.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
+        int curDate = calendar.get(Calendar.DATE);
+        int curHour = calendar.get(Calendar.HOUR_OF_DAY);
 
         //月
         month_wheelView = (WheelView) timeView.findViewById(R.id.month_wheelView);
