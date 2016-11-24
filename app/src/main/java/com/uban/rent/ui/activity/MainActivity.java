@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
     private int officeSpaceBasicInfoId;
     private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
-    private int mPriceType = 0;
+    private int mPriceType = 1;
     private CreateOrderParamaBean createOrderParamaBean;
     @Override
     protected int getLayoutId() {
@@ -349,15 +349,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position){
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
-        int price = Constants.RENT_HOUSE;
-        if (mPriceType == Constants.RENT_HOUSE) {
-            price = spaceDeskTypePriceListBean.getHourPrice();
-        } else if (mPriceType == Constants.RENT_DAY) {
-            price = spaceDeskTypePriceListBean.getDayPrice();
-        } else if (mPriceType == Constants.RENT_MONTH) {
-            price = spaceDeskTypePriceListBean.getWorkDeskPrice();
-        }
-        requestGoWorkPlaceDetail.setPrice(price);
         requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
         return requestGoWorkPlaceDetail;
@@ -648,7 +639,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        BaseActivityMemberStatusGoView();
                     }
                 }, new Action0() {
                     @Override

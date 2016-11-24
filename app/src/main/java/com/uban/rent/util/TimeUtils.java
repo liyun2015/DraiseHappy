@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * TimeUtils 时间工具类
+ * dd/MM/yyyy HH:mm:ss
  * Created by dawabos on 2016/10/27.
  * Email dawabo@163.com
  */

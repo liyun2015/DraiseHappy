@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:divider="@color/divider_1"
             android:dividerHeight="0.1dp"
+            android:background="@color/white"
             android:listSelector="?android:attr/selectableItemBackground"/>
     </LinearLayout>
 </LinearLayout>

@@ -336,15 +336,6 @@ public class SpaceDetailActivity extends BaseActivity {
     private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(int position) {
         SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = spaceDeskTypePriceListBeen.get(position);
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
-        int price = 0;
-        if (mPriceType == Constants.RENT_HOUSE) {
-            price = spaceDeskTypePriceListBean.getHourPrice();
-        } else if (mPriceType == Constants.RENT_DAY) {
-            price = spaceDeskTypePriceListBean.getDayPrice();
-        } else if (mPriceType == Constants.RENT_MONTH) {
-            price = spaceDeskTypePriceListBean.getWorkDeskPrice();
-        }
-        requestGoWorkPlaceDetail.setPrice(price);
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
         requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
         return requestGoWorkPlaceDetail;
