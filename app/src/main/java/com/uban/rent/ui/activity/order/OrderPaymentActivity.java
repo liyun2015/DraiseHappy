@@ -11,16 +11,21 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.WXPayProviderBean;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
+import com.uban.rent.module.request.UnifieOrderBean;
 import com.uban.rent.ui.view.ToastUtil;
+import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
 
@@ -30,6 +35,8 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.uban.rent.util.CommonUtil.getLoginIp;
 
 public class OrderPaymentActivity extends BaseActivity {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
@@ -59,10 +66,9 @@ public class OrderPaymentActivity extends BaseActivity {
     private String orderNum;
     private int state;
     private int workdeskType;
+    private RequestCreatShortRentOrderBean.ResultsBean resultsBean;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
-    // APP_ID 替换为你的应用从官方网站申请到的合法appId
-    public static final String APP_ID = "wx560d10dd4001d136";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_order_payment;
@@ -72,9 +78,7 @@ public class OrderPaymentActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
-        // 将该app注册到微信
-        api.registerApp(APP_ID);
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
     }
 
     private void initView() {
@@ -134,7 +138,7 @@ public class OrderPaymentActivity extends BaseActivity {
     };
 
     private void initData() {
-        RequestCreatShortRentOrderBean.ResultsBean resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
+        resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
         orderNum = resultsBean.getOrderNo();
         orderNumber.setText("订单编号："+orderNum);
         orderTime.setText(resultsBean.getCreatAt());
@@ -177,16 +181,78 @@ public class OrderPaymentActivity extends BaseActivity {
                 cancelShortRentOrder();
                 break;
             case R.id.order_create://提交订单
-                paymentShortRentOrder();
-                payOrder();
+                //paymentShortRentOrder();
+                submitOrder();
                 break;
             default:
                 break;
         }
     }
 
-    private void payOrder() {
+    private void submitOrder() {
+        UnifieOrderBean unifieOrderBean =new UnifieOrderBean();
+        unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
+        unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
+        unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getPayMoney()*100));
+        unifieOrderBean.setTrade_type("APP");
+        unifieOrderBean.setSpbill_create_ip(CommonUtil.getLoginIp(mContext));
+        unifieOrderBean.setNotify_url("http://bj.uban.com");
+        ServiceFactory.getProvideHttpService().getUnifiedorder(unifieOrderBean)
+                .compose(this.<WXPayProviderBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<WXPayProviderBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<WXPayProviderBean, Boolean>() {
+                    @Override
+                    public Boolean call(WXPayProviderBean wxPayProviderBean) {
+                        return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<WXPayProviderBean, WXPayProviderBean.ResultsBean>() {
+                    @Override
+                    public WXPayProviderBean.ResultsBean call(WXPayProviderBean wXPayProviderBean) {
+                        return wXPayProviderBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<WXPayProviderBean.ResultsBean>() {
+                    @Override
+                    public void call(WXPayProviderBean.ResultsBean resultsBean) {
+                        //处理返回结果
+                        WXPayOrder(resultsBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
+
+    private void WXPayOrder(WXPayProviderBean.ResultsBean resultsBean) {
+        PayReq req = new PayReq();
+        req.appId = Constants.APP_ID;
+        req.partnerId		= resultsBean.getMch_id();
+        req.prepayId		= resultsBean.getPrepay_id();
+        req.nonceStr		= resultsBean.getNonce_str();
+        req.timeStamp		= String.valueOf(System.currentTimeMillis()/1000);
+        req.packageValue	= "Sign=WXPay";
+        req.sign			= resultsBean.getSign();
+        req.extData			= "app data"; // optional
+        Toast.makeText(OrderPaymentActivity.this, "正常调起支付", Toast.LENGTH_SHORT).show();
+        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+        api.sendReq(req);
+    }
+
     // 取消订单
     private void cancelShortRentOrder() {
         RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();

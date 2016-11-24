@@ -7,6 +7,8 @@ package com.uban.rent.util;
  */
 
 public class Constants {
+    // APP_ID 替换为你的应用从官方网站申请到的合法appId
+    public static final String APP_ID = "wx560d10dd4001d136";
     public static final String UBAN_TOKEN = "ubanToken";//session
     public static final String TOKEN = "token";//time
     public static final String UBAN_CITY = "ubanCity";
