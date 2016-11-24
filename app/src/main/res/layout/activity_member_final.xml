@@ -58,12 +58,39 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:text="我的会员卡"/>
-            <ImageView
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_member_card"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"/>
+                android:layout_height="220dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_member_cards"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_expiry_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有效期:2018.10.10-2018.10-10"
+                    android:textColor="@color/colorGrayHint"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="11sp"
+                    android:layout_marginTop="20dp"/>
+                <TextView
+                    android:id="@+id/tv_order_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO.888888888"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#D2A359"
+                    android:textSize="12sp"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
 
             <ImageView
                 android:layout_width="100dp"
@@ -85,6 +112,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/ic_more_jingcai"/>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

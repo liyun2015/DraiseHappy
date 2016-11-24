@@ -21,7 +21,7 @@ import com.uban.rent.util.SPUtils;
 import butterknife.Bind;
 
 public class SettingActivity extends BaseActivity {
-    private static final String[] ITEM_LIST = new String[]{"推荐给好友", "为我们打分", "退出登录"};
+    private static final String[] ITEM_LIST = new String[]{"关于优办移动办公", "用户协议", "推荐给好友","为我们打分","退出登录"};
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -46,10 +46,16 @@ public class SettingActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position){
                     case 0:
+                        goActivity(AboutUsActivity.class);
                         break;
                     case 1:
+                        goActivity(AgreementActivity.class);
                         break;
                     case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
                         siginOut();
                         break;
                 }
@@ -57,6 +63,9 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
+    private void goActivity(Class<?> cls){
+        startActivity(new Intent(mContext,cls));
+    }
     /**
      * 退出登录
      */

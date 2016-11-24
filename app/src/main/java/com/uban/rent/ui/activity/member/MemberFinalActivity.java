@@ -12,14 +12,23 @@ import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.VerifyMemberBean;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action1;
+import rx.functions.Func1;
+
+import static com.uban.rent.util.TimeUtils.formatTime;
 
 public class MemberFinalActivity extends BaseActivity {
 
@@ -35,6 +44,10 @@ public class MemberFinalActivity extends BaseActivity {
     LinearLayout bottomView;
     @Bind(R.id.activity_member_final)
     RelativeLayout activityMemberFinal;
+    @Bind(R.id.tv_expiry_date)
+    TextView tvExpiryDate;
+    @Bind(R.id.tv_order_number)
+    TextView tvOrderNumber;
 
     @Override
     protected int getLayoutId() {
@@ -55,6 +68,8 @@ public class MemberFinalActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
+
+        memberStatus();
     }
 
     @Override
@@ -90,4 +105,53 @@ public class MemberFinalActivity extends BaseActivity {
                 });
     }
 
+    private int memberStatus() {
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults()!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size()>0;
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()),"yyyy.MM.dd");
+                        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()),"yyyy.MM.dd");
+                        tvExpiryDate.setText("有效期:"+createAt+"-"+endAt);
+                        tvOrderNumber.setText(resultsBean.getMemberNo());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+
+        return 0;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

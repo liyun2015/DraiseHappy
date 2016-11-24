@@ -60,6 +60,10 @@ public class HeaderConfig {
 
 
 
+    public static boolean isMemberStatus(){
+        return !TextUtils.isEmpty((String) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,""));
+    }
+
     /**
      * 昵称
      * @return

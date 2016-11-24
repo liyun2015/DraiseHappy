@@ -1,7 +1,6 @@
 package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -175,7 +174,10 @@ public class MemberCreateActivity extends BaseActivity {
                .subscribe(new Action1<BaseResultsBean>() {
                    @Override
                    public void call(BaseResultsBean baseResultsBean) {
-                       goActivity(MemberStatusActivity.class);
+                       if (baseResultsBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS){
+                           SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(baseResultsBean.getStatusCode()));// 0 已申请会员
+                       }
+                       finish();
                    }
                }, new Action1<Throwable>() {
                    @Override
@@ -190,9 +192,4 @@ public class MemberCreateActivity extends BaseActivity {
                    }
                });
    }
-
-    private void goActivity(Class<?> cls){
-        startActivity(new Intent(mContext, cls));
-        finish();
-    }
 }

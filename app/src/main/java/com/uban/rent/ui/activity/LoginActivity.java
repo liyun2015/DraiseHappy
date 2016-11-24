@@ -21,8 +21,11 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
+import com.uban.rent.module.request.RequestVerifyMember;
+import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.SPUtils;
@@ -30,6 +33,7 @@ import com.uban.rent.util.SPUtils;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -52,11 +56,14 @@ public class LoginActivity extends BaseActivity {
     Button btnLoginLoginSubmit;
     @Bind(R.id.activity_login)
     LinearLayout activityLogin;
+    @Bind(R.id.read_agreement)
+    TextView readAgreement;
     private String code;
     private String phone;
     private boolean sendCode = true;
     public static final int DELAY_SECONDS = 60000;
     private TimeCount time;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -66,6 +73,7 @@ public class LoginActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
     }
+
     private void initView() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -96,13 +104,13 @@ public class LoginActivity extends BaseActivity {
                 });
         RxTextView.textChanges(etLoginCodeNum)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .debounce(600,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread())
+                .debounce(600, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe(new Action1<CharSequence>() {
                     @Override
                     public void call(CharSequence charSequence) {
-                        if (charSequence.length()>=6){
+                        if (charSequence.length() >= 6) {
                             setDrawableLeftView(etLoginCodeNum, R.drawable.ic_login_password_checked);
-                        }else {
+                        } else {
                             setDrawableLeftView(etLoginCodeNum, R.drawable.ic_login_password_normal);
                         }
                     }
@@ -114,13 +122,13 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
-    private void setDrawableLeftView(EditText editText,int resID){
-        Drawable drawable= getResources()
+    private void setDrawableLeftView(EditText editText, int resID) {
+        Drawable drawable = getResources()
                 .getDrawable(resID);
         /// 这一步必须要做,否则不会显示.
         drawable.setBounds(0, 0, drawable.getMinimumWidth(),
                 drawable.getMinimumHeight());
-        editText.setCompoundDrawables(drawable,null,null,null);
+        editText.setCompoundDrawables(drawable, null, null, null);
     }
 
     @Override
@@ -143,7 +151,7 @@ public class LoginActivity extends BaseActivity {
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtil.makeText(this, "手机号不能为空");
                 } else {
-                    if (sendCode){
+                    if (sendCode) {
                         time = new TimeCount(DELAY_SECONDS, 1000);
                         time.start();// 开始计时
                         sendCode();
@@ -158,6 +166,7 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
+                    memberStatus();
                     loginApp();
                 }
                 break;
@@ -182,7 +191,7 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<LoginInBean, Boolean>() {
                     @Override
                     public Boolean call(LoginInBean loginInBean) {
-                        return loginInBean.getStatusCode()== Constants.STATUS_CODE_SUCCESS;
+                        return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .map(new Func1<LoginInBean, LoginInBean.ResultsBean>() {
@@ -194,17 +203,17 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new Action1<LoginInBean.ResultsBean>() {
                     @Override
                     public void call(LoginInBean.ResultsBean resultsBean) {
-                        SPUtils.put(mContext,Constants.NICK_NAME,resultsBean.getNickname());
-                        SPUtils.put(mContext, Constants.UBAN_TOKEN,resultsBean.getToken());
-                        SPUtils.put(mContext,Constants.PHONE,resultsBean.getPhone());
-                        SPUtils.put(mContext,Constants.HEAD_IMAGE,resultsBean.getHeadphoto());
-                        startActivity(new Intent(mContext,MainActivity.class));
+                        SPUtils.put(mContext, Constants.NICK_NAME, resultsBean.getNickname());
+                        SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
+                        SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
+                        SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
+                        startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext,"登录失败");
+                        ToastUtil.makeText(mContext, "登录失败");
                         hideLoadingView();
                     }
                 }, new Action0() {
@@ -216,24 +225,62 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private int memberStatus() {
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS) {
+                            SPUtils.put(mContext, Constants.USER_MEMBER, String.valueOf(verifyMemberBean.getStatusCode()));// 0 已申请会员
+                        } else {
+                            SPUtils.put(mContext, Constants.USER_MEMBER, "");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+
+
+        return 0;
+    }
+
     //发送验证码
     private void sendCode() {
         RequestSendValid requestSendValid = new RequestSendValid();
         requestSendValid.setPhone(phone);
-       ServiceFactory.getProvideHttpService().getSendValidSms(requestSendValid)
-               .compose(this.<BaseResultsBean>bindToLifecycle())
-               .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
-               .subscribe(new Action1<BaseResultsBean>() {
-                   @Override
-                   public void call(BaseResultsBean baseResultsBean) {
+        ServiceFactory.getProvideHttpService().getSendValidSms(requestSendValid)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .subscribe(new Action1<BaseResultsBean>() {
+                    @Override
+                    public void call(BaseResultsBean baseResultsBean) {
 
-                   }
-               }, new Action1<Throwable>() {
-                   @Override
-                   public void call(Throwable throwable) {
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
 
-                   }
-               });
+                    }
+                });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.read_agreement)
+    public void onClick() {
+        startActivity(new Intent(mContext, AgreementActivity.class));
     }
 
     class TimeCount extends CountDownTimer {
@@ -243,8 +290,8 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onFinish() {// 计时完毕时触发
-            sendCode  = true;
-            if (!LoginActivity.this.isFinishing()){
+            sendCode = true;
+            if (!LoginActivity.this.isFinishing()) {
                 tvLoginCodeZx.setText("获取验证码");
             }
         }
@@ -252,8 +299,8 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onTick(long millisUntilFinished) {// 计时过程显示
             sendCode = false;
-            if (!LoginActivity.this.isFinishing()){
-                tvLoginCodeZx.setText( "重发"+millisUntilFinished / 1000 +"s" );//重发60s
+            if (!LoginActivity.this.isFinishing()) {
+                tvLoginCodeZx.setText("重发" + millisUntilFinished / 1000 + "s");//重发60s
             }
         }
     }

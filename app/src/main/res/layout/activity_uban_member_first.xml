@@ -105,7 +105,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_member_card"
+                android:src="@drawable/ic_member_card_normal"
                 android:layout_margin="10dp"
                 android:layout_gravity="center"/>
 

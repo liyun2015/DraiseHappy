@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
@@ -48,11 +51,19 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
-                Intent intent = new Intent();
-                intent.setClass(context, CreateOrdersActivity.class);
-                intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                context.startActivity(intent);
+                if (spaceDeskTypePriceListBean.getWorkDeskType()==3){
+                    if (HeaderConfig.isMemberStatus()){
+                        context.startActivity(new Intent(context,MemberFinalActivity.class));
+                    }else {
+                        context.startActivity(new Intent(context,MemberFirstActivity.class));
+                    }
+                }else {
+                    RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
+                    Intent intent = new Intent();
+                    intent.setClass(context, CreateOrdersActivity.class);
+                    intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                    context.startActivity(intent);
+                }
             }
         });
         return convertView;
@@ -98,15 +109,22 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         }
 
         private void bind(int mPriceType,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
+
             //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
             tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()-1]);
-            if (mPriceType == Constants.RENT_HOUSE){
-                tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
-            }else if (mPriceType ==Constants.RENT_DAY){
-                tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
-            }else if (mPriceType==Constants.RENT_MONTH){
-                tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
+            if ((spaceDeskTypePriceListBean.getWorkDeskType())==Constants.HOT_DESK_TYPE){
+                tvCreateOrder.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
+                tvPrice.setText("会员免费");
+            }else {
+                if (mPriceType == Constants.RENT_HOUSE){
+                    tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
+                }else if (mPriceType ==Constants.RENT_DAY){
+                    tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
+                }else if (mPriceType==Constants.RENT_MONTH){
+                    tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
+                }
             }
+
 
         }
     }

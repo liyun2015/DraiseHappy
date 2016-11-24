@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about_us"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.uban.rent.ui.activity.other.AboutUsActivity">
+
+    <include layout="@layout/include_toolbar" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+
+                        android:background="#220000ff"
+                        android:scaleType="fitXY"/>
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="10dp"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@color/colorPrimary"
+                           android:text="优办移动办公 "/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@color/colorPrimary"
+                           android:text="1.0.0"/>
+                   </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/divider_1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="10dp"
+                android:text="优办移动办公是全国首款联合办公短租平台，为商务人士提供临时办公、会议等服务。与我们合作的联合办公品牌众多，目前遍布北京、上海两大城市的核心商圈，摆脱固定办公的枷锁，让您随时随地可以在舒适的办公环境下处理公务，可享受咖啡、wifi、打印等免费服务。我们将继续在移动办公领域发挥最大的价值，让我们的办公体验更加美好。"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

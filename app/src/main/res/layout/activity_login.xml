@@ -96,6 +96,7 @@
             android:textSize="12sp"
             android:text="点击登录，即表示已阅读并同意"/>
         <TextView
+            android:id="@+id/read_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
