@@ -29,6 +29,8 @@ import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
@@ -94,6 +96,7 @@ public class StationDetailActivity extends BaseActivity {
     private int mWorkPlaceId;
     private int mPrice;
     private int mPriceType;
+    private int wordDeskType;
     private static final String[] TITLE_PRICE_TYPE = new String[]{"","元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
     private ArrayList<String> equipmentServicesImages;
     private ArrayList<String> equipmentServicesnames;
@@ -255,7 +258,6 @@ public class StationDetailActivity extends BaseActivity {
             equipmentServicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + serviceListBean.getFieldImg());
         }
     }
-
     private void initDataView(WorkplaceDetailBean.ResultsBean resultsBean) {
         setaEquipmentServiceList(resultsBean);
         setBannerImags(resultsBean);
@@ -267,8 +269,16 @@ public class StationDetailActivity extends BaseActivity {
         tvWorkplaceDesc.setText(resultsBean.getRentDesc());
         tvWorkplaceTime.setText(resultsBean.getWorkTime());
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
-        tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
-        tvPrice.setText(String.valueOf(mPrice));
+        wordDeskType = resultsBean.getWorkDeskType();
+        if (resultsBean.getWorkDeskType()==3){
+            tvPriceType.setVisibility(View.GONE);
+            tvPrice.setText("会员免费");
+            orderCreate.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
+        }else{
+            tvPriceType.setVisibility(View.VISIBLE);
+            tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
+            tvPrice.setText(String.valueOf(mPrice));
+        }
 
         createOrderParamaBean = new CreateOrderParamaBean();
         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
@@ -346,10 +356,18 @@ public class StationDetailActivity extends BaseActivity {
                 startActivity(serviceIntent);
                 break;
             case R.id.order_create:
-                Intent orderIntent = new Intent();
-                orderIntent.setClass(mContext,CreateOrdersActivity.class);
-                orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                startActivity(orderIntent);
+                if (wordDeskType==Constants.HOT_DESK_TYPE){
+                    if (HeaderConfig.isMemberStatus()){
+                        startActivity(new Intent(mContext,MemberFinalActivity.class));
+                    }else {
+                        startActivity(new Intent(mContext,MemberFirstActivity.class));
+                    }
+                }else {
+                    Intent orderIntent = new Intent();
+                    orderIntent.setClass(mContext,CreateOrdersActivity.class);
+                    orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                    startActivity(orderIntent);
+                }
                 break;
         }
     }

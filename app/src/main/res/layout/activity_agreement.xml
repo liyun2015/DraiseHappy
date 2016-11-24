@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_agreement"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.uban.rent.ui.activity.other.AgreementActivity">
+
+    <include layout="@layout/include_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欢迎来到优办移动办公"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.服务条款"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优办整合100+联合办公空间，打造移动办公、会议室预定、活动场地线上服务平台，更有会员赠送，免费畅享全部hot desk服务，快来加入优办移动办公平台。优办整合100+联合办公空间，打造移动办公、会议室预定、活动场地线上服务平台，更有会员赠送，免费畅享全部hot desk服务，快来加入优办移动办公平台。"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.服务条款"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优办整合100+联合办公空间，打造移动办公、会议室预定、活动场地线上服务平台，更有会员赠送，免费畅享全部hot desk服务，快来加入优办移动办公平台。优办整合100+联合办公空间，打造移动办公、会议室预定、活动场地线上服务平台，更有会员赠送，免费畅享全部hot desk服务，快来加入优办移动办公平台。优办整合100+联合办公空间，打造移动办公、会议室预定、活动场地线上服务平台，更有会员赠送，免费畅享全部hot desk服务，快来加入优办移动办公平台。"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
