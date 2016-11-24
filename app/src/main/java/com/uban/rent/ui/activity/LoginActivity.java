@@ -225,20 +225,35 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private int memberStatus() {
+    private void memberStatus() {
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
                 .compose(this.<VerifyMemberBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size()>0;
+                    }
+                })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS) {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, String.valueOf(verifyMemberBean.getStatusCode()));// 0 已申请会员
-                        } else {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, "");
-                        }
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -246,9 +261,6 @@ public class LoginActivity extends BaseActivity {
 
                     }
                 });
-
-
-        return 0;
     }
 
     //发送验证码

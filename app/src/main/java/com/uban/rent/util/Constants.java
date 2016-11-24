@@ -30,5 +30,9 @@ public class Constants {
     public static final String APP_IMG_URL_EQUIPMENT_SERVICE = "http://img2.static.uban.com/spacelogo/";
     public static final int HOT_DESK_TYPE = 3;
 
+    public static final int MEMBER_STATUS_NOT = 0;//未申请
+    public static final int MEMBER_STATUS_APPLYING = 1;//申请中
+    public static final int MEMBER_STATUS_SUCCESS = 2;//是会员
+
 
 }

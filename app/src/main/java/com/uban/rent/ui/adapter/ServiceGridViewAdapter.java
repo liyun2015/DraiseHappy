@@ -37,7 +37,7 @@ public class ServiceGridViewAdapter extends UBBaseAdapter<SpaceDetailBean.Result
         final SpaceDetailBean.ResultsBean.ServiceListBean serviceListBean = list.get(i);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_detail_service_equipment, null);
+            convertView = View.inflate(mContext, R.layout.item_detail_service_equipment, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

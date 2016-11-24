@@ -12,19 +12,19 @@ import java.util.List;
  */
 public abstract class UBBaseAdapter<T, Q> extends BaseAdapter {
 
-	public Context context;
+	public Context mContext;
 	public List<T> list;//
 	public Q view;
 
 
 	public UBBaseAdapter(Context context, List<T> list, Q view) {
-		this.context = context;
+		this.mContext = context;
 		this.list = list;
 		this.view = view;
 	}
 
 	public UBBaseAdapter(Context context, List<T> list) {
-		this.context = context;
+		this.mContext = context;
 		this.list = list;
 		
 	}

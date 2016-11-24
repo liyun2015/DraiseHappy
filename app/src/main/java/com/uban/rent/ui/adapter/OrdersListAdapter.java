@@ -33,7 +33,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, 
         OrderListBean.ResultsBean resultsBean = list.get(i);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_user_order, null);
+            convertView = View.inflate(mContext, R.layout.item_user_order, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

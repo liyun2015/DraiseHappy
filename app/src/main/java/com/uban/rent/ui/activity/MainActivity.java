@@ -54,15 +54,15 @@ import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
-import com.uban.rent.ui.activity.member.MemberFinalActivity;
-import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
@@ -595,11 +595,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_member:
-                if (HeaderConfig.isMemberStatus()){
-                    goActivity(MemberFinalActivity.class);
-                }else {
-                    goActivity(MemberFirstActivity.class);
-                }
+                memberStatus();
                 break;
             case R.id.nav_order:
                 goActivity(OrderListActivity.class);
@@ -614,7 +610,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+    private void memberStatus() {
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size()>0;
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
+                        BaseActivityMemberStatusGoView();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
 
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

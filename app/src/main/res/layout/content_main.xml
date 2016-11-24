@@ -31,7 +31,6 @@
         android:layout_height="0dp"
         android:layout_weight="4"
         android:orientation="vertical"
-        android:background="#00000000"
         android:visibility="gone">
         <include layout="@layout/include_marker_top_view"/>
 
