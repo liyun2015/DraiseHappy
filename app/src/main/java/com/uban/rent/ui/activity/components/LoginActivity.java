@@ -1,4 +1,4 @@
-package com.uban.rent.ui.activity;
+package com.uban.rent.ui.activity.components;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,6 +25,7 @@ import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestVerifyMember;
+import com.uban.rent.ui.activity.MainActivity;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -71,6 +72,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
         initView();
     }
 
@@ -225,30 +227,43 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private int memberStatus() {
+    private void memberStatus() {
+
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
                 .compose(this.<VerifyMemberBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size()>0;
+                    }
+                })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS) {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, String.valueOf(verifyMemberBean.getStatusCode()));// 0 已申请会员
-                        } else {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, "");
-                        }
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
                     }
                 });
-
-
-        return 0;
     }
 
     //发送验证码

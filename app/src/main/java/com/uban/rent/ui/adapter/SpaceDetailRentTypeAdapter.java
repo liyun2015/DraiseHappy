@@ -6,16 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.uban.rent.App;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
-import com.uban.rent.ui.activity.member.MemberFirstActivity;
+import com.uban.rent.ui.activity.member.MemberStatusActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.SPUtils;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         final SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean = list.get(position);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_space_detail, null);
+            convertView = View.inflate(mContext, R.layout.item_space_detail, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -51,18 +53,21 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spaceDeskTypePriceListBean.getWorkDeskType()==3){
-                    if (HeaderConfig.isMemberStatus()){
-                        context.startActivity(new Intent(context,MemberFinalActivity.class));
-                    }else {
-                        context.startActivity(new Intent(context,MemberFirstActivity.class));
+                if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
+                    int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
+                    if (memberStatus==Constants.MEMBER_STATUS_NOT){
+                        mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
+                    }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
+                        mContext.startActivity(new Intent(mContext, MemberStatusActivity.class));
+                    }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
+                        mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
                     }
                 }else {
                     RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
                     Intent intent = new Intent();
-                    intent.setClass(context, CreateOrdersActivity.class);
+                    intent.setClass(mContext, CreateOrdersActivity.class);
                     intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                    context.startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             }
         });
@@ -124,8 +129,6 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                     tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
                 }
             }
-
-
         }
     }
 

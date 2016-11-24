@@ -63,6 +63,7 @@
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp">
                     <TextView
+                        android:id="@+id/member_order_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="订单编号：161109"
@@ -71,6 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
                     <TextView
+                        android:id="@+id/member_order_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorGray"
@@ -79,6 +81,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/member_order_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -112,6 +115,7 @@
                     android:text="持卡人："
                     android:textSize="14sp"/>
                 <TextView
+                    android:id="@+id/member_status_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="周诗雨"
@@ -124,11 +128,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp">
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="持卡人联系电话："
                     android:textSize="14sp"/>
                 <TextView
+                    android:id="@+id/member_status_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="13911616254"
@@ -175,6 +181,7 @@
                 android:layout_marginTop="10dp"
                 android:text="订单价格：0元"/>
             <TextView
+                android:id="@+id/member_date_expiry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorGray"

@@ -39,7 +39,7 @@ public class EquipmentGridViewAdapter extends UBBaseAdapter<SpaceDetailBean.Resu
         final SpaceDetailBean.ResultsBean.EquipmentListBean spaceDeskTypePriceListBean = list.get(i);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_detail_service_equipment, null);
+            convertView = View.inflate(mContext, R.layout.item_detail_service_equipment, null);
             AbsListView.LayoutParams param = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gridView.getHeight()/ROW_NUMBER);
             convertView.setLayoutParams(param);
             holder = new ViewHolder(convertView);

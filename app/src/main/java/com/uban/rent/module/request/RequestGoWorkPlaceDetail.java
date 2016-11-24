@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class RequestGoWorkPlaceDetail implements Serializable {
     private int workplaceDetailId;
     private int priceType;
-    private int price;
 
     public int getWorkplaceDetailId() {
         return workplaceDetailId;
@@ -27,13 +26,5 @@ public class RequestGoWorkPlaceDetail implements Serializable {
 
     public void setPriceType(int priceType) {
         this.priceType = priceType;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

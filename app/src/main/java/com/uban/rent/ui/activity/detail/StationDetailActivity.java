@@ -117,9 +117,9 @@ public class StationDetailActivity extends BaseActivity {
 
     private void registerScheme() {
         Intent intent = getIntent();
-        Uri uri = intent.getData();
-        if (uri != null) {
-            String query = uri.getQuery();
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String query = uri.getQuery();
             /**
              *     private int spaceDetailId;
              private double locationX;
@@ -133,7 +133,6 @@ public class StationDetailActivity extends BaseActivity {
             String stationDetailId = uri.getQueryParameter("stationDetailId");
             String spaceDetailId = uri.getQueryParameter("spaceDetailId");
             String orderPriceType = uri.getQueryParameter("orderPriceType");
-            String orderPrice = uri.getQueryParameter("orderPrice");
             String locationX = uri.getQueryParameter("locationX");
             String locationY = uri.getQueryParameter("locationY");
 
@@ -162,13 +161,11 @@ public class StationDetailActivity extends BaseActivity {
             requestGoSpaceDetail = requestGoSpaceDetailScheme;
 
             mWorkPlaceId = Integer.parseInt(stationDetailId);
-            mPrice = Integer.parseInt(orderPrice);
             mPriceType = Integer.parseInt(orderPriceType);
         }else {
             requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL);
             RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
             mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
-            mPrice = requestGoWorkPlaceDetail.getPrice();
             mPriceType = requestGoWorkPlaceDetail.getPriceType();
         }
         initData();
@@ -277,6 +274,13 @@ public class StationDetailActivity extends BaseActivity {
         }else{
             tvPriceType.setVisibility(View.VISIBLE);
             tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
+            if (mPriceType==Constants.RENT_HOUSE){
+                mPrice = resultsBean.getHourPrice();
+            }else if (mPriceType==Constants.RENT_DAY){
+                mPrice = resultsBean.getDayPrice();
+            }else if (mPriceType==Constants.RENT_MONTH){
+                mPrice = resultsBean.getWorkDeskPrice();
+            }
             tvPrice.setText(String.valueOf(mPrice));
         }
 

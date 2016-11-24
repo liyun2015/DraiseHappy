@@ -8,6 +8,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.util.Constants;
 
 import java.util.concurrent.TimeUnit;

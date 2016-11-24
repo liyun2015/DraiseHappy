@@ -55,13 +55,21 @@ public class HeaderConfig {
         if (TextUtils.isEmpty(headImage))
             return "";
         else
-            return headImage;
+           return headImage;
     }
 
 
 
     public static boolean isMemberStatus(){
-        return !TextUtils.isEmpty((String) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,""));
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
+        if (memberStatus==Constants.MEMBER_STATUS_NOT){
+            return false;
+        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
+            return false;
+        }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
+            return true;
+        }
+        return false;
     }
 
     /**

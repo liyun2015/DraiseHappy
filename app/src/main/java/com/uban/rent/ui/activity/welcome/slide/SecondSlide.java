@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
-import com.uban.rent.ui.activity.LoginActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.MainActivity;
 
 import butterknife.Bind;

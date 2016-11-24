@@ -103,20 +103,83 @@ public class OrderListBean {
     }
 
     public static class ResultsBean {
+
+        /**
+         * cityId : 12
+         * cityName : 2
+         * cellPhone : 13800000000
+         * spaceArea : 0
+         * unitPrice : 0
+         * refundDesc : 2
+         * type : 1
+         * endTime : 1462539600
+         * rentTime : 0
+         * level : 2
+         * failureTime : 0
+         * cancleAt : 1479976519000
+         * gender : 0
+         * workDeskId : 48
+         * modifyAt : 1462504726000
+         * fullname : 测试
+         * demand : 测试勿扰
+         * tradeNo : 2
+         * beginTime : 1462525200
+         * buyerEmail : 2
+         * mark : 2
+         * dealPrice : 2
+         * payStatus : 0
+         * invalidDetail : 2
+         * company : 222
+         * understandWay : 2
+         * owner : 2
+         * payType : 0
+         * refundAt : 1479976510000
+         * position : 2
+         * refundApplyAt : 1479976498000
+         * spaceNamePinyin : bjkw
+         * trade : 2
+         * state : 3
+         * paymentAt : 1479976495000
+         * rentType : 0
+         * tradeArea : CBD
+         * workDeskType : 5
+         * spaceName : 酷窝
+         * officespaceOrderId : 544
+         * workDeskNum : 1
+         * shortRentFlag : 0
+         * paymentAtString :
+         * creatorId : 2
+         * origin : 0
+         * spaceId : 55
+         * isDeleted : 1
+         * buyerId : 2
+         * orderPlatform : 0
+         * createAt : 1462504550000
+         * payMoney : 2
+         * workdeskId : 0
+         * creatorName : 2
+         * orderNo : UB055160506003
+         * areaName : 朝阳
+         * invalidType : 2
+         * service : 2
+         * companyType : 2
+         */
+
         private int cityId;
         private String cityName;
         private String cellPhone;
-        private int spaceArea;
+        private double spaceArea;
+        private double unitPrice;
         private String refundDesc;
         private int type;
         private int endTime;
         private int rentTime;
         private int level;
         private int failureTime;
-        private Object cancleAt;
+        private long cancleAt;
         private int gender;
         private int workDeskId;
-        private Object modifyAt;
+        private long modifyAt;
         private String fullname;
         private String demand;
         private String tradeNo;
@@ -130,9 +193,9 @@ public class OrderListBean {
         private String understandWay;
         private int owner;
         private int payType;
-        private Object refundAt;
+        private long refundAt;
         private String position;
-        private Object refundApplyAt;
+        private long refundApplyAt;
         private String spaceNamePinyin;
         private String trade;
         private int state;
@@ -143,6 +206,7 @@ public class OrderListBean {
         private String spaceName;
         private int officespaceOrderId;
         private int workDeskNum;
+        private int shortRentFlag;
         private String paymentAtString;
         private int creatorId;
         private int origin;
@@ -152,6 +216,7 @@ public class OrderListBean {
         private int orderPlatform;
         private long createAt;
         private int payMoney;
+        private int workdeskId;
         private String creatorName;
         private String orderNo;
         private String areaName;
@@ -183,12 +248,20 @@ public class OrderListBean {
             this.cellPhone = cellPhone;
         }
 
-        public int getSpaceArea() {
+        public double getSpaceArea() {
             return spaceArea;
         }
 
-        public void setSpaceArea(int spaceArea) {
+        public void setSpaceArea(double spaceArea) {
             this.spaceArea = spaceArea;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(double unitPrice) {
+            this.unitPrice = unitPrice;
         }
 
         public String getRefundDesc() {
@@ -239,11 +312,11 @@ public class OrderListBean {
             this.failureTime = failureTime;
         }
 
-        public Object getCancleAt() {
+        public long getCancleAt() {
             return cancleAt;
         }
 
-        public void setCancleAt(Object cancleAt) {
+        public void setCancleAt(long cancleAt) {
             this.cancleAt = cancleAt;
         }
 
@@ -263,11 +336,11 @@ public class OrderListBean {
             this.workDeskId = workDeskId;
         }
 
-        public Object getModifyAt() {
+        public long getModifyAt() {
             return modifyAt;
         }
 
-        public void setModifyAt(Object modifyAt) {
+        public void setModifyAt(long modifyAt) {
             this.modifyAt = modifyAt;
         }
 
@@ -375,11 +448,11 @@ public class OrderListBean {
             this.payType = payType;
         }
 
-        public Object getRefundAt() {
+        public long getRefundAt() {
             return refundAt;
         }
 
-        public void setRefundAt(Object refundAt) {
+        public void setRefundAt(long refundAt) {
             this.refundAt = refundAt;
         }
 
@@ -391,11 +464,11 @@ public class OrderListBean {
             this.position = position;
         }
 
-        public Object getRefundApplyAt() {
+        public long getRefundApplyAt() {
             return refundApplyAt;
         }
 
-        public void setRefundApplyAt(Object refundApplyAt) {
+        public void setRefundApplyAt(long refundApplyAt) {
             this.refundApplyAt = refundApplyAt;
         }
 
@@ -479,6 +552,14 @@ public class OrderListBean {
             this.workDeskNum = workDeskNum;
         }
 
+        public int getShortRentFlag() {
+            return shortRentFlag;
+        }
+
+        public void setShortRentFlag(int shortRentFlag) {
+            this.shortRentFlag = shortRentFlag;
+        }
+
         public String getPaymentAtString() {
             return paymentAtString;
         }
@@ -549,6 +630,14 @@ public class OrderListBean {
 
         public void setPayMoney(int payMoney) {
             this.payMoney = payMoney;
+        }
+
+        public int getWorkdeskId() {
+            return workdeskId;
+        }
+
+        public void setWorkdeskId(int workdeskId) {
+            this.workdeskId = workdeskId;
         }
 
         public String getCreatorName() {

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
-import com.uban.rent.ui.activity.LoginActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
 import com.uban.rent.util.SPUtils;
 

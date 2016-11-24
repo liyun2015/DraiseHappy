@@ -21,11 +21,15 @@ import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
+
+import static com.uban.rent.util.TimeUtils.formatTime;
 
 public class MemberStatusActivity extends BaseActivity {
     public static final int memberType = 1;
@@ -44,7 +48,20 @@ public class MemberStatusActivity extends BaseActivity {
     View bottomLine;
     @Bind(R.id.activity_member_status)
     RelativeLayout activityMemberStatus;
+    @Bind(R.id.member_order_number)
+    TextView memberOrderNumber;
+    @Bind(R.id.member_order_date)
+    TextView memberOrderDate;
+    @Bind(R.id.member_order_status)
+    TextView memberOrderStatus;
+    @Bind(R.id.member_status_username)
+    TextView memberStatusUsername;
+    @Bind(R.id.member_status_phone)
+    TextView memberStatusPhone;
+    @Bind(R.id.member_date_expiry)
+    TextView memberDateExpiry;
 
+    private static final String[] STATUS_CODE = new String[]{"取消", "申请会员", "申请成功"};
     @Override
     protected int getLayoutId() {
         return R.layout.activity_member_status;
@@ -55,7 +72,6 @@ public class MemberStatusActivity extends BaseActivity {
         initView();
         initData();
     }
-
 
 
     private void initView() {
@@ -70,33 +86,54 @@ public class MemberStatusActivity extends BaseActivity {
     }
 
     private void initData() {
+
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(memberType);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
                 .compose(this.<VerifyMemberBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
-                .doOnSubscribe(new Action0() {
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
-                    public void call() {
-                        showLoadingView();
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults()!=null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size()>0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        initDataView(resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        hideLoadingView();
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
-                        hideLoadingView();
+
                     }
                 });
+    }
+
+    private void initDataView(VerifyMemberBean.ResultsBean resultsBean) {
+        memberOrderNumber.setText("订单编号"+resultsBean.getMemberNo());
+        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()),"yyyy.MM.dd");
+        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()),"yyyy.MM.dd");
+        memberDateExpiry.setText("有效期:"+createAt+"-"+endAt);
+        memberStatusPhone.setText(resultsBean.getPhone());
+        memberStatusUsername.setText(resultsBean.getName());
+        memberOrderStatus.setText(STATUS_CODE[resultsBean.getStatus()]);
+        String createAtstr = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()),"yyyy.MM.dd HH:mm:ss");
+        memberOrderDate.setText(createAtstr);
     }
 
     @Override
@@ -131,4 +168,10 @@ public class MemberStatusActivity extends BaseActivity {
         callPhone();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
