@@ -18,6 +18,7 @@ import com.uban.rent.util.SPUtils;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
+    public static final String TAG = BaseActivity.class.getSimpleName();
     public Context mContext;
     public Activity mActivity;
     private LoadingProgress loadingProgress;

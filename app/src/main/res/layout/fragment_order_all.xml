@@ -9,7 +9,7 @@
         android:id="@+id/swipe_refresh_user_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
+        <com.uban.rent.ui.view.GetMoreListView
             android:id="@+id/lv_user_order"
             android:layout_width="match_parent"
             android:dividerHeight="10dp"

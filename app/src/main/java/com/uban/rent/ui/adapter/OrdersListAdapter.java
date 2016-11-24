@@ -23,14 +23,14 @@ import butterknife.ButterKnife;
  * Email dawabo@163.com
  */
 
-public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, UbanListView> {
-    public OrdersListAdapter(Context context, List<OrderListBean.ResultsBean> list) {
+public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.DatasBean, UbanListView> {
+    public OrdersListAdapter(Context context, List<OrderListBean.ResultsBean.DatasBean> list) {
         super(context, list);
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        OrderListBean.ResultsBean resultsBean = list.get(i);
+        OrderListBean.ResultsBean.DatasBean resultsBean = list.get(i);
         ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_user_order, null);
@@ -43,7 +43,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, 
         return convertView;
     }
 
-    public void changeData(List<OrderListBean.ResultsBean> list) {
+    public void changeData(List<OrderListBean.ResultsBean.DatasBean> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -68,7 +68,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean, 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-        private void bind(OrderListBean.ResultsBean resultsBean) {
+        private void bind(OrderListBean.ResultsBean.DatasBean resultsBean) {
             orderNumber.setText("订单编号："+resultsBean.getOrderNo());
             orderStatus.setText("订单状态："+orderStatus(resultsBean.getState()));
             orderBuildingName.setText(resultsBean.getSpaceName());
