@@ -27,6 +27,15 @@ public class RequestCreatOrder {
     private int beginTime;
     private int endTime;
     private int cityId;
+
+    public int getWorkdeskId() {
+        return workdeskId;
+    }
+
+    public void setWorkdeskId(int workdeskId) {
+        this.workdeskId = workdeskId;
+    }
+
     private double payMoney;
     private String reserved = "android";
     private int workDeskType;
@@ -34,6 +43,7 @@ public class RequestCreatOrder {
     private int rentType;
     private long failureTime;
     private int unitPrice;
+    private int workdeskId;
 
     public int getUnitPrice() {
         return unitPrice;

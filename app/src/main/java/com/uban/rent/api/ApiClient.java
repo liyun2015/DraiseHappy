@@ -8,6 +8,7 @@ import com.uban.rent.module.OrderListBean;
 import com.uban.rent.module.SearchKeyWord;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.VerifyMemberBean;
+import com.uban.rent.module.WXPayProviderBean;
 import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestApplyMember;
 import com.uban.rent.module.request.RequestCreatOrder;
@@ -22,6 +23,7 @@ import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
+import com.uban.rent.module.request.UnifieOrderBean;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -85,4 +87,8 @@ public interface ApiClient {
     //获取联想词
     @POST("/mainapi/dzofficespaceBasicProvider/searchKeyWords")
     Observable<SearchKeyWord> getSearchKeyWords(@Body RequestSearchKeyWord requestSearchKeyWord);
+
+    //微信支付接口
+    @POST("/mainapi/wXPayProvider/unifiedorder")
+    Observable<WXPayProviderBean> getUnifiedorder(@Body UnifieOrderBean requestUnifieDorder);
 }

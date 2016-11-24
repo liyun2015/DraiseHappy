@@ -61,7 +61,7 @@ public class HeaderConfig {
 
 
     public static boolean isMemberStatus(){
-        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,"");
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
             return false;
         }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中

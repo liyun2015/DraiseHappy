@@ -29,6 +29,7 @@ import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.TimeUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -120,7 +121,7 @@ public class OrdersDetailActivity extends BaseActivity {
     RelativeLayout activityOrdersDetail;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
-    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待支付", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
+    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
     private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private int workDeskType;
     private int priceType;
@@ -182,8 +183,11 @@ public class OrdersDetailActivity extends BaseActivity {
             orderState.setText(ORDER_TYPE_STR[2]);
             orderState.setTextColor(getResources().getColor(R.color.colorAccent));
             messageRemindStr.setVisibility(View.VISIBLE);
-            bottomView.setVisibility(View.GONE);
-            bottomLine.setVisibility(View.GONE);
+            bottomView.setVisibility(View.VISIBLE);
+            bottomLine.setVisibility(View.VISIBLE);
+            orderCreate.setVisibility(View.VISIBLE);
+            makingCall.setVisibility(View.GONE);
+            cancelOrderBtn.setText("取消订单");
             TimeCount time = new TimeCount(failureAt, 1000);
             time.start();// 开始计时
         } else if (state == ORDER_TYPE[3]) {//4支付成功
@@ -330,7 +334,7 @@ public class OrdersDetailActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_order_btn:
-                if(state == ORDER_TYPE[1]){//取消订单
+                if(state == ORDER_TYPE[1]||state == ORDER_TYPE[2]){//取消订单
                     showCancelPop();
                 }else if(state == ORDER_TYPE[3]){//申请退款
                     Intent intent = new Intent();
@@ -342,8 +346,8 @@ public class OrdersDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.submit_right_btn:// 提交
-                if(state == ORDER_TYPE[1]){//立即支付
-                    goActivity(OrderPaymentActivity.class);
+                if(state == ORDER_TYPE[1]||state == ORDER_TYPE[2]){//立即支付
+                    goActivity(WXPayEntryActivity.class);
                 }else if(state == ORDER_TYPE[3]){//拨打电话
                     callPhone();
                 }
@@ -371,7 +375,7 @@ public class OrdersDetailActivity extends BaseActivity {
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext,cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
     }

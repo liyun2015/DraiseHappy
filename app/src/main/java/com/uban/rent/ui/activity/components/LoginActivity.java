@@ -72,6 +72,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
         initView();
     }
 
@@ -227,6 +228,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void memberStatus() {
+
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
@@ -259,7 +261,7 @@ public class LoginActivity extends BaseActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
                     }
                 });
     }

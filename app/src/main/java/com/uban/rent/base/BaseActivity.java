@@ -41,7 +41,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public void BaseActivityMemberStatusGoView(){
-        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,"");
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
             startActivity(new Intent(mContext, MemberFinalActivity.class));
         }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中

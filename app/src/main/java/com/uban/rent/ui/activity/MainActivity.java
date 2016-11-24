@@ -316,7 +316,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mPriceType = tab.getPosition()+1;
-                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition()+1);
+                spaceDetailRentTypeAdapter.setPriceType(mPriceType);
             }
 
             @Override
@@ -526,8 +526,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tvMarkerGongwei.setText(resultsBean.getRentNum() + "个工位在租");
         spaceDeskTypePriceListBeen.clear();
         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
-        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);
-        lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
+        if (spaceDetailRentTypeAdapter==null){
+            spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);
+            lvMarkerList.setAdapter(spaceDetailRentTypeAdapter);
+        }else {
+            spaceDetailRentTypeAdapter.setPriceType(mPriceType);
+        }
         isShowBottomView(true);
     }
 
@@ -644,7 +648,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        BaseActivityMemberStatusGoView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        BaseActivityMemberStatusGoView();
                     }
                 });
     }

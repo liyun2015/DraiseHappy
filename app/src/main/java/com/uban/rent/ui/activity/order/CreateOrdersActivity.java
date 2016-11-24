@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.R;
-import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
@@ -28,6 +27,7 @@ import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import java.util.Calendar;
 
@@ -143,6 +143,8 @@ public class CreateOrdersActivity extends BaseActivity {
     private String orderEnd;
     private int rentTime = 0;
     private  String workHoursBegin,workHoursEnd;
+    private int workDeskId;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_create_orders;
@@ -152,19 +154,19 @@ public class CreateOrdersActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         CreateOrderParamaBean createOrderParamaBean = (CreateOrderParamaBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_PARAME_BEAN);
         spaceDeskId = createOrderParamaBean.getSpaceDeskId();
+        workDeskId = createOrderParamaBean.getWorkDeskId();
         String spaceDeskName = createOrderParamaBean.getSpaceDeskName();
         String spaceDeskAddress = createOrderParamaBean.getSpaceDeskAddress();
-        priceType = createOrderParamaBean.getPriceType() + 1;
+        priceType = createOrderParamaBean.getPriceType();
         price = createOrderParamaBean.getPrice();
         workDeskType = createOrderParamaBean.getWorkDeskType();
         workHoursBegin = createOrderParamaBean.getWorkHoursBegin();
         workHoursEnd = createOrderParamaBean.getWorkHoursEnd();
-
+        initView();
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
         totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
-        initView();
     }
 
     private void initPriceView() {
@@ -266,7 +268,7 @@ public class CreateOrdersActivity extends BaseActivity {
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
     }
@@ -346,14 +348,13 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
         requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
-        requestCreatOrder.setCellPhone(HeaderConfig.phoneNum());
         requestCreatOrder.setRentType(priceType);
-        requestCreatOrder.setReserved(Constants.RESERVED_PHONE);
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(workDeskType);
         requestCreatOrder.setWorkDeskNum(loctionNum);
         requestCreatOrder.setSpaceId(spaceDeskId);
         requestCreatOrder.setUnitPrice(price);
+        requestCreatOrder.setWorkdeskId(workDeskId);
         ServiceFactory.getProvideHttpService().creatShortRentOrder(requestCreatOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
@@ -379,7 +380,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        goActivity(OrderPaymentActivity.class, resultsBean);
+                        goActivity(WXPayEntryActivity.class, resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
