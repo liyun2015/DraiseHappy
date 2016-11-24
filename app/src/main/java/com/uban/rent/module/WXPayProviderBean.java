@@ -70,6 +70,15 @@ public class WXPayProviderBean {
         private String return_code;
         private String nonce_str;
         private String trade_type;
+        private String timestamp;
+
+        public String getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(String timestamp) {
+            this.timestamp = timestamp;
+        }
 
         public String getSign() {
             return sign;

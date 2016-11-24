@@ -29,6 +29,7 @@ import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.TimeUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -346,7 +347,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 break;
             case R.id.submit_right_btn:// 提交
                 if(state == ORDER_TYPE[1]||state == ORDER_TYPE[2]){//立即支付
-                    goActivity(OrderPaymentActivity.class);
+                    goActivity(WXPayEntryActivity.class);
                 }else if(state == ORDER_TYPE[3]){//拨打电话
                     callPhone();
                 }
@@ -374,7 +375,7 @@ public class OrdersDetailActivity extends BaseActivity {
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext,cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
     }

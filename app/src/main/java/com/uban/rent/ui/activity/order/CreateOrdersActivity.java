@@ -27,6 +27,7 @@ import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.TimeUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import java.util.Calendar;
 
@@ -267,7 +268,7 @@ public class CreateOrdersActivity extends BaseActivity {
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(OrderPaymentActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
     }
@@ -379,7 +380,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        goActivity(OrderPaymentActivity.class, resultsBean);
+                        goActivity(WXPayEntryActivity.class, resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
