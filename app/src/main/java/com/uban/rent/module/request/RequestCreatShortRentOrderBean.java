@@ -201,7 +201,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
         private int type;
         private String understandWay;
         private int workDeskId;
-        private int workDeskNum;
+        private String workDeskNum;
         private int workDeskType;
         private String creatAt;
         private int failureAt;
@@ -638,11 +638,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             this.workDeskId = workDeskId;
         }
 
-        public int getWorkDeskNum() {
+        public String getWorkDeskNum() {
             return workDeskNum;
         }
 
-        public void setWorkDeskNum(int workDeskNum) {
+        public void setWorkDeskNum(String workDeskNum) {
             this.workDeskNum = workDeskNum;
         }
 
