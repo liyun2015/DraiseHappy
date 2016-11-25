@@ -6,16 +6,16 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseFragment;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.OrderListBean;
 import com.uban.rent.module.request.RequestRentOrderList;
-import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.adapter.OrdersListAdapter;
+import com.uban.rent.ui.view.GetMoreListView;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 
@@ -36,15 +36,15 @@ import rx.functions.Func1;
 public class OrderListFragment extends BaseFragment {
     public static final String KEY_TITLE = "title";
     @Bind(R.id.lv_user_order)
-    ListView lvUserOrder;
+    GetMoreListView lvUserOrder;
     @Bind(R.id.swipe_refresh_user_order)
     SwipeRefreshLayout swipeRefreshUserOrder;
     private int workDeskType;
     private Handler handler;
-    private List<OrderListBean.ResultsBean> listBeen;
+    private List<OrderListBean.ResultsBean.DatasBean> listBeen;
     private OrdersListAdapter ordersListAdapter;
-    private int currentPage = 1;
-
+    private int pageIndex = 1;
+    private int pageSize = 10;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order_all;
@@ -65,8 +65,8 @@ public class OrderListFragment extends BaseFragment {
         handler = new Handler();
         initView();
         initData(workDeskType);
-
     }
+
     private void initView() {
         ordersListAdapter = new OrdersListAdapter(mContext, listBeen);
         lvUserOrder.setAdapter(ordersListAdapter);
@@ -77,8 +77,22 @@ public class OrderListFragment extends BaseFragment {
                     @Override
                     public void run() {
                         listBeen.clear();
+                        pageIndex = 1;
                         initData(workDeskType);
+                        lvUserOrder.setHasMore();
                         swipeRefreshUserOrder.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+        lvUserOrder.setOnGetMoreListener(new GetMoreListView.OnGetMoreListener() {
+            @Override
+            public void onGetMore() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        initData(workDeskType);
                     }
                 }, 1000);
             }
@@ -87,7 +101,7 @@ public class OrderListFragment extends BaseFragment {
         lvUserOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                OrderListBean.ResultsBean resultsBean = listBeen.get(position);
+                OrderListBean.ResultsBean.DatasBean resultsBean = listBeen.get(position);
                 Intent intent = new Intent();
                 intent.setClass(mContext, OrdersDetailActivity.class);
                 intent.putExtra(OrdersDetailActivity.KEY_ORDER_NUMBER,resultsBean.getOrderNo());
@@ -98,6 +112,8 @@ public class OrderListFragment extends BaseFragment {
     private void initData(int workDeskType) {
         RequestRentOrderList requestRentOrderList = new RequestRentOrderList();
         requestRentOrderList.setWorkDeskTypes(workDeskType);
+        requestRentOrderList.setPageIndex(pageIndex);
+        requestRentOrderList.setPageSize(pageSize);
         ServiceFactory.getProvideHttpService().getShortRentOrder(requestRentOrderList)
                 .compose(this.<OrderListBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<OrderListBean>io_main())
@@ -113,16 +129,24 @@ public class OrderListFragment extends BaseFragment {
                         return orderListBean.getStatusCode()== Constants.STATUS_CODE_SUCCESS;
                     }
                 })
-                .subscribe(new Action1<OrderListBean>() {
+                .map(new Func1<OrderListBean, OrderListBean.ResultsBean>() {
                     @Override
-                    public void call(OrderListBean orderListBean) {
-                        initAdapter(orderListBean.getResults());
+                    public OrderListBean.ResultsBean call(OrderListBean orderListBean) {
+                        return orderListBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<OrderListBean.ResultsBean>() {
+                    @Override
+                    public void call(OrderListBean.ResultsBean resultsBean) {
+                        initAdapter(resultsBean.getDatas());
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         hideLoadingView();
-                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
+                        swipeRefreshUserOrder.setRefreshing(false);
+                        lvUserOrder.getMoreComplete();
+                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) );
                     }
                 }, new Action0() {
                     @Override
@@ -133,12 +157,18 @@ public class OrderListFragment extends BaseFragment {
     }
 
 
-    private void initAdapter(List<OrderListBean.ResultsBean> datasBeanList) {
-        List<OrderListBean.ResultsBean> list = new ArrayList<>();
+    private void initAdapter(List<OrderListBean.ResultsBean.DatasBean> datasBeanList) {
+        List<OrderListBean.ResultsBean.DatasBean> list = new ArrayList<>();
         list.addAll(datasBeanList);
-        currentPage++;
+        if (list.size()<10){
+            lvUserOrder.setNoMore();
+        }else {
+            lvUserOrder.setHasMore();
+        }
+        pageIndex++;
         listBeen.addAll(list);
         ordersListAdapter.changeData(listBeen);
+        lvUserOrder.getMoreComplete();
         swipeRefreshUserOrder.setRefreshing(false);
     }
 

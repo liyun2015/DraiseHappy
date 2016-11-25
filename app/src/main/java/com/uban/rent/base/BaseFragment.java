@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseFragment extends RxFragment {
+    public static final String TAG = BaseFragment.class.getSimpleName();
     public Context mContext;
     public Activity mActivity;
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
