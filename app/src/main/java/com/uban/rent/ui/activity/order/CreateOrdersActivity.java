@@ -240,11 +240,13 @@ public class CreateOrdersActivity extends BaseActivity {
         numder_of_stations.setText(String.valueOf(loctionNum));
         numderOfMonths.setText(String.valueOf(monthNum));
         if (priceType == 1) {
-            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
+            Calendar calendar = Calendar.getInstance();
+            int curHour = calendar.get(Calendar.HOUR_OF_DAY);
+            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour+2)+":00");
+            endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ")+ (curHour+3) + ":00");
         } else {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
         }
-        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
     }
 
     @Override
