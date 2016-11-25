@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.adapter.FragmentTabAdapter;
-import com.uban.rent.ui.fragment.OrderListFragment;
+import com.uban.rent.ui.fragment.OrderAllFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +44,7 @@ public class OrderListActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        listFragments = new ArrayList<>();
         initView();
     }
 
@@ -55,9 +56,9 @@ public class OrderListActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("我的订单");
-        listFragments = new ArrayList<>();
+        viewPagerUserOrder.setOffscreenPageLimit(3);
         for (int i = 0; i < TITLE_NAME.length; i++) {
-            listFragments.add(OrderListFragment.newInstance(i));
+            listFragments.add(OrderAllFragment.newInstance(i));
         }
         tabUserOrder.setTabMode(TabLayout.MODE_FIXED);
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
@@ -65,11 +66,9 @@ public class OrderListActivity extends BaseActivity {
         tabUserOrder.setupWithViewPager(viewPagerUserOrder);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify ic_home_meun_member parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:

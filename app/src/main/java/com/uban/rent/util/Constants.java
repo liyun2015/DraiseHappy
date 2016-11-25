@@ -19,7 +19,7 @@ public class Constants {
     public static final String RESERVED = "reserved";
     public static final String RESERVED_PHONE = "android";
     public static final String[] CITY_ID= new String[] { "12", "13"};
-    public static final String[] WORK_DESK_TYPE_NAME= new String[] {"独立空间" , "开放空间", "hot desk" , "独立工位" ,"开放工位" ,"会议室" ,"活动场地"};
+    public static final String[] WORK_DESK_TYPE_NAME= new String[] {"","独立空间" , "开放空间", "hot desk" , "独立工位" ,"开放工位" ,"会议室" ,"活动场地"};
     public static final int RENT_HOUSE = 1;
     public static final int RENT_DAY = 2;
     public static final int RENT_MONTH = 3;
