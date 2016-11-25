@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uban.rent.App;
@@ -109,26 +110,35 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         @Bind(R.id.tv_create_order)
         TextView tvCreateOrder;
 
+        @Bind(R.id.rl_space_rent_item_view)
+        RelativeLayout itemView;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
 
         private void bind(int mPriceType,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
-            //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
-            tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()]);
-            if ((spaceDeskTypePriceListBean.getWorkDeskType())==Constants.HOT_DESK_TYPE){
-                tvCreateOrder.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
-                tvPrice.setText("会员免费");
+            if (mPriceType==3&&spaceDeskTypePriceListBean.getWorkDeskType()==6){
+                itemView.setVisibility(View.GONE);
             }else {
-                tvCreateOrder.setText("立即预定");
-                if (mPriceType == Constants.RENT_HOUSE){
-                    tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
-                }else if (mPriceType ==Constants.RENT_DAY){
-                    tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
-                }else if (mPriceType==Constants.RENT_MONTH){
-                    tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
+                itemView.setVisibility(View.VISIBLE);
+                //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
+                tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()]);
+                if ((spaceDeskTypePriceListBean.getWorkDeskType())==Constants.HOT_DESK_TYPE){
+                    tvCreateOrder.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
+                    tvPrice.setText("会员免费");
+                }else {
+                    tvCreateOrder.setText("立即预定");
+                    if (mPriceType == Constants.RENT_HOUSE){
+                        tvPrice.setText(spaceDeskTypePriceListBean.getHourPrice()+"元/时");
+                    }else if (mPriceType ==Constants.RENT_DAY){
+                        tvPrice.setText(spaceDeskTypePriceListBean.getDayPrice()+"元/日");
+                    }else if (mPriceType==Constants.RENT_MONTH){
+                        tvPrice.setText(spaceDeskTypePriceListBean.getWorkDeskPrice()+"元/月");
+                    }
                 }
             }
+
         }
     }
 
