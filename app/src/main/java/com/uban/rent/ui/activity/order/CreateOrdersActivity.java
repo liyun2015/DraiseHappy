@@ -382,7 +382,13 @@ public class CreateOrdersActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        goActivity(WXPayEntryActivity.class, resultsBean);
+                        //0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
+                        int state = resultsBean.getState();
+                        if(3==state){
+                            goActivity(WXPayEntryActivity.class, resultsBean);
+                        }else {
+                            goActivity(OrdersDetailActivity.class, resultsBean);
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override

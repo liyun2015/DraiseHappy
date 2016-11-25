@@ -66,13 +66,16 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     CheckBox switchBtnTwo;
     @Bind(R.id.cancel_order_btn)
     TextView cancelOrderBtn;
-    private int payType = 1;//1支付宝，2微信
+    private int payType = 1;//1微信，2支付宝
     private String orderNum;
     private int state;
     private int workdeskType;
     private RequestCreatShortRentOrderBean.ResultsBean resultsBean;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
+    private int payStatus;
+    private int paymentTime;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_order_payment;
@@ -245,6 +248,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void WXPayOrder(WXPayProviderBean.ResultsBean resultsBean) {
+        paymentTime = Integer.parseInt(resultsBean.getTimestamp());
         PayReq req = new PayReq();
         req.appId = Constants.APP_ID;
         req.partnerId		= resultsBean.getMch_id();
@@ -310,9 +314,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
         requestPaymentOrder.setDealPrice(resultsBean.getPayMoney());
         requestPaymentOrder.setOrderNo(orderNum);
-        requestPaymentOrder.setPaymentAtString(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis()/1000),"yyyy-MM-dd"));
+        requestPaymentOrder.setPaymentTime(paymentTime);
         requestPaymentOrder.setPayType(payType);
-        requestPaymentOrder.setPayStatus(1);
+        requestPaymentOrder.setPayStatus(payStatus);
         ServiceFactory.getProvideHttpService().paymentShortRentOrder(requestPaymentOrder)
                 .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
@@ -367,17 +371,19 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void onResp(BaseResp resp) {
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            //支付返回调用
+//        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+//            //支付返回调用
             if(resp.errCode == 0) {
                 ToastUtil.makeText(mContext, "支付成功！");
-                //paymentShortRentOrder();
+                payStatus=1;
+                paymentShortRentOrder();
             } else if(resp.errCode == -1) {
                 ToastUtil.makeText(mContext, "已取消支付！");
             } else if(resp.errCode == -2) {
                 ToastUtil.makeText(mContext, "支付失败！");
+                payStatus=2;
             }
         }
 
-    }
+//    }
 }

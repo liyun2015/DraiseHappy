@@ -20,8 +20,17 @@ public class RequestPaymentOrder {
     private String paymentAtString;
     private double dealPrice;
     private int state;
+    private int paymentTime;
     private int workDeskType;
     private String refundDesc;
+
+    public int getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(int paymentTime) {
+        this.paymentTime = paymentTime;
+    }
 
     public String getRefundDesc() {
         return refundDesc;

@@ -38,7 +38,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.uban.rent.R.id.darkening_background_layout;
+import static com.uban.rent.wxapi.WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN;
 
 /**
  * 订单详情页
@@ -98,7 +98,7 @@ public class OrdersDetailActivity extends BaseActivity {
     @Bind(R.id.making_call)
     TextView makingCall;
     @Bind(R.id.bottom_view)
-    LinearLayout bottomView;
+    RelativeLayout bottomView;
     @Bind(R.id.bottom_line)
     View bottomLine;
     @Bind(R.id.cancel_order_btn)
@@ -113,12 +113,24 @@ public class OrdersDetailActivity extends BaseActivity {
     TextView textView;
     @Bind(R.id.time_str_layout)
     RelativeLayout timeStrLayout;
-    @Bind(darkening_background_layout)
-    LinearLayout darkeningBackgroundLayout;
     @Bind(R.id.start_time_layout)
     RelativeLayout startTimeLayout;
     @Bind(R.id.activity_orders_detail)
     RelativeLayout activityOrdersDetail;
+    @Bind(R.id.none_meeting_room_view)
+    LinearLayout noneMeetingRoomView;
+    @Bind(R.id.meeting_room_making_call)
+    RelativeLayout meetingRoomMakingCall;
+    @Bind(R.id.meeting_room_cancel_order)
+    TextView meetingRoomCancelOrder;
+    @Bind(R.id.meeting_room_submit_order)
+    TextView meetingRoomSubmitOrder;
+    @Bind(R.id.meeting_room_view)
+    LinearLayout meetingRoomView;
+    @Bind(R.id.end_time_layout)
+    RelativeLayout endTimeLayout;
+    @Bind(R.id.darkening_background_layout)
+    LinearLayout darkeningBackgroundLayout;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
     private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
@@ -130,6 +142,7 @@ public class OrdersDetailActivity extends BaseActivity {
     private String orderNum;
     private int workdeskType;
     private RequestCreatShortRentOrderBean.ResultsBean resultDataBean;
+    private TimeCount time;
 
     @Override
     protected int getLayoutId() {
@@ -155,10 +168,10 @@ public class OrdersDetailActivity extends BaseActivity {
     }
 
     private void initDataView(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
-        resultDataBean=resultsBean;
+        resultDataBean = resultsBean;
         workdeskType = resultsBean.getWorkDeskType();
         orderNum = resultsBean.getOrderNo();
-        orderNumber.setText("订单编号：" +orderNum );
+        orderNumber.setText("订单编号：" + orderNum);
         orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         int failureAt = resultsBean.getFailureAt();
@@ -177,8 +190,7 @@ public class OrdersDetailActivity extends BaseActivity {
             orderCreate.setVisibility(View.VISIBLE);
             makingCall.setVisibility(View.GONE);
             cancelOrderBtn.setText("取消订单");
-            TimeCount time = new TimeCount(failureAt, 1000);
-            time.start();// 开始计时
+            StartCountDown(failureAt);
         } else if (state == ORDER_TYPE[2]) {//3等待支付
             orderState.setText(ORDER_TYPE_STR[2]);
             orderState.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -188,8 +200,7 @@ public class OrdersDetailActivity extends BaseActivity {
             orderCreate.setVisibility(View.VISIBLE);
             makingCall.setVisibility(View.GONE);
             cancelOrderBtn.setText("取消订单");
-            TimeCount time = new TimeCount(failureAt, 1000);
-            time.start();// 开始计时
+            StartCountDown(failureAt);
         } else if (state == ORDER_TYPE[3]) {//4支付成功
             orderState.setText(ORDER_TYPE_STR[3]);
             orderState.setTextColor(getResources().getColor(R.color.green_background));
@@ -221,15 +232,7 @@ public class OrdersDetailActivity extends BaseActivity {
         orderBuildName.setText(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         orderBuildAddress.setText(resultsBean.getOfficespaceBasicinfo().getAddress());
         workDeskType = resultsBean.getWorkDeskType();
-        if (workDeskType == 6) {
-            meetingRoomNameLayout.setVisibility(View.VISIBLE);
-            stationStr.setText("间");
-            orderNumberOfStation.setText("1");
-        } else {
-            meetingRoomNameLayout.setVisibility(View.GONE);
-            stationStr.setText("工位");
-            orderNumberOfStation.setText(String.valueOf(resultsBean.getWorkDeskNum()));
-        }
+
         if (workDeskType == 3) {
             workLoctionType.setText("hot desk");
         } else if (workDeskType == 4) {
@@ -240,6 +243,24 @@ public class OrdersDetailActivity extends BaseActivity {
             workLoctionType.setText("会议室");
         } else if (workDeskType == 7) {
             workLoctionType.setText("活动场地");
+        }
+        if (workDeskType == 6 || workDeskType == 7) {
+            meetingRoomNameLayout.setVisibility(View.VISIBLE);
+            stationStr.setText("间");
+            orderNumberOfStation.setText("1");
+        } else {
+            meetingRoomNameLayout.setVisibility(View.GONE);
+            stationStr.setText("工位");
+            orderNumberOfStation.setText(String.valueOf(resultsBean.getWorkDeskNum()));
+        }
+        if(state == ORDER_TYPE[1]){
+            if(workDeskType == 6 || workDeskType == 7){
+                meetingRoomView.setVisibility(View.VISIBLE);
+                noneMeetingRoomView.setVisibility(View.GONE);
+            }else {
+                meetingRoomView.setVisibility(View.GONE);
+                noneMeetingRoomView.setVisibility(View.VISIBLE);
+            }
         }
         priceType = resultsBean.getRentType();
         int price = resultsBean.getUnitPrice();
@@ -269,8 +290,17 @@ public class OrdersDetailActivity extends BaseActivity {
         endTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm"));
     }
 
+    private void StartCountDown(int failureAt) {
+        time = new TimeCount(failureAt * 1000, 1000);
+        time.start();// 开始计时
+    }
+
     private void initData() {
         String orderNum = getIntent().getStringExtra(KEY_ORDER_NUMBER);
+        if (null == orderNum) {
+            RequestCreatShortRentOrderBean.ResultsBean resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
+            orderNum = resultsBean.getOrderNo();
+        }
         RequestOrderDetailBean requestOrderDetailBean = new RequestOrderDetailBean();
         requestOrderDetailBean.setOrderNo(orderNum);
         ServiceFactory.getProvideHttpService().getOrderDetail(requestOrderDetailBean)
@@ -318,6 +348,9 @@ public class OrdersDetailActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (null != time) {
+                    time.cancel();
+                }
                 finish();
                 break;
         }
@@ -330,32 +363,41 @@ public class OrdersDetailActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    @OnClick({R.id.cancel_order_btn, R.id.submit_right_btn})
+
+    @OnClick({R.id.cancel_order_btn, R.id.submit_right_btn,R.id.meeting_room_making_call, R.id.meeting_room_cancel_order, R.id.meeting_room_submit_order})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_order_btn:
-                if(state == ORDER_TYPE[1]||state == ORDER_TYPE[2]){//取消订单
+                if (state == ORDER_TYPE[1] || state == ORDER_TYPE[2]) {//取消订单
                     showCancelPop();
-                }else if(state == ORDER_TYPE[3]){//申请退款
+                } else if (state == ORDER_TYPE[3]) {//申请退款
                     Intent intent = new Intent();
-                    intent.putExtra(KEY_ORDER_NUMBER,orderNum);
-                    intent.putExtra(KEY_ORDER_STATE,state);
-                    intent.putExtra(KEY_WORKDESKTYPE,workdeskType);
+                    intent.putExtra(KEY_ORDER_NUMBER, orderNum);
+                    intent.putExtra(KEY_ORDER_STATE, state);
+                    intent.putExtra(KEY_WORKDESKTYPE, workdeskType);
                     intent.setClass(mContext, RefundOrderActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.submit_right_btn:// 提交
-                if(state == ORDER_TYPE[1]||state == ORDER_TYPE[2]){//立即支付
+                if (state == ORDER_TYPE[1] || state == ORDER_TYPE[2]) {//立即支付
                     goActivity(WXPayEntryActivity.class);
-                }else if(state == ORDER_TYPE[3]){//拨打电话
+                } else if (state == ORDER_TYPE[3]) {//拨打电话
                     callPhone();
                 }
+                break;
+            case R.id.meeting_room_making_call:
+                callPhone();
+                break;
+            case R.id.meeting_room_cancel_order:
+                break;
+            case R.id.meeting_room_submit_order:
                 break;
             default:
                 break;
         }
     }
+
     //拨打电话
     private void callPhone() {
         RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
@@ -373,17 +415,19 @@ public class OrdersDetailActivity extends BaseActivity {
 
     private void goActivity(Class<?> cls) {
         Intent orderIntent = new Intent();
-        orderIntent.setClass(mContext,cls);
+        orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
+        bundle.putSerializable(KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
     }
+
     private TextView cancel_reason_one;
     private TextView cancel_reason_two;
     private TextView cancel_reason_three;
     private TextView cancel_reason_four;
-    private String cancelReason=CANCEL_REASON_STR[0];
+    private String cancelReason = CANCEL_REASON_STR[0];
+
     private void showCancelPop() {
         darkeningBackgroundLayout.setVisibility(View.VISIBLE);
         View cancelView = mInflater.inflate(R.layout.choose_cancel_reason_pop, null);
@@ -391,7 +435,7 @@ public class OrdersDetailActivity extends BaseActivity {
         cancel_reason_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelReason=CANCEL_REASON_STR[0];
+                cancelReason = CANCEL_REASON_STR[0];
                 cancel_reason_one.setTextColor(getResources().getColor(R.color.colorPrimary));
                 cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
@@ -402,7 +446,7 @@ public class OrdersDetailActivity extends BaseActivity {
         cancel_reason_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelReason=CANCEL_REASON_STR[1];
+                cancelReason = CANCEL_REASON_STR[1];
                 cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_two.setTextColor(getResources().getColor(R.color.colorPrimary));
                 cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
@@ -413,7 +457,7 @@ public class OrdersDetailActivity extends BaseActivity {
         cancel_reason_three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelReason=CANCEL_REASON_STR[2];
+                cancelReason = CANCEL_REASON_STR[2];
                 cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_three.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -424,7 +468,7 @@ public class OrdersDetailActivity extends BaseActivity {
         cancel_reason_four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelReason=CANCEL_REASON_STR[3];
+                cancelReason = CANCEL_REASON_STR[3];
                 cancel_reason_one.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_two.setTextColor(getResources().getColor(R.color.colorGrayHint));
                 cancel_reason_three.setTextColor(getResources().getColor(R.color.colorGrayHint));
@@ -458,7 +502,7 @@ public class OrdersDetailActivity extends BaseActivity {
     }
 
     private void cancelSubmit() {
-        RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
+        RequestPaymentOrder requestPaymentOrder = new RequestPaymentOrder();
         requestPaymentOrder.setOrderNo(orderNum);
         requestPaymentOrder.setState(state);
         requestPaymentOrder.setWorkDeskType(workdeskType);
@@ -511,19 +555,25 @@ public class OrdersDetailActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
+            //倒计时完毕
             messageRemindStr.setVisibility(View.GONE);
+            orderState.setText(ORDER_TYPE_STR[6]);
+            orderState.setTextColor(getResources().getColor(R.color.colorGrayHint));
+            messageRemindStr.setVisibility(View.GONE);
+            bottomView.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            int isHourOron = (int) millisUntilFinished / (60 * 60);
+            int isHourOron = (int) millisUntilFinished / (1000 * 60 * 60);
             if (isHourOron > 0) {
-                int hour = (int) millisUntilFinished / (60 * 60);
-                int min = (int) (millisUntilFinished % (60 * 60)) / 60;
-                int sec = (int) (millisUntilFinished % (60 * 60)) % 60;
+                int hour = (int) millisUntilFinished / (1000 * 60 * 60);
+                int min = (int) (millisUntilFinished % (1000 * 60 * 60)) / 60;
+                int sec = (int) (millisUntilFinished % (1000 * 60 * 60)) % 60;
                 messageRemindStr.setText(hour + "时" + min + "分" + sec + "秒");
             } else {
-                messageRemindStr.setText("请在" + (int) millisUntilFinished / 60 + "分" + millisUntilFinished % 60 + "秒" + "内完成支付，完了会议室就没有了哦！");
+                messageRemindStr.setText("请在" + (int) millisUntilFinished / (1000 * 60) + "分" + (millisUntilFinished / 1000) % 60 + "秒" + "内完成支付，完了会议室就没有了哦！");
             }
         }
     }
