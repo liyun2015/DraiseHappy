@@ -2,7 +2,6 @@ package com.uban.rent.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -40,6 +39,8 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.uban.rent.util.Constants.NOTIFY_URL;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
@@ -201,7 +202,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         //unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getPayMoney()*100));
         unifieOrderBean.setTrade_type("APP");
         unifieOrderBean.setSpbill_create_ip(CommonUtil.getLoginIp(mContext));
-        unifieOrderBean.setNotify_url("http://bj.uban.com");
+        unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
         ServiceFactory.getProvideHttpService().getUnifiedorder(unifieOrderBean)
                 .compose(this.<WXPayProviderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<WXPayProviderBean>io_main())
