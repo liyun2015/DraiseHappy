@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -28,12 +29,12 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
- * OrderListFragment 订单列表
+ * OrderAllMobileWorkFragment 订单列表
  * Created by dawabos on 2016/11/22.
  * Email dawabo@163.com
  */
 
-public class OrderListFragment extends BaseFragment {
+public class OrderAllFragment extends BaseFragment {
     public static final String KEY_TITLE = "title";
     @Bind(R.id.lv_user_order)
     GetMoreListView lvUserOrder;
@@ -45,27 +46,55 @@ public class OrderListFragment extends BaseFragment {
     private OrdersListAdapter ordersListAdapter;
     private int pageIndex = 1;
     private int pageSize = 10;
+    /** 标志位，标志已经初始化完成 */
+    private boolean isPrepared;
+    /** 是否已被加载过一次，第二次就不再去请求数据了 */
+    private boolean mHasLoadedOnce;
+    /** Fragment当前状态是否可见 */
+    protected boolean isVisible;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order_all;
     }
-
-    public static OrderListFragment newInstance(int workDeskType) {
+    public static OrderAllFragment newInstance(int workDeskType) {
         Bundle args = new Bundle();
-        OrderListFragment fragment = new OrderListFragment();
+        OrderAllFragment fragment = new OrderAllFragment();
         args.putInt(KEY_TITLE,workDeskType);
         fragment.setArguments(args);
         return fragment;
     }
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        workDeskType = bundle.getInt(KEY_TITLE);
         listBeen = new ArrayList<>();
         handler = new Handler();
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            workDeskType = bundle.getInt(KEY_TITLE);
+        }
+        isPrepared = true;
         initView();
         initData(workDeskType);
     }
+
+    /*@Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if(getUserVisibleHint()) {
+            isVisible = true;
+            lazyLoad();
+        } else {
+            isVisible = false;
+        }
+    }*/
+   /* protected void lazyLoad() {
+        if (!isPrepared || !isVisible || mHasLoadedOnce) {
+            return;
+        }
+        initData(workDeskType);
+    }*/
+
+
 
     private void initView() {
         ordersListAdapter = new OrdersListAdapter(mContext, listBeen);
@@ -138,6 +167,7 @@ public class OrderListFragment extends BaseFragment {
                 .subscribe(new Action1<OrderListBean.ResultsBean>() {
                     @Override
                     public void call(OrderListBean.ResultsBean resultsBean) {
+                        mHasLoadedOnce = true;
                         initAdapter(resultsBean.getDatas());
                     }
                 }, new Action1<Throwable>() {
@@ -146,6 +176,7 @@ public class OrderListFragment extends BaseFragment {
                         hideLoadingView();
                         swipeRefreshUserOrder.setRefreshing(false);
                         lvUserOrder.getMoreComplete();
+                        Log.e(TAG,throwable.getMessage());
                         ToastUtil.makeText(mContext, getString(R.string.str_result_error) );
                     }
                 }, new Action0() {

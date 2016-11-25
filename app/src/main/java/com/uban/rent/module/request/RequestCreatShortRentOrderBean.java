@@ -678,7 +678,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             private int officespaceBasicinfoId;
             private String otherSpace;
             private int payment;
-            private int perStationArea;
+            private double perStationArea;
             private int priority;
             private String propertyCorp;
             private int recommend;
@@ -908,11 +908,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
                 this.payment = payment;
             }
 
-            public int getPerStationArea() {
+            public double getPerStationArea() {
                 return perStationArea;
             }
 
-            public void setPerStationArea(int perStationArea) {
+            public void setPerStationArea(double perStationArea) {
                 this.perStationArea = perStationArea;
             }
 

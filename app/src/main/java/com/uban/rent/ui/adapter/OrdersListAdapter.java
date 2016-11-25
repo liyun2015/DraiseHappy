@@ -10,6 +10,7 @@ import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.OrderListBean;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.StringUtils;
 import com.uban.rent.util.TimeUtils;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.D
             String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()/1000),"yyyy-MM-dd HH:mm:ss");
             orderTime.setText(beginTime+"至"+endTiem);
             orderCreateTime.setText(createTiem);
-            orderPrice.setText(String.valueOf(resultsBean.getDealPrice()));
+            orderPrice.setText(StringUtils.removeZero(resultsBean.getPayMoney() ));
             orderStationType.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()]);
         }
 

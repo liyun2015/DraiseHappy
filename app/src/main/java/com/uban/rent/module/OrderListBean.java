@@ -191,7 +191,7 @@ public class OrderListBean {
             private String buyerId;
             private int orderPlatform;
             private long createAt;
-            private int payMoney;
+            private double payMoney;
             private int workdeskId;
             private String creatorName;
             private String orderNo;
@@ -600,11 +600,11 @@ public class OrderListBean {
                 this.createAt = createAt;
             }
 
-            public int getPayMoney() {
+            public double getPayMoney() {
                 return payMoney;
             }
 
-            public void setPayMoney(int payMoney) {
+            public void setPayMoney(double payMoney) {
                 this.payMoney = payMoney;
             }
 
