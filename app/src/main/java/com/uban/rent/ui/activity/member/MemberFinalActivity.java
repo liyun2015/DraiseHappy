@@ -110,7 +110,7 @@ public class MemberFinalActivity extends BaseActivity {
                 });
     }
 
-    private int memberStatus() {
+    private void memberStatus() {
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
@@ -142,7 +142,7 @@ public class MemberFinalActivity extends BaseActivity {
                         String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
                         tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
                         tvOrderNumber.setText(resultsBean.getMemberNo());
-                        String url = "http://m.dev.uban.com/bj/vipRecord/"+resultsBean.getOfficespaceMemberId()+".html";
+                        String url = String.format(Constants.MEMBER_EQUIPMENT_QRCODE,resultsBean.getOfficespaceMemberId());
                         Bitmap bitmap = QRCodeUtil.createQRCodeWithLogo(url, 1000,
                                 BitmapFactory.decodeResource(getResources(),R.drawable.ic_qr_code_logo));
                         qrCodeImage.setImageBitmap(bitmap);
@@ -153,8 +153,6 @@ public class MemberFinalActivity extends BaseActivity {
 
                     }
                 });
-
-        return 0;
     }
 
     @Override

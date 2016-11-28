@@ -1,7 +1,7 @@
 package com.uban.rent.ui.activity.detail;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -37,7 +38,13 @@ import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 import com.uban.rent.util.Constants;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +108,8 @@ public class StationDetailActivity extends BaseActivity {
     private ArrayList<String> equipmentServicesImages;
     private ArrayList<String> equipmentServicesnames;
     private CreateOrderParamaBean createOrderParamaBean;
-    public static final String TAG = "TTTTTTTTTT";
+    private UMShareListener mShareListener;
+    private ShareAction mShareAction;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -112,7 +120,23 @@ public class StationDetailActivity extends BaseActivity {
         equipmentServicesImages = new ArrayList<>();
         equipmentServicesnames = new ArrayList<>();
         initView();
+        initSocial();
         registerScheme();
+    }
+
+    private void initSocial() {
+
+        SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+                SHARE_MEDIA.ALIPAY, SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN,
+                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE,
+                SHARE_MEDIA.EVERNOTE, SHARE_MEDIA.LINKEDIN, SHARE_MEDIA.YIXIN,
+                SHARE_MEDIA.YIXIN_CIRCLE, SHARE_MEDIA.TENCENT
+        };
+        mShareListener = new CustomShareListener(StationDetailActivity.this);
+        mShareAction = new ShareAction(StationDetailActivity.this).setDisplayList(shareMedias)
+                .setCallback(mShareListener);
     }
 
     private void registerScheme() {
@@ -325,22 +349,96 @@ public class StationDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                String msgTitle = tvWorkplaceName.getText().toString();
-                String msgText = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/gongwei-" + mWorkPlaceId + ".html";
-                shareMsg(mContext, "工位详情分享", msgTitle, msgText);
+                String shareTitle = tvWorkplaceName.getText().toString();
+                String shareUrl = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/gongwei-" + mWorkPlaceId + ".html";
+                ShareBoardConfig config = new ShareBoardConfig();
+                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
+                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
+                mShareAction.withText("空间详情分享")
+                        .withTitle(shareTitle)
+                        .withTargetUrl(shareUrl)
+                        .open(config);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void shareMsg(Context context, String activityTitle, String msgTitle, String msgText) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
-        intent.putExtra(Intent.EXTRA_TEXT, msgText);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, activityTitle));
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this**/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 屏幕横竖屏切换时避免出现window leak的问题
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mShareAction.close();
+    }
+
+    private static class CustomShareListener implements UMShareListener {
+
+        private WeakReference<StationDetailActivity> mActivity;
+
+        private CustomShareListener(StationDetailActivity activity) {
+            mActivity = new WeakReference(activity);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                        &&platform!=SHARE_MEDIA.EMAIL
+                        &&platform!=SHARE_MEDIA.FLICKR
+                        &&platform!=SHARE_MEDIA.FOURSQUARE
+                        &&platform!=SHARE_MEDIA.TUMBLR
+                        &&platform!=SHARE_MEDIA.POCKET
+                        &&platform!=SHARE_MEDIA.PINTEREST
+                        &&platform!=SHARE_MEDIA.LINKEDIN
+                        &&platform!=SHARE_MEDIA.INSTAGRAM
+                        &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                        &&platform!=SHARE_MEDIA.YNOTE
+                        &&platform!=SHARE_MEDIA.EVERNOTE){
+                    Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                    &&platform!=SHARE_MEDIA.EMAIL
+                    &&platform!=SHARE_MEDIA.FLICKR
+                    &&platform!=SHARE_MEDIA.FOURSQUARE
+                    &&platform!=SHARE_MEDIA.TUMBLR
+                    &&platform!=SHARE_MEDIA.POCKET
+                    &&platform!=SHARE_MEDIA.PINTEREST
+                    &&platform!=SHARE_MEDIA.LINKEDIN
+                    &&platform!=SHARE_MEDIA.INSTAGRAM
+                    &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                    &&platform!=SHARE_MEDIA.YNOTE
+                    &&platform!=SHARE_MEDIA.EVERNOTE){
+                Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if (t != null) {
+                    com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
+                }
+            }
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+
+            Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list,R.id.order_create})

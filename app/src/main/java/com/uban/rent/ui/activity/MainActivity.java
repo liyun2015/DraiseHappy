@@ -452,8 +452,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void ininMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
         RequestSpaceDetail requestHomeMarkerList = new RequestSpaceDetail();
         requestHomeMarkerList.setOfficespaceBasicinfoId(datasBean.getOfficespaceBasicinfoId());
-        requestHomeMarkerList.setLocationX(datasBean.getMapX());
-        requestHomeMarkerList.setLocationY(datasBean.getMapY());
+        requestHomeMarkerList.setLocationX(locationX);
+        requestHomeMarkerList.setLocationY(locationY);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestHomeMarkerList)
                 .compose(this.<SpaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())
@@ -507,7 +507,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
         ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
         tvMarkerName.setText(resultsBean.getSpaceCnName());
-        tvMarkerLocation.setText(StringUtils.removeZero(resultsBean.getDistance()));
+        tvMarkerLocation.setText("距当前位置"+(resultsBean.getDistance()>=1000? StringUtils.removeZero(resultsBean.getDistance()/1000)+"km":StringUtils.removeZero(resultsBean.getDistance())+"m"));
 
         if (resultsBean.getFloorHourPrice()==KEY_ORDER_ALL){
             tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));
