@@ -70,6 +70,7 @@ import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.ImageLoadUtils;
 import com.uban.rent.util.SPUtils;
+import com.uban.rent.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -506,7 +507,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
         ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
         tvMarkerName.setText(resultsBean.getSpaceCnName());
-        tvMarkerLocation.setText(resultsBean.getAddress());
+        tvMarkerLocation.setText(StringUtils.removeZero(resultsBean.getDistance()));
 
         if (resultsBean.getFloorHourPrice()==KEY_ORDER_ALL){
             tvMarkerPrice.setText(String.valueOf(resultsBean.getFloorDayPrice()));

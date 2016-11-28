@@ -74,9 +74,6 @@ public class MemberFinalActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
-        Bitmap bitmap = QRCodeUtil.createQRCodeWithLogo("http://bj.uban.com/", 1000,
-                BitmapFactory.decodeResource(getResources(),R.drawable.ic_qr_code_logo));
-        qrCodeImage.setImageBitmap(bitmap);
         memberStatus();
     }
 
@@ -145,6 +142,10 @@ public class MemberFinalActivity extends BaseActivity {
                         String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
                         tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
                         tvOrderNumber.setText(resultsBean.getMemberNo());
+                        String url = "http://m.dev.uban.com/bj/vipRecord/"+resultsBean.getOfficespaceMemberId()+".html";
+                        Bitmap bitmap = QRCodeUtil.createQRCodeWithLogo(url, 1000,
+                                BitmapFactory.decodeResource(getResources(),R.drawable.ic_qr_code_logo));
+                        qrCodeImage.setImageBitmap(bitmap);
                     }
                 }, new Action1<Throwable>() {
                     @Override
