@@ -21,6 +21,15 @@ public class UnifieOrderBean {
     private String spbill_create_ip;
     private String trade_type;
     private String notify_url;
+    private String orderNo;
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
 
     public String getBody() {
         return body;

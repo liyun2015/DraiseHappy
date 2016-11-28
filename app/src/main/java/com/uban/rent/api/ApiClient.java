@@ -5,6 +5,7 @@ import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.OrderListBean;
+import com.uban.rent.module.ResultOrderQueryBean;
 import com.uban.rent.module.SearchKeyWord;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.VerifyMemberBean;
@@ -60,10 +61,6 @@ public interface ApiClient {
     @POST("/mainapi/dzofficespaceSROrderProvider/creatShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> creatShortRentOrder(@Body RequestCreatOrder requestCreatOrder);
 
-    //订单支付后提交
-    @POST("/mainapi/dzofficespaceSROrderProvider/paymentShortRentOrder")
-    Observable<RequestCreatShortRentOrderBean> paymentShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
-
     //取消订单
     @POST("/mainapi/dzofficespaceSROrderProvider/cancelShortRentOrder")
     Observable<RequestCreatShortRentOrderBean> cancelShortRentOrder(@Body RequestPaymentOrder requestPaymentOrder);
@@ -91,4 +88,10 @@ public interface ApiClient {
     //微信支付接口
     @POST("/mainapi/wXPayProvider/unifiedorder")
     Observable<WXPayProviderBean> getUnifiedorder(@Body UnifieOrderBean requestUnifieDorder);
+
+
+    //订单支付后查询
+    @POST("/mainapi/wXPayProvider/orderquery")
+    Observable<ResultOrderQueryBean> orderQuery(@Body UnifieOrderBean requestPaymentOrder);
+
 }

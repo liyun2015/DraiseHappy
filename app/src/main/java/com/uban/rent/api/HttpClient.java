@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class HttpClient {
 
-    public static final String BASE_URL = "http://192.168.0.3:30104";
+    public static final String BASE_URL = "http://idfa.dev.uban.com:30104";
 
     private static HttpClient mInstance;
     private Retrofit singleton;

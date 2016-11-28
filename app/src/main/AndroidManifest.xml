@@ -175,6 +175,8 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <receiver
             android:name=".AppRegister">

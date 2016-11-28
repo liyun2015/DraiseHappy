@@ -180,7 +180,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
         private int orderPlatform;
         private int origin;
         private int owner;
-        private int payMoney;
+        private double payMoney;
         private int payStatus;
         private int payType;
         private long paymentAt;
@@ -470,11 +470,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             this.owner = owner;
         }
 
-        public int getPayMoney() {
+        public double getPayMoney() {
             return payMoney;
         }
 
-        public void setPayMoney(int payMoney) {
+        public void setPayMoney(double payMoney) {
             this.payMoney = payMoney;
         }
 
