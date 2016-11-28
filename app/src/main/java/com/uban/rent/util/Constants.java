@@ -29,6 +29,7 @@ public class Constants {
     public static final int SHORT_NEAR_FLAG = 1;//距离最近标识
 
     public static final int STATUS_CODE_SUCCESS = 0;
+    public static final int STATUS_CODE_ERROR = 1;
     public static final String PHONE_NUMBER = "400-810-6698";
 
     public static final String APP_IMG_URL_640_420 = "http://img1.static.uban.com/cybg/%s-w640x420";

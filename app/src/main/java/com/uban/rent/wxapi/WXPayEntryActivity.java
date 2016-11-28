@@ -218,6 +218,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .filter(new Func1<WXPayProviderBean, Boolean>() {
                     @Override
                     public Boolean call(WXPayProviderBean wxPayProviderBean) {
+                        if(wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR){
+                            ToastUtil.makeText(mContext, wxPayProviderBean.getMsg());
+                        }
                         return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
@@ -281,6 +284,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
                     @Override
                     public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        if(requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_ERROR){
+                            ToastUtil.makeText(mContext, requestCreatShortRentOrderBean.getMsg());
+                        }
                         return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
@@ -294,7 +300,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        int status = resultsBean.getPayStatus();
                         goActivity(OrdersDetailActivity.class,resultsBean);
                     }
                 }, new Action1<Throwable>() {
@@ -339,6 +344,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(ResultOrderQueryBean.ResultsBean resultsBean) {
                         //处理返回结果
+                        orderState.setText("订单状态：支付成功");
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -356,12 +362,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
 
     private boolean payBooleanSucceed(ResultOrderQueryBean resultOrderQueryBean) {
-        if (resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS){
+        if (resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
             goActivity(OrdersDetailActivity.class,resultsBean);
             finish();
-            return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
         }
-        return false;
+        return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
     }
 
     @Override
