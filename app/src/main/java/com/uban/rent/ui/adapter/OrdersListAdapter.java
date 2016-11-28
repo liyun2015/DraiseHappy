@@ -99,7 +99,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.D
             else if (status==7){
                 return "退款成功";
             }
-            else if (status==9){
+            else if (status==5){
                 return "退款中";
             }
             else if (status==13){
