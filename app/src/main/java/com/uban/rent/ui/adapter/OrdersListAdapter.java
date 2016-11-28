@@ -103,7 +103,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.D
                 return "退款中";
             }
             else if (status==13){
-                return "支付失效";
+                return "订单失效";
             }
             return "";
         }

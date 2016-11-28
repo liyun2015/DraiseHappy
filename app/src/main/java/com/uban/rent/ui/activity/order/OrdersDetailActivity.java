@@ -20,9 +20,14 @@ import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
+import com.uban.rent.module.request.RequestGoSpaceDetail;
+import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestOrderDetailBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
+import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
+import com.uban.rent.ui.activity.detail.StationDetailActivity;
 import com.uban.rent.ui.activity.other.RefundOrderActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.CommonUtil;
@@ -131,9 +136,11 @@ public class OrdersDetailActivity extends BaseActivity {
     RelativeLayout endTimeLayout;
     @Bind(R.id.darkening_background_layout)
     LinearLayout darkeningBackgroundLayout;
-    private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,5退款中,13支付失效
+    @Bind(R.id.order_build_name_layout)
+    LinearLayout orderBuildNameLayout;
+    private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,5退款中,13订单失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 5, 13};
-    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
+    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：订单失效"};
     private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private int workDeskType;
     private int priceType;
@@ -370,7 +377,7 @@ public class OrdersDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.cancel_order_btn, R.id.submit_right_btn,R.id.meeting_room_making_call, R.id.meeting_room_cancel_order, R.id.meeting_room_submit_order})
+    @OnClick({R.id.order_build_name_layout,R.id.cancel_order_btn, R.id.submit_right_btn, R.id.meeting_room_making_call, R.id.meeting_room_cancel_order, R.id.meeting_room_submit_order})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_order_btn:
@@ -396,14 +403,36 @@ public class OrdersDetailActivity extends BaseActivity {
                 callPhone();
                 break;
             case R.id.meeting_room_cancel_order:
-                showCancelPop();
+                //showCancelPop();
+                ToastUtil.makeText(mContext, "管理员确认中，请耐心等待！");
                 break;
             case R.id.meeting_room_submit_order:
-                goActivity(WXPayEntryActivity.class);
+                //goActivity(WXPayEntryActivity.class);
+                ToastUtil.makeText(mContext, "管理员确认中，请耐心等待！");
+                break;
+            case R.id.order_build_name_layout:
+                Intent intent = new Intent();
+                intent.setClass(mContext, StationDetailActivity.class);
+                intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean());
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
+                startActivity(intent);
                 break;
             default:
                 break;
         }
+    }
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(){
+        RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
+        requestGoWorkPlaceDetail.setWorkplaceDetailId(resultDataBean.getWorkDeskId());
+        requestGoWorkPlaceDetail.setPriceType(resultDataBean.getRentType());
+        return requestGoWorkPlaceDetail;
+    }
+    private RequestGoSpaceDetail requestGoSpaceDetailBean(){
+        RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
+        requestGoSpaceDetail.setLocationX(resultDataBean.getOfficespaceBasicinfo().getMapX());
+        requestGoSpaceDetail.setLocationY(resultDataBean.getOfficespaceBasicinfo().getMapY());
+        requestGoSpaceDetail.setOfficeSpaceBasicInfoId(resultDataBean.getOfficespaceBasicinfo().getOfficespaceBasicinfoId());
+        return requestGoSpaceDetail;
     }
 
     //拨打电话
@@ -540,7 +569,7 @@ public class OrdersDetailActivity extends BaseActivity {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        int status = resultsBean.getPayStatus();
+                        initData();
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -555,6 +584,7 @@ public class OrdersDetailActivity extends BaseActivity {
                     }
                 });
     }
+
 
     class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {
