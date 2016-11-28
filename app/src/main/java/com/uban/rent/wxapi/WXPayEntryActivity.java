@@ -300,7 +300,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        int status = resultsBean.getPayStatus();
                         goActivity(OrdersDetailActivity.class,resultsBean);
                     }
                 }, new Action1<Throwable>() {
@@ -366,9 +365,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
             goActivity(OrdersDetailActivity.class,resultsBean);
             finish();
-            return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
         }
-        return false;
+        return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
     }
 
     @Override
