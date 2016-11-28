@@ -139,7 +139,7 @@
                 android:id="@+id/message_remind_str"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                tools:text="请在29分36秒内完成支付，完了会议室就没有了哦！"
+                tools:text="请在29分36秒内完成支付，完了就没有了哦！"
                 android:gravity="center"
                 android:visibility="gone"
                 android:textColor="@color/colorGray"

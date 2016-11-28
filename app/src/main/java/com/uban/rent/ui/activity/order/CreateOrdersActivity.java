@@ -138,7 +138,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private int spaceDeskId;
     private int priceType;//价格类型(1时租  2日租 3月租)
     private int workDeskType;//工位类型(3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地)
-    private int price;
+    private double price;
     private String orderStart;
     private String orderEnd;
     private int rentTime = 0;
@@ -240,11 +240,13 @@ public class CreateOrdersActivity extends BaseActivity {
         numder_of_stations.setText(String.valueOf(loctionNum));
         numderOfMonths.setText(String.valueOf(monthNum));
         if (priceType == 1) {
-            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
+            Calendar calendar = Calendar.getInstance();
+            int curHour = calendar.get(Calendar.HOUR_OF_DAY);
+            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour+2)+":00");
+            endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ")+ (curHour+3) + ":00");
         } else {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
         }
-        endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 HH") + ":00");
     }
 
     @Override

@@ -181,16 +181,19 @@ public class OrdersDetailActivity extends BaseActivity {
             messageRemindStr.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
             bottomLine.setVisibility(View.GONE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
         } else if (state == ORDER_TYPE[1]) {//1等待确认
             orderState.setText(ORDER_TYPE_STR[1]);
             orderState.setTextColor(getResources().getColor(R.color.colorAccent));
-            messageRemindStr.setVisibility(View.VISIBLE);
+            messageRemindStr.setVisibility(View.GONE);
             bottomView.setVisibility(View.VISIBLE);
             bottomLine.setVisibility(View.VISIBLE);
             orderCreate.setVisibility(View.VISIBLE);
+            meetingRoomView.setVisibility(View.VISIBLE);
+            noneMeetingRoomView.setVisibility(View.GONE);
             makingCall.setVisibility(View.GONE);
             cancelOrderBtn.setText("取消订单");
-            StartCountDown(failureAt);
         } else if (state == ORDER_TYPE[2]) {//3等待支付
             orderState.setText(ORDER_TYPE_STR[2]);
             orderState.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -199,6 +202,8 @@ public class OrdersDetailActivity extends BaseActivity {
             bottomLine.setVisibility(View.VISIBLE);
             orderCreate.setVisibility(View.VISIBLE);
             makingCall.setVisibility(View.GONE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
             cancelOrderBtn.setText("取消订单");
             StartCountDown(failureAt);
         } else if (state == ORDER_TYPE[3]) {//4支付成功
@@ -209,6 +214,8 @@ public class OrdersDetailActivity extends BaseActivity {
             bottomLine.setVisibility(View.VISIBLE);
             orderCreate.setVisibility(View.GONE);
             makingCall.setVisibility(View.VISIBLE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
             cancelOrderBtn.setText("申请退款");
         } else if (state == ORDER_TYPE[4]) {//7退款成功
             orderState.setText(ORDER_TYPE_STR[4]);
@@ -216,18 +223,24 @@ public class OrdersDetailActivity extends BaseActivity {
             messageRemindStr.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
             bottomLine.setVisibility(View.GONE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
         } else if (state == ORDER_TYPE[5]) {//9退款中
             orderState.setText(ORDER_TYPE_STR[5]);
             orderState.setTextColor(getResources().getColor(R.color.colorAccent));
             messageRemindStr.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
             bottomLine.setVisibility(View.GONE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
         } else if (state == ORDER_TYPE[6]) {//13支付失效
             orderState.setText(ORDER_TYPE_STR[6]);
             orderState.setTextColor(getResources().getColor(R.color.colorGrayHint));
             messageRemindStr.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
             bottomLine.setVisibility(View.GONE);
+            meetingRoomView.setVisibility(View.GONE);
+            noneMeetingRoomView.setVisibility(View.VISIBLE);
         }
         orderBuildName.setText(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         orderBuildAddress.setText(resultsBean.getOfficespaceBasicinfo().getAddress());
@@ -246,6 +259,7 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         if (workDeskType == 6 || workDeskType == 7) {
             meetingRoomNameLayout.setVisibility(View.VISIBLE);
+            meetingRoomName.setText(resultsBean.getWorkDeskNum());
             stationStr.setText("间");
             orderNumberOfStation.setText("1");
         } else {
@@ -253,15 +267,7 @@ public class OrdersDetailActivity extends BaseActivity {
             stationStr.setText("工位");
             orderNumberOfStation.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         }
-        if(state == ORDER_TYPE[1]){
-            if(workDeskType == 6 || workDeskType == 7){
-                meetingRoomView.setVisibility(View.VISIBLE);
-                noneMeetingRoomView.setVisibility(View.GONE);
-            }else {
-                meetingRoomView.setVisibility(View.GONE);
-                noneMeetingRoomView.setVisibility(View.VISIBLE);
-            }
-        }
+
         priceType = resultsBean.getRentType();
         int price = resultsBean.getUnitPrice();
         if (priceType == 1) {
@@ -390,8 +396,10 @@ public class OrdersDetailActivity extends BaseActivity {
                 callPhone();
                 break;
             case R.id.meeting_room_cancel_order:
+                showCancelPop();
                 break;
             case R.id.meeting_room_submit_order:
+                goActivity(WXPayEntryActivity.class);
                 break;
             default:
                 break;

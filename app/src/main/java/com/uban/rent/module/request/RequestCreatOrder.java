@@ -42,14 +42,14 @@ public class RequestCreatOrder {
     private int rentTime;
     private int rentType;
     private long failureTime;
-    private int unitPrice;
+    private double unitPrice;
     private int workdeskId;
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
