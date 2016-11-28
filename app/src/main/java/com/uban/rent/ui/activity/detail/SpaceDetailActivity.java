@@ -1,8 +1,8 @@
 package com.uban.rent.ui.activity.detail;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -18,9 +18,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.CreateOrderParamaBean;
@@ -28,8 +31,6 @@ import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestSpaceDetail;
-import com.uban.rent.api.config.HeaderConfig;
-import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
 import com.uban.rent.ui.activity.components.PanoramaActivity;
 import com.uban.rent.ui.activity.components.SupportingActivity;
@@ -37,14 +38,22 @@ import com.uban.rent.ui.adapter.BannerPicAdapter;
 import com.uban.rent.ui.adapter.EquipmentGridViewAdapter;
 import com.uban.rent.ui.adapter.ServiceGridViewAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
-import com.uban.rent.ui.view.textview.EllipsizeText;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.banner.LoopViewPager;
+import com.uban.rent.ui.view.textview.EllipsizeText;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.StringUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
+import com.umeng.socialize.utils.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +137,8 @@ public class SpaceDetailActivity extends BaseActivity {
     private ArrayList<String> servicesImages;
     private ArrayList<String> servicesnames;
     private CreateOrderParamaBean createOrderParamaBean;
+    private UMShareListener mShareListener;
+    private ShareAction mShareAction;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space_detail;
@@ -142,12 +153,28 @@ public class SpaceDetailActivity extends BaseActivity {
         servicesImages = new ArrayList<>();
         servicesnames = new ArrayList<>();
         spaceDeskTypePriceListBeen = new ArrayList<>();
+
         requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
         locationX = requestGoSpaceDetail.getLocationX();
         locationY = requestGoSpaceDetail.getLocationY();
         officeSpaceBasicInfoId = requestGoSpaceDetail.getOfficeSpaceBasicInfoId();
+        initSocial();
         initData();
         initView();
+    }
+
+    private void initSocial() {
+        SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+                SHARE_MEDIA.ALIPAY, SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN,
+                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE,
+                SHARE_MEDIA.EVERNOTE, SHARE_MEDIA.LINKEDIN, SHARE_MEDIA.YIXIN,
+                SHARE_MEDIA.YIXIN_CIRCLE, SHARE_MEDIA.TENCENT
+        };
+        mShareListener = new CustomShareListener(SpaceDetailActivity.this);
+        mShareAction = new ShareAction(SpaceDetailActivity.this).setDisplayList(shareMedias)
+                .setCallback(mShareListener);
     }
 
     private void initData() {
@@ -180,14 +207,14 @@ public class SpaceDetailActivity extends BaseActivity {
                     @Override
                     public void call(SpaceDetailBean.ResultsBean resultsBean) {
                         initViewData(resultsBean);
-                        createOrderParamaBean =new CreateOrderParamaBean();
+                        createOrderParamaBean = new CreateOrderParamaBean();
                         createOrderParamaBean.setPriceType(mPriceType);
                         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
                         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
                         createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceBasicinfoId());
                         spaceDeskTypePriceListBeen.clear();
                         spaceDeskTypePriceListBeen.addAll(resultsBean.getSpaceDeskTypePriceList());
-                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen,createOrderParamaBean);
+                        spaceDetailRentTypeAdapter = new SpaceDetailRentTypeAdapter(mContext, spaceDeskTypePriceListBeen, createOrderParamaBean);
                         lvSpaceDetail.setAdapter(spaceDetailRentTypeAdapter);
                     }
                 }, new Action1<Throwable>() {
@@ -210,7 +237,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 resultsBean.getPicList()) {
             images.add(String.format(Constants.APP_IMG_URL_640_420, picListBean.getImgPath()));
         }
-        if (images == null && images.size() > 0) {
+        if (images == null && images.size() <= 0) {
             return;
         }
         BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(this);
@@ -244,15 +271,15 @@ public class SpaceDetailActivity extends BaseActivity {
     }
 
     private void setaEquipmentServiceList(SpaceDetailBean.ResultsBean resultsBean) {
-        for (SpaceDetailBean.ResultsBean.EquipmentListBean equipmentListBean:
-             resultsBean.getEquipmentList()) {
-            equipmentsImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE+equipmentListBean.getFieldImg());
+        for (SpaceDetailBean.ResultsBean.EquipmentListBean equipmentListBean :
+                resultsBean.getEquipmentList()) {
+            equipmentsImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + equipmentListBean.getFieldImg());
             equipmentsnames.add(equipmentListBean.getFieldName());
         }
 
-        for (SpaceDetailBean.ResultsBean.ServiceListBean serviceListBean:
-             resultsBean.getServiceList()) {
-            servicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE+serviceListBean.getFieldImg());
+        for (SpaceDetailBean.ResultsBean.ServiceListBean serviceListBean :
+                resultsBean.getServiceList()) {
+            servicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + serviceListBean.getFieldImg());
             servicesnames.add(serviceListBean.getFieldName());
         }
         EquipmentGridViewAdapter equipmentGridViewAdapter = new EquipmentGridViewAdapter(mContext, resultsBean.getEquipmentList(), gridviewEquipmentSpaceDetail);
@@ -301,8 +328,8 @@ public class SpaceDetailActivity extends BaseActivity {
         tabSpaceDetail.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mPriceType = tab.getPosition()+1;
-                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition()+1);
+                mPriceType = tab.getPosition() + 1;
+                spaceDetailRentTypeAdapter.setPriceType(tab.getPosition() + 1);
             }
 
             @Override
@@ -330,6 +357,7 @@ public class SpaceDetailActivity extends BaseActivity {
 
     /**
      * 跳转工位详情参数
+     *
      * @param position
      * @return
      */
@@ -363,21 +391,100 @@ public class SpaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                String msgTitle = tvSpaceName.getText().toString();
-                String msgText = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/" + mSpaceNamePinyin + ".html";
-                shareMsg(mContext, "空间详情分享", msgTitle, msgText);
+                String shareTitle = tvSpaceName.getText().toString();
+                String shareUrl = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/" + mSpaceNamePinyin + ".html";
+                UMImage shareImage = new UMImage(mContext,panoramaImages.get(0));
+
+                ShareBoardConfig config = new ShareBoardConfig();
+                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
+                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
+//                config.setTitleVisibility(false); // 隐藏title
+//                config.setCancelButtonVisibility(false); // 隐藏取消按钮
+                mShareAction.withText("空间详情分享")
+                        .withMedia(shareImage)
+                        .withTitle(shareTitle)
+                        .withTargetUrl(shareUrl)
+                        .open(config);
+
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this**/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
 
-    public static void shareMsg(Context context, String activityTitle, String msgTitle, String msgText) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
-        intent.putExtra(Intent.EXTRA_TEXT, msgText);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, activityTitle));
+    /**
+     * 屏幕横竖屏切换时避免出现window leak的问题
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mShareAction.close();
+    }
+
+    private static class CustomShareListener implements UMShareListener {
+
+        private WeakReference<SpaceDetailActivity> mActivity;
+
+        private CustomShareListener(SpaceDetailActivity activity) {
+            mActivity = new WeakReference(activity);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                        &&platform!=SHARE_MEDIA.EMAIL
+                        &&platform!=SHARE_MEDIA.FLICKR
+                        &&platform!=SHARE_MEDIA.FOURSQUARE
+                        &&platform!=SHARE_MEDIA.TUMBLR
+                        &&platform!=SHARE_MEDIA.POCKET
+                        &&platform!=SHARE_MEDIA.PINTEREST
+                        &&platform!=SHARE_MEDIA.LINKEDIN
+                        &&platform!=SHARE_MEDIA.INSTAGRAM
+                        &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                        &&platform!=SHARE_MEDIA.YNOTE
+                        &&platform!=SHARE_MEDIA.EVERNOTE){
+                    Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                    &&platform!=SHARE_MEDIA.EMAIL
+                    &&platform!=SHARE_MEDIA.FLICKR
+                    &&platform!=SHARE_MEDIA.FOURSQUARE
+                    &&platform!=SHARE_MEDIA.TUMBLR
+                    &&platform!=SHARE_MEDIA.POCKET
+                    &&platform!=SHARE_MEDIA.PINTEREST
+                    &&platform!=SHARE_MEDIA.LINKEDIN
+                    &&platform!=SHARE_MEDIA.INSTAGRAM
+                    &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                    &&platform!=SHARE_MEDIA.YNOTE
+                    &&platform!=SHARE_MEDIA.EVERNOTE){
+                Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if (t != null) {
+                    Log.d("throw", "throw:" + t.getMessage());
+                }
+            }
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+
+            Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -401,7 +508,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.call_phone, R.id.rl_panorama, R.id.rl_supporting, R.id.tv_look_more_desc,R.id.iv_showEquipmentList, R.id.iv_showServiceList})
+    @OnClick({R.id.call_phone, R.id.rl_panorama, R.id.rl_supporting, R.id.tv_look_more_desc, R.id.iv_showEquipmentList, R.id.iv_showServiceList})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.call_phone:
@@ -431,15 +538,15 @@ public class SpaceDetailActivity extends BaseActivity {
             case R.id.iv_showEquipmentList:
                 Intent equipmentIntent = new Intent();
                 equipmentIntent.setClass(mContext, EquipmentServiceActivity.class);
-                equipmentIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST,equipmentsnames);
-                equipmentIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST,equipmentsImages);
+                equipmentIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST, equipmentsnames);
+                equipmentIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST, equipmentsImages);
                 startActivity(equipmentIntent);
                 break;
             case R.id.iv_showServiceList:
                 Intent serviceIntent = new Intent();
                 serviceIntent.setClass(mContext, EquipmentServiceActivity.class);
-                serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST,servicesnames);
-                serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST,servicesImages);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST, servicesnames);
+                serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST, servicesImages);
                 startActivity(serviceIntent);
                 break;
         }

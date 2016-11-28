@@ -35,6 +35,7 @@ public class Constants {
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/cybg/%s-n240x180";
     public static final String APP_IMG_PANORAMA_URL = "http://img1.static.uban.com/cybg/%s-w2048x1024N";
     public static final String APP_IMG_URL_EQUIPMENT_SERVICE = "http://img2.static.uban.com/spacelogo/";
+    public static final String MEMBER_EQUIPMENT_QRCODE = "http://m.dev.uban.com/bj/vipRecord/%s.html";
 
     public static final String[] WORK_DESK_TYPE_NAME= new String[] {"","独立空间" , "开放空间", "hot desk" , "独立工位" ,"开放工位" ,"会议室" ,"活动场地"};
     public static final int HOT_DESK_TYPE = 3;//hot desk
