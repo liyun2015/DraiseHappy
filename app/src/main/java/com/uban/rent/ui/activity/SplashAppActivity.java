@@ -3,13 +3,10 @@ package com.uban.rent.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.activity.components.LoginActivity;
-import com.uban.rent.util.Constants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +24,7 @@ public class SplashAppActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
 
-        Observable.timer(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        Observable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
