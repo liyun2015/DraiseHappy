@@ -301,6 +301,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
                         goActivity(OrdersDetailActivity.class,resultsBean);
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override
