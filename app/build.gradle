@@ -93,6 +93,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile 'junit:junit:4.12'
     compile files('libs/baidumapapi_base_v4_1_1.jar')
     compile files('libs/baidumapapi_cloud_v4_1_1.jar')
     compile files('libs/baidumapapi_map_v4_1_1.jar')
@@ -102,8 +103,8 @@ dependencies {
     compile files('libs/locSDK_6.13.jar')
     compile files('libs/Baidu_Mtj_3.7.4.9.jar')
     compile files('libs/PanoramaGL.0.2.jar')
-    compile 'com.github.paolorotolo:appintro:4.1.0'
     compile files('libs/libammsdk.jar')
+    compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
@@ -122,5 +123,5 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.8.2@aar'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    testCompile 'junit:junit:4.12'
+    compile 'com.journeyapps:zxing-android-embedded:3.4.0'
 }

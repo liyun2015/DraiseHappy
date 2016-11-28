@@ -1,11 +1,14 @@
 package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.uban.rent.util.QRCodeUtil;
 import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
@@ -48,6 +52,8 @@ public class MemberFinalActivity extends BaseActivity {
     TextView tvExpiryDate;
     @Bind(R.id.tv_order_number)
     TextView tvOrderNumber;
+    @Bind(R.id.qr_code_image)
+    ImageView qrCodeImage;
 
     @Override
     protected int getLayoutId() {
@@ -68,7 +74,9 @@ public class MemberFinalActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
-
+        Bitmap bitmap = QRCodeUtil.createQRCodeWithLogo("http://bj.uban.com/", 1000,
+                BitmapFactory.decodeResource(getResources(),R.drawable.ic_qr_code_logo));
+        qrCodeImage.setImageBitmap(bitmap);
         memberStatus();
     }
 
@@ -114,28 +122,28 @@ public class MemberFinalActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults()!=null;
+                        return verifyMemberBean.getResults() != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size()>0;
+                        return verifyMemberBean.getResults().size() > 0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()),"yyyy.MM.dd");
-                        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()),"yyyy.MM.dd");
-                        tvExpiryDate.setText("有效期:"+createAt+"-"+endAt);
+                        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()), "yyyy.MM.dd");
+                        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
+                        tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
                         tvOrderNumber.setText(resultsBean.getMemberNo());
                     }
                 }, new Action1<Throwable>() {
