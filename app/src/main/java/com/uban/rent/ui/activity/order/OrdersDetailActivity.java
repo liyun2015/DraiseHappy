@@ -132,7 +132,7 @@ public class OrdersDetailActivity extends BaseActivity {
     @Bind(R.id.darkening_background_layout)
     LinearLayout darkeningBackgroundLayout;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
-    private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 9, 13};
+    private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 5, 13};
     private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：支付失效"};
     private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private int workDeskType;

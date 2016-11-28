@@ -129,8 +129,8 @@ public class CreateOrdersActivity extends BaseActivity {
     View stationTimeLine;
     @Bind(R.id.tv_work_time)
     TextView tvWorkTime;
-    private int loctionNum = 0;
-    private int monthNum = 0;
+    private int loctionNum = 1;
+    private int monthNum = 1;
     private WheelView timeWheelView;
     private WheelView month_wheelView;
     private WheelView day_wheelView;
@@ -141,7 +141,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private double price;
     private String orderStart;
     private String orderEnd;
-    private int rentTime = 0;
+    private int rentTime = 1;
     private  String workHoursBegin,workHoursEnd;
     private int workDeskId;
 
@@ -247,6 +247,7 @@ public class CreateOrdersActivity extends BaseActivity {
         } else {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
         }
+        totalTime.setText(String.valueOf(rentTime));
     }
 
     @Override
@@ -282,7 +283,16 @@ public class CreateOrdersActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_create://提交订单
-                submitOrder();
+                String orderStart = startTime.getText().toString().trim();
+                String orderEnd = endTime.getText().toString().trim();
+                long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
+                long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
+                int total_time = (int) (endTime - startTime);
+                if (total_time > 0) {
+                    submitOrder();
+                }else{
+                    ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                }
                 break;
             case R.id.add_btn://加工位
                 loctionNum = loctionNum + 1;
@@ -351,7 +361,7 @@ public class CreateOrdersActivity extends BaseActivity {
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
         requestCreatOrder.setCityId(12);
-        requestCreatOrder.setPayMoney(loctionNum * rentTime * price);
+        requestCreatOrder.setDealPrice(loctionNum * rentTime * price);
         requestCreatOrder.setRentType(priceType);
         requestCreatOrder.setRentTime(rentTime);
         requestCreatOrder.setWorkDeskType(workDeskType);
@@ -500,10 +510,10 @@ public class CreateOrdersActivity extends BaseActivity {
         });
         month_wheelView.setCurrentItem(curMonth - 1);
         day_wheelView.setCurrentItem(curDate - 1);
-        timeWheelView.setCurrentItem(curHour - 1);
+        timeWheelView.setCurrentItem(curHour - 1+2);
         outMonthStr = String.valueOf(curMonth);
         outDayStr = String.valueOf(curDate);
-        hourStr = String.valueOf(curHour);
+        hourStr = String.valueOf(curHour+2);
         if (priceType == 1) {
             timeWheelView.setVisibility(View.VISIBLE);
         } else {

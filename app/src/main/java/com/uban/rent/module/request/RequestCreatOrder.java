@@ -36,7 +36,7 @@ public class RequestCreatOrder {
         this.workdeskId = workdeskId;
     }
 
-    private double payMoney;
+    private double dealPrice;
     private String reserved = "android";
     private int workDeskType;
     private int rentTime;
@@ -101,12 +101,12 @@ public class RequestCreatOrder {
         this.cityId = cityId;
     }
 
-    public double getPayMoney() {
-        return payMoney;
+    public double getDealPrice() {
+        return dealPrice;
     }
 
-    public void setPayMoney(double payMoney) {
-        this.payMoney = payMoney;
+    public void setDealPrice(double dealPrice) {
+        this.dealPrice = dealPrice;
     }
 
     public String getReserved() {

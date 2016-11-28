@@ -23,6 +23,7 @@ import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.ResultOrderQueryBean;
 import com.uban.rent.module.WXPayProviderBean;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
@@ -230,6 +231,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .subscribe(new Action1<WXPayProviderBean.ResultsBean>() {
                     @Override
                     public void call(WXPayProviderBean.ResultsBean resultsBean) {
+
                         //处理返回结果
                         WXPayOrder(resultsBean);
                     }
@@ -310,40 +312,37 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 });
     }
 
-    private void paymentShortRentOrder() {
-        RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
-        requestPaymentOrder.setDealPrice(resultsBean.getPayMoney());
-        requestPaymentOrder.setOrderNo(orderNum);
-        requestPaymentOrder.setPaymentTime(paymentTime);
-        requestPaymentOrder.setPayType(payType);
-        requestPaymentOrder.setPayStatus(payStatus);
-        ServiceFactory.getProvideHttpService().paymentShortRentOrder(requestPaymentOrder)
-                .compose(this.<RequestCreatShortRentOrderBean>bindToLifecycle())
-                .compose(RxSchedulersHelper.<RequestCreatShortRentOrderBean>io_main())
+    private void queryOrder() {
+        UnifieOrderBean unifieOrderBean =new UnifieOrderBean();
+        unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
+        ServiceFactory.getProvideHttpService().orderQuery(unifieOrderBean)
+                .compose(this.<ResultOrderQueryBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<ResultOrderQueryBean>io_main())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         showLoadingView();
                     }
                 })
-                .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
+                .filter(new Func1<ResultOrderQueryBean, Boolean>() {
                     @Override
-                    public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
-                        return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    public Boolean call(ResultOrderQueryBean wxPayProviderBean) {
+                        return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
-                .map(new Func1<RequestCreatShortRentOrderBean, RequestCreatShortRentOrderBean.ResultsBean>() {
+                .map(new Func1<ResultOrderQueryBean, ResultOrderQueryBean.ResultsBean>() {
                     @Override
-                    public RequestCreatShortRentOrderBean.ResultsBean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
-                        return requestCreatShortRentOrderBean.getResults();
+                    public ResultOrderQueryBean.ResultsBean call(ResultOrderQueryBean wXPayProviderBean) {
+                        return wXPayProviderBean.getResults();
                     }
                 })
-                .subscribe(new Action1<RequestCreatShortRentOrderBean.ResultsBean>() {
+                .subscribe(new Action1<ResultOrderQueryBean.ResultsBean>() {
                     @Override
-                    public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+                    public void call(ResultOrderQueryBean.ResultsBean resultsBean) {
+
                         //处理返回结果
-                        int status = resultsBean.getPayStatus();
-                        goActivity(OrdersDetailActivity.class,resultsBean);
+                        String tradeState = resultsBean.getTrade_state();
+                        paySucceed(tradeState);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -358,6 +357,16 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     }
                 });
     }
+
+    private void paySucceed(String tradeState) {
+        if("SUCCESS".equals(tradeState)){
+            ToastUtil.makeText(mContext, "支付成功！");
+        }else{
+            ToastUtil.makeText(mContext, "支付失败！");
+        }
+        goActivity(OrdersDetailActivity.class,resultsBean);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -371,19 +380,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void onResp(BaseResp resp) {
-//        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//            //支付返回调用
-            if(resp.errCode == 0) {
-                ToastUtil.makeText(mContext, "支付成功！");
-                payStatus=1;
-                paymentShortRentOrder();
-            } else if(resp.errCode == -1) {
-                ToastUtil.makeText(mContext, "已取消支付！");
-            } else if(resp.errCode == -2) {
-                ToastUtil.makeText(mContext, "支付失败！");
-                payStatus=2;
-            }
+        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            //支付返回调用
+            queryOrder();
         }
-
-//    }
+    }
 }
