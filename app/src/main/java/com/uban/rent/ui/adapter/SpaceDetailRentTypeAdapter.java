@@ -118,9 +118,11 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         }
 
         private void bind(int mPriceType,SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean spaceDeskTypePriceListBean) {
-            if (mPriceType==3&&spaceDeskTypePriceListBean.getWorkDeskType()==6){
+            if (mPriceType==Constants.RENT_MONTH&&spaceDeskTypePriceListBean.getWorkDeskType()==Constants.CONFERENCE_ROOM_TYPE){
                 itemView.setVisibility(View.GONE);
-            }else {
+            }else if (mPriceType==Constants.RENT_MONTH&&spaceDeskTypePriceListBean.getWorkDeskType()==Constants.ACTIVE_SITE_TYPE){
+                itemView.setVisibility(View.GONE);
+            } else {
                 itemView.setVisibility(View.VISIBLE);
                 //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
                 tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()]);

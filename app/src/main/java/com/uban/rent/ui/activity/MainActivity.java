@@ -639,10 +639,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
                         BaseActivityMemberStatusGoView();
                     }
                 });
