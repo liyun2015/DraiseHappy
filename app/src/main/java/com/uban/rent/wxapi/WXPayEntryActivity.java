@@ -32,7 +32,6 @@ import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
-import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,8 +39,6 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static com.uban.rent.util.Constants.NOTIFY_URL;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
@@ -84,11 +81,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initView();
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
         api.handleIntent(getIntent(), this);
+        initView();
     }
 
     private void initView() {
@@ -314,7 +311,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private void queryOrder() {
         UnifieOrderBean unifieOrderBean =new UnifieOrderBean();
-        unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
+        unifieOrderBean.setOrderNo(String.valueOf(resultsBean.getOrderNo()));
         ServiceFactory.getProvideHttpService().orderQuery(unifieOrderBean)
                 .compose(this.<ResultOrderQueryBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<ResultOrderQueryBean>io_main())
@@ -339,7 +336,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .subscribe(new Action1<ResultOrderQueryBean.ResultsBean>() {
                     @Override
                     public void call(ResultOrderQueryBean.ResultsBean resultsBean) {
-
                         //处理返回结果
                         String tradeState = resultsBean.getTrade_state();
                         paySucceed(tradeState);

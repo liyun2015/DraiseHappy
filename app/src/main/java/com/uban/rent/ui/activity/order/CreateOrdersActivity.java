@@ -283,15 +283,19 @@ public class CreateOrdersActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_create://提交订单
-                String orderStart = startTime.getText().toString().trim();
-                String orderEnd = endTime.getText().toString().trim();
-                long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
-                long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
-                int total_time = (int) (endTime - startTime);
-                if (total_time > 0) {
-                    submitOrder();
+                if(priceType == 1){
+                    String orderStart = startTime.getText().toString().trim();
+                    String orderEnd = endTime.getText().toString().trim();
+                    long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
+                    long endTime = TimeUtils.geTimestampTimes(orderEnd, "MM月dd日 HH:mm");
+                    int total_time = (int) (endTime - startTime);
+                    if (total_time > 0) {
+                        submitOrder();
+                    }else{
+                        ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                    }
                 }else{
-                    ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                    submitOrder();
                 }
                 break;
             case R.id.add_btn://加工位
