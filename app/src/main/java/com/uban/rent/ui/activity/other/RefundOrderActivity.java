@@ -19,6 +19,7 @@ import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -136,8 +137,8 @@ public class RefundOrderActivity extends BaseActivity {
                 .subscribe(new Action1<RequestCreatShortRentOrderBean.ResultsBean>() {
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
-                        //处理返回结果
-                        int status = resultsBean.getPayStatus();
+                        //处理返回结果==退款成功
+                        goActivity(OrdersDetailActivity.class, resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -153,5 +154,12 @@ public class RefundOrderActivity extends BaseActivity {
                 });
     }
 
-
+    private void goActivity(Class<?> cls, RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext, cls);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
+        orderIntent.putExtras(bundle);
+        startActivity(orderIntent);
+    }
 }
