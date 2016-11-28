@@ -405,6 +405,7 @@ public class CreateOrdersActivity extends BaseActivity {
                         }else {
                             goActivity(OrdersDetailActivity.class, resultsBean);
                         }
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override
