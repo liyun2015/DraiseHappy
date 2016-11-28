@@ -40,6 +40,8 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.baidu.location.b.g.C;
+
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
     @Bind(R.id.toolbar_content_text)
@@ -324,7 +326,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .filter(new Func1<ResultOrderQueryBean, Boolean>() {
                     @Override
                     public Boolean call(ResultOrderQueryBean wxPayProviderBean) {
-                        return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                        return payBooleanSucceed(wxPayProviderBean);
                     }
                 })
                 .map(new Func1<ResultOrderQueryBean, ResultOrderQueryBean.ResultsBean>() {
@@ -337,8 +339,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(ResultOrderQueryBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        String tradeState = resultsBean.getTrade_state();
-                        paySucceed(tradeState);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -354,13 +354,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 });
     }
 
-    private void paySucceed(String tradeState) {
-        if("SUCCESS".equals(tradeState)){
-            ToastUtil.makeText(mContext, "支付成功！");
-        }else{
-            ToastUtil.makeText(mContext, "支付失败！");
+
+    private boolean payBooleanSucceed(ResultOrderQueryBean resultOrderQueryBean) {
+        if (resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS){
+            goActivity(OrdersDetailActivity.class,resultsBean);
+            finish();
+            return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
         }
-        goActivity(OrdersDetailActivity.class,resultsBean);
+        return false;
     }
 
     @Override
