@@ -31,9 +31,9 @@ public class App extends Application {
 
     //分享各平台初始化配置
     {
-        PlatformConfig.setWeixin("wx8d1f24c0f7a7b6d6", "008efe6a80cab56ea8c55cb567d1b2c4");
-        PlatformConfig.setSinaWeibo("1118025800", "eb17db06e744744b8ff3317989b3a13d");
-        PlatformConfig.setQQZone("1104758527", "DZPVppJkhYORriIB");
+        PlatformConfig.setWeixin("wx560d10dd4001d136", "28edcb9a7b8090ea4b2e11b234b33fcc");
+        PlatformConfig.setSinaWeibo("1658710715", "ac8d11b4dfae35e5a354afc5e27e9c55");
+        PlatformConfig.setQQZone("1105851078", "PkfjgLEw8sIAMAzx");
     }
 
     public static Application getInstance() {
