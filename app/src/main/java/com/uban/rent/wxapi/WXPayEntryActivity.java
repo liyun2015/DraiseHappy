@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,7 +33,6 @@ import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.UnifieOrderBean;
 import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.view.ToastUtil;
-import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.IpUtils;
 
@@ -93,7 +93,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         api.handleIntent(getIntent(), this);
         initView();
     }
-
 
     private void initView() {
         setSupportActionBar(toolbar);
