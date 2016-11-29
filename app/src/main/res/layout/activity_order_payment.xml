@@ -20,6 +20,18 @@
 
             <include layout="@layout/include_toolbar" />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/message_remind_str"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            tools:text="请在29分36秒内完成支付，晚了就没有了哦！"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@color/colorGray"
+            android:background="@color/yellow_background"
+            android:textSize="13sp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:paddingBottom="15dp"

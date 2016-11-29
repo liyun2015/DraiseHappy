@@ -2,8 +2,10 @@ package com.uban.rent.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,6 +34,7 @@ import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.IpUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,8 +42,6 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static com.baidu.location.b.g.C;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
@@ -66,6 +67,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     CheckBox switchBtnTwo;
     @Bind(R.id.cancel_order_btn)
     TextView cancelOrderBtn;
+    @Bind(R.id.message_remind_str)
+    TextView messageRemindStr;
     private int payType = 1;//1微信，2支付宝
     private String orderNum;
     private int state;
@@ -75,6 +78,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private IWXAPI api;
     private int payStatus;
     private int paymentTime;
+    private TimeCount time;
 
     @Override
     protected int getLayoutId() {
@@ -89,6 +93,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         api.handleIntent(getIntent(), this);
         initView();
     }
+
 
     private void initView() {
         setSupportActionBar(toolbar);
@@ -149,19 +154,24 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void initData() {
         resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
         orderNum = resultsBean.getOrderNo();
-        orderNumber.setText("订单编号："+orderNum);
+        orderNumber.setText("订单编号：" + orderNum);
         orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         if (state == 3) {
             orderState.setText("订单状态：等待支付");
         }
         workdeskType = resultsBean.getWorkDeskType();
+        int failureAt = resultsBean.getFailureAt();
+        StartCountDown(failureAt);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (null != time) {
+                    time.cancel();
+                }
                 finish();
                 break;
         }
@@ -176,10 +186,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
 
-    private void goActivity(Class<?> cls,RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
+    private void goActivity(Class<?> cls, RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
         Intent orderIntent = new Intent();
-        orderIntent.setClass(mContext,cls);
-        orderIntent.putExtra(OrdersDetailActivity.KEY_ORDER_NUMBER,String.valueOf(resultsBean.getOrderNo()));
+        orderIntent.setClass(mContext, cls);
+        orderIntent.putExtra(OrdersDetailActivity.KEY_ORDER_NUMBER, String.valueOf(resultsBean.getOrderNo()));
         startActivity(orderIntent);
     }
 
@@ -198,13 +208,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void submitOrder() {
-        UnifieOrderBean unifieOrderBean =new UnifieOrderBean();
+        UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
         unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
         unifieOrderBean.setTotal_fee(String.valueOf(1));
         //unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getPayMoney()*100));
         unifieOrderBean.setTrade_type("APP");
-        unifieOrderBean.setSpbill_create_ip(CommonUtil.getLoginIp(mContext));
+        unifieOrderBean.setSpbill_create_ip(IpUtils.getIp(mContext));
         unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
         ServiceFactory.getProvideHttpService().getUnifiedorder(unifieOrderBean)
                 .compose(this.<WXPayProviderBean>bindToLifecycle())
@@ -218,7 +228,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .filter(new Func1<WXPayProviderBean, Boolean>() {
                     @Override
                     public Boolean call(WXPayProviderBean wxPayProviderBean) {
-                        if(wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR){
+                        if (wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
                             ToastUtil.makeText(mContext, wxPayProviderBean.getMsg());
                         }
                         return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
@@ -255,20 +265,20 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         paymentTime = Integer.parseInt(resultsBean.getTimestamp());
         PayReq req = new PayReq();
         req.appId = Constants.APP_ID;
-        req.partnerId		= resultsBean.getMch_id();
-        req.prepayId		= resultsBean.getPrepay_id();
-        req.nonceStr		= resultsBean.getNonce_str();
-        req.timeStamp		= resultsBean.getTimestamp();
-        req.packageValue	= "Sign=WXPay";
-        req.sign			= resultsBean.getSign();
-        req.extData			= "app data"; // optional
+        req.partnerId = resultsBean.getMch_id();
+        req.prepayId = resultsBean.getPrepay_id();
+        req.nonceStr = resultsBean.getNonce_str();
+        req.timeStamp = resultsBean.getTimestamp();
+        req.packageValue = "Sign=WXPay";
+        req.sign = resultsBean.getSign();
+        req.extData = "app data"; // optional
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         api.sendReq(req);
     }
 
     // 取消订单
     private void cancelShortRentOrder() {
-        RequestPaymentOrder requestPaymentOrder =new RequestPaymentOrder();
+        RequestPaymentOrder requestPaymentOrder = new RequestPaymentOrder();
         requestPaymentOrder.setOrderNo(orderNum);
         requestPaymentOrder.setState(state);
         requestPaymentOrder.setWorkDeskType(workdeskType);
@@ -284,7 +294,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
                     @Override
                     public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
-                        if(requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_ERROR){
+                        if (requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
                             ToastUtil.makeText(mContext, requestCreatShortRentOrderBean.getMsg());
                         }
                         return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
@@ -300,7 +310,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
                         //处理返回结果
-                        goActivity(OrdersDetailActivity.class,resultsBean);
+                        goActivity(OrdersDetailActivity.class, resultsBean);
                         finish();
                     }
                 }, new Action1<Throwable>() {
@@ -318,7 +328,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void queryOrder() {
-        UnifieOrderBean unifieOrderBean =new UnifieOrderBean();
+        UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
         unifieOrderBean.setOrderNo(String.valueOf(resultsBean.getOrderNo()));
         ServiceFactory.getProvideHttpService().orderQuery(unifieOrderBean)
                 .compose(this.<ResultOrderQueryBean>bindToLifecycle())
@@ -363,11 +373,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
 
     private boolean payBooleanSucceed(ResultOrderQueryBean resultOrderQueryBean) {
-        if (resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-            goActivity(OrdersDetailActivity.class,resultsBean);
+        if (resultOrderQueryBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
+            goActivity(OrdersDetailActivity.class, resultsBean);
             finish();
         }
-        return resultOrderQueryBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+        return resultOrderQueryBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
     }
 
     @Override
@@ -386,6 +396,36 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             //支付返回调用
             queryOrder();
+        }
+    }
+    private void StartCountDown(int failureAt) {
+        time = new TimeCount(failureAt * 1000, 1000);
+        time.start();// 开始计时
+    }
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
+        }
+
+        @Override
+        public void onFinish() {
+            //倒计时完毕
+            messageRemindStr.setVisibility(View.GONE);
+            messageRemindStr.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            int isHourOron = (int) millisUntilFinished / (1000 * 60 * 60);
+            if (isHourOron > 0) {
+                int hour = (int) millisUntilFinished / (1000 * 60 * 60);
+                int min = (int) (millisUntilFinished % (1000 * 60 * 60)) / 60;
+                int sec = (int) (millisUntilFinished % (1000 * 60 * 60)) % 60;
+                messageRemindStr.setText(hour + "时" + min + "分" + sec + "秒");
+            } else {
+                String countTime = (int) millisUntilFinished / (1000 * 60) + "分" + (millisUntilFinished / 1000) % 60 + "秒";
+                messageRemindStr.setText(Html.fromHtml("请在 <font color='#FF5254' >" + countTime + "</font>内完成支付，晚了就没有了哦！"));
+            }
         }
     }
 }

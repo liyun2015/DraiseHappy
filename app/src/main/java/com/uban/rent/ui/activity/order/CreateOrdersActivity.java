@@ -42,9 +42,6 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static android.R.attr.data;
-import static com.baidu.location.b.g.S;
-
 /**
  * 创建订单
  */
@@ -489,11 +486,13 @@ public class CreateOrdersActivity extends BaseActivity {
                 int cruYear = calendar.get(Calendar.YEAR);
                 int curMonth = calendar.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
                 int curDate = calendar.get(Calendar.DATE);
-                int curDateMore= curDate+30;
+                int curMonthMore= curMonth+1;
                 int curHour = calendar.get(Calendar.HOUR_OF_DAY);
                 if (priceType == 1) {
                     String timeChoose =cruYear+"-"+  outMonthStr + "-" + outDayStr + " "+ hourStr+":00:00";
-                    if(TimeUtils.geTimestampTimes(timeChoose,"yyyy-MM-dd HH:mm:ss")<System.currentTimeMillis()/1000){
+                    long chooseTimes = TimeUtils.geTimestampTimes(timeChoose,"yyyy-MM-dd HH:mm:ss");
+                    long curTimes = System.currentTimeMillis()/1000;
+                    if(chooseTimes<curTimes||chooseTimes>(curTimes+24*3600*30)){
                         ToastUtil.makeText(mContext, "所选时间不符要求！");
                         timeIsTrue= false;
                         setTimeTextView(dateContent);
@@ -563,7 +562,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 }else{
                     String timeContent =cruYear+"年"+  outMonthStr + "月" + outDayStr + "日";
                     String currentTime =cruYear+"年"+  curMonth + "月" + curDate + "日";
-                    String curDateMore30 =cruYear+"年"+  curMonth + "月" + curDateMore + "日";
+                    String curDateMore30 =cruYear+"年"+  curMonthMore + "月" + curDate + "日";
                     long chooseTimes  = TimeUtils.geTimestampTimes(timeContent,"yyyy年MM月dd日");
                     long currentTimes  = TimeUtils.geTimestampTimes(currentTime,"yyyy年MM月dd日");
                     long curDateMore30s  = TimeUtils.geTimestampTimes(curDateMore30,"yyyy年MM月dd日");
@@ -699,8 +698,16 @@ public class CreateOrdersActivity extends BaseActivity {
         public void onScrollingFinished(WheelView wheel) {
             int n_month = month_wheelView.getCurrentItem() + 1;//月
             initDay(cruYear, n_month);
-            outDayStr = String.valueOf(day_wheelView.getCurrentItem() + 1);//日
-            hourStr = String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
+            if((day_wheelView.getCurrentItem() + 1)<10){
+                outDayStr = "0"+String.valueOf(day_wheelView.getCurrentItem() + 1);//日
+            }else{
+                outDayStr = String.valueOf(day_wheelView.getCurrentItem() + 1);//日
+            }
+            if((timeWheelView.getCurrentItem() + 1)<10){
+                hourStr = "0"+String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
+            }else{
+                hourStr = String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
+            }
             outMonthStr = String.valueOf(n_month);
         }
     };

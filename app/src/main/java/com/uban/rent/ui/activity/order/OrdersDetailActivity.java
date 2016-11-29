@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -283,18 +284,21 @@ public class OrdersDetailActivity extends BaseActivity {
             priceOfOrder.setText(price + "元/时");
             priceSingle.setText(price + "元时");
             totalOfTime.setText(resultsBean.getRentTime() + "小时");
+            endTimeLayout.setVisibility(View.VISIBLE);
         } else if (priceType == 2) {
             priceOfType.setText("日租");
             priceOfOrder.setText(price + "元/日");
             priceSingle.setText(price + "元日");
             timeStr.setText("日");
             totalOfTime.setText(resultsBean.getRentTime() + "日");
+            endTimeLayout.setVisibility(View.GONE);
         } else if (priceType == 3) {
             priceOfType.setText("月租");
             timeStr.setText("月");
             priceOfOrder.setText(price + "元/月");
             priceSingle.setText(price + "元月");
             totalOfTime.setText(resultsBean.getRentTime() + "月");
+            endTimeLayout.setVisibility(View.GONE);
         }
         stationNum.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         timeNum.setText(String.valueOf(resultsBean.getRentTime()));
@@ -611,7 +615,8 @@ public class OrdersDetailActivity extends BaseActivity {
                 int sec = (int) (millisUntilFinished % (1000 * 60 * 60)) % 60;
                 messageRemindStr.setText(hour + "时" + min + "分" + sec + "秒");
             } else {
-                messageRemindStr.setText("请在" + (int) millisUntilFinished / (1000 * 60) + "分" + (millisUntilFinished / 1000) % 60 + "秒" + "内完成支付，完了会议室就没有了哦！");
+                String countTime = (int) millisUntilFinished / (1000 * 60) + "分" + (millisUntilFinished / 1000) % 60 + "秒";
+                messageRemindStr.setText(Html.fromHtml("请在 <font color='#FF5254' >" + countTime + "</font>内完成支付，晚了就没有了哦！"));
             }
         }
     }

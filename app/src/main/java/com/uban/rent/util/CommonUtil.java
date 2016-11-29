@@ -9,11 +9,20 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import com.alipay.share.sdk.Constant;
+import com.tencent.open.utils.HttpUtils;
 import com.uban.rent.R;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.Enumeration;
 
 /**
@@ -109,4 +118,5 @@ public class CommonUtil {
         return (i & 0xFF) + "." + ((i >> 8) & 0xFF) + "." + ((i >> 16) & 0xFF)
                 + "." + (i >> 24 & 0xFF);
     }
+
 }

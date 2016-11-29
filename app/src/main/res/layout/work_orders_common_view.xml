@@ -278,6 +278,7 @@
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/start_time_layout"
         android:layout_width="match_parent"
@@ -306,11 +307,13 @@
             android:textColor="@color/colorGray"
             android:textSize="13sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/end_time_layout"
         android:layout_width="match_parent"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
+        android:visibility="gone"
         android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
