@@ -68,6 +68,7 @@ import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.ConvertUtils;
 import com.uban.rent.util.ImageLoadUtils;
 import com.uban.rent.util.SPUtils;
 import com.uban.rent.util.StringUtils;
@@ -76,7 +77,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.functions.Action0;
@@ -156,6 +156,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private List<SpaceDetailBean.ResultsBean.SpaceDeskTypePriceListBean> spaceDeskTypePriceListBeen;
     private int mPriceType = 1;
     private CreateOrderParamaBean createOrderParamaBean;
+    private boolean mSearchFlag = false;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -175,6 +176,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .onNext(new Action1<Events<?>>() {
                     @Override
                     public void call(Events<?> events) {
+                        mSearchFlag = true;
                         SearchHomeViewEvents searchHomeViewEvents = events.getContent();
                         keyWord = searchHomeViewEvents.getKeyWords();
                         clearOverlay();
@@ -382,6 +384,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mapLocationView();
     }
 
+    /**
+     * 设置地图中心点
+     * @param latLng
+     */
+    private void setMapStatus(LatLng latLng){
+        MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
+        MapStatusUpdate msu = newMapStatus(mMapStatus);
+        mBaiduMap.animateMapStatus(msu);
+    }
+
     private void showMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
         int resID = KEY_ORDER_ALL;
         if (shortRentFlag == KEY_ORDER_ALL) {
@@ -401,15 +413,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             textView.setBackgroundResource(R.drawable.ic_marker_near_windows);
             LatLng pt = new LatLng(datasBean.getMapY(), datasBean.getMapX());
             //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-            InfoWindow mInfoWindow = new InfoWindow(textView, pt, -120);
+            InfoWindow mInfoWindow = new InfoWindow(textView, pt, ConvertUtils.dp2px(mContext,-40));
             //显示InfoWindow
             mBaiduMap.showInfoWindow(mInfoWindow);
         }
         LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
-        // 设置地图中心点
-        MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
-        MapStatusUpdate msu = newMapStatus(mMapStatus);
-        mBaiduMap.animateMapStatus(msu);
+        if (mSearchFlag){
+            mSearchFlag = !mSearchFlag;
+            // 设置地图中心点
+            setMapStatus(latLng);
+        }else {
+            LatLng mNormalLatLng = new LatLng(locationY, locationX);
+            setMapStatus(mNormalLatLng);
+        }
         //构建Marker图标
         View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
         markerView.setBackgroundResource(resID);
@@ -435,9 +451,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             HomeDatasBean.ResultsBean.DatasBean datasBean = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
             LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
-            MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
-            MapStatusUpdate msu = newMapStatus(mMapStatus);
-            mBaiduMap.animateMapStatus(msu, 400);
+            setMapStatus(latLng);
             int resID = KEY_ORDER_ALL;
             if (shortRentFlag == KEY_ORDER_ALL) {
                 resID = R.drawable.ic_marker_space_checked;
@@ -654,13 +668,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @OnClick({R.id.fab_clean_search, R.id.fab_location, R.id.btn_close_list, R.id.select_city_bj, R.id.select_city_sh,R.id.rl_marker_space_detail})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -670,16 +677,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 initData();
                 break;
             case R.id.fab_location:
+                isFirstLoc = true;
                 mapLocationView();
                 break;
             case R.id.btn_close_list:
                 isShowBottomView(false);
                 break;
             case R.id.select_city_bj:
+                clearOverlay();
+                keyWord = "";
+                locationX = 116.486388;
+                locationY = 40.000828;
                 saveCity(Constants.CITY_ID[0]);
+                LatLng latLngBJ = new LatLng(locationY,locationX);
+                setMapStatus(latLngBJ);
+                initData();
                 break;
             case R.id.select_city_sh:
+                clearOverlay();
+                keyWord = "";
+                locationX = 121.52;
+                locationY = 31.23;
                 saveCity(Constants.CITY_ID[1]);
+                LatLng latLngSH = new LatLng(locationY,locationX);
+                setMapStatus(latLngSH);
+                initData();
                 break;
             case R.id.rl_marker_space_detail:
                 Intent intent = new Intent();
