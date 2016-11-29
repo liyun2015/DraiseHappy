@@ -8,10 +8,14 @@ import android.text.TextUtils;
 
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
+import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.request.RequestVersion;
 import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.welcome.WelcomeActivity;
 import com.uban.rent.util.AppUtils;
+import com.uban.rent.util.Constants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +51,24 @@ public class SplashAppActivity extends BaseActivity {
     }
 
     private void initData() {
+        RequestVersion requestVersion = new RequestVersion();
+        requestVersion.setAppType(Constants.APP_TYPE);
+        requestVersion.setName(AppUtils.getAppVersionName(mContext));
+        ServiceFactory.getProvideHttpService().getAppNewVersion(requestVersion)
+                .compose(this.<String>bindToLifecycle())
+                .compose(RxSchedulersHelper.<String>io_main())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+
         if (isFirst()){
             //saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
