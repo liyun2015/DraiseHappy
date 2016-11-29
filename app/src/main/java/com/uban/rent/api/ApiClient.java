@@ -23,6 +23,7 @@ import com.uban.rent.module.request.RequestSearchKeyWord;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestVerifyMember;
+import com.uban.rent.module.request.RequestVersion;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.module.request.UnifieOrderBean;
 
@@ -89,9 +90,12 @@ public interface ApiClient {
     @POST("/mainapi/wXPayProvider/unifiedorder")
     Observable<WXPayProviderBean> getUnifiedorder(@Body UnifieOrderBean requestUnifieDorder);
 
-
     //订单支付后查询
     @POST("/mainapi/wXPayProvider/orderquery")
     Observable<ResultOrderQueryBean> orderQuery(@Body UnifieOrderBean requestPaymentOrder);
+
+    //版本更新
+    @POST("/mainapi/dzversionProvider/getAppNewVersion")
+    Observable<String> getAppNewVersion(@Body RequestVersion requestVersion);
 
 }

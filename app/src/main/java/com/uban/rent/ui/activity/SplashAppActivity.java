@@ -48,7 +48,7 @@ public class SplashAppActivity extends BaseActivity {
 
     private void initData() {
         if (isFirst()){
-            saveNumberTimes(AppUtils.getAppVersionName(mContext));
+            //saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
         }else {
             if (HeaderConfig.isEmptyUbanToken()){

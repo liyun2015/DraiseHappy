@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -23,7 +22,7 @@ public class SecondSlide extends Fragment {
     @Bind(R.id.activity_welcome)
     RelativeLayout activityWelcome;
     @Bind(R.id.btn_welcome_submit)
-    Button btnWelcomeSubmit;
+    View btnWelcomeSubmit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
