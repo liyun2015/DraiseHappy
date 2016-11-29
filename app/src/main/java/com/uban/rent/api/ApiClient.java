@@ -9,6 +9,7 @@ import com.uban.rent.module.ResultOrderQueryBean;
 import com.uban.rent.module.SearchKeyWord;
 import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.VerifyMemberBean;
+import com.uban.rent.module.VersionBean;
 import com.uban.rent.module.WXPayProviderBean;
 import com.uban.rent.module.WorkplaceDetailBean;
 import com.uban.rent.module.request.RequestApplyMember;
@@ -96,6 +97,6 @@ public interface ApiClient {
 
     //版本更新
     @POST("/mainapi/dzversionProvider/getAppNewVersion")
-    Observable<String> getAppNewVersion(@Body RequestVersion requestVersion);
+    Observable<VersionBean> getAppNewVersion(@Body RequestVersion requestVersion);
 
 }

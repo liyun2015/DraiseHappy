@@ -6,5 +6,21 @@ package com.uban.rent.module.request;
  */
 public class RequestVersion {
     private int appType;
-    private String appName;
+    private String name;
+
+    public int getAppType() {
+        return appType;
+    }
+
+    public void setAppType(int appType) {
+        this.appType = appType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

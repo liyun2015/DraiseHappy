@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
@@ -34,6 +35,7 @@ import com.uban.rent.util.Constants;
 import com.uban.rent.util.KeyboardUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +66,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     UbanListView searchHistory;
     @Bind(R.id.activity_search)
     RelativeLayout activitySearch;
-    private String[] mVals = new String[]{"东直门", "望京", "国贸", "三元桥", "中关村"};
+    private String[] mValsBJ = new String[]{"东直门", "望京", "国贸", "三元桥", "中关村"};
+    private String[] mValsSH = new String[]{"静安寺", "陆家嘴", "人民广场", "中山公园", "江苏路","大虹桥"};
 
     private static final String KEY_HISTORY = "history";
     private static final String KEY_SP_HISTORY = "sp_history";
@@ -72,7 +75,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     private ArrayAdapter historyAdapter;
     private List<String> keyWordList;
     private ArrayAdapter<String> stringArrayAdapter;
-
+    private List<String> arrList;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_search;
@@ -80,6 +83,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        arrList = new ArrayList<>();
         keyWordList = new ArrayList<>();
         initView();
         //历史记录
@@ -164,8 +168,14 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     }
 
     private void initView() {
+        arrList.clear();
+        if (HeaderConfig.ubanCity().equals(Constants.CITY_ID[0])){
+            arrList.addAll(Arrays.asList(mValsBJ));
+        }else if (HeaderConfig.ubanCity().equals(Constants.CITY_ID[1])){
+            arrList.addAll(Arrays.asList(mValsSH));
+        }
         editSearch.setOnEditorActionListener(this);
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(mVals) {
+        TagAdapter<String> tagAdapter = new TagAdapter<String>(arrList) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_search_tag_view, tagFlowLayout, false);
@@ -178,8 +188,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                sendEvents(mVals[position]);
-                saveHistory(mVals[position]);
+                sendEvents(arrList.get(position));
+                saveHistory(arrList.get(position));
                 return true;
             }
         });
