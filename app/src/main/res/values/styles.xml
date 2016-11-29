@@ -29,8 +29,10 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:textSize">18sp</item>
     </style>
-    <style name="AppSplash" parent="AppTheme">
+    <style name="AppSplash" parent="AppWelcome">
         <item name="android:windowBackground">@drawable/ic_splash_app</item>
+    </style>
+    <style name="AppWelcome" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
