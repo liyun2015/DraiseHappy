@@ -18,7 +18,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
@@ -438,7 +437,8 @@ public class SpaceDetailActivity extends BaseActivity {
         public void onResult(SHARE_MEDIA platform) {
 
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mActivity.get(),"收藏成功啦");
+               // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
                 if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
                         &&platform!=SHARE_MEDIA.EMAIL
@@ -452,7 +452,7 @@ public class SpaceDetailActivity extends BaseActivity {
                         &&platform!=SHARE_MEDIA.GOOGLEPLUS
                         &&platform!=SHARE_MEDIA.YNOTE
                         &&platform!=SHARE_MEDIA.EVERNOTE){
-                    Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -472,7 +472,8 @@ public class SpaceDetailActivity extends BaseActivity {
                     &&platform!=SHARE_MEDIA.GOOGLEPLUS
                     &&platform!=SHARE_MEDIA.YNOTE
                     &&platform!=SHARE_MEDIA.EVERNOTE){
-                Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mActivity.get(),"分享失败啦");
                 if (t != null) {
                     Log.d("throw", "throw:" + t.getMessage());
                 }
@@ -483,7 +484,7 @@ public class SpaceDetailActivity extends BaseActivity {
         @Override
         public void onCancel(SHARE_MEDIA platform) {
 
-            Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 

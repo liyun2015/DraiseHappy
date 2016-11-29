@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -291,7 +290,7 @@ public class StationDetailActivity extends BaseActivity {
         tvWorkplaceTime.setText(resultsBean.getWorkTime());
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
         wordDeskType = resultsBean.getWorkDeskType();
-        if (resultsBean.getWorkDeskType()==3){
+        if (resultsBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
             tvPriceType.setVisibility(View.GONE);
             tvPrice.setText("会员免费");
             orderCreate.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
@@ -392,7 +391,8 @@ public class StationDetailActivity extends BaseActivity {
         public void onResult(SHARE_MEDIA platform) {
 
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mActivity.get(),"收藏成功啦");
             } else {
                 if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
                         &&platform!=SHARE_MEDIA.EMAIL
@@ -406,7 +406,7 @@ public class StationDetailActivity extends BaseActivity {
                         &&platform!=SHARE_MEDIA.GOOGLEPLUS
                         &&platform!=SHARE_MEDIA.YNOTE
                         &&platform!=SHARE_MEDIA.EVERNOTE){
-                    Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -426,7 +426,8 @@ public class StationDetailActivity extends BaseActivity {
                     &&platform!=SHARE_MEDIA.GOOGLEPLUS
                     &&platform!=SHARE_MEDIA.YNOTE
                     &&platform!=SHARE_MEDIA.EVERNOTE){
-                Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mActivity.get(),"分享失败啦");
                 if (t != null) {
                     com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
                 }
@@ -437,7 +438,7 @@ public class StationDetailActivity extends BaseActivity {
         @Override
         public void onCancel(SHARE_MEDIA platform) {
 
-            Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 
