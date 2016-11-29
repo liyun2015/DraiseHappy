@@ -367,6 +367,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return requestGoSpaceDetail;
     }
     private void initMapView() {
+        mMapView.showScaleControl(false);
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
         mBaiduMap = mMapView.getMap();
