@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -34,7 +35,6 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -82,6 +82,8 @@ import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.baidu.mapapi.map.MapStatusUpdateFactory.newMapStatus;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -177,6 +179,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         keyWord = searchHomeViewEvents.getKeyWords();
                         clearOverlay();
                         initData();
+
                     }
                 })
                 .onError(new Action1<Throwable>() {
@@ -190,7 +193,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private double locationX = 116.486388;
     private double locationY = 40.000828;
-    private int shortRentFlag = 0;
+    private int shortRentFlag = KEY_MOBILE_OFFICE;
     private String keyWord = "";
 
     private void initData() {
@@ -264,6 +267,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
     }
     private void initView() {
+        fabCleanSearch.setVisibility(View.GONE);
         saveCity(Constants.CITY_ID[0]);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -286,10 +290,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         tabHomeSelect.setTabMode(TabLayout.MODE_FIXED);
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_ORDER_ALL]));
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MOBILE_OFFICE]));
-        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MEETIONGS_EVENTS]));
-
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_ORDER_ALL]),false);
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MOBILE_OFFICE]),true);
+        tabHomeSelect.addTab(tabHomeSelect.newTab().setText(TITLE_NAME[KEY_MEETIONGS_EVENTS]),false);
         tabHomeSelect.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -376,6 +379,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         option.setScanSpan(1000);
         mLocClient.setLocOption(option);
         mLocClient.start();
+        mapLocationView();
     }
 
     private void showMarkerList(HomeDatasBean.ResultsBean.DatasBean datasBean) {
@@ -402,6 +406,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             mBaiduMap.showInfoWindow(mInfoWindow);
         }
         LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
+        // 设置地图中心点
+        MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
+        MapStatusUpdate msu = newMapStatus(mMapStatus);
+        mBaiduMap.animateMapStatus(msu);
         //构建Marker图标
         View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
         markerView.setBackgroundResource(resID);
@@ -428,7 +436,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             HomeDatasBean.ResultsBean.DatasBean datasBean = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
             LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
             MapStatus mMapStatus = new MapStatus.Builder().target(latLng).build();
-            MapStatusUpdate msu = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            MapStatusUpdate msu = newMapStatus(mMapStatus);
             mBaiduMap.animateMapStatus(msu, 400);
             int resID = KEY_ORDER_ALL;
             if (shortRentFlag == KEY_ORDER_ALL) {
@@ -541,7 +549,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tabHomeSelect.setVisibility(b ? View.GONE : View.VISIBLE);
         btnCloseList.setVisibility(b ? View.VISIBLE : View.GONE);
         fabLocation.setVisibility(b ? View.GONE : View.VISIBLE);
-        fabCleanSearch.setVisibility(b ? View.GONE : View.VISIBLE);
+        fabCleanSearch.setVisibility(b ? View.GONE : (TextUtils.isEmpty(keyWord)? View.GONE:View.VISIBLE));
         lLayoutListView.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 
@@ -576,6 +584,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id) {
             case R.id.action_search:
                 isShowBottomView(false);
+                fabCleanSearch.setVisibility(TextUtils.isEmpty(keyWord)?View.GONE:View.VISIBLE);
                 goActivity(SearchActivity.class);
                 break;
         }
@@ -656,19 +665,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_clean_search:
+                fabCleanSearch.setVisibility(View.GONE);
                 keyWord = "";
                 initData();
                 break;
             case R.id.fab_location:
-                isFirstLoc = true;
-                mBaiduMap.setMyLocationEnabled(true);
-                mCurrentMode = LocationMode.NORMAL;
-//                mCurrentMarker = BitmapDescriptorFactory
-//                        .fromResource(R.drawable.ic_location_marker);
-                mBaiduMap
-                        .setMyLocationConfigeration(new MyLocationConfiguration(
-                                mCurrentMode, true, mCurrentMarker,
-                                accuracyCircleFillColor, accuracyCircleStrokeColor));
+                mapLocationView();
                 break;
             case R.id.btn_close_list:
                 isShowBottomView(false);
@@ -686,6 +688,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void mapLocationView() {
+        mBaiduMap.setMyLocationEnabled(true);
+        mCurrentMode = LocationMode.NORMAL;
+//                mCurrentMarker = BitmapDescriptorFactory
+//                        .fromResource(R.drawable.ic_location_marker);
+        mBaiduMap
+                .setMyLocationConfigeration(new MyLocationConfiguration(
+                        mCurrentMode, true, mCurrentMarker,
+                        accuracyCircleFillColor, accuracyCircleStrokeColor));
     }
 
     /**
@@ -729,7 +742,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         location.getLongitude());
                 MapStatus.Builder builder = new MapStatus.Builder();
                 builder.target(ll);//.zoom(18.0f)
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                mBaiduMap.animateMapStatus(newMapStatus(builder.build()));
                 locationY = location.getLatitude();
                 locationX = location.getLongitude();
             }

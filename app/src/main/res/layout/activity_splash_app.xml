@@ -5,5 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.uban.rent.ui.activity.SplashAppActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_splash_app"
+        android:scaleType="fitXY"/>
 </RelativeLayout>
