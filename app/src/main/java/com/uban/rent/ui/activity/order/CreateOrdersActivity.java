@@ -152,6 +152,8 @@ public class CreateOrdersActivity extends BaseActivity {
     private  String workHoursBegin,workHoursEnd;
     private int workDeskId;
     private boolean timeIsTrue =false;
+    private String isStartTimeDataDay;
+    private boolean isEndTimeChoose=false;
 
     @Override
     protected int getLayoutId() {
@@ -361,11 +363,13 @@ public class CreateOrdersActivity extends BaseActivity {
                 totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
                 break;
             case R.id.start_time_layout://开始时间
+                isEndTimeChoose=false;
                 isStartTimePop = true;
                 showTimePopupWindow();
                 break;
             case R.id.end_time_layout://结束时间
                 isStartTimePop = false;
+                isEndTimeChoose=true;
                 showTimePopupWindow();
                 break;
             default:
@@ -489,6 +493,12 @@ public class CreateOrdersActivity extends BaseActivity {
                 int curHour = calendar.get(Calendar.HOUR_OF_DAY);
                 if (priceType == 1) {
                     String timeChoose =cruYear+"-"+  outMonthStr + "-" + outDayStr + " "+ hourStr+":00:00";
+                    if(TimeUtils.geTimestampTimes(timeChoose,"yyyy-MM-dd HH:mm:ss")<System.currentTimeMillis()/1000){
+                        ToastUtil.makeText(mContext, "所选时间不符要求！");
+                        timeIsTrue= false;
+                        setTimeTextView(dateContent);
+                        return;
+                    }
                     //今天
                     try {
                         DateFormat fmt =new
@@ -506,11 +516,13 @@ public class CreateOrdersActivity extends BaseActivity {
                                 }else{
                                     ToastUtil.makeText(mContext, "开始时间必须提前1小时！");
                                     timeIsTrue= false;
+                                    setTimeTextView(dateContent);
                                     return;
                                 }
                             }else{
                                 ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
                                 timeIsTrue= false;
+                                setTimeTextView(dateContent);
                                 return;
                             }
                         }else{
@@ -520,20 +532,31 @@ public class CreateOrdersActivity extends BaseActivity {
                                 }else{
                                     ToastUtil.makeText(mContext, "开始时间必须提前1小时！");
                                     timeIsTrue= false;
+                                    setTimeTextView(dateContent);
                                     return;
                                 }
                             }else{
                                 ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
                                 timeIsTrue= false;
+                                setTimeTextView(dateContent);
                                 return;
                             }
                         }
                     }else{
+                        if(isEndTimeChoose){
+                            if(!isStartTimeDataDay.equals(cruYear+"-"+  outMonthStr + "-" + outDayStr)){
+                                ToastUtil.makeText(mContext, "所选时间必须在同一天内！");
+                                setTimeTextView(dateContent);
+                                return;
+                            }
+                        }
+
                         if(TimeUtils.isInDate(date,workHoursBegin,workHoursEnd)){
                             timeIsTrue= true;
                         }else{
                             ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
                             timeIsTrue= false;
+                            setTimeTextView(dateContent);
                             return;
                         }
                     }
@@ -549,21 +572,13 @@ public class CreateOrdersActivity extends BaseActivity {
                     }else{
                         ToastUtil.makeText(mContext, "开始时间必须是未来30天内！");
                         timeIsTrue= false;
+                        setTimeTextView(dateContent);
                         return;
                     }
                 }
-
-                if (isStartTimePop) {
-                    if (priceType == 1) {
-                        startTime.setText(dateContent);
-                    } else {
-                        startTime.setText(outMonthStr + "月" + outDayStr
-                                + "日  ");
-                    }
-                } else {
-                    endTime.setText(dateContent);
-                }
+                setTimeTextView(dateContent);
                 initTotalTime();
+                isStartTimeDataDay =cruYear+"-"+  outMonthStr + "-" + outDayStr;
             }
         });
         // 取消按钮
@@ -627,6 +642,19 @@ public class CreateOrdersActivity extends BaseActivity {
             timeWheelView.setVisibility(View.VISIBLE);
         } else {
             timeWheelView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setTimeTextView(String dateContent) {
+        if (isStartTimePop) {
+            if (priceType == 1) {
+                startTime.setText(dateContent);
+            } else {
+                startTime.setText(outMonthStr + "月" + outDayStr
+                        + "日  ");
+            }
+        } else {
+            endTime.setText(dateContent);
         }
     }
 
