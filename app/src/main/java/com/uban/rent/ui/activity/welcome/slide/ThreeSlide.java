@@ -14,8 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-
-public class FirstSlide extends Fragment {
+public class ThreeSlide extends Fragment {
 
     @Bind(R.id.iv_welcome_image)
     ImageView ivWelcomeImage;
@@ -28,8 +27,7 @@ public class FirstSlide extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_welcome, container, false);
         ButterKnife.bind(this, view);
-        btnWelcomeSubmit.setVisibility(View.GONE);
-        ivWelcomeImage.setBackgroundResource(R.drawable.ic_welcome_show_1);
+        ivWelcomeImage.setBackgroundResource(R.drawable.ic_welcome_show_3);
         return view;
     }
 

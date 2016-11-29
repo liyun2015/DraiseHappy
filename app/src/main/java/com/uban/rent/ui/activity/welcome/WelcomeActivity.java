@@ -1,10 +1,14 @@
-package com.uban.rent.ui.activity.welcome.slide;
+package com.uban.rent.ui.activity.welcome;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.github.paolorotolo.appintro.AppIntro2;
+import com.uban.rent.ui.activity.welcome.slide.FirstSlide;
+import com.uban.rent.ui.activity.welcome.slide.FourSlide;
+import com.uban.rent.ui.activity.welcome.slide.SecondSlide;
+import com.uban.rent.ui.activity.welcome.slide.ThreeSlide;
+import com.uban.rent.ui.view.welcome.AppIntro2;
 
 public class WelcomeActivity extends AppIntro2 {
 
@@ -13,16 +17,29 @@ public class WelcomeActivity extends AppIntro2 {
         super.onCreate(savedInstanceState);
         addSlide(new FirstSlide());
         addSlide(new SecondSlide());
+        addSlide(new ThreeSlide());
+        addSlide(new FourSlide());
+
+        /**
+         * setFadeAnimation()
+         setZoomAnimation()
+         setFlowAnimation()
+         setSlideOverAnimation()
+         setDepthAnimation()
+         */
         setDepthAnimation();
         // Hide Skip/Done button.
         //setFadeAnimation
         showSkipButton(false);
+        showStatusBar(false);
         setProgressButtonEnabled(false);
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(false);
         setVibrateIntensity(30);
+
+
     }
 
     @Override

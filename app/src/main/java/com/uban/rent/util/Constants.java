@@ -47,5 +47,7 @@ public class Constants {
     public static final int MEMBER_STATUS_APPLYING = 1;//申请中
     public static final int MEMBER_STATUS_SUCCESS = 2;//是会员
 
+    public static final int App_type = 1;//0 Android 1 iOS
+
 
 }
