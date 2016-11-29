@@ -250,10 +250,28 @@ public class CreateOrdersActivity extends BaseActivity {
         if (priceType == 1) {
             Calendar calendar = Calendar.getInstance();
             int curHour = calendar.get(Calendar.HOUR_OF_DAY);
+            if(workDeskType == 6&&workDeskType == 7){
+                curHour=curHour+1;
+            }
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour+2)+":00");
             endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ")+ (curHour+3) + ":00");
+            try {
+                String timeChooseStart = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour+2)+":00";
+                String timeChooseEnd = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour+3)+":00";
+                DateFormat fmt =new
+                        SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date1 = fmt.parse(timeChooseStart);
+                Date date2 = fmt.parse(timeChooseEnd);
+                if(TimeUtils.isInDate(date1,workHoursBegin,workHoursEnd)&&TimeUtils.isInDate(date2,workHoursBegin,workHoursEnd)){
+                    timeIsTrue=true;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         } else {
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
+            timeIsTrue=true;
         }
         totalTime.setText(String.valueOf(rentTime));
     }
@@ -292,7 +310,7 @@ public class CreateOrdersActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.order_create://提交订单
                 if(!timeIsTrue){
-                    ToastUtil.makeText(mContext, "开始时间不符要求，请重新选择！");
+                    ToastUtil.makeText(mContext, "时间不符要求，请重新选择！");
                     return;
                 }
                 if(priceType == 1){
