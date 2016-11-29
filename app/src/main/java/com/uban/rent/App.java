@@ -31,7 +31,7 @@ public class App extends Application {
 
     //分享各平台初始化配置
     {
-        PlatformConfig.setWeixin("wx560d10dd4001d136", "28edcb9a7b8090ea4b2e11b234b33fcc");
+        PlatformConfig.setWeixin("wx560d10dd4001d136", "4b5e1cb5ff7aaa0a8df4b6523fa65a5e");
         PlatformConfig.setSinaWeibo("1658710715", "ac8d11b4dfae35e5a354afc5e27e9c55");
         PlatformConfig.setQQZone("1105851078", "PkfjgLEw8sIAMAzx");
     }
