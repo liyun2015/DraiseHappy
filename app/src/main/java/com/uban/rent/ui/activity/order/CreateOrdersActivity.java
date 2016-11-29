@@ -250,7 +250,7 @@ public class CreateOrdersActivity extends BaseActivity {
         if (priceType == 1) {
             Calendar calendar = Calendar.getInstance();
             int curHour = calendar.get(Calendar.HOUR_OF_DAY);
-            if(workDeskType == 6&&workDeskType == 7){
+            if(workDeskType == 6||workDeskType == 7){
                 curHour=curHour+1;
             }
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour+2)+":00");
