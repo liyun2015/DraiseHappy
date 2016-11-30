@@ -50,7 +50,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             startActivity(new Intent(mContext, MemberStatusActivity.class));
         }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
             startActivity(new Intent(mContext, MemberFinalActivity.class));
-        }else {
+        }else if (memberStatus == Constants.MEMBER_STATUS_BE_OVERDUE){
             startActivity(new Intent(mContext, MemberFirstActivity.class));
         }
     }

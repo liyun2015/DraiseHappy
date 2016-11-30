@@ -2,7 +2,7 @@ package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -20,6 +20,15 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
+import com.umeng.socialize.utils.Log;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -44,7 +53,8 @@ public class MemberFirstActivity extends BaseActivity {
     LinearLayout memberCallPhone;
     @Bind(R.id.create_member)
     TextView createMember;
-
+    private UMShareListener mShareListener;
+    private ShareAction mShareAction;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_uban_member_first;
@@ -52,16 +62,18 @@ public class MemberFirstActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initData();
+        initSocial();
         initView();
     }
 
-    private void initData() {
-        Intent intent = getIntent();
-        Uri uri = intent.getData();
-        if (uri != null) {
-
-        }
+    private void initSocial() {
+        SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
+        };
+        mShareListener = new CustomShareListener(MemberFirstActivity.this);
+        mShareAction = new ShareAction(MemberFirstActivity.this).setDisplayList(shareMedias)
+                .setCallback(mShareListener);
     }
 
     private void initView() {
@@ -73,6 +85,79 @@ public class MemberFirstActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("优办会员");
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this**/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 屏幕横竖屏切换时避免出现window leak的问题
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mShareAction.close();
+    }
+
+    private static class CustomShareListener implements UMShareListener {
+
+        private WeakReference<MemberFirstActivity> mActivity;
+
+        private CustomShareListener(MemberFirstActivity activity) {
+            mActivity = new WeakReference(activity);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                ToastUtil.makeText(mActivity.get(),"收藏成功啦");
+            } else {
+                if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                        &&platform!=SHARE_MEDIA.EMAIL
+                        &&platform!=SHARE_MEDIA.FLICKR
+                        &&platform!=SHARE_MEDIA.FOURSQUARE
+                        &&platform!=SHARE_MEDIA.TUMBLR
+                        &&platform!=SHARE_MEDIA.POCKET
+                        &&platform!=SHARE_MEDIA.PINTEREST
+                        &&platform!=SHARE_MEDIA.LINKEDIN
+                        &&platform!=SHARE_MEDIA.INSTAGRAM
+                        &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                        &&platform!=SHARE_MEDIA.YNOTE
+                        &&platform!=SHARE_MEDIA.EVERNOTE){
+                }
+
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
+                    &&platform!=SHARE_MEDIA.EMAIL
+                    &&platform!=SHARE_MEDIA.FLICKR
+                    &&platform!=SHARE_MEDIA.FOURSQUARE
+                    &&platform!=SHARE_MEDIA.TUMBLR
+                    &&platform!=SHARE_MEDIA.POCKET
+                    &&platform!=SHARE_MEDIA.PINTEREST
+                    &&platform!=SHARE_MEDIA.LINKEDIN
+                    &&platform!=SHARE_MEDIA.INSTAGRAM
+                    &&platform!=SHARE_MEDIA.GOOGLEPLUS
+                    &&platform!=SHARE_MEDIA.YNOTE
+                    &&platform!=SHARE_MEDIA.EVERNOTE){
+                ToastUtil.makeText(mActivity.get(),"分享失败啦");
+                if (t != null) {
+                    Log.d("throw", "throw:" + t.getMessage());
+                }
+            }
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+        }
     }
 
     @Override
@@ -89,7 +174,20 @@ public class MemberFirstActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                startActivity(new Intent(mContext,MemberFinalActivity.class));
+                String shareTitle = "会员分享";
+                String msg = "会员";
+                String shareUrl = "http://m.uban.com/bj/dzVip";
+                UMImage shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
+
+                ShareBoardConfig config = new ShareBoardConfig();
+                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
+                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
+                mShareAction
+                        .withTitle(shareTitle)
+                        .withText(msg)
+                        .withMedia(shareImage)
+                        .withTargetUrl(shareUrl)
+                        .open(config);
                 break;
         }
 

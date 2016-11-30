@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -109,12 +108,7 @@ public class SplashAppActivity extends BaseActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
-                       //
+                        filterViewActivity();
                     }
                 });
     }

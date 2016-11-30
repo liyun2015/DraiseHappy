@@ -1,8 +1,11 @@
 package com.uban.rent.ui.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -43,6 +46,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
@@ -83,6 +87,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.baidu.location.BDLocation.LOCATION_WHERE_UNKNOW;
 import static com.baidu.mapapi.map.MapStatusUpdateFactory.newMapStatus;
 
 
@@ -166,8 +171,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
         registerEvents();
-        initData();
+        registerPermissions();
         initView();
+    }
+
+    private void registerPermissions() {
+        LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if(!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
+        }
+
+        //Android 6.0 Permissions
+        RxPermissions.getInstance(mContext).request(Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean){
+                            initData();
+                        }else {
+                            ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
+                        }
+                    }
+                });
     }
 
     private void registerEvents() {
@@ -338,7 +365,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         lvMarkerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
 
                 Intent intent = new Intent();
                 intent.setClass(mContext, StationDetailActivity.class);
@@ -679,6 +705,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
+                        }else if (verifyMemberBean.getStatusCode() ==  2){//会员已过期
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
                         return verifyMemberBean.getResults().size()>0;
                     }
                 })
@@ -687,11 +724,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
                         SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
-                        BaseActivityMemberStatusGoView();
+
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        BaseActivityMemberStatusGoView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
                         BaseActivityMemberStatusGoView();
                     }
                 });
@@ -782,6 +824,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // map view 销毁后不在处理新接收的位置
             if (location == null || mMapView == null) {
                 return;
+            }
+            if (location.getLocType() == BDLocation.TypeServerError){
+                ToastUtil.makeText(mContext,getString(R.string.str_location_service_error));
+            }else if (location.getLocType() == BDLocation.TypeNetWorkException){
+                ToastUtil.makeText(mContext,getString(R.string.str_location_is_network_success));
+            }else if (location.getLocType() == BDLocation.TypeCriteriaException){
+                ToastUtil.makeText(mContext,"无法获取有效定位，" + getString(R.string.str_location_where_unknow));
+            }else if (location.getLocType() == LOCATION_WHERE_UNKNOW){
+                ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
             }
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())

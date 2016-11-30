@@ -10,8 +10,14 @@ import com.github.paolorotolo.appintro.util.LogHelper;
 
 import java.util.ArrayList;
 
-public abstract class AppIntro2 extends AppIntroBase {
-    private static final String TAG = LogHelper.makeLogTag(AppIntro2.class);
+/**
+ * AppIntroView 引导页view
+ *
+ * Created by dawabos on 2016/11/30.
+ * Email dawabo@163.com
+ */
+public abstract class AppIntroView extends AppIntroBase {
+    private static final String TAG = LogHelper.makeLogTag(AppIntroView.class);
 
     protected View customBackgroundView;
     protected FrameLayout backgroundFrame;

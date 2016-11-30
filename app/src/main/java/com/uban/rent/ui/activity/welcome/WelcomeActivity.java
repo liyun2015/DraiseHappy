@@ -8,9 +8,9 @@ import com.uban.rent.ui.activity.welcome.slide.FirstSlide;
 import com.uban.rent.ui.activity.welcome.slide.FourSlide;
 import com.uban.rent.ui.activity.welcome.slide.SecondSlide;
 import com.uban.rent.ui.activity.welcome.slide.ThreeSlide;
-import com.uban.rent.ui.view.welcome.AppIntro2;
+import com.uban.rent.ui.view.welcome.AppIntroView;
 
-public class WelcomeActivity extends AppIntro2 {
+public class WelcomeActivity extends AppIntroView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
