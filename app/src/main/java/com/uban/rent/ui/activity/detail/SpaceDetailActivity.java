@@ -397,7 +397,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 break;
             case R.id.action_share:
                 String shareTitle = tvSpaceName.getText().toString();
-                String shareUrl = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/" + mSpaceNamePinyin + ".html";
+                String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/"+mSpaceNamePinyin+".html";
                 UMImage shareImage = new UMImage(mContext,panoramaImages.get(0));
 
                 ShareBoardConfig config = new ShareBoardConfig();

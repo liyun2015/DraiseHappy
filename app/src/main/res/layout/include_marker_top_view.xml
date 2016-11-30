@@ -48,7 +48,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center_vertical"
                 android:text="距当前位置19.3km"
-                android:maxEms="7"
+                android:maxEms="9"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/colorGrayHint"

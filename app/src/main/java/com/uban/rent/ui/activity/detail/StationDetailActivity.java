@@ -347,7 +347,7 @@ public class StationDetailActivity extends BaseActivity {
                 break;
             case R.id.action_share:
                 String shareTitle = tvWorkplaceName.getText().toString();
-                String shareUrl = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/duanzu/gongwei-" + mWorkPlaceId + ".html";
+                String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/gongwei-"+mWorkPlaceId+".html?orderType="+mPriceType;
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
