@@ -217,17 +217,24 @@ public class CreateOrdersActivity extends BaseActivity {
         if (workDeskType == 6 || workDeskType == 7) {
             meetingRoomNumberLayout.setVisibility(View.VISIBLE);
             stationNumberLayout.setVisibility(View.GONE);
-            stationTimeLayout.setVisibility(View.GONE);
             startTimeLayoutTop.setVisibility(View.GONE);
-            stationTimeLine.setVisibility(View.GONE);
-
+            if(priceType == 2){
+                stationTimeLine.setVisibility(View.GONE);
+                startTimeLayoutTop.setVisibility(View.VISIBLE);
+            }else{
+                stationTimeLine.setVisibility(View.GONE);
+            }
         } else {
             meetingRoomNumberLayout.setVisibility(View.GONE);
             stationNumberLayout.setVisibility(View.VISIBLE);
-            stationTimeLayout.setVisibility(View.VISIBLE);
             startTimeLayoutTop.setVisibility(View.VISIBLE);
-            stationTimeLine.setVisibility(View.VISIBLE);
+            if(priceType == 1){
+                stationTimeLine.setVisibility(View.GONE);
+            }else{
+                stationTimeLine.setVisibility(View.VISIBLE);
+            }
         }
+
     }
 
     private void initView() {
