@@ -221,7 +221,7 @@ public class CreateOrdersActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        tvWorkTime.setText("营业时间： 工作日  "+workHoursBegin+"-"+workHoursEnd);
+        tvWorkTime.setText("营业时间： 工作日  " + workHoursBegin + "-" + workHoursEnd);
         if (workDeskType == 6) {
             meetingRoomNumberLayout.setVisibility(View.VISIBLE);
             stationNumberLayout.setVisibility(View.GONE);
@@ -249,32 +249,41 @@ public class CreateOrdersActivity extends BaseActivity {
         if (priceType == 1) {
             Calendar calendar = Calendar.getInstance();
             int curHour = calendar.get(Calendar.HOUR_OF_DAY);
-            if(workDeskType == 6||workDeskType == 7){
-                curHour=curHour+1;
+            if (workDeskType == 6 || workDeskType == 7) {
+                curHour = curHour + 1;
             }
-            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour+2)+":00");
-            endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ")+ (curHour+3) + ":00");
+            startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour + 2) + ":00");
+            endTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日 ") + (curHour + 3) + ":00");
             try {
-                String timeChooseStart = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour+2)+":00";
-                String timeChooseEnd = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour+3)+":00";
-                DateFormat fmt =new
+                String timeChooseStart = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour + 2) + ":00";
+                String timeChooseEnd = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd ") + (curHour + 3) + ":00";
+                DateFormat fmt = new
                         SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date1 = fmt.parse(timeChooseStart);
                 Date date2 = fmt.parse(timeChooseEnd);
-                if(TimeUtils.isInDate(date1,workHoursBegin,workHoursEnd)&&TimeUtils.isInDate(date2,workHoursBegin,workHoursEnd)){
-                    timeIsTrue=true;
+                if (TimeUtils.isInDate(date1, workHoursBegin, workHoursEnd) && TimeUtils.isInDate(date2, workHoursBegin, workHoursEnd)) {
+                    timeIsTrue = true;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
         } else {
+            try {
+                String timeChooseStart = TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "yyyy-MM-dd HH:mm");
+                DateFormat fmt = new
+                        SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date = fmt.parse(timeChooseStart);
+                if (TimeUtils.isInDate(date, workHoursBegin, workHoursEnd)) {
+                    timeIsTrue = true;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             startTime.setText(TimeUtils.formatTime(String.valueOf(System.currentTimeMillis() / 1000), "MM月dd日"));
-            timeIsTrue=true;
         }
         totalTime.setText(String.valueOf(rentTime));
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

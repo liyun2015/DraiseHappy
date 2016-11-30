@@ -99,4 +99,5 @@ public interface ApiClient {
     @POST("/mainapi/dzversionProvider/getAppNewVersion")
     Observable<VersionBean> getAppNewVersion(@Body RequestVersion requestVersion);
 
+
 }
