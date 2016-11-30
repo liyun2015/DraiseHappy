@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.App;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -55,6 +56,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
             @Override
             public void onClick(View view) {
                 if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
+                    StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
                     int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
                     if (memberStatus==Constants.MEMBER_STATUS_NOT){
                         mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
@@ -64,6 +66,8 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                         mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
                     }
                 }else {
+                    StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
+                    StatService.onEvent(mContext, "MainMap_OrderBtnClickEvent", "pass", 1);
                     RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
                     Intent intent = new Intent();
                     intent.setClass(mContext, CreateOrdersActivity.class);

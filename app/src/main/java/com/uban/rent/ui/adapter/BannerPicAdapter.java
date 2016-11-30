@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.ui.activity.components.ShowPhotosActivity;
 import com.uban.rent.util.ImageLoadUtils;
@@ -72,6 +73,8 @@ public class BannerPicAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StatService.onEvent(mContext, "StationDetail_PhotoDisplyEvent", "pass", 1);
+                StatService.onEvent(mContext, "SpaceDetail_PhotoDisplyEvent", "pass", 1);
                 if (images==null||images.size()<=0){
                     return;
                 }

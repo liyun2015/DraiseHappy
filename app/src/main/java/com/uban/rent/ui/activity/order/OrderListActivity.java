@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.adapter.FragmentTabAdapter;
@@ -64,6 +65,29 @@ public class OrderListActivity extends BaseActivity {
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
         viewPagerUserOrder.setAdapter(fAdapter);
         tabUserOrder.setupWithViewPager(viewPagerUserOrder);
+
+        tabUserOrder.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition()==0){
+                    StatService.onEvent(mContext, "OrderList_FilterAllEvent", "pass", 1);
+                }else if (tab.getPosition()==1){
+                    StatService.onEvent(mContext, "OrderList_FilterMobiOffiEvent", "pass", 1);
+                }else if (tab.getPosition()==2){
+                    StatService.onEvent(mContext, "OrderList_FilterMeetingEvent", "pass", 1);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 

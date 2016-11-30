@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
@@ -137,6 +138,7 @@ public class MemberCreateActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.create_member_call_phone:
+                StatService.onEvent(mContext, "MemberApply_ZiXunPhoneEvent", "pass", 1);
                 callPhone();
                 break;
             case R.id.create_member_order:
@@ -144,6 +146,7 @@ public class MemberCreateActivity extends BaseActivity {
                 if (TextUtils.isEmpty(name)){
                     ToastUtil.makeText(mContext,"请输入姓名");
                 }else {
+                    StatService.onEvent(mContext, "MemberApply_CommitOrderEvent", "pass", 1);
                     initData(name,mCreatePhone);
                 }
                 break;

@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
@@ -100,6 +101,7 @@ public class RefundOrderActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bottom_submit_btn://提交
+                StatService.onEvent(mContext, "ApplyRefund_CommitApplyEvent", "pass", 1);
                 refundOrder();
                 break;
             default:

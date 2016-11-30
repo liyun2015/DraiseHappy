@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
@@ -457,12 +458,14 @@ public class StationDetailActivity extends BaseActivity {
                 break;
             case R.id.order_create:
                 if (wordDeskType==Constants.HOT_DESK_TYPE){
+                    StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
                     if (HeaderConfig.isMemberStatus()){
                         startActivity(new Intent(mContext,MemberFinalActivity.class));
                     }else {
                         startActivity(new Intent(mContext,MemberFirstActivity.class));
                     }
                 }else {
+                    StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
                     Intent orderIntent = new Intent();
                     orderIntent.setClass(mContext,CreateOrdersActivity.class);
                     orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);

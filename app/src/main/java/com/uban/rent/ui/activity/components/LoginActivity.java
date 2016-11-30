@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
@@ -145,7 +146,7 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.tv_login_code_zx, R.id.btn_login_login_submit})
+    @OnClick({R.id.tv_login_code_zx, R.id.btn_login_login_submit,R.id.read_agreement})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_code_zx:
@@ -154,6 +155,7 @@ public class LoginActivity extends BaseActivity {
                     ToastUtil.makeText(this, "手机号不能为空");
                 } else {
                     if (sendCode) {
+                        StatService.onEvent(mContext, "LoginPage_GetCodeCheckEvent", "pass", 1);
                         time = new TimeCount(DELAY_SECONDS, 1000);
                         time.start();// 开始计时
                         sendCode();
@@ -168,13 +170,17 @@ public class LoginActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
+                    StatService.onEvent(mContext, "LoginPage_LoginEvent", "pass", 1);
                     memberStatus();
                     loginApp();
                 }
                 break;
+            case R.id.read_agreement:
+                StatService.onEvent(mContext, "LoginPage_ServiceProtocolEvent", "pass", 1);
+                startActivity(new Intent(mContext, AgreementActivity.class));
+                break;
         }
     }
-
 
     //登录
     private void loginApp() {
@@ -304,10 +310,7 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.read_agreement)
-    public void onClick() {
-        startActivity(new Intent(mContext, AgreementActivity.class));
-    }
+
 
     class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {

@@ -46,6 +46,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -328,6 +329,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 clearOverlay();
                 shortRentFlag = tab.getPosition();
                 initData();
+                if (shortRentFlag==KEY_ORDER_ALL){
+                    StatService.onEvent(mContext, "MainMap_ButtonAllEvent", "pass", 1);
+                }else if (shortRentFlag==KEY_MOBILE_OFFICE){
+                    StatService.onEvent(mContext, "MainMap_ButtonMobileOfficEvent", "pass", 1);
+                }else if (shortRentFlag==KEY_MEETIONGS_EVENTS){
+                    StatService.onEvent(mContext, "MainMap_ButtonMeetingEvent", "pass", 1);
+                }
             }
 
             @Override
@@ -350,6 +358,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void onTabSelected(TabLayout.Tab tab) {
                 mPriceType = tab.getPosition()+1;
                 spaceDetailRentTypeAdapter.setPriceType(mPriceType);
+                if (mPriceType==Constants.RENT_HOUSE){
+                    StatService.onEvent(mContext, "MainMap_HourRentClickEvent", "pass", 1);
+                }else if (mPriceType==Constants.RENT_DAY){
+                    StatService.onEvent(mContext, "MainMap_DayRentClickEvent", "pass", 1);
+                }else if (mPriceType==Constants.RENT_MONTH){
+                    StatService.onEvent(mContext, "MainMap_MonthRentClickEvent", "pass", 1);
+                }
             }
 
             @Override
@@ -365,7 +380,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         lvMarkerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                StatService.onEvent(mContext, "MainMap_StationClickEvent", "pass", 1);
                 Intent intent = new Intent();
                 intent.setClass(mContext, StationDetailActivity.class);
                 intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean(i));
@@ -492,6 +507,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         @Override
         public boolean onMarkerClick(Marker marker) {
+            StatService.onEvent(mContext, "MainMap_AnnotationClickEvent", "pass", 1);
             Bundle bundle = marker.getExtraInfo();
             if (bundle == null) {
                 return false;
@@ -652,6 +668,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
         switch (id) {
             case R.id.action_search:
+                StatService.onEvent(mContext, "MainMap_SearchBtnClickEvent", "pass", 1);
                 isShowBottomView(false);
                 fabCleanSearch.setVisibility(TextUtils.isEmpty(keyWord)?View.GONE:View.VISIBLE);
                 goActivity(SearchActivity.class);
@@ -669,12 +686,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_member:
+                StatService.onEvent(mContext, "LeftMenu_UbanMemberClickEvent", "pass", 1);
                 memberStatus();
                 break;
             case R.id.nav_order:
+                StatService.onEvent(mContext, "LeftMenu_OrderClickEvent", "pass", 1);
                 goActivity(OrderListActivity.class);
                 break;
             case R.id.nav_setting:
+                StatService.onEvent(mContext, "LeftMenu_SettingClickEvent", "pass", 1);
                 goActivity(SettingActivity.class);
                 break;
         }
@@ -755,6 +775,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 isShowBottomView(false);
                 break;
             case R.id.select_city_bj:
+                StatService.onEvent(mContext, "LeftMenu_CitySwitchClickEvent", "pass", 1);
                 isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
@@ -766,6 +787,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 initData();
                 break;
             case R.id.select_city_sh:
+                StatService.onEvent(mContext, "LeftMenu_CitySwitchClickEvent", "pass", 1);
                 isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
