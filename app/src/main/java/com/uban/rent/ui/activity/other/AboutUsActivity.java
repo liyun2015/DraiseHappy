@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.util.AppUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,6 +22,8 @@ public class AboutUsActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.activity_about_us)
     LinearLayout activityAboutUs;
+    @Bind(R.id.version_name)
+    TextView versionName;
 
     @Override
     protected int getLayoutId() {
@@ -41,6 +44,7 @@ public class AboutUsActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("关于优办移动办公");
+        versionName.setText(AppUtils.getAppVersionName(mContext));
     }
 
 

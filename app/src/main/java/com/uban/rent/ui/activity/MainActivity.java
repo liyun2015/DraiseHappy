@@ -481,7 +481,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 resIDed = R.drawable.ic_marker_conference_activities_normal;
             }
             setMarkerViewChecked(resIDed,mMarkerBase);
-            
+
             HomeDatasBean.ResultsBean.DatasBean datasBean = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
             LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
             setMapStatus(latLng);
@@ -713,6 +713,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 isShowBottomView(false);
                 break;
             case R.id.select_city_bj:
+                isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
                 locationX = 116.486388;
@@ -723,6 +724,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 initData();
                 break;
             case R.id.select_city_sh:
+                isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
                 locationX = 121.52;
