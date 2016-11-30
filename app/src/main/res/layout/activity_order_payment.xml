@@ -204,4 +204,12 @@
         android:background="@color/divider_2"
         android:layout_above="@id/bottom_view"
         android:layout_height="0.6dp"/>
+    <LinearLayout
+        android:id="@+id/darkening_background_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/darkening_background"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
 </RelativeLayout>

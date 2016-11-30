@@ -138,7 +138,7 @@ public class OrdersDetailActivity extends BaseActivity {
     @Bind(R.id.darkening_background_layout)
     LinearLayout darkeningBackgroundLayout;
     @Bind(R.id.order_build_name_layout)
-    LinearLayout orderBuildNameLayout;
+    RelativeLayout orderBuildNameLayout;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,5退款中,13订单失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 5, 13};
     private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：订单失效"};
@@ -616,7 +616,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 messageRemindStr.setText(hour + "时" + min + "分" + sec + "秒");
             } else {
                 String countTime = (int) millisUntilFinished / (1000 * 60) + "分" + (millisUntilFinished / 1000) % 60 + "秒";
-                messageRemindStr.setText(Html.fromHtml("请在 <font color='#FF5254' >" + countTime + "</font>内完成支付，晚了就没有了哦！"));
+                messageRemindStr.setText(Html.fromHtml("请在 <font color='#FF5254' >" + countTime + "</font>内完成支付，晚了就没有了哟！"));
             }
         }
     }
