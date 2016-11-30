@@ -26,6 +26,7 @@ import com.uban.rent.ui.view.wheelview.WheelView;
 import com.uban.rent.ui.view.wheelview.adapter.NumericWheelAdapter;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.StringUtils;
 import com.uban.rent.util.TimeUtils;
 import com.uban.rent.wxapi.WXPayEntryActivity;
 
@@ -173,7 +174,7 @@ public class CreateOrdersActivity extends BaseActivity {
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
-        totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+        totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
     }
@@ -181,7 +182,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private void initPriceView() {
         if (priceType == 1) {
             termOfLeaseType.setText("时租");
-            unitPrice.setText(price + "元/时");
+            unitPrice.setText(StringUtils.removeZero(String.valueOf(price))+ "元/时");
             stationTimeLayout.setVisibility(View.GONE);
             stationTimeLine.setVisibility(View.GONE);
             endTimeLayout.setVisibility(View.VISIBLE);
@@ -190,7 +191,7 @@ public class CreateOrdersActivity extends BaseActivity {
             startTimeLine.setVisibility(View.VISIBLE);
         } else if (priceType == 2) {
             termOfLeaseType.setText("日租");
-            unitPrice.setText(price + "元/日");
+            unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/日");
             stationTimeLayout.setVisibility(View.VISIBLE);
             stationTimeLine.setVisibility(View.VISIBLE);
             timeStr.setText("日");
@@ -201,7 +202,7 @@ public class CreateOrdersActivity extends BaseActivity {
             startTimeLine.setVisibility(View.INVISIBLE);
         } else if (priceType == 3) {
             termOfLeaseType.setText("月租");
-            unitPrice.setText(price + "元/月");
+            unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/月");
             timeStr.setText("月");
             stationTimeLayout.setVisibility(View.VISIBLE);
             stationTimeLine.setVisibility(View.VISIBLE);
@@ -342,7 +343,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
                 break;
             case R.id.reduce_btn://减工位
                 if (loctionNum > 0) {
@@ -352,13 +353,13 @@ public class CreateOrdersActivity extends BaseActivity {
                 if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
                 break;
             case R.id.month_add_btn://加日月
                 monthNum = monthNum + 1;
                 numderOfMonths.setText(String.valueOf(monthNum));
                 rentTime = monthNum;
-                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
                 break;
             case R.id.reduce_btn_month://减日月
                 if (monthNum > 0) {
@@ -366,7 +367,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     numderOfMonths.setText(String.valueOf(monthNum));
                 }
                 rentTime = monthNum;
-                totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
                 break;
             case R.id.start_time_layout://开始时间
                 isEndTimeChoose=false;
@@ -522,7 +523,7 @@ public class CreateOrdersActivity extends BaseActivity {
                                 if(Integer.parseInt(hourStr)>=(curHour+3)){
                                     timeIsTrue= true;
                                 }else{
-                                    ToastUtil.makeText(mContext, "开始时间必须提前1小时！");
+                                    ToastUtil.makeText(mContext, "开始时间必须提前2小时！");
                                     timeIsTrue= false;
                                     setTimeTextView(dateContent);
                                     return;
@@ -679,7 +680,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 int total_time = (int) (endTime - startTime);
                 if (total_time > 0) {
                     totalTime.setText(String.valueOf(total_time / 3600));
-                    totalPrice.setText("￥ " + loctionNum * rentTime * price + "元");
+                    totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
                 } else {
                     ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
                     totalTime.setText("0");
