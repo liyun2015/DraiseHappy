@@ -521,6 +521,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         public void onFinish() {
             //倒计时完毕
             messageRemindStr.setVisibility(View.GONE);
+            orderState.setText("订单失效");
         }
 
         @Override
