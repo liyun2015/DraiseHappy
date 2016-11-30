@@ -302,7 +302,7 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         stationNum.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         timeNum.setText(String.valueOf(resultsBean.getRentTime()));
-        priceInTota.setText(String.valueOf(resultsBean.getPayMoney()));
+        priceInTota.setText(String.valueOf(resultsBean.getDealPrice()));
         startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm"));
         endTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm"));
     }
