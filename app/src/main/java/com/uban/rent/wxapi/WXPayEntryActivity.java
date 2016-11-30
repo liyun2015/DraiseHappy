@@ -455,6 +455,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public void call(ResultOrderQueryBean.ResultsBean result) {
                         //处理返回结果
+                        orderState.setText("支付成功");
+                        messageRemindStr.setVisibility(View.GONE);
                         if (null != time) {
                             time.cancel();
                         }
