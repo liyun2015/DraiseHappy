@@ -28,6 +28,7 @@ import com.uban.rent.module.request.RequestVersion;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.module.request.UnifieOrderBean;
 
+import okhttp3.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;

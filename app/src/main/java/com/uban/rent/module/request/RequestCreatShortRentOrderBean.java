@@ -175,6 +175,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
          */
 
         private OfficespaceBasicinfoBean officespaceBasicinfo;
+        private OfficespaceWorkdeskinfo officespaceWorkdeskinfo;
         private int officespaceOrderId;
         private String orderNo;
         private int orderPlatform;
@@ -654,6 +655,241 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             this.workDeskType = workDeskType;
         }
 
+        public OfficespaceWorkdeskinfo getOfficespaceWorkdeskinfo() {
+            return officespaceWorkdeskinfo;
+        }
+
+        public void setOfficespaceWorkdeskinfo(OfficespaceWorkdeskinfo officespaceWorkdeskinfo) {
+            this.officespaceWorkdeskinfo = officespaceWorkdeskinfo;
+        }
+
+        public static class OfficespaceWorkdeskinfo  {
+            private int cityId;
+            private int dayPrice;
+            private int workDeskPrice;
+            private int workDeskType;
+            private String spaceCnName;
+            private String workTime;
+            private int payment;
+            private String rentDesc;
+            private int spaceId;
+            private String workDeskDesc;
+            private int isDeleted;
+            private String workHoursBegin;
+            private int workDeskPriceType;
+            private int officespaceWorkdeskinfoId;
+            private int commissionRate;
+            private int rentTotalArea;
+            private int hourPrice;
+            private int intentPrice;
+            private int rentNum;
+            private String address;
+            private String workDeskNo;
+            private int workDeskUbanPrice;
+            private String equipServices;
+            private String buyDesc;
+            private String workHoursEnd;
+
+            public int getCityId() {
+                return cityId;
+            }
+
+            public void setCityId(int cityId) {
+                this.cityId = cityId;
+            }
+
+            public int getDayPrice() {
+                return dayPrice;
+            }
+
+            public void setDayPrice(int dayPrice) {
+                this.dayPrice = dayPrice;
+            }
+
+            public int getWorkDeskPrice() {
+                return workDeskPrice;
+            }
+
+            public void setWorkDeskPrice(int workDeskPrice) {
+                this.workDeskPrice = workDeskPrice;
+            }
+
+            public int getWorkDeskType() {
+                return workDeskType;
+            }
+
+            public void setWorkDeskType(int workDeskType) {
+                this.workDeskType = workDeskType;
+            }
+
+            public String getSpaceCnName() {
+                return spaceCnName;
+            }
+
+            public void setSpaceCnName(String spaceCnName) {
+                this.spaceCnName = spaceCnName;
+            }
+
+            public String getWorkTime() {
+                return workTime;
+            }
+
+            public void setWorkTime(String workTime) {
+                this.workTime = workTime;
+            }
+
+            public int getPayment() {
+                return payment;
+            }
+
+            public void setPayment(int payment) {
+                this.payment = payment;
+            }
+
+            public String getRentDesc() {
+                return rentDesc;
+            }
+
+            public void setRentDesc(String rentDesc) {
+                this.rentDesc = rentDesc;
+            }
+
+            public int getSpaceId() {
+                return spaceId;
+            }
+
+            public void setSpaceId(int spaceId) {
+                this.spaceId = spaceId;
+            }
+
+            public String getWorkDeskDesc() {
+                return workDeskDesc;
+            }
+
+            public void setWorkDeskDesc(String workDeskDesc) {
+                this.workDeskDesc = workDeskDesc;
+            }
+
+            public int getIsDeleted() {
+                return isDeleted;
+            }
+
+            public void setIsDeleted(int isDeleted) {
+                this.isDeleted = isDeleted;
+            }
+
+            public String getWorkHoursBegin() {
+                return workHoursBegin;
+            }
+
+            public void setWorkHoursBegin(String workHoursBegin) {
+                this.workHoursBegin = workHoursBegin;
+            }
+
+            public int getWorkDeskPriceType() {
+                return workDeskPriceType;
+            }
+
+            public void setWorkDeskPriceType(int workDeskPriceType) {
+                this.workDeskPriceType = workDeskPriceType;
+            }
+
+            public int getOfficespaceWorkdeskinfoId() {
+                return officespaceWorkdeskinfoId;
+            }
+
+            public void setOfficespaceWorkdeskinfoId(int officespaceWorkdeskinfoId) {
+                this.officespaceWorkdeskinfoId = officespaceWorkdeskinfoId;
+            }
+
+            public int getCommissionRate() {
+                return commissionRate;
+            }
+
+            public void setCommissionRate(int commissionRate) {
+                this.commissionRate = commissionRate;
+            }
+
+            public int getRentTotalArea() {
+                return rentTotalArea;
+            }
+
+            public void setRentTotalArea(int rentTotalArea) {
+                this.rentTotalArea = rentTotalArea;
+            }
+
+            public int getHourPrice() {
+                return hourPrice;
+            }
+
+            public void setHourPrice(int hourPrice) {
+                this.hourPrice = hourPrice;
+            }
+
+            public int getIntentPrice() {
+                return intentPrice;
+            }
+
+            public void setIntentPrice(int intentPrice) {
+                this.intentPrice = intentPrice;
+            }
+
+            public int getRentNum() {
+                return rentNum;
+            }
+
+            public void setRentNum(int rentNum) {
+                this.rentNum = rentNum;
+            }
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
+            public String getWorkDeskNo() {
+                return workDeskNo;
+            }
+
+            public void setWorkDeskNo(String workDeskNo) {
+                this.workDeskNo = workDeskNo;
+            }
+
+            public int getWorkDeskUbanPrice() {
+                return workDeskUbanPrice;
+            }
+
+            public void setWorkDeskUbanPrice(int workDeskUbanPrice) {
+                this.workDeskUbanPrice = workDeskUbanPrice;
+            }
+
+            public String getEquipServices() {
+                return equipServices;
+            }
+
+            public void setEquipServices(String equipServices) {
+                this.equipServices = equipServices;
+            }
+
+            public String getBuyDesc() {
+                return buyDesc;
+            }
+
+            public void setBuyDesc(String buyDesc) {
+                this.buyDesc = buyDesc;
+            }
+
+            public String getWorkHoursEnd() {
+                return workHoursEnd;
+            }
+
+            public void setWorkHoursEnd(String workHoursEnd) {
+                this.workHoursEnd = workHoursEnd;
+            }
+        }
         public static class OfficespaceBasicinfoBean implements Serializable {
             private String activityForecast;
             private String address;
@@ -1242,5 +1478,6 @@ public class RequestCreatShortRentOrderBean implements Serializable{
                 }
             }
         }
+
     }
 }

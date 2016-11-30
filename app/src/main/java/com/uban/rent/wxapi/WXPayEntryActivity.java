@@ -165,7 +165,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         if (state == 3) {
-            orderState.setText("订单状态：等待支付");
+            orderState.setText("等待支付");
         }
         workdeskType = resultsBean.getWorkDeskType();
         int failureAt = resultsBean.getFailureAt();
