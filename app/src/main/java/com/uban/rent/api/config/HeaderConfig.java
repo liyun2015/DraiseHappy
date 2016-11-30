@@ -59,7 +59,10 @@ public class HeaderConfig {
     }
 
 
-
+    /**
+     * 会员状态
+     * @return
+     */
     public static boolean isMemberStatus(){
         int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
@@ -68,6 +71,8 @@ public class HeaderConfig {
             return false;
         }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
             return true;
+        }else if (memberStatus == Constants.MEMBER_STATUS_BE_OVERDUE){//已过期
+            return false;
         }
         return false;
     }

@@ -705,6 +705,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
+                        }else if (verifyMemberBean.getStatusCode() ==  2){//会员已过期
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
                         return verifyMemberBean.getResults().size()>0;
                     }
                 })
