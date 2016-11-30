@@ -7,11 +7,11 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class AgreementActivity extends BaseActivity {
 
@@ -57,9 +57,14 @@ public class AgreementActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"用户协议页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"用户协议页");
     }
 }

@@ -884,14 +884,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onPause() {
-        mMapView.onPause();
         super.onPause();
+        mMapView.onPause();
+        StatService.onPageEnd(mContext,"地图页");
     }
 
     @Override
     protected void onResume() {
-        mMapView.onResume();
         super.onResume();
+        mMapView.onResume();
+        StatService.onPageStart(mContext,"地图页");
     }
 
     @Override

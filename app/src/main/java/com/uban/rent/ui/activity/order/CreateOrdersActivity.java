@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
@@ -731,4 +732,17 @@ public class CreateOrdersActivity extends BaseActivity {
             outMonthStr = String.valueOf(n_month);
         }
     };
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"创建订单页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"创建订单页");
+    }
 }

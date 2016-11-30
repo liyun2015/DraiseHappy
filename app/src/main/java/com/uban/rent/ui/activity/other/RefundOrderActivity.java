@@ -23,7 +23,6 @@ import com.uban.rent.util.Constants;
 import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -90,11 +89,17 @@ public class RefundOrderActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"申请退款页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"申请退款页");
     }
 
     @OnClick(R.id.bottom_submit_btn)

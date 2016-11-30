@@ -474,5 +474,15 @@ public class StationDetailActivity extends BaseActivity {
                 break;
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"工位详情页");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"工位详情页");
+    }
 }

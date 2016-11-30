@@ -58,7 +58,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -561,11 +560,15 @@ public class SpaceDetailActivity extends BaseActivity {
                 break;
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"空间详情页");
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"空间详情页");
     }
 }
