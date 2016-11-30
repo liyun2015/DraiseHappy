@@ -209,7 +209,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         keyWord = searchHomeViewEvents.getKeyWords();
                         clearOverlay();
                         initData();
-
+                        fabCleanSearch.setVisibility(View.VISIBLE);
                     }
                 })
                 .onError(new Action1<Throwable>() {
