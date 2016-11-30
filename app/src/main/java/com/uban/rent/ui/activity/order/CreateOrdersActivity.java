@@ -189,7 +189,6 @@ public class CreateOrdersActivity extends BaseActivity {
             termOfLeaseType.setText("时租");
             unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/时");
             stationTimeLayout.setVisibility(View.GONE);
-            stationTimeLine.setVisibility(View.GONE);
             endTimeLayout.setVisibility(View.VISIBLE);
             totalTimeLayout.setVisibility(View.VISIBLE);
             endTimeLine.setVisibility(View.VISIBLE);
@@ -198,7 +197,6 @@ public class CreateOrdersActivity extends BaseActivity {
             termOfLeaseType.setText("日租");
             unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/日");
             stationTimeLayout.setVisibility(View.VISIBLE);
-            stationTimeLine.setVisibility(View.VISIBLE);
             timeStr.setText("日");
             endTimeLayout.setVisibility(View.GONE);
             totalTimeLayout.setVisibility(View.GONE);
@@ -210,7 +208,6 @@ public class CreateOrdersActivity extends BaseActivity {
             unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/月");
             timeStr.setText("月");
             stationTimeLayout.setVisibility(View.VISIBLE);
-            stationTimeLine.setVisibility(View.VISIBLE);
             endTimeLayout.setVisibility(View.GONE);
             totalTimeLayout.setVisibility(View.GONE);
             endTimeLine.setVisibility(View.INVISIBLE);
@@ -221,15 +218,14 @@ public class CreateOrdersActivity extends BaseActivity {
             stationNumberLayout.setVisibility(View.GONE);
             stationTimeLayout.setVisibility(View.GONE);
             startTimeLayoutTop.setVisibility(View.GONE);
-            if(priceType == 2){
-                stationTimeLine.setVisibility(View.GONE);
-            }
+            stationTimeLine.setVisibility(View.GONE);
 
         } else {
             meetingRoomNumberLayout.setVisibility(View.GONE);
             stationNumberLayout.setVisibility(View.VISIBLE);
             stationTimeLayout.setVisibility(View.VISIBLE);
             startTimeLayoutTop.setVisibility(View.VISIBLE);
+            stationTimeLine.setVisibility(View.VISIBLE);
         }
     }
 
