@@ -39,6 +39,7 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Response;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -223,7 +224,7 @@ public class CreateOrdersActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         tvWorkTime.setText("营业时间： 工作日  " + workHoursBegin + "-" + workHoursEnd);
-        if (workDeskType == 6) {
+        if (workDeskType == 6||workDeskType == 7) {
             meetingRoomNumberLayout.setVisibility(View.VISIBLE);
             stationNumberLayout.setVisibility(View.GONE);
             stationTimeLayout.setVisibility(View.GONE);
@@ -242,6 +243,7 @@ public class CreateOrdersActivity extends BaseActivity {
             stationOrOfficeStr.setText("会议室");
             loctionNum = 1;
         } else if (workDeskType == 7) {
+            loctionNum = 1;
             stationOrOfficeStr.setText("活动场地");
         }
 
@@ -460,6 +462,7 @@ public class CreateOrdersActivity extends BaseActivity {
                         hideLoadingView();
                     }
                 });
+
     }
 
     private PopupWindow timePopupWindow; // 显示popupwindow

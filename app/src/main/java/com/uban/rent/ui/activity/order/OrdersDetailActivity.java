@@ -142,7 +142,7 @@ public class OrdersDetailActivity extends BaseActivity {
     RelativeLayout orderBuildNameLayout;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,5退款中,13订单失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 5, 13};
-    private static final String[] ORDER_TYPE_STR = new String[]{"订单状态：取消", "订单状态：等待确认", "订单状态：等待支付", "订单状态：支付成功", "订单状态：退款成功", "订单状态：退款中", "订单状态：订单失效"};
+    private static final String[] ORDER_TYPE_STR = new String[]{"已取消", "等待确认", "等待支付", "支付成功", "退款成功", "退款中", "订单失效"};
     private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private int workDeskType;
     private int priceType;
@@ -268,7 +268,7 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         if (workDeskType == 6 || workDeskType == 7) {
             meetingRoomNameLayout.setVisibility(View.VISIBLE);
-            meetingRoomName.setText(resultsBean.getWorkDeskNum());
+            meetingRoomName.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
             stationStr.setText("间");
             orderNumberOfStation.setText("1");
         } else {
@@ -408,8 +408,7 @@ public class OrdersDetailActivity extends BaseActivity {
                 callPhone();
                 break;
             case R.id.meeting_room_cancel_order:
-                //showCancelPop();
-                ToastUtil.makeText(mContext, "管理员确认中，请耐心等待！");
+                showCancelPop();
                 break;
             case R.id.meeting_room_submit_order:
                 //goActivity(WXPayEntryActivity.class);
