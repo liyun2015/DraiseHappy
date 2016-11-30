@@ -724,11 +724,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
                         SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
-                        BaseActivityMemberStatusGoView();
+
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        BaseActivityMemberStatusGoView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
                         BaseActivityMemberStatusGoView();
                     }
                 });
