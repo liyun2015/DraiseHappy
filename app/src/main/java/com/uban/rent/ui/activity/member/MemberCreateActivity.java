@@ -1,6 +1,7 @@
 package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -24,6 +25,7 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.request.RequestApplyMember;
+import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
@@ -34,6 +36,8 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.uban.rent.R.id.create_member_service_provision;
 
 
 public class MemberCreateActivity extends BaseActivity {
@@ -68,7 +72,7 @@ public class MemberCreateActivity extends BaseActivity {
     TextView createMemberSpecialPrice;
     @Bind(R.id.create_member_expiry_date)
     TextView createMemberExpiryDate;
-    @Bind(R.id.create_member_service_provision)
+    @Bind(create_member_service_provision)
     TextView createMemberServiceProvision;
     @Bind(R.id.activity_member_create)
     RelativeLayout activityMemberCreate;
@@ -134,7 +138,7 @@ public class MemberCreateActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.create_member_call_phone, R.id.create_member_order})
+    @OnClick({R.id.create_member_call_phone, R.id.create_member_order, create_member_service_provision})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.create_member_call_phone:
@@ -149,6 +153,9 @@ public class MemberCreateActivity extends BaseActivity {
                     StatService.onEvent(mContext, "MemberApply_CommitOrderEvent", "pass", 1);
                     initData(name,mCreatePhone);
                 }
+                break;
+            case create_member_service_provision:
+                startActivity(new Intent(mContext, AgreementActivity.class));
                 break;
         }
     }
