@@ -8,4 +8,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="str_result_error">数据加载失败</string>
     <string name="str_phone_number">133-8113-1771</string>
+    <string name="str_location_where_unknow">请您检查是否禁用获取位置信息权限，尝试重新请求定位</string>
+    <string name="str_location_service_error">服务端网络定位失败</string>
+    <string name="str_location_is_network_success">请检查网络是否通畅</string>
 </resources>
