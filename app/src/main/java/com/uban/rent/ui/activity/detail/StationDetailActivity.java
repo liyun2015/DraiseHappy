@@ -351,7 +351,7 @@ public class StationDetailActivity extends BaseActivity {
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
-                mShareAction.withText("空间详情分享")
+                mShareAction.withText("工位详情分享")
                         .withTitle(shareTitle)
                         .withTargetUrl(shareUrl)
                         .open(config);

@@ -14,7 +14,9 @@ import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.ui.activity.member.MemberCreateActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.member.MemberStatusActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.view.UbanListView;
@@ -59,11 +61,13 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                     StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
                     int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
                     if (memberStatus==Constants.MEMBER_STATUS_NOT){
-                        mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
+                        mContext.startActivity(new Intent(mContext, MemberFirstActivity.class));
                     }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
                         mContext.startActivity(new Intent(mContext, MemberStatusActivity.class));
                     }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
                         mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
+                    }else if (memberStatus==Constants.MEMBER_STATUS_BE_OVERDUE){
+                        mContext.startActivity(new Intent(mContext,MemberCreateActivity.class));
                     }
                 }else {
                     StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);

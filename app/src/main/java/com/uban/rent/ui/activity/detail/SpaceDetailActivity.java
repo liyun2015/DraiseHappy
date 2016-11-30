@@ -167,7 +167,7 @@ public class SpaceDetailActivity extends BaseActivity {
         SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
                 SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE,
+                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL,
         };
         mShareListener = new CustomShareListener(SpaceDetailActivity.this);
         mShareAction = new ShareAction(SpaceDetailActivity.this).setDisplayList(shareMedias)
