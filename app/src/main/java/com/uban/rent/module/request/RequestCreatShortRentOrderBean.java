@@ -114,7 +114,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
         private long createAt;
         private int creatorId;
         private String creatorName;
-        private int dealPrice;
+        private double dealPrice;
         private String demand;
         private int endTime;
         private int failureTime;
@@ -334,11 +334,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             this.creatorName = creatorName;
         }
 
-        public int getDealPrice() {
+        public double getDealPrice() {
             return dealPrice;
         }
 
-        public void setDealPrice(int dealPrice) {
+        public void setDealPrice(double dealPrice) {
             this.dealPrice = dealPrice;
         }
 

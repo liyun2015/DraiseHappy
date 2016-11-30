@@ -427,7 +427,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
                     }
                 })
                 .filter(new Func1<ResultOrderQueryBean, Boolean>() {
@@ -444,20 +443,22 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 })
                 .subscribe(new Action1<ResultOrderQueryBean.ResultsBean>() {
                     @Override
-                    public void call(ResultOrderQueryBean.ResultsBean resultsBean) {
+                    public void call(ResultOrderQueryBean.ResultsBean result) {
                         //处理返回结果
-                        orderState.setText("订单状态：支付成功");
+                        if (null != time) {
+                            time.cancel();
+                        }
+                        goActivity(OrdersDetailActivity.class, resultsBean);
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, getString(R.string.str_result_error) + throwable.getMessage());
-                        hideLoadingView();
+                        ToastUtil.makeText(mContext, "支付失败！");
                     }
                 }, new Action0() {
                     @Override
                     public void call() {
-                        hideLoadingView();
                     }
                 });
     }

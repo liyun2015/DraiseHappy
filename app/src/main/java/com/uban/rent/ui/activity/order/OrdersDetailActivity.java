@@ -34,6 +34,7 @@ import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
+import com.uban.rent.util.StringUtils;
 import com.uban.rent.util.TimeUtils;
 import com.uban.rent.wxapi.WXPayEntryActivity;
 
@@ -302,7 +303,7 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         stationNum.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         timeNum.setText(String.valueOf(resultsBean.getRentTime()));
-        priceInTota.setText(String.valueOf(resultsBean.getPayMoney()));
+        priceInTota.setText(StringUtils.removeZero(String.valueOf(resultsBean.getDealPrice()))+"元");
         startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm"));
         endTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm"));
     }
