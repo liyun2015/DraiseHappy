@@ -532,6 +532,16 @@ public class OrdersDetailActivity extends BaseActivity {
                 cancelSubmit();
             }
         });
+        TextView cancel_btn = (TextView) cancelView.findViewById(R.id.cancel_btn);
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cancelPopupWindow.isShowing()) {
+                    cancelPopupWindow.dismiss();
+                    darkeningBackgroundLayout.setVisibility(View.GONE);
+                }
+            }
+        });
         int screeWidth = getWindowManager().getDefaultDisplay().getWidth();
         cancelPopupWindow = CommonUtil.ShowBottomPopupWindow(
                 OrdersDetailActivity.this, cancelPopupWindow, cancelView, screeWidth,
