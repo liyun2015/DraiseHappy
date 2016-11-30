@@ -39,10 +39,11 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Response;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.uban.rent.R.id.station_time_line;
 
 /**
  * 创建订单
@@ -131,10 +132,12 @@ public class CreateOrdersActivity extends BaseActivity {
     View endTimeLine;
     @Bind(R.id.start_time_line)
     View startTimeLine;
-    @Bind(R.id.station_time_line)
+    @Bind(station_time_line)
     View stationTimeLine;
     @Bind(R.id.tv_work_time)
     TextView tvWorkTime;
+    @Bind(R.id.start_time_layout_top)
+    View startTimeLayoutTop;
     private int loctionNum = 1;
     private int monthNum = 1;
     private WheelView timeWheelView;
@@ -148,11 +151,11 @@ public class CreateOrdersActivity extends BaseActivity {
     private String orderStart;
     private String orderEnd;
     private int rentTime = 1;
-    private  String workHoursBegin,workHoursEnd;
+    private String workHoursBegin, workHoursEnd;
     private int workDeskId;
-    private boolean timeIsTrue =false;
+    private boolean timeIsTrue = false;
     private String isStartTimeDataDay;
-    private boolean isEndTimeChoose=false;
+    private boolean isEndTimeChoose = false;
 
     @Override
     protected int getLayoutId() {
@@ -175,15 +178,16 @@ public class CreateOrdersActivity extends BaseActivity {
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
         buildOfficeAddress.setText(spaceDeskAddress);
-        totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+        totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
     }
 
     private void initPriceView() {
+
         if (priceType == 1) {
             termOfLeaseType.setText("时租");
-            unitPrice.setText(StringUtils.removeZero(String.valueOf(price))+ "元/时");
+            unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/时");
             stationTimeLayout.setVisibility(View.GONE);
             stationTimeLine.setVisibility(View.GONE);
             endTimeLayout.setVisibility(View.VISIBLE);
@@ -212,6 +216,21 @@ public class CreateOrdersActivity extends BaseActivity {
             endTimeLine.setVisibility(View.INVISIBLE);
             startTimeLine.setVisibility(View.INVISIBLE);
         }
+        if (workDeskType == 6 || workDeskType == 7) {
+            meetingRoomNumberLayout.setVisibility(View.VISIBLE);
+            stationNumberLayout.setVisibility(View.GONE);
+            stationTimeLayout.setVisibility(View.GONE);
+            startTimeLayoutTop.setVisibility(View.GONE);
+            if(priceType == 2){
+                stationTimeLine.setVisibility(View.GONE);
+            }
+
+        } else {
+            meetingRoomNumberLayout.setVisibility(View.GONE);
+            stationNumberLayout.setVisibility(View.VISIBLE);
+            stationTimeLayout.setVisibility(View.VISIBLE);
+            startTimeLayoutTop.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initView() {
@@ -224,15 +243,6 @@ public class CreateOrdersActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         tvWorkTime.setText("营业时间： 工作日  " + workHoursBegin + "-" + workHoursEnd);
-        if (workDeskType == 6||workDeskType == 7) {
-            meetingRoomNumberLayout.setVisibility(View.VISIBLE);
-            stationNumberLayout.setVisibility(View.GONE);
-            stationTimeLayout.setVisibility(View.GONE);
-        } else {
-            meetingRoomNumberLayout.setVisibility(View.GONE);
-            stationNumberLayout.setVisibility(View.VISIBLE);
-            stationTimeLayout.setVisibility(View.VISIBLE);
-        }
         if (workDeskType == 3) {
             stationOrOfficeStr.setText("hot desk");
         } else if (workDeskType == 4) {
@@ -287,6 +297,7 @@ public class CreateOrdersActivity extends BaseActivity {
         }
         totalTime.setText(String.valueOf(rentTime));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -320,11 +331,11 @@ public class CreateOrdersActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_create://提交订单
-                if(!timeIsTrue){
+                if (!timeIsTrue) {
                     ToastUtil.makeText(mContext, "时间不符要求，请重新选择！");
                     return;
                 }
-                if(priceType == 1){
+                if (priceType == 1) {
                     String orderStart = startTime.getText().toString().trim();
                     String orderEnd = endTime.getText().toString().trim();
                     long startTime = TimeUtils.geTimestampTimes(orderStart, "MM月dd日 HH:mm");
@@ -332,10 +343,10 @@ public class CreateOrdersActivity extends BaseActivity {
                     int total_time = (int) (endTime - startTime);
                     if (total_time > 0) {
                         submitOrder();
-                    }else{
+                    } else {
                         ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
                     }
-                }else{
+                } else {
                     submitOrder();
                 }
                 break;
@@ -345,7 +356,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+                totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.reduce_btn://减工位
                 if (loctionNum > 0) {
@@ -355,13 +366,13 @@ public class CreateOrdersActivity extends BaseActivity {
                 if (priceType != 1) {
                     rentTime = monthNum;
                 }
-                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+                totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.month_add_btn://加日月
                 monthNum = monthNum + 1;
                 numderOfMonths.setText(String.valueOf(monthNum));
                 rentTime = monthNum;
-                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+                totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.reduce_btn_month://减日月
                 if (monthNum > 0) {
@@ -369,16 +380,16 @@ public class CreateOrdersActivity extends BaseActivity {
                     numderOfMonths.setText(String.valueOf(monthNum));
                 }
                 rentTime = monthNum;
-                totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+                totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.start_time_layout://开始时间
-                isEndTimeChoose=false;
+                isEndTimeChoose = false;
                 isStartTimePop = true;
                 showTimePopupWindow();
                 break;
             case R.id.end_time_layout://结束时间
                 isStartTimePop = false;
-                isEndTimeChoose=true;
+                isEndTimeChoose = true;
                 showTimePopupWindow();
                 break;
             default:
@@ -443,9 +454,9 @@ public class CreateOrdersActivity extends BaseActivity {
                         //处理返回结果
                         //0取消,1等待确认,3等待支付,4支付成功,7退款成功,9退款中,13支付失效
                         int state = resultsBean.getState();
-                        if(3==state){
+                        if (3 == state) {
                             goActivity(WXPayEntryActivity.class, resultsBean);
-                        }else {
+                        } else {
                             goActivity(OrdersDetailActivity.class, resultsBean);
                         }
                         finish();
@@ -499,98 +510,98 @@ public class CreateOrdersActivity extends BaseActivity {
                 int cruYear = calendar.get(Calendar.YEAR);
                 int curMonth = calendar.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
                 int curDate = calendar.get(Calendar.DATE);
-                int curMonthMore= curMonth+1;
+                int curMonthMore = curMonth + 1;
                 int curHour = calendar.get(Calendar.HOUR_OF_DAY);
                 if (priceType == 1) {
-                    String timeChoose =cruYear+"-"+  outMonthStr + "-" + outDayStr + " "+ hourStr+":00:00";
-                    long chooseTimes = TimeUtils.geTimestampTimes(timeChoose,"yyyy-MM-dd HH:mm:ss");
-                    long curTimes = System.currentTimeMillis()/1000;
-                    if(chooseTimes<curTimes||chooseTimes>(curTimes+24*3600*30)){
+                    String timeChoose = cruYear + "-" + outMonthStr + "-" + outDayStr + " " + hourStr + ":00:00";
+                    long chooseTimes = TimeUtils.geTimestampTimes(timeChoose, "yyyy-MM-dd HH:mm:ss");
+                    long curTimes = System.currentTimeMillis() / 1000;
+                    if (chooseTimes < curTimes || chooseTimes > (curTimes + 24 * 3600 * 30)) {
                         ToastUtil.makeText(mContext, "所选时间不符要求！");
-                        timeIsTrue= false;
+                        timeIsTrue = false;
                         setTimeTextView(dateContent);
                         return;
                     }
                     //今天
                     try {
-                        DateFormat fmt =new
+                        DateFormat fmt = new
                                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         date = fmt.parse(timeChoose);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
-                    if(Integer.parseInt(outMonthStr)==curMonth&&Integer.parseInt(outDayStr)==curDate){
-                        if(workDeskType == 6||workDeskType == 7){
-                            if(TimeUtils.isInDate(date,workHoursBegin,workHoursEnd)){
-                                if(Integer.parseInt(hourStr)>=(curHour+3)){
-                                    timeIsTrue= true;
-                                }else{
+                    if (Integer.parseInt(outMonthStr) == curMonth && Integer.parseInt(outDayStr) == curDate) {
+                        if (workDeskType == 6 || workDeskType == 7) {
+                            if (TimeUtils.isInDate(date, workHoursBegin, workHoursEnd)) {
+                                if (Integer.parseInt(hourStr) >= (curHour + 3)) {
+                                    timeIsTrue = true;
+                                } else {
                                     ToastUtil.makeText(mContext, "开始时间必须提前2小时！");
-                                    timeIsTrue= false;
+                                    timeIsTrue = false;
                                     setTimeTextView(dateContent);
                                     return;
                                 }
-                            }else{
+                            } else {
                                 ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
-                                timeIsTrue= false;
+                                timeIsTrue = false;
                                 setTimeTextView(dateContent);
                                 return;
                             }
-                        }else{
-                            if(TimeUtils.isInDate(date,workHoursBegin,workHoursEnd)){
-                                if(Integer.parseInt(hourStr)>=(curHour+2)){
-                                    timeIsTrue= true;
-                                }else{
+                        } else {
+                            if (TimeUtils.isInDate(date, workHoursBegin, workHoursEnd)) {
+                                if (Integer.parseInt(hourStr) >= (curHour + 2)) {
+                                    timeIsTrue = true;
+                                } else {
                                     ToastUtil.makeText(mContext, "开始时间必须提前1小时！");
-                                    timeIsTrue= false;
+                                    timeIsTrue = false;
                                     setTimeTextView(dateContent);
                                     return;
                                 }
-                            }else{
+                            } else {
                                 ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
-                                timeIsTrue= false;
+                                timeIsTrue = false;
                                 setTimeTextView(dateContent);
                                 return;
                             }
                         }
-                    }else{
-                        if(isEndTimeChoose){
-                            if(!isStartTimeDataDay.equals(cruYear+"-"+  outMonthStr + "-" + outDayStr)){
+                    } else {
+                        if (isEndTimeChoose) {
+                            if (!isStartTimeDataDay.equals(cruYear + "-" + outMonthStr + "-" + outDayStr)) {
                                 ToastUtil.makeText(mContext, "所选时间必须在同一天内！");
                                 setTimeTextView(dateContent);
                                 return;
                             }
                         }
 
-                        if(TimeUtils.isInDate(date,workHoursBegin,workHoursEnd)){
-                            timeIsTrue= true;
-                        }else{
+                        if (TimeUtils.isInDate(date, workHoursBegin, workHoursEnd)) {
+                            timeIsTrue = true;
+                        } else {
                             ToastUtil.makeText(mContext, "所选时间必须在营业时间内！");
-                            timeIsTrue= false;
+                            timeIsTrue = false;
                             setTimeTextView(dateContent);
                             return;
                         }
                     }
-                }else{
-                    String timeContent =cruYear+"年"+  outMonthStr + "月" + outDayStr + "日";
-                    String currentTime =cruYear+"年"+  curMonth + "月" + curDate + "日";
-                    String curDateMore30 =cruYear+"年"+  curMonthMore + "月" + curDate + "日";
-                    long chooseTimes  = TimeUtils.geTimestampTimes(timeContent,"yyyy年MM月dd日");
-                    long currentTimes  = TimeUtils.geTimestampTimes(currentTime,"yyyy年MM月dd日");
-                    long curDateMore30s  = TimeUtils.geTimestampTimes(curDateMore30,"yyyy年MM月dd日");
-                    if(chooseTimes>=currentTimes&&chooseTimes<=curDateMore30s){
-                        timeIsTrue= true;
-                    }else{
+                } else {
+                    String timeContent = cruYear + "年" + outMonthStr + "月" + outDayStr + "日";
+                    String currentTime = cruYear + "年" + curMonth + "月" + curDate + "日";
+                    String curDateMore30 = cruYear + "年" + curMonthMore + "月" + curDate + "日";
+                    long chooseTimes = TimeUtils.geTimestampTimes(timeContent, "yyyy年MM月dd日");
+                    long currentTimes = TimeUtils.geTimestampTimes(currentTime, "yyyy年MM月dd日");
+                    long curDateMore30s = TimeUtils.geTimestampTimes(curDateMore30, "yyyy年MM月dd日");
+                    if (chooseTimes >= currentTimes && chooseTimes <= curDateMore30s) {
+                        timeIsTrue = true;
+                    } else {
                         ToastUtil.makeText(mContext, "开始时间必须是未来30天内！");
-                        timeIsTrue= false;
+                        timeIsTrue = false;
                         setTimeTextView(dateContent);
                         return;
                     }
                 }
                 setTimeTextView(dateContent);
                 initTotalTime();
-                isStartTimeDataDay =cruYear+"-"+  outMonthStr + "-" + outDayStr;
+                isStartTimeDataDay = cruYear + "-" + outMonthStr + "-" + outDayStr;
             }
         });
         // 取消按钮
@@ -646,10 +657,10 @@ public class CreateOrdersActivity extends BaseActivity {
         });
         month_wheelView.setCurrentItem(curMonth - 1);
         day_wheelView.setCurrentItem(curDate - 1);
-        timeWheelView.setCurrentItem(curHour - 1+2);
+        timeWheelView.setCurrentItem(curHour - 1 + 2);
         outMonthStr = String.valueOf(curMonth);
         outDayStr = String.valueOf(curDate);
-        hourStr = String.valueOf(curHour+2);
+        hourStr = String.valueOf(curHour + 2);
         if (priceType == 1) {
             timeWheelView.setVisibility(View.VISIBLE);
         } else {
@@ -683,7 +694,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 int total_time = (int) (endTime - startTime);
                 if (total_time > 0) {
                     totalTime.setText(String.valueOf(total_time / 3600));
-                    totalPrice.setText("￥ " +StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price))  + "元");
+                    totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 } else {
                     ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
                     totalTime.setText("0");
@@ -711,14 +722,14 @@ public class CreateOrdersActivity extends BaseActivity {
         public void onScrollingFinished(WheelView wheel) {
             int n_month = month_wheelView.getCurrentItem() + 1;//月
             initDay(cruYear, n_month);
-            if((day_wheelView.getCurrentItem() + 1)<10){
-                outDayStr = "0"+String.valueOf(day_wheelView.getCurrentItem() + 1);//日
-            }else{
+            if ((day_wheelView.getCurrentItem() + 1) < 10) {
+                outDayStr = "0" + String.valueOf(day_wheelView.getCurrentItem() + 1);//日
+            } else {
                 outDayStr = String.valueOf(day_wheelView.getCurrentItem() + 1);//日
             }
-            if((timeWheelView.getCurrentItem() + 1)<10){
-                hourStr = "0"+String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
-            }else{
+            if ((timeWheelView.getCurrentItem() + 1) < 10) {
+                hourStr = "0" + String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
+            } else {
                 hourStr = String.valueOf(timeWheelView.getCurrentItem() + 1);//小时
             }
             outMonthStr = String.valueOf(n_month);
