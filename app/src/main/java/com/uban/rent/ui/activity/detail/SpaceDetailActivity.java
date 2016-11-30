@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -326,6 +327,13 @@ public class SpaceDetailActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 mPriceType = tab.getPosition() + 1;
                 spaceDetailRentTypeAdapter.setPriceType(tab.getPosition() + 1);
+                if (mPriceType==Constants.RENT_HOUSE){
+                    StatService.onEvent(mContext, "SpaceDetail_HourRentClickEvent", "pass", 1);
+                }else if (mPriceType==Constants.RENT_DAY){
+                    StatService.onEvent(mContext, "SpaceDetail_DayRentClickEvent", "pass", 1);
+                }else if (mPriceType==Constants.RENT_MONTH){
+                    StatService.onEvent(mContext, "SpaceDetail_MonthRentClickEven", "pass", 1);
+                }
             }
 
             @Override
@@ -342,6 +350,7 @@ public class SpaceDetailActivity extends BaseActivity {
         lvSpaceDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                StatService.onEvent(mContext, "SpaceDetail_StationClickEvent", "pass", 1);
                 Intent intent = new Intent();
                 intent.setClass(mContext, StationDetailActivity.class);
                 intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL, requestGoWorkPlaceDetailBean(i));
@@ -510,9 +519,11 @@ public class SpaceDetailActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.call_phone:
+                StatService.onEvent(mContext, "SpaceDetail_TelephoneBtnEvent", "pass", 1);
                 callPhone();
                 break;
             case R.id.rl_panorama:
+                StatService.onEvent(mContext, "SpaceDetail_PanoBtnClickEvent", "pass", 1);
                 if (panoramaImages.size() > 0) {
                     Intent houseDetailPanorama = new Intent();
                     houseDetailPanorama.setClass(mContext, PanoramaActivity.class);
@@ -524,6 +535,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_supporting:
+                StatService.onEvent(mContext, "SpaceDetail_RoundBtnClickEvent", "pass", 1);
                 Intent intent = new Intent();
                 intent.setClass(mContext, SupportingActivity.class);
                 intent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);

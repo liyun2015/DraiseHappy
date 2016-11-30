@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
@@ -92,6 +93,7 @@ public class MemberFinalActivity extends BaseActivity {
 
     @OnClick(R.id.member_final_call_phone)
     public void onClick() {
+        StatService.onEvent(mContext, "MemberInfo_ZiXunPhoneEvent", "pass", 1);
         callPhone();
     }
 

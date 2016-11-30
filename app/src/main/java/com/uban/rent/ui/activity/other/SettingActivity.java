@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.activity.components.LoginActivity;
@@ -46,16 +47,21 @@ public class SettingActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position){
                     case 0:
+                        StatService.onEvent(mContext, "Setting_AboutUbanOfficeEvent", "pass", 1);
                         goActivity(AboutUsActivity.class);
                         break;
                     case 1:
+                        StatService.onEvent(mContext, "Setting_UserProtocolEvent", "pass", 1);
                         goActivity(AgreementActivity.class);
                         break;
                     case 2:
+                        StatService.onEvent(mContext, "Setting_ShareToFriendsEvent", "pass", 1);
                         break;
                     case 3:
+                        StatService.onEvent(mContext, "Setting_MarkForUsEvent", "pass", 1);
                         break;
                     case 4:
+                        StatService.onEvent(mContext, "Setting_LoginOutEvent", "pass", 1);
                         siginOut();
                         break;
                 }

@@ -16,12 +16,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
-import com.uban.rent.module.SpaceDetailBean;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
@@ -387,6 +387,7 @@ public class OrdersDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.cancel_order_btn:
                 if (state == ORDER_TYPE[1] || state == ORDER_TYPE[2]) {//取消订单
+                    StatService.onEvent(mContext, "OrderDetial_CancelOrderEvent", "pass", 1);
                     showCancelPop();
                 } else if (state == ORDER_TYPE[3]) {//申请退款
                     Intent intent = new Intent();
@@ -399,17 +400,20 @@ public class OrdersDetailActivity extends BaseActivity {
                 break;
             case R.id.submit_right_btn:// 提交
                 if (state == ORDER_TYPE[1] || state == ORDER_TYPE[2]) {//立即支付
+                    StatService.onEvent(mContext, "OrderDetail_PayBtnClickEvent", "pass", 1);
                     goActivity(WXPayEntryActivity.class);
                 } else if (state == ORDER_TYPE[3]) {//拨打电话
+                    StatService.onEvent(mContext, "OrderDetail_ZiXunPhoneEvent", "pass", 1);
                     callPhone();
                 }
                 break;
             case R.id.meeting_room_making_call:
+                StatService.onEvent(mContext, "OrderDetail_ZiXunPhoneEvent", "pass", 1);
                 callPhone();
                 break;
             case R.id.meeting_room_cancel_order:
-                //showCancelPop();
-                ToastUtil.makeText(mContext, "管理员确认中，请耐心等待！");
+                StatService.onEvent(mContext, "OrderDetail_ApplyRefundEvent", "pass", 1);
+                showCancelPop();
                 break;
             case R.id.meeting_room_submit_order:
                 //goActivity(WXPayEntryActivity.class);

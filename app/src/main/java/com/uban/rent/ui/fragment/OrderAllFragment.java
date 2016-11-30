@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseFragment;
@@ -130,6 +131,7 @@ public class OrderAllFragment extends BaseFragment {
         lvUserOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                StatService.onEvent(mContext, "OrderList_OrderClickEvent", "eventLabel", 1);
                 OrderListBean.ResultsBean.DatasBean resultsBean = listBeen.get(position);
                 Intent intent = new Intent();
                 intent.setClass(mContext, OrdersDetailActivity.class);

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
@@ -211,9 +212,11 @@ public class MemberFirstActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.member_call_phone:
+                StatService.onEvent(mContext, "MemberAbstract_ZiXunPhoneEvent", "pass", 1);
                 callPhone();
                 break;
             case R.id.create_member:
+                StatService.onEvent(mContext, "MemberAbstract_ApplyEvent", "pass", 1);
                 startActivity(new Intent(mContext,MemberCreateActivity.class));
                 break;
         }

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
@@ -188,6 +189,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
+                StatService.onEvent(mContext, "Search_HotSearchClickEvent", "pass", 1);
                 sendEvents(arrList.get(position));
                 saveHistory(arrList.get(position));
                 return true;
@@ -230,6 +232,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         searchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                StatService.onEvent(mContext, "Search_HistoryRecordClickEvent", "pass", 1);
                 sendEvents(historys[i]);
             }
         });
@@ -284,6 +287,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 KeyboardUtils.hideSoftInput(mActivity);
                 ToastUtil.makeText(mContext, "搜索内容不能为空");
             } else {
+                StatService.onEvent(mContext, "Search_KeywordSourchEvent", "pass", 1);
                 sendEvents(inputStr);
                 saveHistory(inputStr);
             }
