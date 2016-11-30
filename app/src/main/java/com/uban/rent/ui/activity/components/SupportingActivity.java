@@ -35,6 +35,7 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.ui.view.overlayutil.PoiOverlay;
+import com.uban.rent.util.ConvertUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -185,7 +186,7 @@ public class SupportingActivity extends BaseActivity {
                     textView.setBackgroundResource(R.drawable.ic_marker_near_windows);
                     LatLng pt = mMarker.getPosition();
                     //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-                    InfoWindow mInfoWindow = new InfoWindow(textView, pt, -120);
+                    InfoWindow mInfoWindow = new InfoWindow(textView, pt, ConvertUtils.dp2px(mContext,-40));
                     //显示InfoWindow
                     mBaiduMap.showInfoWindow(mInfoWindow);
                 }

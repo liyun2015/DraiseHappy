@@ -427,6 +427,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             LatLng mNormalLatLng = new LatLng(locationY, locationX);
             setMapStatus(mNormalLatLng);
         }
+        setMarkerView(resID,latLng);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_BUNDLE, datasBean);
+        mMarkerBase.setExtraInfo(bundle);
+        mBaiduMap.setOnMarkerClickListener(markerOnclick);
+    }
+
+    /**
+     * 添加标注点
+     * @param resID
+     * @param latLng
+     */
+    private void setMarkerView(int resID, LatLng latLng){
         //构建Marker图标
         View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
         markerView.setBackgroundResource(resID);
@@ -435,12 +448,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);
         //在地图上添加Marker，并显示
         mMarkerBase = (Marker) mBaiduMap.addOverlay(option);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_BUNDLE, datasBean);
-        mMarkerBase.setExtraInfo(bundle);
-        mBaiduMap.setOnMarkerClickListener(markerOnclick);
     }
 
+    /**
+     * 标记点点击后样式
+     * @param resID
+     * @param marker
+     */
+    private void setMarkerViewChecked(int resID, Marker marker){
+        View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
+        markerView.setBackgroundResource(resID);
+        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
+        marker.setIcon(bitmapDescriptor);
+        mMarkerBase = marker;
+    }
     BaiduMap.OnMarkerClickListener markerOnclick = new BaiduMap.OnMarkerClickListener() {
 
         @Override
@@ -449,6 +470,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (bundle == null) {
                 return false;
             }
+
+            //返回点击过后的marker
+            int resIDed = KEY_ORDER_ALL;
+            if (shortRentFlag == KEY_ORDER_ALL) {
+                resIDed = R.drawable.ic_marker_space_normal;
+            } else if (shortRentFlag == KEY_MOBILE_OFFICE) {
+                resIDed = R.drawable.ic_marker_mobile_office_normal;
+            } else if (shortRentFlag == KEY_MEETIONGS_EVENTS) {
+                resIDed = R.drawable.ic_marker_conference_activities_normal;
+            }
+            setMarkerViewChecked(resIDed,mMarkerBase);
 
             HomeDatasBean.ResultsBean.DatasBean datasBean = (HomeDatasBean.ResultsBean.DatasBean) bundle.getSerializable(KEY_BUNDLE);
             LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
@@ -461,11 +493,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             } else if (shortRentFlag == KEY_MEETIONGS_EVENTS) {
                 resID = R.drawable.ic_marker_conference_activities_checked;
             }
-            View markerView = getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
-            markerView.setBackgroundResource(resID);
-            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
-            marker.setIcon(bitmapDescriptor);
-            mMarkerBase = marker;
+            setMarkerViewChecked(resID , marker);
 
             ininMarkerList(datasBean);
             return true;
@@ -685,6 +713,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 isShowBottomView(false);
                 break;
             case R.id.select_city_bj:
+                isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
                 locationX = 116.486388;
@@ -695,6 +724,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 initData();
                 break;
             case R.id.select_city_sh:
+                isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
                 locationX = 121.52;
