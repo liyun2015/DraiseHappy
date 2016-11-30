@@ -8,4 +8,5 @@ import com.umeng.socialize.media.ShareCallbackActivity;
  * Email dawabo@163.com
  */
 public class ShareEntryActivity extends ShareCallbackActivity{
+
 }
