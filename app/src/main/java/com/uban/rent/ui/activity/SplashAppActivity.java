@@ -58,8 +58,7 @@ public class SplashAppActivity extends BaseActivity {
     private void initData() {
         RequestVersion requestVersion = new RequestVersion();
         requestVersion.setAppType(Constants.APP_TYPE);
-        //requestVersion.setName(AppUtils.getAppVersionName(mContext));
-        requestVersion.setName("1.1.1");
+        requestVersion.setName(AppUtils.getAppVersionName(mContext));
         ServiceFactory.getProvideHttpService().getAppNewVersion(requestVersion)
                 .compose(this.<VersionBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<VersionBean>io_main())
@@ -72,6 +71,9 @@ public class SplashAppActivity extends BaseActivity {
                 .filter(new Func1<VersionBean, Boolean>() {
                     @Override
                     public Boolean call(VersionBean versionBean) {
+                        if (versionBean.getResults()==null){
+                            filterViewActivity();
+                        }
                         return versionBean.getResults()!=null;
                     }
                 })

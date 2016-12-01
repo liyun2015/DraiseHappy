@@ -639,4 +639,16 @@ public class OrdersDetailActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"订单详情页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"订单详情页");
+    }
 }

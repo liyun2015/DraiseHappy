@@ -119,21 +119,27 @@ public class SettingActivity extends BaseActivity {
                         break;
                     case 2:
                         StatService.onEvent(mContext, "Setting_ShareToFriendsEvent", "pass", 1);
-                        String shareTitle = "优办移动办公";
-                        String shareUrl = "http://bj.uban.com/";
-                        UMImage shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
+                       String shareTitle = "何时办公？随时随地！";
+                         String shareUrl = "http://m.dev.uban.com/bj/toDowloadPage/";
+                        String shareMsg = "在线预订短租工位、会议室、让工作更轻松！\n" +
+                                "北京、上海两地超过100＋联合办公空间可选\n" +
+                                "下载注册即送一个月会员\n" +
+                                "立享全部免费hot desk！";
+                         UMImage shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 
                         ShareBoardConfig config = new ShareBoardConfig();
                         config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
                         config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
-                        mShareAction.withText("优办移动办公App")
-                                .withMedia(shareImage)
+                        mShareAction
                                 .withTitle(shareTitle)
+                                .withText(shareMsg)
+                                .withMedia(shareImage)
                                 .withTargetUrl(shareUrl)
                                 .open(config);
+                        //startActivity(new Intent(mContext,WebViewActivity.class).putExtra(WebViewActivity.WEB_VIEW_URL,shareUrl).putExtra(WebViewActivity.WEB_VIEW_DESC,shareTitle));
                         break;
                     case 3:/*
-                        StatService.onEvent(mContext, "Setting_MarkForUsEvent", "pass", 1);
+                        StatService.onEvent(mContext, "Setting_MarkForUsEvent", "pass", 1);//为我们打分事件
                         break;
                     case 4:*/
                         StatService.onEvent(mContext, "Setting_LoginOutEvent", "pass", 1);
@@ -230,4 +236,15 @@ public class SettingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"设置页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"设置页");
+    }
 }

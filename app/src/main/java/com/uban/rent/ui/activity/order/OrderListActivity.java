@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class OrderListActivity extends BaseActivity {
 
@@ -104,9 +103,14 @@ public class OrderListActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"订单列表页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"订单列表页");
     }
 }

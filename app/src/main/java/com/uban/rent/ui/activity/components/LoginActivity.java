@@ -35,7 +35,6 @@ import com.uban.rent.util.SPUtils;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -303,11 +302,17 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"登录页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"登录页");
     }
 
 

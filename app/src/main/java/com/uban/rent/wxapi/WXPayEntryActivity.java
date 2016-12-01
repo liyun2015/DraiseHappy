@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -537,5 +538,17 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 messageRemindStr.setText(Html.fromHtml("请在 <font color='#FF5254' >" + countTime + "</font>内完成支付，晚了就没有了哟！"));
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"支付页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"支付页");
     }
 }

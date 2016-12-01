@@ -28,7 +28,6 @@ import com.uban.rent.util.QRCodeUtil;
 import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -158,9 +157,14 @@ public class MemberFinalActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(mContext,"会员信息页");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(mContext,"会员信息页");
     }
 }

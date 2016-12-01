@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SET_DEBUG_APP" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -73,11 +72,10 @@
         <meta-data
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
-        <!--分享-->
+        <!-- 分享 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="583bf22cf5ade46c0c000429" >
-        </meta-data>
+            android:value="583bf22cf5ade46c0c000429"></meta-data>
         <!-- 定位 -->
         <service
             android:name="com.baidu.location.f"
@@ -88,8 +86,8 @@
             android:name=".ui.activity.SplashAppActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppSplash">
+            android:theme="@style/AppSplash"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -97,7 +95,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wx560d10dd4001d136" />
             </intent-filter>
         </activity>
@@ -137,6 +137,7 @@
                     android:path="/stationDetail"
                     android:port="8888"
                     android:scheme="srpscheme" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -212,7 +213,7 @@
             android:name=".ui.activity.welcome.WelcomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppWelcome"/>
+            android:theme="@style/AppWelcome" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -232,26 +233,30 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <receiver android:name=".AppRegister">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.activity.other.AgreementActivity"
+        <activity
+            android:name=".ui.activity.other.AgreementActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.activity.other.AboutUsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.activity.other.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -259,15 +264,16 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"/>
+            android:exported="false" />
+
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -279,14 +285,14 @@
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:theme="@style/Theme.UMDefault"
             android:excludeFromRecents="true"
-            />
+            android:theme="@style/Theme.UMDefault" />
+        <activity android:name=".ui.activity.other.WebViewActivity"></activity>
     </application>
 
 </manifest>
