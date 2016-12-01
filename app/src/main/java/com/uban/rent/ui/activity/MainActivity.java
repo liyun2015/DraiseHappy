@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -163,6 +165,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int mPriceType = 1;
     private CreateOrderParamaBean createOrderParamaBean;
     private boolean mSearchFlag = false;
+    private boolean isShowSnackbar = false;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -179,7 +182,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void registerPermissions() {
         LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if(!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
+            showSnackbar(getString(R.string.str_location_where_unknow));
         }
 
         //Android 6.0 Permissions
@@ -191,8 +194,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     public void call(Boolean aBoolean) {
                         if (aBoolean){
                             initData();
-                        }else {
-                            ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
+                       }else {
+                            showSnackbar(getString(R.string.str_location_where_unknow));
                         }
                     }
                 });
@@ -850,11 +853,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (location.getLocType() == BDLocation.TypeServerError){
                 ToastUtil.makeText(mContext,getString(R.string.str_location_service_error));
             }else if (location.getLocType() == BDLocation.TypeNetWorkException){
-                ToastUtil.makeText(mContext,getString(R.string.str_location_is_network_success));
+                showSnackbar(getString(R.string.str_location_is_network_success));
             }else if (location.getLocType() == BDLocation.TypeCriteriaException){
-                ToastUtil.makeText(mContext,"无法获取有效定位，" + getString(R.string.str_location_where_unknow));
+                showSnackbar("无法获取有效定位，" + getString(R.string.str_location_where_unknow));
+                //ToastUtil.makeText(mContext,"无法获取有效定位，" + getString(R.string.str_location_where_unknow));
             }else if (location.getLocType() == LOCATION_WHERE_UNKNOW){
-                ToastUtil.makeText(mContext,getString(R.string.str_location_where_unknow));
+                showSnackbar(getString(R.string.str_location_where_unknow));
             }
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
@@ -876,6 +880,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         public void onReceivePoi(BDLocation poiLocation) {
         }
+    }
+
+    private void showSnackbar(String msg){
+        if (isShowSnackbar){
+            return;
+        }
+        Snackbar.make(mMapView, msg, Snackbar.LENGTH_SHORT)
+                .setAction(getString(R.string.action_settings), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                    }
+                })
+                .show();
+        isShowSnackbar = !isShowSnackbar;
     }
 
     private void goActivity(Class<?> cls) {

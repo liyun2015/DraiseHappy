@@ -100,8 +100,13 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 .subscribe(new Action1<CharSequence>() {
                     @Override
                     public void call(CharSequence charSequence) {
-                        lvSearchKeyWord.setVisibility(TextUtils.isEmpty(charSequence)?View.GONE:View.VISIBLE);
+                        lvSearchKeyWord.setVisibility(TextUtils.isEmpty(charSequence) ? View.GONE : View.VISIBLE);
                         searchKeyWord(charSequence.toString());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
                     }
                 });
 
