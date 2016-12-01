@@ -308,7 +308,7 @@ public class StationDetailActivity extends BaseActivity {
         createOrderParamaBean = new CreateOrderParamaBean();
         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
-        createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceWorkdeskinfoId());
+        createOrderParamaBean.setSpaceDeskId(resultsBean.getSpaceId());
         createOrderParamaBean.setPriceType(mPriceType);
         createOrderParamaBean.setPrice(mPrice);
         createOrderParamaBean.setWorkDeskId(mWorkPlaceId);

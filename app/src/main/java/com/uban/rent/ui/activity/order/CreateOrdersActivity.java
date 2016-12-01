@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
@@ -422,7 +423,7 @@ public class CreateOrdersActivity extends BaseActivity {
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
-        requestCreatOrder.setCityId(12);
+        requestCreatOrder.setCityId(Integer.parseInt(HeaderConfig.ubanCity()));
         requestCreatOrder.setDealPrice(loctionNum * rentTime * price);
         requestCreatOrder.setRentType(priceType);
         requestCreatOrder.setRentTime(rentTime);
@@ -443,6 +444,9 @@ public class CreateOrdersActivity extends BaseActivity {
                 .filter(new Func1<RequestCreatShortRentOrderBean, Boolean>() {
                     @Override
                     public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
+                        if(requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_ERROR){
+                            ToastUtil.makeText(mContext, requestCreatShortRentOrderBean.getMsg());
+                        }
                         return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
