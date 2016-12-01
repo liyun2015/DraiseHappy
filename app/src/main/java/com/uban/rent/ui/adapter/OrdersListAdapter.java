@@ -86,7 +86,7 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.D
                 orderTime.setText(beginTime+"至"+endTiem);
             }
             orderCreateTime.setText(createTiem);
-            orderPrice.setText(StringUtils.removeZero(resultsBean.getDealPrice() ));
+            orderPrice.setText(StringUtils.removeZero(resultsBean.getDealPrice()));
             orderStationType.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()]);
         }
 

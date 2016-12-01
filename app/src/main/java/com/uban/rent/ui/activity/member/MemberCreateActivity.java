@@ -184,7 +184,7 @@ public class MemberCreateActivity extends BaseActivity {
                .subscribe(new Action1<ApplyMemberBean>() {
                    @Override
                    public void call(ApplyMemberBean baseResultsBean) {
-                       SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(baseResultsBean.getResults().getStatus()));
+                       SPUtils.put(mContext,Constants.USER_MEMBER,baseResultsBean.getResults().getStatus());
                        startActivity(new Intent(mContext,MemberStatusActivity.class));
                        finish();
                    }
