@@ -61,7 +61,7 @@ public class MemberStatusActivity extends BaseActivity {
     @Bind(R.id.member_date_expiry)
     TextView memberDateExpiry;
 
-    private static final String[] STATUS_CODE = new String[]{"取消", "申请中", "申请成功"};
+    private static final String[] STATUS_CODE = new String[]{"取消", "审核中", "申请成功"};
     @Override
     protected int getLayoutId() {
         return R.layout.activity_member_status;

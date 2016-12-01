@@ -23,7 +23,7 @@ import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
-import com.uban.rent.module.BaseResultsBean;
+import com.uban.rent.module.ApplyMemberBean;
 import com.uban.rent.module.request.RequestApplyMember;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
@@ -167,26 +167,25 @@ public class MemberCreateActivity extends BaseActivity {
        requestApplyMember.setStatus(memberStatus);
        requestApplyMember.setType(memberType);
        ServiceFactory.getProvideHttpService().getApplyMember(requestApplyMember)
-               .compose(this.<BaseResultsBean>bindToLifecycle())
-               .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+               .compose(this.<ApplyMemberBean>bindToLifecycle())
+               .compose(RxSchedulersHelper.<ApplyMemberBean>io_main())
                .doOnSubscribe(new Action0() {
                    @Override
                    public void call() {
                        showLoadingView();
                    }
                })
-               .filter(new Func1<BaseResultsBean, Boolean>() {
+               .filter(new Func1<ApplyMemberBean, Boolean>() {
                    @Override
-                   public Boolean call(BaseResultsBean baseResultsBean) {
-                       return baseResultsBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                   public Boolean call(ApplyMemberBean applyMemberBean) {
+                       return applyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
                    }
                })
-               .subscribe(new Action1<BaseResultsBean>() {
+               .subscribe(new Action1<ApplyMemberBean>() {
                    @Override
-                   public void call(BaseResultsBean baseResultsBean) {
-                       if (baseResultsBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS){
-                           SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(baseResultsBean.getStatusCode()));// 0 已申请会员
-                       }
+                   public void call(ApplyMemberBean baseResultsBean) {
+                       SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(baseResultsBean.getResults().getStatus()));
+                       startActivity(new Intent(mContext,MemberStatusActivity.class));
                        finish();
                    }
                }, new Action1<Throwable>() {

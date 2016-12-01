@@ -218,6 +218,7 @@ public class MemberFirstActivity extends BaseActivity {
             case R.id.create_member:
                 StatService.onEvent(mContext, "MemberAbstract_ApplyEvent", "pass", 1);
                 startActivity(new Intent(mContext,MemberCreateActivity.class));
+                finish();
                 break;
         }
     }

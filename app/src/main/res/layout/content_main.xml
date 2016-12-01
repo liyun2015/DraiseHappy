@@ -17,13 +17,13 @@
         app:tabIndicatorColor="@color/colorAccent"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextColor="@android:color/white" />
+
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:clickable="true" />
-
 
     <LinearLayout
         android:id="@+id/lLayout_list_view"
