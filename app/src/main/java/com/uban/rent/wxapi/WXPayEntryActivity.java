@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -313,8 +314,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
         unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
-        unifieOrderBean.setTotal_fee(String.valueOf(1));
-        //unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getPayMoney()*100));
+        //unifieOrderBean.setTotal_fee(String.valueOf(1));
+        unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getDealPrice()*100));
         unifieOrderBean.setTrade_type("APP");
         unifieOrderBean.setSpbill_create_ip(IpUtils.getIp(mContext));
         unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
@@ -550,5 +551,18 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     protected void onResume() {
         super.onResume();
         StatService.onPageStart(mContext,"支付页");
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            //do something...
+            if (null != time) {
+                time.cancel();
+            }
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
