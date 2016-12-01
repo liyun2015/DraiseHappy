@@ -117,7 +117,7 @@ public class SplashAppActivity extends BaseActivity {
 
     private void filterViewActivity(){
         if (isFirst()){
-            //saveNumberTimes(AppUtils.getAppVersionName(mContext));
+            saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
         }else {
             if (HeaderConfig.isEmptyUbanToken()){
@@ -129,7 +129,6 @@ public class SplashAppActivity extends BaseActivity {
     }
 
     public void saveNumberTimes(String versionName) {
-
         SharedPreferences sp = getSharedPreferences(APP_FIRST_WELCOME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
