@@ -77,13 +77,16 @@ public class OrdersListAdapter extends UBBaseAdapter<OrderListBean.ResultsBean.D
             String beginTime = TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm");
             String endTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm");
             //2016-11-11 20:32:21
-            String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()/1000),"yyyy-MM-dd HH:mm:ss");
+
             if(resultsBean.getRentType()==Constants.RENT_DAY||resultsBean.getRentType()==Constants.RENT_MONTH){
+                String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()/1000),"yyyy-MM-dd");
+                orderCreateTime.setText(createTiem);
                 orderTime.setText(beginTime);
             }else {
+                String createTiem = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()/1000),"yyyy-MM-dd HH:mm:ss");
+                orderCreateTime.setText(createTiem);
                 orderTime.setText(beginTime+"至"+endTiem);
             }
-            orderCreateTime.setText(createTiem);
             orderPrice.setText(StringUtils.removeZero(resultsBean.getDealPrice() ));
             orderStationType.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()]);
         }

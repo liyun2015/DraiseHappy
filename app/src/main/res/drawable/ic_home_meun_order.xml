@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="29dp"
-    android:height="32dp"
-    android:viewportWidth="29"
-    android:viewportHeight="32">
+    android:width="50dp"
+    android:height="50dp"
+    android:viewportWidth="50"
+    android:viewportHeight="50">
 
-    <group
-        android:translateX="-86.000000"
-        android:translateY="-423.000000">
-        <group
-            android:translateX="87.000000"
-            android:translateY="424.000000">
-            <path
-                android:fillType="evenOdd"
-                android:strokeColor="#FFFFFF"
-                android:strokeWidth="2"
-                android:pathData="M 0 29.7214 L 26.568 29.7214 L 26.568 0.0004 L 0 0.0004 Z" />
-            <path
-                android:fillType="evenOdd"
-                android:strokeColor="#FFFFFF"
-                android:strokeWidth="2"
-                android:pathData="M4.6985,7.1038 L14.6985,7.1038" />
-            <path
-                android:fillType="evenOdd"
-                android:strokeColor="#FFFFFF"
-                android:strokeWidth="2"
-                android:pathData="M4.6985,15.1038 L21.6985,15.1038" />
-            <path
-                android:fillType="evenOdd"
-                android:strokeColor="#FFFFFF"
-                android:strokeWidth="2"
-                android:pathData="M4.6985,23.1038 L21.6985,23.1038" />
-        </group>
-    </group>
+    <path
+        android:name="Stroke-1"
+        android:fillType="evenOdd"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M12,39.7214 L38.568,39.7214 L38.568,10.0004 L12,10.0004 Z" />
+    <path
+        android:name="Stroke-3"
+        android:fillType="evenOdd"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M16.6985,17.1038 L26.6985,17.1038" />
+    <path
+        android:name="Stroke-4"
+        android:fillType="evenOdd"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M16.6985,25.1038 L33.6985,25.1038" />
+    <path
+        android:name="Stroke-5"
+        android:fillType="evenOdd"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M16.6985,33.1038 L33.6985,33.1038" />
 </vector>

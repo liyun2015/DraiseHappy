@@ -41,7 +41,7 @@ public class OrderAllFragment extends BaseFragment {
     GetMoreListView lvUserOrder;
     @Bind(R.id.swipe_refresh_user_order)
     SwipeRefreshLayout swipeRefreshUserOrder;
-    private int workDeskType;
+    private int shortRentFlag;
     private Handler handler;
     private List<OrderListBean.ResultsBean.DatasBean> listBeen;
     private OrdersListAdapter ordersListAdapter;
@@ -64,10 +64,10 @@ public class OrderAllFragment extends BaseFragment {
         handler = new Handler();
         Bundle bundle = getArguments();
         if (bundle!=null){
-            workDeskType = bundle.getInt(KEY_TITLE);
+            shortRentFlag = bundle.getInt(KEY_TITLE);
         }
         initView();
-        initData(workDeskType);
+        initData(shortRentFlag);
     }
 
     private void initView() {
@@ -81,7 +81,7 @@ public class OrderAllFragment extends BaseFragment {
                     public void run() {
                         listBeen.clear();
                         pageIndex = 1;
-                        initData(workDeskType);
+                        initData(shortRentFlag);
                         lvUserOrder.setHasMore();
                         swipeRefreshUserOrder.setRefreshing(false);
                     }
@@ -95,7 +95,7 @@ public class OrderAllFragment extends BaseFragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initData(workDeskType);
+                        initData(shortRentFlag);
                     }
                 }, 1000);
             }
@@ -113,9 +113,9 @@ public class OrderAllFragment extends BaseFragment {
             }
         });
     }
-    private void initData(int workDeskType) {
+    private void initData(int shortRentFlag) {
         RequestRentOrderList requestRentOrderList = new RequestRentOrderList();
-        requestRentOrderList.setWorkDeskTypes(workDeskType);
+        requestRentOrderList.setShortRentFlag(shortRentFlag);
         requestRentOrderList.setPageIndex(pageIndex);
         requestRentOrderList.setPageSize(pageSize);
         ServiceFactory.getProvideHttpService().getShortRentOrder(requestRentOrderList)

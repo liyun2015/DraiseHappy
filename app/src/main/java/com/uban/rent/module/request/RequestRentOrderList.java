@@ -7,7 +7,7 @@ package com.uban.rent.module.request;
  */
 
 public class RequestRentOrderList {
-    private int workDeskTypes;
+    private int shortRentFlag;
 
     private int pageIndex;
 
@@ -29,11 +29,11 @@ public class RequestRentOrderList {
         this.pageSize = pageSize;
     }
 
-    public int getWorkDeskTypes() {
-        return workDeskTypes;
+    public int getShortRentFlag() {
+        return shortRentFlag;
     }
 
-    public void setWorkDeskTypes(int workDeskTypes) {
-        this.workDeskTypes = workDeskTypes;
+    public void setShortRentFlag(int shortRentFlag) {
+        this.shortRentFlag = shortRentFlag;
     }
 }
