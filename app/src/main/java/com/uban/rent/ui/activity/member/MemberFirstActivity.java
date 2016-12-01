@@ -175,8 +175,8 @@ public class MemberFirstActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                String shareTitle = "会员分享";
-                String msg = "会员";
+                String shareTitle = "何处办公？随时随地！";
+                String msg = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
                 String shareUrl = "http://m.uban.com/bj/dzVip";
                 UMImage shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 

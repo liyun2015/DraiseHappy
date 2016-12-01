@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.fragment.OrderAllMobileWorkFragment">
+    tools:context="com.uban.rent.ui.fragment.OrderAllFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_user_order"
@@ -14,6 +13,7 @@
             android:layout_width="match_parent"
             android:dividerHeight="10dp"
             android:listSelector="?android:attr/selectableItemBackground"
+            android:background="@android:color/white"
             android:divider="@color/font_black_7"
             android:layout_height="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>

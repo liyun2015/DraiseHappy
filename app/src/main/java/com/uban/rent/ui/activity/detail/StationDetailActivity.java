@@ -346,13 +346,14 @@ public class StationDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                String shareTitle = tvWorkplaceName.getText().toString();
+                String shareTitle = "何处办公？随时随地！";
+                String shareMsg  = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
                 String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/gongwei-"+mWorkPlaceId+".html?orderType="+mPriceType;
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
-                mShareAction.withText("工位详情分享")
-                        .withTitle(shareTitle)
+                mShareAction.withTitle(shareTitle)
+                        .withText(shareMsg)
                         .withTargetUrl(shareUrl)
                         .open(config);
                 break;

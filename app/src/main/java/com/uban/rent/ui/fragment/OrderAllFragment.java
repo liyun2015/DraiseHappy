@@ -47,12 +47,6 @@ public class OrderAllFragment extends BaseFragment {
     private OrdersListAdapter ordersListAdapter;
     private int pageIndex = 1;
     private int pageSize = 10;
-    /** 标志位，标志已经初始化完成 */
-    private boolean isPrepared;
-    /** 是否已被加载过一次，第二次就不再去请求数据了 */
-    private boolean mHasLoadedOnce;
-    /** Fragment当前状态是否可见 */
-    protected boolean isVisible;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order_all;
@@ -72,30 +66,9 @@ public class OrderAllFragment extends BaseFragment {
         if (bundle!=null){
             workDeskType = bundle.getInt(KEY_TITLE);
         }
-        isPrepared = true;
         initView();
         initData(workDeskType);
     }
-
-    /*@Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if(getUserVisibleHint()) {
-            isVisible = true;
-            lazyLoad();
-        } else {
-            isVisible = false;
-        }
-    }*/
-   /* protected void lazyLoad() {
-        if (!isPrepared || !isVisible || mHasLoadedOnce) {
-            return;
-        }
-        initData(workDeskType);
-    }*/
-
-
 
     private void initView() {
         ordersListAdapter = new OrdersListAdapter(mContext, listBeen);
@@ -169,7 +142,6 @@ public class OrderAllFragment extends BaseFragment {
                 .subscribe(new Action1<OrderListBean.ResultsBean>() {
                     @Override
                     public void call(OrderListBean.ResultsBean resultsBean) {
-                        mHasLoadedOnce = true;
                         initAdapter(resultsBean.getDatas());
                     }
                 }, new Action1<Throwable>() {
