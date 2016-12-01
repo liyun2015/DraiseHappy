@@ -349,19 +349,23 @@ public class CreateOrdersActivity extends BaseActivity {
                     if (total_time > 0) {
                         submitOrder();
                     } else {
-                        ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                        ToastUtil.makeText(mContext, "请重选结束时间！");
                     }
                 } else {
                     submitOrder();
                 }
                 break;
             case R.id.add_btn://加工位
-                loctionNum = loctionNum + 1;
-                numder_of_stations.setText(String.valueOf(loctionNum));
-                if (priceType != 1) {
-                    rentTime = monthNum;
+                if(loctionNum<5){
+                    loctionNum = loctionNum + 1;
+                    numder_of_stations.setText(String.valueOf(loctionNum));
+                    if (priceType != 1) {
+                        rentTime = monthNum;
+                    }
+                    totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
+                }else{
+                    ToastUtil.makeText(mContext, "工位数最多只可预定5个！");
                 }
-                totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.reduce_btn://减工位
                 if (loctionNum > 0) {
@@ -704,7 +708,7 @@ public class CreateOrdersActivity extends BaseActivity {
                     totalTime.setText(String.valueOf(total_time / 3600));
                     totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 } else {
-                    ToastUtil.makeText(mContext, "开始时间不能大于结束时间！");
+                    ToastUtil.makeText(mContext, "请重选结束时间！");
                     totalTime.setText("0");
                 }
             }
