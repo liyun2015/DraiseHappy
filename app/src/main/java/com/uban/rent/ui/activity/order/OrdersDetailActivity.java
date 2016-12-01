@@ -286,6 +286,7 @@ public class OrdersDetailActivity extends BaseActivity {
             priceOfOrder.setText(price + "元/时");
             priceSingle.setText(price + "元时");
             totalOfTime.setText(resultsBean.getRentTime() + "小时");
+            startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm"));
             endTimeLayout.setVisibility(View.VISIBLE);
         } else if (priceType == 2) {
             priceOfType.setText("日租");
@@ -293,6 +294,7 @@ public class OrdersDetailActivity extends BaseActivity {
             priceSingle.setText(price + "元日");
             timeStr.setText("日");
             totalOfTime.setText(resultsBean.getRentTime() + "日");
+            startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日"));
             endTimeLayout.setVisibility(View.GONE);
         } else if (priceType == 3) {
             priceOfType.setText("月租");
@@ -300,12 +302,12 @@ public class OrdersDetailActivity extends BaseActivity {
             priceOfOrder.setText(price + "元/月");
             priceSingle.setText(price + "元月");
             totalOfTime.setText(resultsBean.getRentTime() + "月");
+            startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日"));
             endTimeLayout.setVisibility(View.GONE);
         }
         stationNum.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         timeNum.setText(String.valueOf(resultsBean.getRentTime()));
         priceInTota.setText(StringUtils.removeZero(String.valueOf(resultsBean.getDealPrice()))+"元");
-        startTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getBeginTime()), "MM月dd日 HH:mm"));
         endTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm"));
     }
 
