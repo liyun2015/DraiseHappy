@@ -315,7 +315,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
         unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
         //unifieOrderBean.setTotal_fee(String.valueOf(1));
-        unifieOrderBean.setTotal_fee(String.valueOf(resultsBean.getDealPrice()*100));
+        unifieOrderBean.setTotal_fee(String.valueOf((int)(resultsBean.getDealPrice()*100)));
         unifieOrderBean.setTrade_type("APP");
         unifieOrderBean.setSpbill_create_ip(IpUtils.getIp(mContext));
         unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
