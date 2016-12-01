@@ -332,6 +332,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public Boolean call(WXPayProviderBean wxPayProviderBean) {
                         if (wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
+                            if (null != time) {
+                                time.cancel();
+                            }
                             ToastUtil.makeText(mContext, wxPayProviderBean.getMsg());
                         }
                         return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
@@ -399,6 +402,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     @Override
                     public Boolean call(RequestCreatShortRentOrderBean requestCreatShortRentOrderBean) {
                         if (requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
+                            if (null != time) {
+                                time.cancel();
+                            }
                             ToastUtil.makeText(mContext, requestCreatShortRentOrderBean.getMsg());
                         }
                         return requestCreatShortRentOrderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
