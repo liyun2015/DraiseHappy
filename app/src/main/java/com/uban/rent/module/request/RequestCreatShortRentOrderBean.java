@@ -663,7 +663,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             this.officespaceWorkdeskinfo = officespaceWorkdeskinfo;
         }
 
-        public static class OfficespaceWorkdeskinfo  {
+        public static class OfficespaceWorkdeskinfo implements Serializable {
             private int cityId;
             private int dayPrice;
             private int workDeskPrice;

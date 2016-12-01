@@ -154,7 +154,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private String workHoursBegin, workHoursEnd;
     private int workDeskId;
     private boolean timeIsTrue = false;
-    private String isStartTimeDataDay;
+    private String isStartTimeDataDay="";
     private boolean isEndTimeChoose = false;
 
     @Override
