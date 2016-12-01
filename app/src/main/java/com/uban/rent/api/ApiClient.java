@@ -1,6 +1,7 @@
 package com.uban.rent.api;
 
 
+import com.uban.rent.module.ApplyMemberBean;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.LoginInBean;
@@ -28,7 +29,6 @@ import com.uban.rent.module.request.RequestVersion;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.module.request.UnifieOrderBean;
 
-import okhttp3.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -78,7 +78,7 @@ public interface ApiClient {
 
     //申请会员
     @POST("/mainapi/officespaceMemberProvider/applyMember")
-    Observable<BaseResultsBean> getApplyMember(@Body RequestApplyMember requestApplyMember);
+    Observable<ApplyMemberBean> getApplyMember(@Body RequestApplyMember requestApplyMember);
 
     //验证会员
     @POST("/mainapi/officespaceMemberProvider/verifyMember")
