@@ -163,10 +163,12 @@ public class RefundOrderActivity extends BaseActivity {
 
     private void goActivity(Class<?> cls, RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
         Intent orderIntent = new Intent();
+        orderIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
         orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
         bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultsBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
+        finish();
     }
 }
