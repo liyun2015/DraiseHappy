@@ -395,7 +395,8 @@ public class SpaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                String shareTitle = tvSpaceName.getText().toString();
+                String shareTitle = "何处办公？随时随地！";
+                String shareMsg  = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
                 String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/"+mSpaceNamePinyin+".html";
                 UMImage shareImage = new UMImage(mContext,panoramaImages.get(0));
 
@@ -404,9 +405,9 @@ public class SpaceDetailActivity extends BaseActivity {
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
 //                config.setTitleVisibility(false); // 隐藏title
 //                config.setCancelButtonVisibility(false); // 隐藏取消按钮
-                mShareAction.withText("空间详情分享")
+                mShareAction.withTitle(shareTitle)
+                        .withText(shareMsg)
                         .withMedia(shareImage)
-                        .withTitle(shareTitle)
                         .withTargetUrl(shareUrl)
                         .open(config);
 
