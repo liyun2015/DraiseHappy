@@ -446,7 +446,7 @@ public class OrdersDetailActivity extends BaseActivity {
 
     //拨打电话
     private void callPhone() {
-        RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
+        RxPermissions.getInstance(mContext).request(Manifest .permission.CALL_PHONE)
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
@@ -460,12 +460,16 @@ public class OrdersDetailActivity extends BaseActivity {
     }
 
     private void goActivity(Class<?> cls) {
+        if (null != time) {
+            time.cancel();
+        }
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext, cls);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
+        bundle.putSerializable(WXPayEntryActivity.KEY_CREATE_ORDER_RESULTSBEAN, resultDataBean);
         orderIntent.putExtras(bundle);
         startActivity(orderIntent);
+        finish();
     }
 
     private TextView cancel_reason_one;
