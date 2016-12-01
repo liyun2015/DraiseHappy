@@ -545,7 +545,7 @@ public class CreateOrdersActivity extends BaseActivity {
                                 if (Integer.parseInt(hourStr) >= (curHour + 3)) {
                                     timeIsTrue = true;
                                 } else {
-                                    ToastUtil.makeText(mContext, "开始时间必须提前2小时！");
+                                    ToastUtil.makeText(mContext, "会议室或活动场地需提前2小时预定！");
                                     timeIsTrue = false;
                                     setTimeTextView(dateContent);
                                     return;
@@ -561,7 +561,7 @@ public class CreateOrdersActivity extends BaseActivity {
                                 if (Integer.parseInt(hourStr) >= (curHour + 2)) {
                                     timeIsTrue = true;
                                 } else {
-                                    ToastUtil.makeText(mContext, "开始时间必须提前1小时！");
+                                    ToastUtil.makeText(mContext, "需提前1小时预定！");
                                     timeIsTrue = false;
                                     setTimeTextView(dateContent);
                                     return;
