@@ -336,6 +336,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void onTabSelected(TabLayout.Tab tab) {
                 clearOverlay();
                 shortRentFlag = tab.getPosition();
+                if (TextUtils.isEmpty(mCityCode)){//Android 4.4 版本获取不到城市ID,默认城市切换为北京
+                    saveCity(Constants.CITY_ID[0]);
+                }
                 initData();
                 if (shortRentFlag==KEY_ORDER_ALL){
                     StatService.onEvent(mContext, "MainMap_ButtonAllEvent", "pass", 1);
