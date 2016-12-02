@@ -4,7 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -150,7 +150,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int KEY_MEETIONGS_EVENTS = 2;
     private static final String KEY_BUNDLE = "Bundle";
     private LocationClient mLocClient;
-    private MyLocationListenner myListener = new MyLocationListenner();
     private LocationMode mCurrentMode;
     private BitmapDescriptor mCurrentMarker;
     private Marker mMarkerBase;
@@ -174,9 +173,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
+        initView();
         registerEvents();
         registerPermissions();
-        initView();
     }
 
     private void registerPermissions() {
@@ -193,7 +192,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean){
-                            initData();
+                           initData();
                        }else {
                             showSnackbar(getString(R.string.str_location_where_unknow));
                         }
@@ -297,24 +296,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         TextView userPhone = (TextView) view.findViewById(R.id.user_phone);
         userName.setText(HeaderConfig.nickName());
         userPhone.setText(HeaderConfig.phoneNum());
-        ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+        if (TextUtils.isEmpty(HeaderConfig.userHeadImage())){
+            userHeadImage.setBackgroundResource(R.drawable.ic_login_head_image);
+        }else {
+            ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+        }
     }
     private void initView() {
         fabCleanSearch.setVisibility(View.GONE);
-        saveCity(Constants.CITY_ID[0]);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("");
+        toolbarContentText.setText("优办移动办公");
+        toolbarContentText.setTextSize(18);
+        toolbarContentText.setTypeface(Typeface.DEFAULT_BOLD);
 
         initHeadView();
 
-        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
+       /* Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        toolbarContentText.setCompoundDrawables(null,null,drawable,null);
+        toolbarContentText.setCompoundDrawables(null,null,drawable,null);*/
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -419,11 +423,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBaiduMap.setMyLocationEnabled(false);
         // 定位初始化
         mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
+        mLocClient.registerLocationListener(bdLocationListener);
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
+        option.setIsNeedAddress(true);
         mLocClient.setLocOption(option);
         mLocClient.start();
         mapLocationView();
@@ -556,7 +561,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
+                        //showLoadingView();
                     }
                 })
                 .filter(new Func1<SpaceDetailBean, Boolean>() {
@@ -580,8 +585,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         createOrderParamaBean.setSpaceDeskAddress(resultsBean.getAddress());
                         createOrderParamaBean.setSpaceDeskName(resultsBean.getSpaceCnName());
                         createOrderParamaBean.setSpaceDeskId(resultsBean.getOfficespaceBasicinfoId());
-                        loadBottomDataView(resultsBean);//加载弹出列表数据
 
+                        if (resultsBean.getSpaceDeskTypePriceList().size()>0){
+                            loadBottomDataView(resultsBean);//加载弹出列表数据
+                        }else {
+                            ToastUtil.makeText(mContext,"暂无数据");
+                            isShowBottomView(false);
+                        }
 
                     }
                 }, new Action1<Throwable>() {
@@ -600,8 +610,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void loadBottomDataView(SpaceDetailBean.ResultsBean resultsBean) {
         officeSpaceBasicInfoId = resultsBean.getOfficespaceBasicinfoId();
-        String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
-        ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
+        if (resultsBean.getPicList()!=null&&resultsBean.getPicList().size()>0){
+            String imageUrl = String.format(Constants.APP_IMG_URL_240_180,resultsBean.getPicList().get(0).getImgPath());
+            ImageLoadUtils.displayImage(imageUrl,ivMarkerImages);
+        }
         tvMarkerName.setText(resultsBean.getSpaceCnName());
         tvMarkerLocation.setText("距当前位置"+(resultsBean.getDistance()>=1000? StringUtils.removeZero(resultsBean.getDistance()/1000)+"km":StringUtils.removeZero(resultsBean.getDistance())+"m"));
 
@@ -782,24 +794,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
-                locationX = 116.486388;
-                locationY = 40.000828;
-                saveCity(Constants.CITY_ID[0]);
-                LatLng latLngBJ = new LatLng(locationY,locationX);
-                setMapStatus(latLngBJ);
-                initData();
+                initSaveCityBJ();
                 break;
             case R.id.select_city_sh:
                 StatService.onEvent(mContext, "LeftMenu_CitySwitchClickEvent", "pass", 1);
                 isShowBottomView(false);
                 clearOverlay();
                 keyWord = "";
-                locationX = 121.52;
-                locationY = 31.23;
-                saveCity(Constants.CITY_ID[1]);
-                LatLng latLngSH = new LatLng(locationY,locationX);
-                setMapStatus(latLngSH);
-                initData();
+                initSaveCitySH();
                 break;
             case R.id.rl_marker_space_detail:
                 Intent intent = new Intent();
@@ -808,6 +810,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void initSaveCityBJ(){
+        locationX = 116.486388;
+        locationY = 40.000828;
+        saveCity(Constants.CITY_ID[0]);
+        LatLng latLngBJ = new LatLng(locationY,locationX);
+        setMapStatus(latLngBJ);
+        initData();
+    }
+    private void initSaveCitySH(){
+        locationX = 121.52;
+        locationY = 31.23;
+        saveCity(Constants.CITY_ID[1]);
+        LatLng latLngSH = new LatLng(locationY,locationX);
+        setMapStatus(latLngSH);
+        initData();
     }
 
     private void mapLocationView() {
@@ -839,10 +858,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-    /**
-     * 定位SDK监听函数
-     */
-    public class MyLocationListenner implements BDLocationListener {
+
+    private BDLocationListener bdLocationListener = new BDLocationListener() {
+
 
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -856,10 +874,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showSnackbar(getString(R.string.str_location_is_network_success));
             }else if (location.getLocType() == BDLocation.TypeCriteriaException){
                 showSnackbar("无法获取有效定位，" + getString(R.string.str_location_where_unknow));
-                //ToastUtil.makeText(mContext,"无法获取有效定位，" + getString(R.string.str_location_where_unknow));
             }else if (location.getLocType() == LOCATION_WHERE_UNKNOW){
                 showSnackbar(getString(R.string.str_location_where_unknow));
             }
+
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                     // 此处设置开发者获取到的方向信息，顺时针0-360
@@ -873,20 +891,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 MapStatus.Builder builder = new MapStatus.Builder();
                 builder.target(ll);//.zoom(18.0f)
                 mBaiduMap.animateMapStatus(newMapStatus(builder.build()));
+                if (location.getCityCode().equals("131")){//131 北京市  289 上海市
+                    initSaveCityBJ();
+                }else {
+                    initSaveCitySH();
+                }
                 locationY = location.getLatitude();
                 locationX = location.getLongitude();
             }
         }
 
-        public void onReceivePoi(BDLocation poiLocation) {
-        }
-    }
+
+    };
 
     private void showSnackbar(String msg){
         if (isShowSnackbar){
             return;
         }
-        Snackbar.make(mMapView, msg, Snackbar.LENGTH_SHORT)
+        Snackbar.make(mMapView, msg, Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

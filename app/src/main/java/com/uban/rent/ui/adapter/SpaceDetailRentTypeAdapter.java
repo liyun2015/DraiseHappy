@@ -14,7 +14,6 @@ import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.member.MemberCreateActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.member.MemberStatusActivity;
@@ -67,7 +66,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                     }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
                         mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
                     }else if (memberStatus==Constants.MEMBER_STATUS_BE_OVERDUE){
-                        mContext.startActivity(new Intent(mContext,MemberCreateActivity.class));
+                        mContext.startActivity(new Intent(mContext,MemberFirstActivity.class));
                     }
                 }else {
                     StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
