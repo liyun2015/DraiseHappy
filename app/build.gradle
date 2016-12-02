@@ -46,7 +46,7 @@ android {
 // 百度多渠道打包
     productFlavors {
         baidu {}
-        /* wandoujia {}
+        /*wandoujia {}
         quihu360 {}
         xiaomi {}
         tencent {}*/

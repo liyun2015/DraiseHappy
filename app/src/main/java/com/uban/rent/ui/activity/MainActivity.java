@@ -423,15 +423,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
         mBaiduMap = mMapView.getMap();
-
+        mBaiduMap.setMyLocationEnabled(false);// 开启定位图层
+        mLocClient = new LocationClient(this);// 定位初始化
     }
 
     private void initMapViewLocation(){
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(false);
-        // 定位初始化
-        mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(bdLocationListener);
+        mLocClient.registerLocationListener(bdLocationListener);//定位监听
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型

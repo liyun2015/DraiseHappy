@@ -21,12 +21,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        _instance = this;//
+        _instance = this;
         SDKInitializer.initialize(this);
         ImageLoadUtils.initImageLoader(getApplicationContext());
         UMShareAPI.get(this);
-        //开启debug模式，方便定位错误，具体错误检查方式可以查看http://dev.umeng.com/social/android/quick-integration的报错必看，正式发布，请关闭该模式
-        Config.DEBUG = true;
+        Config.DEBUG = false;//http://dev.umeng.com/social/android/quick-integration
     }
 
     //分享各平台初始化配置
