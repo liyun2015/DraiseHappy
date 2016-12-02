@@ -91,7 +91,7 @@ public class WorkplaceDetailBean {
         private String workHoursBegin;
         private int workDeskPriceType;
         private int officespaceWorkdeskinfoId;
-        private int commissionRate;
+        private double commissionRate;
         private int rentTotalArea;
         private int hourPrice;
         private int intentPrice;
@@ -238,11 +238,11 @@ public class WorkplaceDetailBean {
             this.officespaceWorkdeskinfoId = officespaceWorkdeskinfoId;
         }
 
-        public int getCommissionRate() {
+        public double getCommissionRate() {
             return commissionRate;
         }
 
-        public void setCommissionRate(int commissionRate) {
+        public void setCommissionRate(double commissionRate) {
             this.commissionRate = commissionRate;
         }
 

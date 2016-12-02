@@ -90,7 +90,6 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.baidu.location.BDLocation.LOCATION_WHERE_UNKNOW;
 import static com.baidu.mapapi.map.MapStatusUpdateFactory.newMapStatus;
 
 
@@ -165,6 +164,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private CreateOrderParamaBean createOrderParamaBean;
     private boolean mSearchFlag = false;
     private boolean isShowSnackbar = false;
+    private String mCityCode = "";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -174,8 +174,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
         initView();
-        registerEvents();
+        initMapView();
         registerPermissions();
+        registerEvents();
     }
 
     private void registerPermissions() {
@@ -192,7 +193,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean){
-                           initData();
+                            initMapViewLocation();
                        }else {
                             showSnackbar(getString(R.string.str_location_where_unknow));
                         }
@@ -395,7 +396,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
-        initMapView();
+
     }
 
 
@@ -419,6 +420,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
         mBaiduMap = mMapView.getMap();
+
+    }
+
+    private void initMapViewLocation(){
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(false);
         // 定位初始化
@@ -429,6 +434,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
         option.setIsNeedAddress(true);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocClient.setLocOption(option);
         mLocClient.start();
         mapLocationView();
@@ -561,7 +567,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        //showLoadingView();
+                        showLoadingView();
                     }
                 })
                 .filter(new Func1<SpaceDetailBean, Boolean>() {
@@ -874,7 +880,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showSnackbar(getString(R.string.str_location_is_network_success));
             }else if (location.getLocType() == BDLocation.TypeCriteriaException){
                 showSnackbar("无法获取有效定位，" + getString(R.string.str_location_where_unknow));
-            }else if (location.getLocType() == LOCATION_WHERE_UNKNOW){
+            }else if (location.getLocType() == BDLocation.LOCATION_WHERE_UNKNOW){
                 showSnackbar(getString(R.string.str_location_where_unknow));
             }
 
@@ -891,17 +897,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 MapStatus.Builder builder = new MapStatus.Builder();
                 builder.target(ll);//.zoom(18.0f)
                 mBaiduMap.animateMapStatus(newMapStatus(builder.build()));
-                if (location.getCityCode().equals("131")){//131 北京市  289 上海市
-                    initSaveCityBJ();
-                }else {
-                    initSaveCitySH();
+                if (TextUtils.isEmpty(location.getCityCode())){
+                    return;
                 }
+                mCityCode = location.getCityCode();
                 locationY = location.getLatitude();
                 locationX = location.getLongitude();
+                if (mCityCode.equals("131")){//131 北京市  289 上海市
+                    initSaveCityBJ();
+                } else if (mCityCode.equals("289")){
+                    initSaveCitySH();
+                }
             }
         }
-
-
     };
 
     private void showSnackbar(String msg){
