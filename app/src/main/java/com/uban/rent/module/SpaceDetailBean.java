@@ -145,7 +145,7 @@ public class SpaceDetailBean {
         private int marketPrice;
         private int payment;
         private String spaceBusinessArea;
-        private int commissionRate;
+        private double commissionRate;
         private int intentPrice;
         private String spaceBrand;
         private String address;
@@ -540,11 +540,11 @@ public class SpaceDetailBean {
             this.spaceBusinessArea = spaceBusinessArea;
         }
 
-        public int getCommissionRate() {
+        public double getCommissionRate() {
             return commissionRate;
         }
 
-        public void setCommissionRate(int commissionRate) {
+        public void setCommissionRate(double commissionRate) {
             this.commissionRate = commissionRate;
         }
 

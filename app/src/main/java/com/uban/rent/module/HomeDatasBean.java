@@ -124,7 +124,7 @@ public class HomeDatasBean{
             private String artDesc;
             private int businessAreaId;
             private int cityId;
-            private int commissionRate;
+            private double commissionRate;
             private String director;
             private String directorPhone;
             private int distance;
@@ -211,11 +211,11 @@ public class HomeDatasBean{
                 this.cityId = cityId;
             }
 
-            public int getCommissionRate() {
+            public double getCommissionRate() {
                 return commissionRate;
             }
 
-            public void setCommissionRate(int commissionRate) {
+            public void setCommissionRate(double commissionRate) {
                 this.commissionRate = commissionRate;
             }
 

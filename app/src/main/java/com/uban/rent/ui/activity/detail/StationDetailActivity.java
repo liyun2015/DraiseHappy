@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -30,11 +32,13 @@ import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
-import com.uban.rent.ui.adapter.WorkPlaceServiceGradViewAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.StationEquipmentServiceItemAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.WorkPlaceServiceGradViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.banner.LoopViewPager;
 import com.uban.rent.util.Constants;
@@ -275,11 +279,26 @@ public class StationDetailActivity extends BaseActivity {
             equipmentServicesnames.add(serviceListBean.getFieldName());
             equipmentServicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + serviceListBean.getFieldImg());
         }
+        //暂不使用
+        gridviewWorkPlaceDetail.setAdapter(new WorkPlaceServiceGradViewAdapter(mContext, resultsBean.getServiceList(), gridviewWorkPlaceDetail));
+
+        //设备和服务
+        RecyclerView recycle_view_station_service_equipment = (RecyclerView) findViewById(R.id.recycle_view_station_service_equipment);
+        StationEquipmentServiceItemAdapter spaceEquipmentItemAdapter = new StationEquipmentServiceItemAdapter(mContext,resultsBean.getServiceList());
+        setLinearLayoutManager(recycle_view_station_service_equipment);
+        recycle_view_station_service_equipment.setAdapter(spaceEquipmentItemAdapter);
+    }
+
+    private void setLinearLayoutManager(RecyclerView recyclerView){
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
     private void initDataView(WorkplaceDetailBean.ResultsBean resultsBean) {
         setaEquipmentServiceList(resultsBean);
         setBannerImags(resultsBean);
-        gridviewWorkPlaceDetail.setAdapter(new WorkPlaceServiceGradViewAdapter(mContext, resultsBean.getServiceList(), gridviewWorkPlaceDetail));
+
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvWorkplaceName.setText(resultsBean.getSpaceCnName());
         tvWorkplaceStation.setText(String.valueOf(resultsBean.getRentNum()));
@@ -458,19 +477,23 @@ public class StationDetailActivity extends BaseActivity {
                 startActivity(serviceIntent);
                 break;
             case R.id.order_create:
-                if (wordDeskType==Constants.HOT_DESK_TYPE){
-                    StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
-                    if (HeaderConfig.isMemberStatus()){
-                        startActivity(new Intent(mContext,MemberFinalActivity.class));
+                if (HeaderConfig.isEmptyUbanToken()){
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }else{
+                    if (wordDeskType==Constants.HOT_DESK_TYPE){
+                        StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
+                        if (HeaderConfig.isMemberStatus()){
+                            startActivity(new Intent(mContext,MemberFinalActivity.class));
+                        }else {
+                            startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        }
                     }else {
-                        startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
+                        Intent orderIntent = new Intent();
+                        orderIntent.setClass(mContext,CreateOrdersActivity.class);
+                        orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                        startActivity(orderIntent);
                     }
-                }else {
-                    StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
-                    Intent orderIntent = new Intent();
-                    orderIntent.setClass(mContext,CreateOrdersActivity.class);
-                    orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                    startActivity(orderIntent);
                 }
                 break;
         }

@@ -678,7 +678,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             private String workHoursBegin;
             private int workDeskPriceType;
             private int officespaceWorkdeskinfoId;
-            private int commissionRate;
+            private double commissionRate;
             private int rentTotalArea;
             private int hourPrice;
             private int intentPrice;
@@ -802,11 +802,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
                 this.officespaceWorkdeskinfoId = officespaceWorkdeskinfoId;
             }
 
-            public int getCommissionRate() {
+            public double getCommissionRate() {
                 return commissionRate;
             }
 
-            public void setCommissionRate(int commissionRate) {
+            public void setCommissionRate(double commissionRate) {
                 this.commissionRate = commissionRate;
             }
 
@@ -897,7 +897,7 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             private String artDesc;
             private int businessAreaId;
             private int cityId;
-            private int commissionRate;
+            private double commissionRate;
             private String director;
             private String directorPhone;
             private int districtId;
@@ -1008,11 +1008,11 @@ public class RequestCreatShortRentOrderBean implements Serializable{
                 this.cityId = cityId;
             }
 
-            public int getCommissionRate() {
+            public double getCommissionRate() {
                 return commissionRate;
             }
 
-            public void setCommissionRate(int commissionRate) {
+            public void setCommissionRate(double commissionRate) {
                 this.commissionRate = commissionRate;
             }
 

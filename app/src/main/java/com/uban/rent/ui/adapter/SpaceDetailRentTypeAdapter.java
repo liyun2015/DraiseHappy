@@ -14,7 +14,7 @@ import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.member.MemberCreateActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.member.MemberStatusActivity;
@@ -57,26 +57,30 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
-                    StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
-                    int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
-                    if (memberStatus==Constants.MEMBER_STATUS_NOT){
-                        mContext.startActivity(new Intent(mContext, MemberFirstActivity.class));
-                    }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
-                        mContext.startActivity(new Intent(mContext, MemberStatusActivity.class));
-                    }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
-                        mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
-                    }else if (memberStatus==Constants.MEMBER_STATUS_BE_OVERDUE){
-                        mContext.startActivity(new Intent(mContext,MemberCreateActivity.class));
-                    }
+                if (HeaderConfig.isEmptyUbanToken()){
+                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 }else {
-                    StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
-                    StatService.onEvent(mContext, "MainMap_OrderBtnClickEvent", "pass", 1);
-                    RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, CreateOrdersActivity.class);
-                    intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                    mContext.startActivity(intent);
+                    if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
+                        StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
+                        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
+                        if (memberStatus==Constants.MEMBER_STATUS_NOT){
+                            mContext.startActivity(new Intent(mContext, MemberFirstActivity.class));
+                        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
+                            mContext.startActivity(new Intent(mContext, MemberStatusActivity.class));
+                        }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
+                            mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
+                        }else if (memberStatus==Constants.MEMBER_STATUS_BE_OVERDUE){
+                            mContext.startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        }
+                    }else {
+                        StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
+                        StatService.onEvent(mContext, "MainMap_OrderBtnClickEvent", "pass", 1);
+                        RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, CreateOrdersActivity.class);
+                        intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                        mContext.startActivity(intent);
+                    }
                 }
             }
         });

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
-import com.uban.rent.ui.adapter.EquipmentServiceAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.EquipmentServiceAdapter;
 
 import java.util.ArrayList;
 

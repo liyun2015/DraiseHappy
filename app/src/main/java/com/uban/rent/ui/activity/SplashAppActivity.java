@@ -9,22 +9,16 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.uban.rent.R;
-import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.VersionBean;
 import com.uban.rent.module.request.RequestVersion;
-import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.welcome.WelcomeActivity;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
 import com.uban.rent.util.AppUtils;
 import com.uban.rent.util.Constants;
 
-import java.util.concurrent.TimeUnit;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -39,19 +33,6 @@ public class SplashAppActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-
-        Observable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
-                    }
-                });
         initData();
     }
 
@@ -120,11 +101,7 @@ public class SplashAppActivity extends BaseActivity {
             saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
         }else {
-            if (HeaderConfig.isEmptyUbanToken()){
-                goActivity(LoginActivity.class);
-            }else {
-                goActivity(MainActivity.class);
-            }
+            goActivity(MainActivity.class);
         }
     }
 

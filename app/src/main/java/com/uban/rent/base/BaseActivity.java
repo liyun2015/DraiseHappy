@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.uban.rent.App;
-import com.uban.rent.ui.activity.member.MemberCreateActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.member.MemberStatusActivity;
@@ -52,7 +51,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
             startActivity(new Intent(mContext, MemberFinalActivity.class));
         }else if (memberStatus == Constants.MEMBER_STATUS_BE_OVERDUE){
-            startActivity(new Intent(mContext, MemberCreateActivity.class));
+            startActivity(new Intent(mContext, MemberFirstActivity.class));
         }
     }
 

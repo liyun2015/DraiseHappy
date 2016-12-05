@@ -26,7 +26,6 @@ import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
 import com.uban.rent.module.request.RequestVerifyMember;
-import com.uban.rent.ui.activity.MainActivity;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -214,7 +213,6 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
                         SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
                         SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
-                        startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
                 }, new Action1<Throwable>() {

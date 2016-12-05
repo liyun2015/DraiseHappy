@@ -100,7 +100,7 @@ public class MemberCreateActivity extends BaseActivity {
         toolbarContentText.setText("优办会员");
         createMemberPhone.setText(mCreatePhone);
 
-        SpannableString createMemberPriceSpannableString = new SpannableString("500");
+        SpannableString createMemberPriceSpannableString = new SpannableString("1000");
         StrikethroughSpan createMemberPriceStrikethroughSpan = new StrikethroughSpan();
         createMemberPriceSpannableString.setSpan(createMemberPriceStrikethroughSpan, 0, createMemberPriceSpannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         createMemberPrice.setText(createMemberPriceSpannableString);
@@ -160,6 +160,11 @@ public class MemberCreateActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 申请会员
+     * @param name
+     * @param phone
+     */
    private void initData(String name,String phone){
        RequestApplyMember requestApplyMember = new RequestApplyMember();
        requestApplyMember.setPhone(phone);
@@ -184,7 +189,7 @@ public class MemberCreateActivity extends BaseActivity {
                .subscribe(new Action1<ApplyMemberBean>() {
                    @Override
                    public void call(ApplyMemberBean baseResultsBean) {
-                       SPUtils.put(mContext,Constants.USER_MEMBER,String.valueOf(baseResultsBean.getResults().getStatus()));
+                       SPUtils.put(mContext,Constants.USER_MEMBER,baseResultsBean.getResults().getStatus());
                        startActivity(new Intent(mContext,MemberStatusActivity.class));
                        finish();
                    }

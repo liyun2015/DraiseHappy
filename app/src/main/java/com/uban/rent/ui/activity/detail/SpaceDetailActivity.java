@@ -8,6 +8,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -35,8 +37,10 @@ import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
 import com.uban.rent.ui.activity.components.PanoramaActivity;
 import com.uban.rent.ui.activity.components.SupportingActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
-import com.uban.rent.ui.adapter.EquipmentGridViewAdapter;
-import com.uban.rent.ui.adapter.ServiceGridViewAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.EquipmentGridViewAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.SpaceEquipmentItemAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.ServiceGridViewAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.SpaceServiceItemAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
@@ -278,10 +282,33 @@ public class SpaceDetailActivity extends BaseActivity {
             servicesImages.add(Constants.APP_IMG_URL_EQUIPMENT_SERVICE + serviceListBean.getFieldImg());
             servicesnames.add(serviceListBean.getFieldName());
         }
+
+        //暂不使用
+        @Deprecated
         EquipmentGridViewAdapter equipmentGridViewAdapter = new EquipmentGridViewAdapter(mContext, resultsBean.getEquipmentList(), gridviewEquipmentSpaceDetail);
         gridviewEquipmentSpaceDetail.setAdapter(equipmentGridViewAdapter);
         ServiceGridViewAdapter serviceGridViewAdapter = new ServiceGridViewAdapter(mContext, resultsBean.getServiceList(), gridviewServiceSpaceDetail);
         gridviewServiceSpaceDetail.setAdapter(serviceGridViewAdapter);
+
+
+        //硬件配套
+        RecyclerView equipmentRecycle = (RecyclerView) findViewById(R.id.recycle_view_equipment);
+        SpaceEquipmentItemAdapter spaceEquipmentItemAdapter = new SpaceEquipmentItemAdapter(mContext,resultsBean.getEquipmentList());
+        setLinearLayoutManager(equipmentRecycle);
+        equipmentRecycle.setAdapter(spaceEquipmentItemAdapter);
+        //企业服务
+        RecyclerView serviceRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_service);
+        SpaceServiceItemAdapter spaceServiceItemAdapter = new SpaceServiceItemAdapter(mContext,resultsBean.getServiceList());
+        setLinearLayoutManager(serviceRecyclerView);
+        serviceRecyclerView.setAdapter(spaceServiceItemAdapter);
+
+    }
+
+    private void setLinearLayoutManager(RecyclerView recyclerView){
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     private void initViewData(SpaceDetailBean.ResultsBean resultsBean) {

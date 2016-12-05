@@ -1,4 +1,4 @@
-package com.uban.rent.ui.adapter;
+package com.uban.rent.ui.adapter.equipmentservice.deprecated;
 
 import android.content.Context;
 import android.view.View;
