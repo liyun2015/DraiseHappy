@@ -558,7 +558,7 @@ public class SpaceDetailActivity extends BaseActivity {
                     houseDetailPanorama.putExtra(PanoramaActivity.PANORAMA_IMAGE_DESC, panoramaDesc);
                     startActivity(houseDetailPanorama);
                 } else {
-                    ToastUtil.makeText(mContext, "全景拍摄中");
+                    ToastUtil.makeText(mContext, "暂无全景");
                 }
                 break;
             case R.id.rl_supporting:
