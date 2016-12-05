@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.uban.rent.R;
-import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.ui.activity.MainActivity;
-import com.uban.rent.ui.activity.components.LoginActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,11 +43,7 @@ public class FourSlide extends Fragment {
 
     @OnClick(R.id.btn_welcome_submit)
     public void onClick() {
-        if (HeaderConfig.isEmptyUbanToken()){
-            goActivity(LoginActivity.class);
-        }else {
-            goActivity(MainActivity.class);
-        }
+        goActivity(MainActivity.class);
     }
 
     private void goActivity(Class<?> cls) {

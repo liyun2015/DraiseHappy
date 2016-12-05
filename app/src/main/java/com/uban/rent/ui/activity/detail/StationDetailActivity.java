@@ -32,6 +32,7 @@ import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
@@ -476,19 +477,23 @@ public class StationDetailActivity extends BaseActivity {
                 startActivity(serviceIntent);
                 break;
             case R.id.order_create:
-                if (wordDeskType==Constants.HOT_DESK_TYPE){
-                    StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
-                    if (HeaderConfig.isMemberStatus()){
-                        startActivity(new Intent(mContext,MemberFinalActivity.class));
+                if (HeaderConfig.isEmptyUbanToken()){
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }else{
+                    if (wordDeskType==Constants.HOT_DESK_TYPE){
+                        StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
+                        if (HeaderConfig.isMemberStatus()){
+                            startActivity(new Intent(mContext,MemberFinalActivity.class));
+                        }else {
+                            startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        }
                     }else {
-                        startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
+                        Intent orderIntent = new Intent();
+                        orderIntent.setClass(mContext,CreateOrdersActivity.class);
+                        orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                        startActivity(orderIntent);
                     }
-                }else {
-                    StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
-                    Intent orderIntent = new Intent();
-                    orderIntent.setClass(mContext,CreateOrdersActivity.class);
-                    orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                    startActivity(orderIntent);
                 }
                 break;
         }

@@ -67,6 +67,7 @@ import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
 import com.uban.rent.module.request.RequestVerifyMember;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
@@ -708,11 +709,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id) {
             case R.id.nav_member:
                 StatService.onEvent(mContext, "LeftMenu_UbanMemberClickEvent", "pass", 1);
-                memberStatus();
+                if (HeaderConfig.isEmptyUbanToken()){
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }else {
+                    memberStatus();
+                }
                 break;
             case R.id.nav_order:
                 StatService.onEvent(mContext, "LeftMenu_OrderClickEvent", "pass", 1);
-                goActivity(OrderListActivity.class);
+                if (HeaderConfig.isEmptyUbanToken()){
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }else {
+                    goActivity(OrderListActivity.class);
+                }
                 break;
             case R.id.nav_setting:
                 StatService.onEvent(mContext, "LeftMenu_SettingClickEvent", "pass", 1);
