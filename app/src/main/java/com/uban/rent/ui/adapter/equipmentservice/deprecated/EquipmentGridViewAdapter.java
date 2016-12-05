@@ -1,8 +1,9 @@
-package com.uban.rent.ui.adapter;
+package com.uban.rent.ui.adapter.equipmentservice.deprecated;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,30 +25,35 @@ import butterknife.ButterKnife;
  * Email dawabo@163.com
  */
 
-public class ServiceGridViewAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.ServiceListBean, GridView> {
+public class EquipmentGridViewAdapter extends UBBaseAdapter<SpaceDetailBean.ResultsBean.EquipmentListBean, GridView> {
 
     private GridView gridView;
-    public ServiceGridViewAdapter(Context context, List<SpaceDetailBean.ResultsBean.ServiceListBean> list, GridView view) {
+    public static final int ROW_NUMBER = 1;
+    public EquipmentGridViewAdapter(Context context, List<SpaceDetailBean.ResultsBean.EquipmentListBean> list, GridView view) {
         super(context, list, view);
         this.gridView = view;
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        final SpaceDetailBean.ResultsBean.ServiceListBean serviceListBean = list.get(i);
+        final SpaceDetailBean.ResultsBean.EquipmentListBean spaceDeskTypePriceListBean = list.get(i);
         ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_detail_service_equipment, null);
+            AbsListView.LayoutParams param = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gridView.getHeight()/ROW_NUMBER);
+            convertView.setLayoutParams(param);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.bind(serviceListBean);
+
+
+        holder.bind(spaceDeskTypePriceListBean);
         return convertView;
     }
 
-    public void changeData(List<SpaceDetailBean.ResultsBean.ServiceListBean> list) {
+    public void changeData(List<SpaceDetailBean.ResultsBean.EquipmentListBean> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -62,9 +68,9 @@ public class ServiceGridViewAdapter extends UBBaseAdapter<SpaceDetailBean.Result
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-        public void bind(SpaceDetailBean.ResultsBean.ServiceListBean serviceListBean){
-            ImageLoadUtils.displayImage(Constants.APP_IMG_URL_EQUIPMENT_SERVICE+serviceListBean.getFieldImg(),ivServiceEquipmentImage);
-            tvServiceEquipmentText.setText(serviceListBean.getFieldName());
+        public void bind(SpaceDetailBean.ResultsBean.EquipmentListBean spaceDeskTypePriceListBean){
+            tvServiceEquipmentText.setText(spaceDeskTypePriceListBean.getFieldName());
+            ImageLoadUtils.displayImage(Constants.APP_IMG_URL_EQUIPMENT_SERVICE+spaceDeskTypePriceListBean.getFieldImg(),ivServiceEquipmentImage);
         }
     }
 }

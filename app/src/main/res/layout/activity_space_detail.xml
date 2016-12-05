@@ -266,11 +266,17 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view_equipment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
                 <!--
            1.Android:numColumns=”auto_fit”   //GridView的列数设置为自动
            2.android:columnWidth=”90dp "       //每列的宽度，也就是Item的宽度
@@ -288,6 +294,7 @@
            14.android:transcriptMode="alwaysScroll" //当你动态添加数据时，列表将自动往下滚动最新的条目可以自动滚动到可视范围内
            15.android:drawSelectorOnTop="false"  //点击某条记录不放，颜色会在记录的后面成为背景色,内容的文字可见(缺省为false)
            -->
+
                 <GridView
                     android:id="@+id/gridview_equipment_space_detail"
                     android:layout_width="0dp"
@@ -326,11 +333,17 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
 
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view_service"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <GridView
                     android:id="@+id/gridview_service_space_detail"
@@ -360,13 +373,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/divider_1" />
 
             <TextView
                 android:layout_width="wrap_content"

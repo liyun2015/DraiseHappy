@@ -21,10 +21,6 @@ import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
 import com.uban.rent.util.AppUtils;
 import com.uban.rent.util.Constants;
 
-import java.util.concurrent.TimeUnit;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -39,19 +35,6 @@ public class SplashAppActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-
-        Observable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
-                    }
-                });
         initData();
     }
 
