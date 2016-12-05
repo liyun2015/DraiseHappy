@@ -53,10 +53,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.uban.rent.R.id.recycle_view_station_service_equipment;
 
 
 /**
@@ -103,17 +106,24 @@ public class StationDetailActivity extends BaseActivity {
     GridView gridviewWorkPlaceDetail;
     @Bind(R.id.iv_show_equipment_service_list)
     ImageView ivShowEquipmentServiceList;
+    @Bind(R.id.view_bottom)
+    View viewBottom;
+    @Bind(R.id.ll_station_numbers)
+    LinearLayout llStationNumbers;
+    @Bind(recycle_view_station_service_equipment)
+    RecyclerView recycleViewStationServiceEquipment;
     private RequestGoSpaceDetail requestGoSpaceDetail;
     private int mWorkPlaceId;
     private int mPrice;
     private int mPriceType;
     private int wordDeskType;
-    private static final String[] TITLE_PRICE_TYPE = new String[]{"","元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
+    private static final String[] TITLE_PRICE_TYPE = new String[]{"", "元/时 (时租)", "元/天 (日租)", "元/月 (月租)"};
     private ArrayList<String> equipmentServicesImages;
     private ArrayList<String> equipmentServicesnames;
     private CreateOrderParamaBean createOrderParamaBean;
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -142,9 +152,9 @@ public class StationDetailActivity extends BaseActivity {
 
     private void registerScheme() {
         Intent intent = getIntent();
-            Uri uri = intent.getData();
-            if (uri != null) {
-                String query = uri.getQuery();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            String query = uri.getQuery();
             /**
              *     private int spaceDetailId;
              private double locationX;
@@ -187,7 +197,7 @@ public class StationDetailActivity extends BaseActivity {
 
             mWorkPlaceId = Integer.parseInt(stationDetailId);
             mPriceType = Integer.parseInt(orderPriceType);
-        }else {
+        } else {
             requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL);
             RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
             mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
@@ -283,18 +293,18 @@ public class StationDetailActivity extends BaseActivity {
         gridviewWorkPlaceDetail.setAdapter(new WorkPlaceServiceGradViewAdapter(mContext, resultsBean.getServiceList(), gridviewWorkPlaceDetail));
 
         //设备和服务
-        RecyclerView recycle_view_station_service_equipment = (RecyclerView) findViewById(R.id.recycle_view_station_service_equipment);
-        StationEquipmentServiceItemAdapter spaceEquipmentItemAdapter = new StationEquipmentServiceItemAdapter(mContext,resultsBean.getServiceList());
-        setLinearLayoutManager(recycle_view_station_service_equipment);
-        recycle_view_station_service_equipment.setAdapter(spaceEquipmentItemAdapter);
+        StationEquipmentServiceItemAdapter spaceEquipmentItemAdapter = new StationEquipmentServiceItemAdapter(mContext, resultsBean.getServiceList());
+        setLinearLayoutManager(recycleViewStationServiceEquipment);
+        recycleViewStationServiceEquipment.setAdapter(spaceEquipmentItemAdapter);
     }
 
-    private void setLinearLayoutManager(RecyclerView recyclerView){
+    private void setLinearLayoutManager(RecyclerView recyclerView) {
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
+
     private void initDataView(WorkplaceDetailBean.ResultsBean resultsBean) {
         setaEquipmentServiceList(resultsBean);
         setBannerImags(resultsBean);
@@ -307,18 +317,20 @@ public class StationDetailActivity extends BaseActivity {
         tvWorkplaceTime.setText(resultsBean.getWorkTime());
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
         wordDeskType = resultsBean.getWorkDeskType();
-        if (resultsBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
+        if (resultsBean.getWorkDeskType() == Constants.HOT_DESK_TYPE) {
+            llStationNumbers.setVisibility(View.GONE);
             tvPriceType.setVisibility(View.GONE);
             tvPrice.setText("会员免费");
-            orderCreate.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
-        }else{
+            orderCreate.setText(HeaderConfig.isMemberStatus() ? "我的会员" : "成为会员");
+        } else {
+            llStationNumbers.setVisibility(View.VISIBLE);
             tvPriceType.setVisibility(View.VISIBLE);
             tvPriceType.setText(TITLE_PRICE_TYPE[mPriceType]);
-            if (mPriceType==Constants.RENT_HOUSE){
+            if (mPriceType == Constants.RENT_HOUSE) {
                 mPrice = resultsBean.getHourPrice();
-            }else if (mPriceType==Constants.RENT_DAY){
+            } else if (mPriceType == Constants.RENT_DAY) {
                 mPrice = resultsBean.getDayPrice();
-            }else if (mPriceType==Constants.RENT_MONTH){
+            } else if (mPriceType == Constants.RENT_MONTH) {
                 mPrice = resultsBean.getWorkDeskPrice();
             }
             tvPrice.setText(String.valueOf(mPrice));
@@ -366,8 +378,8 @@ public class StationDetailActivity extends BaseActivity {
                 break;
             case R.id.action_share:
                 String shareTitle = "何处办公？随时随地！";
-                String shareMsg  = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
-                String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/gongwei-"+mWorkPlaceId+".html?orderType="+mPriceType;
+                String shareMsg = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
+                String shareUrl = "http://m.uban.com/" + HeaderConfig.cityShorthand() + "/yidongbangong/gongwei-" + mWorkPlaceId + ".html?orderType=" + mPriceType;
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
@@ -397,6 +409,13 @@ public class StationDetailActivity extends BaseActivity {
         mShareAction.close();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<StationDetailActivity> mActivity;
@@ -409,21 +428,21 @@ public class StationDetailActivity extends BaseActivity {
         public void onResult(SHARE_MEDIA platform) {
 
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-               // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
-                ToastUtil.makeText(mActivity.get(),"收藏成功啦");
+                // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mActivity.get(), "收藏成功啦");
             } else {
-                if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
-                        &&platform!=SHARE_MEDIA.EMAIL
-                        &&platform!=SHARE_MEDIA.FLICKR
-                        &&platform!=SHARE_MEDIA.FOURSQUARE
-                        &&platform!=SHARE_MEDIA.TUMBLR
-                        &&platform!=SHARE_MEDIA.POCKET
-                        &&platform!=SHARE_MEDIA.PINTEREST
-                        &&platform!=SHARE_MEDIA.LINKEDIN
-                        &&platform!=SHARE_MEDIA.INSTAGRAM
-                        &&platform!=SHARE_MEDIA.GOOGLEPLUS
-                        &&platform!=SHARE_MEDIA.YNOTE
-                        &&platform!=SHARE_MEDIA.EVERNOTE){
+                if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                        && platform != SHARE_MEDIA.EMAIL
+                        && platform != SHARE_MEDIA.FLICKR
+                        && platform != SHARE_MEDIA.FOURSQUARE
+                        && platform != SHARE_MEDIA.TUMBLR
+                        && platform != SHARE_MEDIA.POCKET
+                        && platform != SHARE_MEDIA.PINTEREST
+                        && platform != SHARE_MEDIA.LINKEDIN
+                        && platform != SHARE_MEDIA.INSTAGRAM
+                        && platform != SHARE_MEDIA.GOOGLEPLUS
+                        && platform != SHARE_MEDIA.YNOTE
+                        && platform != SHARE_MEDIA.EVERNOTE) {
                     //Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
@@ -432,20 +451,20 @@ public class StationDetailActivity extends BaseActivity {
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
-                    &&platform!=SHARE_MEDIA.EMAIL
-                    &&platform!=SHARE_MEDIA.FLICKR
-                    &&platform!=SHARE_MEDIA.FOURSQUARE
-                    &&platform!=SHARE_MEDIA.TUMBLR
-                    &&platform!=SHARE_MEDIA.POCKET
-                    &&platform!=SHARE_MEDIA.PINTEREST
-                    &&platform!=SHARE_MEDIA.LINKEDIN
-                    &&platform!=SHARE_MEDIA.INSTAGRAM
-                    &&platform!=SHARE_MEDIA.GOOGLEPLUS
-                    &&platform!=SHARE_MEDIA.YNOTE
-                    &&platform!=SHARE_MEDIA.EVERNOTE){
+            if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                    && platform != SHARE_MEDIA.EMAIL
+                    && platform != SHARE_MEDIA.FLICKR
+                    && platform != SHARE_MEDIA.FOURSQUARE
+                    && platform != SHARE_MEDIA.TUMBLR
+                    && platform != SHARE_MEDIA.POCKET
+                    && platform != SHARE_MEDIA.PINTEREST
+                    && platform != SHARE_MEDIA.LINKEDIN
+                    && platform != SHARE_MEDIA.INSTAGRAM
+                    && platform != SHARE_MEDIA.GOOGLEPLUS
+                    && platform != SHARE_MEDIA.YNOTE
+                    && platform != SHARE_MEDIA.EVERNOTE) {
                 //Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                ToastUtil.makeText(mActivity.get(),"分享失败啦");
+                ToastUtil.makeText(mActivity.get(), "分享失败啦");
                 if (t != null) {
                     com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
                 }
@@ -456,11 +475,11 @@ public class StationDetailActivity extends BaseActivity {
         @Override
         public void onCancel(SHARE_MEDIA platform) {
 
-           // Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list,R.id.order_create})
+    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list, R.id.order_create})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_go_space_detail:
@@ -477,36 +496,37 @@ public class StationDetailActivity extends BaseActivity {
                 startActivity(serviceIntent);
                 break;
             case R.id.order_create:
-                if (HeaderConfig.isEmptyUbanToken()){
+                if (HeaderConfig.isEmptyUbanToken()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
-                }else{
-                    if (wordDeskType==Constants.HOT_DESK_TYPE){
+                } else {
+                    if (wordDeskType == Constants.HOT_DESK_TYPE) {
                         StatService.onEvent(mContext, "StationDetail_ToBeMemberEvent", "pass", 1);
-                        if (HeaderConfig.isMemberStatus()){
-                            startActivity(new Intent(mContext,MemberFinalActivity.class));
-                        }else {
-                            startActivity(new Intent(mContext,MemberFirstActivity.class));
+                        if (HeaderConfig.isMemberStatus()) {
+                            startActivity(new Intent(mContext, MemberFinalActivity.class));
+                        } else {
+                            startActivity(new Intent(mContext, MemberFirstActivity.class));
                         }
-                    }else {
+                    } else {
                         StatService.onEvent(mContext, "StationDetail_OrderBtnEvent", "pass", 1);
                         Intent orderIntent = new Intent();
-                        orderIntent.setClass(mContext,CreateOrdersActivity.class);
-                        orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                        orderIntent.setClass(mContext, CreateOrdersActivity.class);
+                        orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN, createOrderParamaBean);
                         startActivity(orderIntent);
                     }
                 }
                 break;
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPageEnd(mContext,"工位详情页");
+        StatService.onPageEnd(mContext, "工位详情页");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onPageStart(mContext,"工位详情页");
+        StatService.onPageStart(mContext, "工位详情页");
     }
 }
