@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -172,6 +174,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return R.layout.activity_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
@@ -310,6 +313,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 加载头像view
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initHeadView(boolean isLogin) {
         View view = navigationView.getHeaderView(0);
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
@@ -324,7 +328,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             });
         } else {
-            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
+            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image,getTheme()));
             userName.setText("点击头像登录");
             userHeadImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -334,6 +338,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initView() {
         fabCleanSearch.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
@@ -342,15 +347,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("优办移动办公");
-        toolbarContentText.setTextSize(18);
-        toolbarContentText.setTypeface(Typeface.DEFAULT_BOLD);
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo,getTheme());
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        toolbarContentText.setCompoundDrawables(null,null,drawable,null);
+        toolbarContentText.setText("");
 
         initHeadView(!HeaderConfig.isEmptyUbanToken());
 
-       /* Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        toolbarContentText.setCompoundDrawables(null,null,drawable,null);*/
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
