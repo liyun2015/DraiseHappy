@@ -58,6 +58,7 @@ import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.SearchHomeViewEvents;
+import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
@@ -223,6 +224,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     }
                 })
                 .create();
+
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_USER_LOGIN)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        UserLoginEvents userLoginEvents = events.getContent();
+                        boolean isLogin = userLoginEvents.isLoginIn();
+                        initHeadView(isLogin);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                })
+                .create();
     }
 
     private double locationX = 116.486388;
@@ -291,17 +310,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 加载头像view
      */
-    private void initHeadView() {
+    private void initHeadView(boolean isLogin) {
         View view = navigationView.getHeaderView(0);
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
-        TextView userPhone = (TextView) view.findViewById(R.id.user_phone);
-        userName.setText(HeaderConfig.nickName());
-        userPhone.setText(HeaderConfig.phoneNum());
-        if (TextUtils.isEmpty(HeaderConfig.userHeadImage())){
-            userHeadImage.setBackgroundResource(R.drawable.ic_login_head_image);
-        }else {
+
+        if (isLogin){
             ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+            userName.setText(HeaderConfig.nickName());
+            userHeadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+        } else {
+            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
+            userName.setText("点击头像登录");
+            userHeadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goActivity(LoginActivity.class);
+                }
+            });
         }
     }
     private void initView() {
@@ -316,7 +346,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toolbarContentText.setTextSize(18);
         toolbarContentText.setTypeface(Typeface.DEFAULT_BOLD);
 
-        initHeadView();
+        initHeadView(!HeaderConfig.isEmptyUbanToken());
 
        /* Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());

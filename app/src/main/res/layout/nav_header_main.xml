@@ -37,16 +37,6 @@
                android:layout_height="wrap_content"
                android:text="用户名"
                android:textSize="16sp"
-               android:visibility="gone"
-               android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-           <TextView
-               android:id="@+id/user_phone"
-               android:layout_marginTop="5dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center_vertical"
-               android:text="手机号"
-               android:textSize="16sp"
                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
        </LinearLayout>
    </LinearLayout>
