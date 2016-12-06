@@ -12,12 +12,15 @@ import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.VersionBean;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.module.request.RequestVersion;
 import com.uban.rent.ui.activity.welcome.WelcomeActivity;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
 import com.uban.rent.util.AppUtils;
 import com.uban.rent.util.Constants;
+import com.uban.rent.util.SPUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +45,7 @@ public class SplashAppActivity extends BaseActivity {
                     @Override
                     public void call(Long aLong) {
                         initData();
+                        memberStatus();
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -50,7 +54,53 @@ public class SplashAppActivity extends BaseActivity {
                     }
                 });
     }
+    private void memberStatus() {
 
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size() > 0;
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                    }
+                });
+    }
     private void initData() {
         RequestVersion requestVersion = new RequestVersion();
         requestVersion.setAppType(Constants.APP_TYPE);
