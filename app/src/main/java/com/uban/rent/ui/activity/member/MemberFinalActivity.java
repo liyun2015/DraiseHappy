@@ -133,6 +133,15 @@ public class MemberFinalActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
                         return verifyMemberBean.getResults().size() > 0;
                     }
                 })

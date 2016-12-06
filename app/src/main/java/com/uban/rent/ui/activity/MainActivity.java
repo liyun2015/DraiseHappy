@@ -790,10 +790,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         return verifyMemberBean != null;
                     }
                 })
+
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
