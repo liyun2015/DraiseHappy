@@ -258,11 +258,6 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
-                        } else if (verifyMemberBean.getStatusCode() == 2) {//会员已过期
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
-                        }
                         return verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
@@ -276,12 +271,12 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
                     }
                 });
     }

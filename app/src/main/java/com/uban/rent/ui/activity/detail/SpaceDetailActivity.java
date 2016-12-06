@@ -422,10 +422,15 @@ public class SpaceDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
+                UMImage shareImage;
                 String shareTitle = "何处办公？随时随地！";
                 String shareMsg  = "在线预定短租工位、会议室，让工作更轻松！下载优办移动办公！";
                 String shareUrl = "http://m.uban.com/"+HeaderConfig.cityShorthand()+"/yidongbangong/"+mSpaceNamePinyin+".html";
-                UMImage shareImage = new UMImage(mContext,panoramaImages.get(0));
+                if (panoramaImages.size()<=0){
+                    shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
+                }else {
+                    shareImage = new UMImage(mContext,panoramaImages.get(0));
+                }
 
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);

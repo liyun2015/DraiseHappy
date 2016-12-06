@@ -52,6 +52,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.uban.rent.App;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
@@ -74,6 +75,8 @@ import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
@@ -769,6 +772,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void memberStatus() {
+
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
@@ -777,42 +781,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
-                        }else if (verifyMemberBean.getStatusCode() ==  2){//会员已过期
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
-                        }
-                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                        return verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size()>0;
+                        return verifyMemberBean.getResults().size() > 0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
-
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员\
                         BaseActivityMemberStatusGoView();
                     }
                 }, new Action0() {
@@ -821,6 +820,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         BaseActivityMemberStatusGoView();
                     }
                 });
+    }
+
+    public void BaseActivityMemberStatusGoView(){
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,Constants.MEMBER_STATUS_NOT);
+        if (memberStatus==Constants.MEMBER_STATUS_NOT){
+            startActivity(new Intent(mContext, MemberFirstActivity.class));
+        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){
+            startActivity(new Intent(mContext, MemberFinalActivity.class));
+        }
     }
 
     @OnClick({R.id.fab_clean_search, R.id.fab_location, R.id.btn_close_list, R.id.select_city_bj, R.id.select_city_sh,R.id.rl_marker_space_detail})
