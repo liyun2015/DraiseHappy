@@ -192,7 +192,6 @@ public class MemberCreateActivity extends BaseActivity {
                .subscribe(new Action1<ApplyMemberBean>() {
                    @Override
                    public void call(ApplyMemberBean baseResultsBean) {
-                       SPUtils.put(mContext,Constants.USER_MEMBER,baseResultsBean.getResults().getStatus());
                        String orderNum = baseResultsBean.getResults().getMemberNo();
                        String createTime =String.valueOf(baseResultsBean.getResults().getCreateAt());
                        goActivity(WXPayEntryActivity.class,orderNum,createTime);
