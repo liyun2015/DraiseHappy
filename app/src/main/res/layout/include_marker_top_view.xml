@@ -99,10 +99,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="@color/divider_1" />
+    <include layout="@layout/include_message_notify_layout"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tag_marker_view"

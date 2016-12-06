@@ -33,7 +33,6 @@
         android:orientation="vertical"
         android:visibility="gone">
         <include layout="@layout/include_marker_top_view"/>
-
         <ListView
             android:id="@+id/lv_marker_list"
             android:layout_width="match_parent"
