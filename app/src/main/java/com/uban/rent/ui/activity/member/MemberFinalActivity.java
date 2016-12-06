@@ -25,6 +25,7 @@ import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.QRCodeUtil;
+import com.uban.rent.util.SPUtils;
 import com.uban.rent.util.TimeUtils;
 
 import butterknife.Bind;
@@ -139,6 +140,7 @@ public class MemberFinalActivity extends BaseActivity {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                         String createAt = formatTime(String.valueOf(resultsBean.getStartAt()), "yyyy.MM.dd");
                         String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
                         tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
