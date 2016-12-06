@@ -9,6 +9,7 @@ package com.uban.rent.util;
 public class Constants {
     public static final String APP_ID = "wx560d10dd4001d136";//微信支付 APP_ID
     public static final String NOTIFY_URL = "http://idfa.third.uban.com/ubanpay/notify.html";//支付回调地址
+    public static final String UBAN_MEMBER_NOTIFY_URL = "http://idfa.dev.uban.com/ubanpay/memPaynotify.html";//会员支付回调地址
 
     public static final String UBAN_TOKEN = "ubanToken";//session
     public static final String TOKEN = "token";//time
@@ -30,7 +31,7 @@ public class Constants {
 
     public static final int STATUS_CODE_SUCCESS = 0;
     public static final int STATUS_CODE_ERROR = 1;
-    public static final String PHONE_NUMBER = "133-8113-1771";
+    public static final String PHONE_NUMBER = "010-57496664";
 
     public static final String APP_IMG_URL_640_420 = "http://img1.static.uban.com/cybg/%s-w640x420";
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/cybg/%s-n240x180";

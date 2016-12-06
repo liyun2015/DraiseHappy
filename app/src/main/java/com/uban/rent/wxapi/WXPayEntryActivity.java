@@ -50,6 +50,8 @@ import rx.functions.Func1;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
+    public static final String KEY_ORDER_NUMBER = "keyOrderNumber";
+    public static final String KEY_SOURCE_ACTIVITY = "key_source_activity";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -88,6 +90,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private TimeCount time;
     private static final String[] CANCEL_REASON_STR = new String[]{"我要重新预定", "下错订单", "不需要预定了", "其他"};
     private LayoutInflater mInflater;
+    private String sourceActivity="";
 
     @Override
     protected int getLayoutId() {
@@ -161,17 +164,25 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     };
 
     private void initData() {
-        resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
-        orderNum = resultsBean.getOrderNo();
-        orderNumber.setText("订单编号：" + orderNum);
-        orderTime.setText(resultsBean.getCreatAt());
-        state = resultsBean.getState();
-        if (state == 3) {
+       sourceActivity = getIntent().getStringExtra(KEY_SOURCE_ACTIVITY);
+        if("MemberCreateActivity".equals(sourceActivity)){
+            orderNum = getIntent().getStringExtra(KEY_ORDER_NUMBER);
             orderState.setText("等待支付");
+            cancelOrderBtn.setVisibility(View.GONE);
+        }else{
+            cancelOrderBtn.setVisibility(View.VISIBLE);
+            resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
+            orderNum = resultsBean.getOrderNo();
+            orderTime.setText(resultsBean.getCreatAt());
+            state = resultsBean.getState();
+            if (state == 3) {
+                orderState.setText("等待支付");
+            }
+            workdeskType = resultsBean.getWorkDeskType();
+            int failureAt = resultsBean.getFailureAt();
+            StartCountDown(failureAt);
         }
-        workdeskType = resultsBean.getWorkDeskType();
-        int failureAt = resultsBean.getFailureAt();
-        StartCountDown(failureAt);
+        orderNumber.setText("订单编号：" + orderNum);
     }
 
     @Override
@@ -312,13 +323,19 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private void submitOrder() {
         UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
-        unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
-        unifieOrderBean.setOut_trade_no(String.valueOf(resultsBean.getOrderNo()));
-        //unifieOrderBean.setTotal_fee(String.valueOf(1));
-        unifieOrderBean.setTotal_fee(String.valueOf((int)(resultsBean.getDealPrice()*100)));
+        if("MemberCreateActivity".equals(sourceActivity)){
+            unifieOrderBean.setBody("优办会员");
+            unifieOrderBean.setTotal_fee(String.valueOf(1));
+            unifieOrderBean.setNotify_url(Constants.UBAN_MEMBER_NOTIFY_URL);
+        }else{
+            unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
+            //unifieOrderBean.setTotal_fee(String.valueOf(1));
+            unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
+            unifieOrderBean.setTotal_fee(String.valueOf((int)(resultsBean.getDealPrice()*100)));
+        }
+        unifieOrderBean.setOut_trade_no(String.valueOf(orderNum));
         unifieOrderBean.setTrade_type("APP");
         unifieOrderBean.setSpbill_create_ip(IpUtils.getIp(mContext));
-        unifieOrderBean.setNotify_url(Constants.NOTIFY_URL);
         ServiceFactory.getProvideHttpService().getUnifiedorder(unifieOrderBean)
                 .compose(this.<WXPayProviderBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<WXPayProviderBean>io_main())
@@ -510,8 +527,57 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             //支付返回调用
-            queryOrder();
+            if("MemberCreateActivity".equals(sourceActivity)){
+                queryMemberOrder();
+            }else{
+                queryOrder();
+            }
         }
+    }
+
+    private void queryMemberOrder() {
+        UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
+        unifieOrderBean.setMemberNo(orderNum);
+        ServiceFactory.getProvideHttpService().memberOrderQuery(unifieOrderBean)
+                .compose(this.<ResultOrderQueryBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<ResultOrderQueryBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<ResultOrderQueryBean, Boolean>() {
+                    @Override
+                    public Boolean call(ResultOrderQueryBean wxPayProviderBean) {
+                        if (wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
+                            //支付失败
+                        }
+                        return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .map(new Func1<ResultOrderQueryBean, ResultOrderQueryBean.ResultsBean>() {
+                    @Override
+                    public ResultOrderQueryBean.ResultsBean call(ResultOrderQueryBean wXPayProviderBean) {
+                        return wXPayProviderBean.getResults();
+                    }
+                })
+                .subscribe(new Action1<ResultOrderQueryBean.ResultsBean>() {
+                    @Override
+                    public void call(ResultOrderQueryBean.ResultsBean result) {
+                        //处理返回结果
+                        orderState.setText("支付成功");
+                        finish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "支付失败！");
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                });
     }
 
     private void StartCountDown(int failureAt) {

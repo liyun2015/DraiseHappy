@@ -25,11 +25,13 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.ApplyMemberBean;
 import com.uban.rent.module.request.RequestApplyMember;
+import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.SPUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -190,7 +192,7 @@ public class MemberCreateActivity extends BaseActivity {
                    @Override
                    public void call(ApplyMemberBean baseResultsBean) {
                        SPUtils.put(mContext,Constants.USER_MEMBER,baseResultsBean.getResults().getStatus());
-                       startActivity(new Intent(mContext,MemberStatusActivity.class));
+                       goActivity(WXPayEntryActivity.class,baseResultsBean.getResults().getMemberNo());
                        finish();
                    }
                }, new Action1<Throwable>() {
@@ -206,4 +208,11 @@ public class MemberCreateActivity extends BaseActivity {
                    }
                });
    }
+    private void goActivity(Class<?> cls,String orderNum) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext, cls);
+        orderIntent.putExtra(WXPayEntryActivity.KEY_ORDER_NUMBER,orderNum);
+        orderIntent.putExtra(WXPayEntryActivity.KEY_SOURCE_ACTIVITY,"MemberCreateActivity");
+        startActivity(orderIntent);
+    }
 }

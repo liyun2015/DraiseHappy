@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorAccent"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -32,10 +31,19 @@
                 android:layout_marginLeft="8dp"
                 android:text="免费咨询"
                 android:drawablePadding="5dp"
-                android:drawableLeft="@drawable/ic_phone_white_small"
-                android:textColor="@color/white"
+                android:drawableLeft="@drawable/ic_phone_red_small"
+                android:textColor="@color/colorAccent"
                 android:textSize="15sp"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/payment_submit_btn"
+            android:layout_width="0dp"
+            android:background="@color/colorAccent"
+            android:layout_height="50dp"
+            android:textColor="@color/white"
+            android:text="立即支付"
+            android:layout_weight="1"
+            android:gravity="center"/>
 
     </LinearLayout>
     <View
