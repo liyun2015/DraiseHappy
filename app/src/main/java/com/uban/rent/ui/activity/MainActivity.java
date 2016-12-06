@@ -501,7 +501,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         markerView.setBackgroundResource(resID);
         BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
         //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);
+        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);//.alpha(0.9f);//Marker透明度
         //在地图上添加Marker，并显示
         mMarkerBase = (Marker) mBaiduMap.addOverlay(option);
     }
