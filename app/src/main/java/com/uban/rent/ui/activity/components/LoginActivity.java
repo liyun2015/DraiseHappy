@@ -290,6 +290,7 @@ public class LoginActivity extends BaseActivity {
     private void sendCode() {
         RequestSendValid requestSendValid = new RequestSendValid();
         requestSendValid.setPhone(phone);
+        requestSendValid.setReserved("android_dz");
         ServiceFactory.getProvideHttpService().getSendValidSms(requestSendValid)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
