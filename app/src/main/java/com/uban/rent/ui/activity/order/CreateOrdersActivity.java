@@ -368,7 +368,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 }
                 break;
             case R.id.reduce_btn://减工位
-                if (loctionNum > 0) {
+                if (loctionNum > 1) {
                     loctionNum = loctionNum - 1;
                     numder_of_stations.setText(String.valueOf(loctionNum));
                 }
@@ -384,7 +384,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.reduce_btn_month://减日月
-                if (monthNum > 0) {
+                if (monthNum > 1) {
                     monthNum = monthNum - 1;
                     numderOfMonths.setText(String.valueOf(monthNum));
                 }
@@ -581,6 +581,7 @@ public class CreateOrdersActivity extends BaseActivity {
                         if (isEndTimeChoose) {
                             if (!isStartTimeDataDay.equals(cruYear + "-" + outMonthStr + "-" + outDayStr)) {
                                 ToastUtil.makeText(mContext, "所选时间必须在同一天内！");
+                                timeIsTrue = false;
                                 setTimeTextView(dateContent);
                                 return;
                             }

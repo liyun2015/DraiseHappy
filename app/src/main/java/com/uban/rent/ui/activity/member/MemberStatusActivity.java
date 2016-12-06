@@ -1,6 +1,7 @@
 package com.uban.rent.ui.activity.member;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -22,6 +23,7 @@ import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
 import com.uban.rent.util.TimeUtils;
+import com.uban.rent.wxapi.WXPayEntryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +63,11 @@ public class MemberStatusActivity extends BaseActivity {
     @Bind(R.id.member_date_expiry)
     TextView memberDateExpiry;
 
-    private static final String[] STATUS_CODE = new String[]{"取消", "审核中", "申请成功"};
+    private static final String[] STATUS_CODE = new String[]{"取消", "待支付", "申请成功"};
+    @Bind(R.id.payment_submit_btn)
+    TextView paymentSubmitBtn;
+    private String orderNum;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_member_status;
@@ -95,19 +101,19 @@ public class MemberStatusActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults()!=null;
+                        return verifyMemberBean.getResults() != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size()>0;
+                        return verifyMemberBean.getResults().size() > 0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
@@ -125,14 +131,15 @@ public class MemberStatusActivity extends BaseActivity {
     }
 
     private void initDataView(VerifyMemberBean.ResultsBean resultsBean) {
-        memberOrderNumber.setText("订单编号"+resultsBean.getMemberNo());
-        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()),"yyyy.MM.dd");
-        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()),"yyyy.MM.dd");
-        memberDateExpiry.setText("有效期:"+createAt+"-"+endAt);
+        orderNum = resultsBean.getMemberNo();
+        memberOrderNumber.setText("订单编号" + orderNum);
+        String createAt = formatTime(String.valueOf(resultsBean.getStartAt()), "yyyy.MM.dd");
+        String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
+        memberDateExpiry.setText("有效期:" + createAt + "-" + endAt);
         memberStatusPhone.setText(resultsBean.getPhone());
         memberStatusUsername.setText(resultsBean.getName());
         memberOrderStatus.setText(STATUS_CODE[resultsBean.getStatus()]);
-        String createAtstr = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()),"yyyy.MM.dd HH:mm:ss");
+        String createAtstr = TimeUtils.formatTime(String.valueOf(resultsBean.getCreateAt()), "yyyy.MM.dd HH:mm:ss");
         memberOrderDate.setText(createAtstr);
     }
 
@@ -163,15 +170,32 @@ public class MemberStatusActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.member_status_call_phone)
-    public void onClick() {
-        callPhone();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.payment_submit_btn,R.id.member_status_call_phone})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.member_status_call_phone:
+                callPhone();
+                break;
+            case R.id.payment_submit_btn://立即支付
+                goActivity(WXPayEntryActivity.class);
+                break;
+            default:
+                break;
+        }
+    }
+    private void goActivity(Class<?> cls) {
+        Intent orderIntent = new Intent();
+        orderIntent.setClass(mContext, cls);
+        orderIntent.putExtra(WXPayEntryActivity.KEY_ORDER_NUMBER,orderNum);
+        orderIntent.putExtra(WXPayEntryActivity.KEY_SOURCE_ACTIVITY,"MemberCreateActivity");
+        startActivity(orderIntent);
     }
 }

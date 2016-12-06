@@ -100,5 +100,7 @@ public interface ApiClient {
     @POST("/mainapi/dzversionProvider/getAppNewVersion")
     Observable<VersionBean> getAppNewVersion(@Body RequestVersion requestVersion);
 
-
+    //会员订单支付后查询
+    @POST("/mainapi/wXPayProvider/memberOrderQuery")
+    Observable<ResultOrderQueryBean> memberOrderQuery(@Body UnifieOrderBean requestPaymentOrder);
 }

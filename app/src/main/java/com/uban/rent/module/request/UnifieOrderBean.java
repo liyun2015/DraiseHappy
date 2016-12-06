@@ -22,6 +22,15 @@ public class UnifieOrderBean {
     private String trade_type;
     private String notify_url;
     private String orderNo;
+    private String memberNo;
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo;
+    }
 
     public String getOrderNo() {
         return orderNo;
