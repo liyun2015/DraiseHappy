@@ -30,7 +30,7 @@ public class Constants {
 
     public static final int STATUS_CODE_SUCCESS = 0;
     public static final int STATUS_CODE_ERROR = 1;
-    public static final String PHONE_NUMBER = "133-8113-1771";
+    public static final String PHONE_NUMBER = "010-57496664";
 
     public static final String APP_IMG_URL_640_420 = "http://img1.static.uban.com/cybg/%s-w640x420";
     public static final String APP_IMG_URL_240_180 = "http://img1.static.uban.com/cybg/%s-n240x180";
