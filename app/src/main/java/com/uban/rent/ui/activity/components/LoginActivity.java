@@ -25,8 +25,10 @@ import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestLogin;
 import com.uban.rent.module.request.RequestSendValid;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.activity.other.AgreementActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -170,7 +172,7 @@ public class LoginActivity extends BaseActivity {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
                     StatService.onEvent(mContext, "LoginPage_LoginEvent", "pass", 1);
-
+                    memberStatus();
                     loginApp();
                 }
                 break;
@@ -232,6 +234,54 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
 
+    }
+
+    private void memberStatus() {
+
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
+                        }
+                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean.getResults().size() > 0;
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                    }
+                });
     }
 
     //发送验证码
