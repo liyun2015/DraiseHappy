@@ -27,6 +27,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
@@ -35,11 +36,14 @@ import com.uban.rent.module.WXPayProviderBean;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
 import com.uban.rent.module.request.RequestPaymentOrder;
 import com.uban.rent.module.request.UnifieOrderBean;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.OrdersDetailActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.CommonUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.IpUtils;
+import com.uban.rent.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +56,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public static final String KEY_CREATE_ORDER_RESULTSBEAN = "createOrderResultsBean";
     public static final String KEY_ORDER_NUMBER = "keyOrderNumber";
     public static final String KEY_SOURCE_ACTIVITY = "key_source_activity";
+    public static final String KEY_CREATE_TIME = "key_create_time";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -566,6 +571,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     public void call(ResultOrderQueryBean.ResultsBean result) {
                         //处理返回结果
                         orderState.setText("支付成功");
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_APPLYING);//  0 是会员， 1 不是会员
+                        BaseActivityMemberStatusGoView();
                         finish();
                     }
                 }, new Action1<Throwable>() {
@@ -578,6 +585,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     public void call() {
                     }
                 });
+    }
+    public void BaseActivityMemberStatusGoView(){
+        if (HeaderConfig.isMemberStatus()){
+            mContext.startActivity(new Intent(mContext, MemberFinalActivity.class));
+        }else {
+            mContext.startActivity(new Intent(mContext, MemberFirstActivity.class));
+        }
     }
 
     private void StartCountDown(int failureAt) {

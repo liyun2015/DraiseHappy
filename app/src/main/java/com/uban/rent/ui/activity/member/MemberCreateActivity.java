@@ -39,6 +39,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.baidu.location.b.g.S;
 import static com.uban.rent.R.id.create_member_service_provision;
 
 
@@ -192,7 +193,9 @@ public class MemberCreateActivity extends BaseActivity {
                    @Override
                    public void call(ApplyMemberBean baseResultsBean) {
                        SPUtils.put(mContext,Constants.USER_MEMBER,baseResultsBean.getResults().getStatus());
-                       goActivity(WXPayEntryActivity.class,baseResultsBean.getResults().getMemberNo());
+                       String orderNum = baseResultsBean.getResults().getMemberNo();
+                       String createTime =String.valueOf(baseResultsBean.getResults().getCreateAt());
+                       goActivity(WXPayEntryActivity.class,orderNum,createTime);
                        finish();
                    }
                }, new Action1<Throwable>() {
@@ -208,10 +211,11 @@ public class MemberCreateActivity extends BaseActivity {
                    }
                });
    }
-    private void goActivity(Class<?> cls,String orderNum) {
+    private void goActivity(Class<?> cls,String orderNum,String createTime) {
         Intent orderIntent = new Intent();
         orderIntent.setClass(mContext, cls);
         orderIntent.putExtra(WXPayEntryActivity.KEY_ORDER_NUMBER,orderNum);
+        orderIntent.putExtra(WXPayEntryActivity.KEY_CREATE_TIME,createTime);
         orderIntent.putExtra(WXPayEntryActivity.KEY_SOURCE_ACTIVITY,"MemberCreateActivity");
         startActivity(orderIntent);
     }
