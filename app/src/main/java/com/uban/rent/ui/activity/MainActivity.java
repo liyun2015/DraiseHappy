@@ -231,6 +231,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         RxBus.with(this)
                 .setEvent(Events.EVENTS_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
                         UserLoginEvents userLoginEvents = events.getContent();
