@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -50,6 +52,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.uban.rent.App;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
@@ -58,6 +61,7 @@ import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.control.events.SearchHomeViewEvents;
+import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
@@ -71,6 +75,8 @@ import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
 import com.uban.rent.ui.activity.detail.StationDetailActivity;
+import com.uban.rent.ui.activity.member.MemberFinalActivity;
+import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.OrderListActivity;
 import com.uban.rent.ui.activity.other.SettingActivity;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
@@ -171,6 +177,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return R.layout.activity_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         spaceDeskTypePriceListBeen = new ArrayList<>();
@@ -220,6 +227,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void call(Throwable throwable) {
                         Log.i("EventError",throwable.getMessage());
+                    }
+                })
+                .create();
+
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_USER_LOGIN)
+                .onNext(new Action1<Events<?>>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void call(Events<?> events) {
+                        UserLoginEvents userLoginEvents = events.getContent();
+                        boolean isLogin = userLoginEvents.isLoginIn();
+                        initHeadView(isLogin);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
                     }
                 })
                 .create();
@@ -291,19 +317,32 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 加载头像view
      */
-    private void initHeadView() {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void initHeadView(boolean isLogin) {
         View view = navigationView.getHeaderView(0);
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
-        TextView userPhone = (TextView) view.findViewById(R.id.user_phone);
-        userName.setText(HeaderConfig.nickName());
-        userPhone.setText(HeaderConfig.phoneNum());
-        if (TextUtils.isEmpty(HeaderConfig.userHeadImage())){
-            userHeadImage.setBackgroundResource(R.drawable.ic_login_head_image);
-        }else {
+
+        if (isLogin){
             ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+            userName.setText(HeaderConfig.nickName());
+            userHeadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+        } else {
+            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image,getTheme()));
+            userName.setText("点击头像登录");
+            userHeadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goActivity(LoginActivity.class);
+                }
+            });
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initView() {
         fabCleanSearch.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
@@ -312,15 +351,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("优办移动办公");
-        toolbarContentText.setTextSize(18);
-        toolbarContentText.setTypeface(Typeface.DEFAULT_BOLD);
-
-        initHeadView();
-
-       /* Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo,getTheme());
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        toolbarContentText.setCompoundDrawables(null,null,drawable,null);*/
+        toolbarContentText.setCompoundDrawables(null,null,drawable,null);
+        toolbarContentText.setText("");
+
+        initHeadView(!HeaderConfig.isEmptyUbanToken());
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -501,7 +538,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         markerView.setBackgroundResource(resID);
         BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(markerView);
         //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);
+        OverlayOptions option = new MarkerOptions().position(latLng).icon(bitmapDescriptor);//.alpha(0.9f);//Marker透明度
         //在地图上添加Marker，并显示
         mMarkerBase = (Marker) mBaiduMap.addOverlay(option);
     }
@@ -735,6 +772,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void memberStatus() {
+
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
@@ -743,42 +781,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
-                        }else if (verifyMemberBean.getStatusCode() ==  2){//会员已过期
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
-                        }
-                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                        return verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size()>0;
+                        return verifyMemberBean.getResults().size() > 0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
-
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员\
                         BaseActivityMemberStatusGoView();
                     }
                 }, new Action0() {
@@ -787,6 +820,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         BaseActivityMemberStatusGoView();
                     }
                 });
+    }
+
+    public void BaseActivityMemberStatusGoView(){
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,Constants.MEMBER_STATUS_NOT);
+        if (memberStatus==Constants.MEMBER_STATUS_NOT){
+            startActivity(new Intent(mContext, MemberFirstActivity.class));
+        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){
+            startActivity(new Intent(mContext, MemberFinalActivity.class));
+        }
     }
 
     @OnClick({R.id.fab_clean_search, R.id.fab_location, R.id.btn_close_list, R.id.select_city_bj, R.id.select_city_sh,R.id.rl_marker_space_detail})

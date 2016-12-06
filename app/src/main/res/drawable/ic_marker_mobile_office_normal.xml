@@ -52,7 +52,9 @@ C40.319,36.0742,39.7921,36.6188,39.1479,36.6188 L39.1479,36.6188 Z" />
     <path
         android:name="Oval"
         android:fillColor="#999999"
+        android:fillAlpha="0.65"
         android:fillType="evenOdd"
+        android:strokeAlpha="0.65"
         android:strokeWidth="1"
         android:pathData="M30,73 C36.0751,73,41,74.3431,41,76 C41,77.6569,36.0751,79,30,79
 C23.9249,79,19,77.6569,19,76 C19,74.3431,23.9249,73,30,73 Z" />

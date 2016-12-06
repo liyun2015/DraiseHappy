@@ -19,7 +19,10 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.uban.rent.R;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.BaseResultsBean;
 import com.uban.rent.module.LoginInBean;
 import com.uban.rent.module.VerifyMemberBean;
@@ -144,7 +147,7 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.tv_login_code_zx, R.id.btn_login_login_submit,R.id.read_agreement})
+    @OnClick({R.id.tv_login_code_zx, R.id.btn_login_login_submit, R.id.read_agreement})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_code_zx:
@@ -213,6 +216,9 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
                         SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
                         SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
+                        UserLoginEvents userLoginEvents = new UserLoginEvents();
+                        userLoginEvents.setLoginIn(true);
+                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
                         finish();
                     }
                 }, new Action1<Throwable>() {
@@ -240,42 +246,37 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean!=null;
+                        return verifyMemberBean != null;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
-                        }else if (verifyMemberBean.getStatusCode() ==  2){//会员已过期
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_BE_OVERDUE);
-                        }
-                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                        return verifyMemberBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size()>0;
+                        return verifyMemberBean.getResults().size() > 0;
                     }
                 })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());// 0未成为会员, 1申请中 2 已申请会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        SPUtils.put(mContext, Constants.USER_MEMBER, 0);// 0未成为会员, 1申请中 2 已申请会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
                     }
                 });
     }
@@ -284,6 +285,7 @@ public class LoginActivity extends BaseActivity {
     private void sendCode() {
         RequestSendValid requestSendValid = new RequestSendValid();
         requestSendValid.setPhone(phone);
+        requestSendValid.setReserved("android_dz");
         ServiceFactory.getProvideHttpService().getSendValidSms(requestSendValid)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
@@ -304,15 +306,14 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPageEnd(mContext,"登录页");
+        StatService.onPageEnd(mContext, "登录页");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onPageStart(mContext,"登录页");
+        StatService.onPageStart(mContext, "登录页");
     }
-
 
 
     class TimeCount extends CountDownTimer {

@@ -44,10 +44,8 @@ public class Constants {
     public static final int CONFERENCE_ROOM_TYPE = 6;//会议室
     public static final int ACTIVE_SITE_TYPE = 7;//活动场地
 
-    public static final int MEMBER_STATUS_NOT = 0;//未申请
-    public static final int MEMBER_STATUS_APPLYING = 1;//申请中
-    public static final int MEMBER_STATUS_SUCCESS = 2;//是会员
-    public static final int MEMBER_STATUS_BE_OVERDUE = 3;//已过期
+    public static final int MEMBER_STATUS_APPLYING = 0;//0 是会员
+    public static final int MEMBER_STATUS_NOT = 1;//1 不是会员
 
     public static final int APP_TYPE = 0;//0 Android 1 iOS
 

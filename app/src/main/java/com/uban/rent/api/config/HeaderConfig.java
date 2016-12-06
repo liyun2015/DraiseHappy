@@ -64,15 +64,11 @@ public class HeaderConfig {
      * @return
      */
     public static boolean isMemberStatus(){
-        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,0);
+        int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,Constants.MEMBER_STATUS_NOT);
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
             return false;
-        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){//申请中
-            return false;
-        }else if (memberStatus ==Constants.MEMBER_STATUS_SUCCESS){
+        }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){
             return true;
-        }else if (memberStatus == Constants.MEMBER_STATUS_BE_OVERDUE){//已过期
-            return false;
         }
         return false;
     }

@@ -3,6 +3,7 @@ package com.uban.rent.ui.activity.other;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
+import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
@@ -80,10 +84,20 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         SPUtils.clear(mContext);
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setClass(mContext, LoginActivity.class);
-                        startActivity(intent);
+                        UserLoginEvents userLoginEvents = new UserLoginEvents();
+                        userLoginEvents.setLoginIn(false);
+                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN,userLoginEvents);
+
+
+                        Snackbar.make(activitySetting, "退出登陆成功", Snackbar.LENGTH_LONG)
+                                .setAction("登陆", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent =  new Intent();
+                                        intent.setClass(mContext, LoginActivity.class);//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }
+                                }).show();
                     }
                 })
                 .setNegativeButton("取消", new View.OnClickListener() {
