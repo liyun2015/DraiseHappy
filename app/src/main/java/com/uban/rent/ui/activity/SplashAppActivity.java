@@ -77,7 +77,11 @@ public class SplashAppActivity extends BaseActivity {
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
+                        if (verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_NOT||verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_APPLYING){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
+                        }else {
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override

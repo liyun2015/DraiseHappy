@@ -172,7 +172,6 @@ public class LoginActivity extends BaseActivity {
                     ToastUtil.makeText(this, "验证码不能为空");
                 } else {
                     StatService.onEvent(mContext, "LoginPage_LoginEvent", "pass", 1);
-                    memberStatus();
                     loginApp();
                 }
                 break;
@@ -219,6 +218,7 @@ public class LoginActivity extends BaseActivity {
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(true);
                         RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
+                        memberStatus();
                         finish();
                     }
                 }, new Action1<Throwable>() {
@@ -258,7 +258,11 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
+                        if (verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_NOT||verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_APPLYING){
+                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
+                        }else {
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
