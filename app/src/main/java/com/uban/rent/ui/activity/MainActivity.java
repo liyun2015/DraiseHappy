@@ -189,7 +189,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void registerPermissions() {
         LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if(!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showSnackbar(getString(R.string.str_location_where_unknow));
+            showSnackbar(getString(R.string.str_location_off_service));///str_location_off_service));
         }
 
         //Android 6.0 Permissions

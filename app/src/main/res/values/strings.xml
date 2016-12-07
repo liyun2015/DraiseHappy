@@ -19,4 +19,5 @@
     <string name="str_share_app_content">我正在使用优办移动办公APP，邀请你加入“移动办公族</string>
     <string name="str_share_member_title">免费会员在手，移动办公说走就走！</string>
     <string name="str_share_member_content">我刚刚获得了价值500元的免费移动办公会员一个月,你也来注册吧!</string>
+    <string name="str_location_off_service">请您检查是否禁用定位服务，尝试重新请求定位</string>
 </resources>
