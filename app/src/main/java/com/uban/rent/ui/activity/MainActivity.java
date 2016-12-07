@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -65,10 +64,12 @@ import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.HomeDatasBean;
 import com.uban.rent.module.SpaceDetailBean;
+import com.uban.rent.module.VerifyMemberBean;
 import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestHomeData;
 import com.uban.rent.module.request.RequestSpaceDetail;
+import com.uban.rent.module.request.RequestVerifyMember;
 import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.components.SearchActivity;
 import com.uban.rent.ui.activity.detail.SpaceDetailActivity;
@@ -747,7 +748,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (HeaderConfig.isEmptyUbanToken()){
                     startActivity(new Intent(mContext, LoginActivity.class));
                 }else {
-                    BaseActivityMemberStatusGoView();
+                    memberStatus();
                 }
                 break;
             case R.id.nav_order:
@@ -768,7 +769,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void memberStatus() {
 
+        RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
+        requestVerifyMember.setType(1);
+        ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
+                .compose(this.<VerifyMemberBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<VerifyMemberBean>io_main())
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .filter(new Func1<VerifyMemberBean, Boolean>() {
+                    @Override
+                    public Boolean call(VerifyMemberBean verifyMemberBean) {
+                        return verifyMemberBean != null;
+                    }
+                })
+                .subscribe(new Action1<VerifyMemberBean>() {
+                    @Override
+                    public void call(VerifyMemberBean verifyMemberBean) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        BaseActivityMemberStatusGoView();
+                    }
+                });
+    }
     public void BaseActivityMemberStatusGoView(){
         int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,Constants.MEMBER_STATUS_NOT);
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
@@ -918,14 +954,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .setAction(getString(R.string.action_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
+                         openGPS();
                     }
-                })
+               })
                 .show();
         isShowSnackbar = !isShowSnackbar;
     }
-
+    /**
+     * 打开GPS设置界面
+     */
+    public void openGPS() {
+        final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
     private void goActivity(Class<?> cls) {
         startActivity(new Intent(mContext, cls));
     }
