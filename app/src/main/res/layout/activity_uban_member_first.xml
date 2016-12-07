@@ -122,6 +122,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorGray"
                 android:textSize="12sp"
+                android:lineSpacingExtra = "1dp"
+                android:lineSpacingMultiplier = "1.2"
                 android:layout_margin="10dp"
                 android:text="成为优办会员可享受所有合作空间 hot desk 使用权，无需预约随时随地享用，还有免费饮品哦！使用期限为1个月，购买当日起生效，一个月后自动失效；如需继续享受该权益只需付费续约即可."/>
         </LinearLayout>

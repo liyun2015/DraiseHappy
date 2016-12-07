@@ -110,6 +110,7 @@
             <RelativeLayout
                 android:id="@+id/rl_go_space_detail"
                 android:layout_width="match_parent"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_height="wrap_content">
 
                 <LinearLayout

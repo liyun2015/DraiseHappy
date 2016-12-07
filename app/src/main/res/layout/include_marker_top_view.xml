@@ -10,6 +10,7 @@
         android:id="@+id/rl_marker_space_detail"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:background="?android:attr/selectableItemBackground"
         android:padding="10dp">
 
         <ImageView

@@ -54,6 +54,7 @@ public class SplashAppActivity extends BaseActivity {
                     }
                 });
     }
+
     private void memberStatus() {
 
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
@@ -73,26 +74,10 @@ public class SplashAppActivity extends BaseActivity {
                         return verifyMemberBean != null;
                     }
                 })
-                .filter(new Func1<VerifyMemberBean, Boolean>() {
-                    @Override
-                    public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
-                        }
-                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
-                    }
-                })
-                .filter(new Func1<VerifyMemberBean, Boolean>() {
-                    @Override
-                    public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size() > 0;
-                    }
-                })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -101,6 +86,7 @@ public class SplashAppActivity extends BaseActivity {
                     }
                 });
     }
+
     private void initData() {
         RequestVersion requestVersion = new RequestVersion();
         requestVersion.setAppType(Constants.APP_TYPE);
@@ -111,16 +97,16 @@ public class SplashAppActivity extends BaseActivity {
                 .filter(new Func1<VersionBean, Boolean>() {
                     @Override
                     public Boolean call(VersionBean versionBean) {
-                        return versionBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
+                        return versionBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
                 .filter(new Func1<VersionBean, Boolean>() {
                     @Override
                     public Boolean call(VersionBean versionBean) {
-                        if (versionBean.getResults()==null){
+                        if (versionBean.getResults() == null) {
                             filterViewActivity();
                         }
-                        return versionBean.getResults()!=null;
+                        return versionBean.getResults() != null;
                     }
                 })
                 .map(new Func1<VersionBean, VersionBean.ResultsBean>() {
@@ -161,11 +147,11 @@ public class SplashAppActivity extends BaseActivity {
                 });
     }
 
-    private void filterViewActivity(){
-        if (isFirst()){
+    private void filterViewActivity() {
+        if (isFirst()) {
             saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
-        }else {
+        } else {
             goActivity(MainActivity.class);
         }
     }
@@ -183,10 +169,10 @@ public class SplashAppActivity extends BaseActivity {
         SharedPreferences sp = getSharedPreferences(APP_FIRST_WELCOME,
                 Context.MODE_PRIVATE);
         String spString = sp.getString(APP_CONTENT_WELCOME, "");
-        if (TextUtils.isEmpty(spString)){
+        if (TextUtils.isEmpty(spString)) {
             return true;
         }
-        if (spString.equals(AppUtils.getAppVersionName(mContext))){
+        if (spString.equals(AppUtils.getAppVersionName(mContext))) {
             return false;
         }
         return true;
