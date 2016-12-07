@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -918,14 +917,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .setAction(getString(R.string.action_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
+                         openGPS();
                     }
-                })
+               })
                 .show();
         isShowSnackbar = !isShowSnackbar;
     }
-
+    /**
+     * 打开GPS设置界面
+     */
+    public void openGPS() {
+        final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
     private void goActivity(Class<?> cls) {
         startActivity(new Intent(mContext, cls));
     }
