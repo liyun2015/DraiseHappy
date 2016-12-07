@@ -771,6 +771,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void BaseActivityMemberStatusGoView(){
         int memberStatus = (int) SPUtils.get(App.getInstance(),Constants.USER_MEMBER,Constants.MEMBER_STATUS_NOT);
+        ToastUtil.makeText(mContext,memberStatus+"");
         if (memberStatus==Constants.MEMBER_STATUS_NOT){
             startActivity(new Intent(mContext, MemberFirstActivity.class));
         }else if (memberStatus==Constants.MEMBER_STATUS_APPLYING){

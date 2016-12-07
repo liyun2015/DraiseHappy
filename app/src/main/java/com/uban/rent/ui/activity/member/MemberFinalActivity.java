@@ -133,9 +133,7 @@ public class MemberFinalActivity extends BaseActivity {
                 .filter(new Func1<VerifyMemberBean, Boolean>() {
                     @Override
                     public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
-                        }
+                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
                         return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
                     }
                 })
@@ -149,7 +147,6 @@ public class MemberFinalActivity extends BaseActivity {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
                         VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
                         String createAt = formatTime(String.valueOf(resultsBean.getStartAt()), "yyyy.MM.dd");
                         String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
                         tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
