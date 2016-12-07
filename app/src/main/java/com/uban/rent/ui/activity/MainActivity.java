@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             });
         } else {
-            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image,getTheme()));
+            userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
             userName.setText("点击头像登录");
             userHeadImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -349,7 +349,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo,getTheme());
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_home_title_logo);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         toolbarContentText.setCompoundDrawables(null,null,drawable,null);
         toolbarContentText.setText("");
