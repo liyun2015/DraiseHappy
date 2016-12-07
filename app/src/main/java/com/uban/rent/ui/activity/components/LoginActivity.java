@@ -255,26 +255,10 @@ public class LoginActivity extends BaseActivity {
                         return verifyMemberBean != null;
                     }
                 })
-                .filter(new Func1<VerifyMemberBean, Boolean>() {
-                    @Override
-                    public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        if (verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_ERROR){
-                            SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode());
-                        }
-                        return verifyMemberBean.getStatusCode()==Constants.STATUS_CODE_SUCCESS;
-                    }
-                })
-                .filter(new Func1<VerifyMemberBean, Boolean>() {
-                    @Override
-                    public Boolean call(VerifyMemberBean verifyMemberBean) {
-                        return verifyMemberBean.getResults().size() > 0;
-                    }
-                })
                 .subscribe(new Action1<VerifyMemberBean>() {
                     @Override
                     public void call(VerifyMemberBean verifyMemberBean) {
-                        VerifyMemberBean.ResultsBean resultsBean = verifyMemberBean.getResults().get(0);
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getStatus());//  0 是会员， 1 不是会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
                     }
                 }, new Action1<Throwable>() {
                     @Override
