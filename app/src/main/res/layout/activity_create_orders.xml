@@ -155,13 +155,11 @@
                 android:text="营业时间： 工作日  09:00-18:00"
                 android:textColor="@color/colorGray"
                 android:textSize="15sp" />
-            <View
+
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/divider_1" />
+                android:layout_height="15dp" />
+            <include layout="@layout/include_message_notify_layout"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

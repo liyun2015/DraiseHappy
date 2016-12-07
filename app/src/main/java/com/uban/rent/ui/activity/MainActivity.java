@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.rl_marker_space_detail)
     RelativeLayout rlMarkerSpaceDetail;
     private BaiduMap mBaiduMap;
-    private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
+    private static final String[] TITLE_NAME = new String[]{"全部", "工位", "会议/活动"};
     private static final String[] TITLE_MARKER_NAME = new String[]{"时租", "日租", "月租"};
     private static final String[] TITLE_PRICE_TYPE = new String[]{"元/时 起", "元/天 起", "元/月 起"};
     private static final int KEY_ORDER_ALL = 0;

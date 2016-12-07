@@ -11,4 +11,12 @@
     <string name="str_location_where_unknow">请您检查是否禁用获取位置信息权限，尝试重新请求定位</string>
     <string name="str_location_service_error">服务端网络定位失败</string>
     <string name="str_location_is_network_success">请检查网络是否通畅</string>
+    <string name="str_about_us">优办移动办公是全国首款联合办公短租平台，为商务人士提供临时办公、会议等服务。
+        与我们合作的联合办公品牌众多，目前遍布北京、上海两大城市的核心商圈，摆脱固定办公的枷锁，
+        让您随时随地可以在舒适的办公环境下处理公务，可享受咖啡、wifi、打印等免费服务。
+        我们将继续在移动办公领域发挥更大的价值，让办公生活更美好。</string>
+    <string name="str_share_app_title">世界那么大，随时随地办公！/你离随时随地办公，只差一个优办移动办公APP的距离！</string>
+    <string name="str_share_app_content">我正在使用优办移动办公APP，邀请你加入“移动办公族</string>
+    <string name="str_share_member_title">免费会员在手，移动办公说走就走！</string>
+    <string name="str_share_member_content">我刚刚获得了价值500元的免费移动办公会员一个月,你也来注册吧!</string>
 </resources>
