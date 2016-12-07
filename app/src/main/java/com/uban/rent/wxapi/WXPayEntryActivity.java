@@ -556,6 +556,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     public Boolean call(ResultOrderQueryBean wxPayProviderBean) {
                         if (wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_ERROR) {
                             //支付失败
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
+                            BaseActivityMemberStatusGoView();
+                            finish();
                         }
                         return wxPayProviderBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
