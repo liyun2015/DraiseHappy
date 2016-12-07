@@ -66,6 +66,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_margin="10dp"
+                android:lineSpacingExtra = "1dp"
+                android:lineSpacingMultiplier = "1.2"
                 android:text="@string/str_about_us"/>
         </LinearLayout>
     </ScrollView>
