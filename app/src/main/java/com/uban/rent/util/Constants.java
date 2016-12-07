@@ -49,5 +49,6 @@ public class Constants {
 
     public static final int APP_TYPE = 0;//0 Android 1 iOS
 
-
+    public static final String APP_DOWNLOAD_URL_PAGE = "http://m.uban.com/bj/toDowloadPage/";//app分享推荐好友下载页
+    public static final String APP_MEMBER_URL_PAGE = "http://m.uban.com/bj/dzVip";//分享会员页面
 }

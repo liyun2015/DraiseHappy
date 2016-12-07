@@ -23,6 +23,7 @@ import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
+import com.uban.rent.util.Constants;
 import com.uban.rent.util.SPUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -133,12 +134,9 @@ public class SettingActivity extends BaseActivity {
                         break;
                     case 2:
                         StatService.onEvent(mContext, "Setting_ShareToFriendsEvent", "pass", 1);
-                       String shareTitle = "何时办公？随时随地！";
-                         String shareUrl = "http://m.dev.uban.com/bj/toDowloadPage/";
-                        String shareMsg = "在线预订短租工位、会议室、让工作更轻松！\n" +
-                                "北京、上海两地超过100＋联合办公空间可选\n" +
-                                "下载注册即送一个月会员\n" +
-                                "立享全部免费hot desk！";
+                       String shareTitle = getString(R.string.str_share_app_title);
+                         String shareUrl = Constants.APP_DOWNLOAD_URL_PAGE;
+                        String shareMsg = getString(R.string.str_share_app_content);
                          UMImage shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 
                         ShareBoardConfig config = new ShareBoardConfig();

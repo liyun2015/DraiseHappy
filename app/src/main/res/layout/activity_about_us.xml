@@ -66,7 +66,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_margin="10dp"
-                android:text="优办移动办公是全国首款联合办公短租平台，为商务人士提供临时办公、会议等服务。与我们合作的联合办公品牌众多，目前遍布北京、上海两大城市的核心商圈，摆脱固定办公的枷锁，让您随时随地可以在舒适的办公环境下处理公务，可享受咖啡、wifi、打印等免费服务。我们将继续在移动办公领域发挥最大的价值，让我们的办公体验更加美好。"/>
+                android:text="@string/str_about_us"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

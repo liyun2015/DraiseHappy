@@ -74,7 +74,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <TextView
@@ -97,6 +97,13 @@
                 android:textColor="@color/colorGray"
                 android:textSize="12sp" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_arrow_right_gray"/>
     </RelativeLayout>
 
     <include layout="@layout/include_message_notify_layout"/>
@@ -109,6 +116,9 @@
         app:tabIndicatorColor="@color/colorAccent"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextColor="@color/colorGray" />
-
+<View
+    android:layout_width="match_parent"
+    android:layout_height="0.1dp"
+    android:background="@color/divider_1"/>
 
 </LinearLayout>
