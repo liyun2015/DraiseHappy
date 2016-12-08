@@ -373,7 +373,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     public void call(WXPayProviderBean.ResultsBean resultsBean) {
 
                         //处理返回结果
-                        WXPayOrder(resultsBean);
+                        if(isWXAppInstalledAndSupported()){
+                            WXPayOrder(resultsBean);
+                        }else{
+                            ToastUtil.makeText(mContext, "您手机上尚未安装微信");
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -402,6 +406,16 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         req.extData = "app data"; // optional
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         api.sendReq(req);
+    }
+    //判断手机是否装有微信
+    private boolean isWXAppInstalledAndSupported() {
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+        msgApi.registerApp(Constants.APP_ID);
+
+        boolean sIsWXAppInstalledAndSupported = msgApi.isWXAppInstalled()
+                && msgApi.isWXAppSupportAPI();
+
+        return sIsWXAppInstalledAndSupported;
     }
 
     // 取消订单
