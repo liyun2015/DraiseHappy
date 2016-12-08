@@ -744,7 +744,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_member:
                 StatService.onEvent(mContext, "LeftMenu_UbanMemberClickEvent", "pass", 1);
                 if (HeaderConfig.isEmptyUbanToken()){
-                    startActivity(new Intent(mContext, LoginActivity.class));
+                    startActivity(new Intent(mContext, MemberFirstActivity.class));
                 }else {
                     BaseActivityMemberStatusGoView();
                 }

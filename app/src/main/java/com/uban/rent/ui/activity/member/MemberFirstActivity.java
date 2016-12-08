@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.baidu.mobstat.StatService;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
 import com.uban.rent.util.PhoneUtils;
@@ -217,8 +219,12 @@ public class MemberFirstActivity extends BaseActivity {
                 break;
             case R.id.create_member:
                 StatService.onEvent(mContext, "MemberAbstract_ApplyEvent", "pass", 1);
-                startActivity(new Intent(mContext,MemberCreateActivity.class));
-                finish();
+                if (HeaderConfig.isEmptyUbanToken()){
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }else {
+                    startActivity(new Intent(mContext,MemberCreateActivity.class));
+                    finish();
+                }
                 break;
         }
     }
