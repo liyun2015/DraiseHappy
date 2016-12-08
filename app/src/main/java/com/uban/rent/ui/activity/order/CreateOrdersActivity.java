@@ -380,7 +380,15 @@ public class CreateOrdersActivity extends BaseActivity {
                 totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
                 break;
             case R.id.month_add_btn://加日月
-                monthNum = monthNum + 1;
+                if(priceType == 2){
+                    if(monthNum>=3){
+                        ToastUtil.makeText(mContext, "日租最多只可预定3天！");
+                    }else{
+                        monthNum = monthNum + 1;
+                    }
+                }else{
+                    monthNum = monthNum + 1;
+                }
                 numderOfMonths.setText(String.valueOf(monthNum));
                 rentTime = monthNum;
                 totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
