@@ -16,11 +16,11 @@ import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.events.UserLoginEvents;
-import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.dialog.AlertDialogStyleApp;
 import com.uban.rent.util.Constants;
@@ -88,17 +88,7 @@ public class SettingActivity extends BaseActivity {
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(false);
                         RxBus.getInstance().send(Events.EVENTS_USER_LOGIN,userLoginEvents);
-
-
-                        Snackbar.make(activitySetting, "退出登陆成功", Snackbar.LENGTH_LONG)
-                                .setAction("登陆", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent =  new Intent();
-                                        intent.setClass(mContext, LoginActivity.class);//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                    }
-                                }).show();
+                        finish();
                     }
                 })
                 .setNegativeButton("取消", new View.OnClickListener() {
@@ -155,7 +145,11 @@ public class SettingActivity extends BaseActivity {
                         break;
                     case 4:*/
                         StatService.onEvent(mContext, "Setting_LoginOutEvent", "pass", 1);
-                        siginOut();
+                        if (HeaderConfig.isEmptyUbanToken()){
+                            Snackbar.make(activitySetting, "已退出账号", Snackbar.LENGTH_SHORT).show();
+                        }else {
+                            siginOut();
+                        }
                         break;
                 }
             }
