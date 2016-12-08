@@ -37,7 +37,7 @@
             android:id="@+id/lv_marker_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/divider_1"
+            android:divider="@null"
             android:dividerHeight="0.1dp"
             android:background="@color/white"
             android:listSelector="?android:attr/selectableItemBackground"/>
