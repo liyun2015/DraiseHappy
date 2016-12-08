@@ -164,10 +164,14 @@ public class LoginActivity extends BaseActivity {
                 code = etLoginCodeNum.getText().toString().trim();
                 phone = etLoginPhoneNum.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.makeText(this, "手机号不能为空");
+                    ToastUtil.makeText(mContext,"手机号不能为空");
+                }else if (phone.length()<=10){
+                    ToastUtil.makeText(mContext,"请输入正确手机号");
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
-                } else {
+                } else if (code.length()<=5){
+                    ToastUtil.makeText(mContext,"验证码不正确");
+                }else {
                     StatService.onEvent(mContext, "LoginPage_LoginEvent", "pass", 1);
                     loginApp();
                 }
@@ -198,6 +202,9 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<LoginInBean, Boolean>() {
                     @Override
                     public Boolean call(LoginInBean loginInBean) {
+                        if (loginInBean.getStatusCode()!=Constants.STATUS_CODE_SUCCESS){
+                            ToastUtil.makeText(mContext,loginInBean.getMsg());
+                        }
                         return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
                 })
