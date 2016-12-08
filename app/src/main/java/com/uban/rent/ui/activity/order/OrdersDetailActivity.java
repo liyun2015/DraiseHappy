@@ -269,7 +269,9 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         if (workDeskType == 6 || workDeskType == 7) {
             meetingRoomNameLayout.setVisibility(View.VISIBLE);
-            meetingRoomName.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
+            if(null!=resultsBean.getOfficespaceWorkdeskinfo()){
+                meetingRoomName.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
+            }
             stationStr.setText("间");
             orderNumberOfStation.setText("1");
         } else {
