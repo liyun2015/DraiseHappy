@@ -36,7 +36,7 @@ public class OrderListActivity extends BaseActivity {
     ViewPager viewPagerUserOrder;
     private List<Fragment> listFragments;
 
-    private static final String[] TITLE_NAME = new String[]{"全部", "移动办公", "会议/活动"};
+    private static final String[] TITLE_NAME = new String[]{"全部", "工位", "会议/活动"};
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_order;
