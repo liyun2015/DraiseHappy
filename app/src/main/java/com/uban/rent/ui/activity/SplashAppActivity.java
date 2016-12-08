@@ -56,7 +56,6 @@ public class SplashAppActivity extends BaseActivity {
     }
 
     private void memberStatus() {
-
         RequestVerifyMember requestVerifyMember = new RequestVerifyMember();
         requestVerifyMember.setType(1);
         ServiceFactory.getProvideHttpService().getVerifyMember(requestVerifyMember)
@@ -80,13 +79,13 @@ public class SplashAppActivity extends BaseActivity {
                         if (verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_NOT||verifyMemberBean.getStatusCode()==Constants.MEMBER_STATUS_APPLYING){
                             SPUtils.put(mContext, Constants.USER_MEMBER, verifyMemberBean.getStatusCode()); //0 是会员， 1 不是会员
                         }else {
-                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                            SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
                         }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);//  0 是会员， 1 不是会员
+                        SPUtils.put(mContext, Constants.USER_MEMBER, Constants.MEMBER_STATUS_NOT);
                     }
                 });
     }
