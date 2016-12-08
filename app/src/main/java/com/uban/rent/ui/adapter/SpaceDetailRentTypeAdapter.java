@@ -2,6 +2,7 @@ package com.uban.rent.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -53,6 +54,11 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (position%2==0){
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#F7F7F7"));
+        }
         holder.bind(mPriceType,spaceDeskTypePriceListBean);
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +83,6 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         });
         return convertView;
     }
-
 
     public void BaseActivityMemberStatusGoView(){
         if (HeaderConfig.isMemberStatus()){
