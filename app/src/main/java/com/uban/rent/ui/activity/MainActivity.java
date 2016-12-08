@@ -237,6 +237,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         UserLoginEvents userLoginEvents = events.getContent();
                         boolean isLogin = userLoginEvents.isLoginIn();
                         initHeadView(isLogin);
+                        spaceDetailRentTypeAdapter.setPriceType();
                     }
                 })
                 .onError(new Action1<Throwable>() {

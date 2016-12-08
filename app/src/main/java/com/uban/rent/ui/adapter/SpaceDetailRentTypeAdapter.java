@@ -15,7 +15,6 @@ import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.UBBaseAdapter;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.SpaceDetailBean;
-import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
@@ -63,21 +62,17 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         holder.tvCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (HeaderConfig.isEmptyUbanToken()){
-                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
+                    StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
+                    BaseActivityMemberStatusGoView();
                 }else {
-                    if (spaceDeskTypePriceListBean.getWorkDeskType()==Constants.HOT_DESK_TYPE){
-                        StatService.onEvent(mContext, "SpaceDetail_MyMemberBtnEvent", "pass", 1);
-                        BaseActivityMemberStatusGoView();
-                    }else {
-                        StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
-                        StatService.onEvent(mContext, "MainMap_OrderBtnClickEvent", "pass", 1);
-                        RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
-                        Intent intent = new Intent();
-                        intent.setClass(mContext, CreateOrdersActivity.class);
-                        intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
-                        mContext.startActivity(intent);
-                    }
+                    StatService.onEvent(mContext, "SpaceDetail_OrderBtnClickEvent", "pass", 1);
+                    StatService.onEvent(mContext, "MainMap_OrderBtnClickEvent", "pass", 1);
+                    RequestcreateOrderParamaBean(spaceDeskTypePriceListBean);
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, CreateOrdersActivity.class);
+                    intent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN,createOrderParamaBean);
+                    mContext.startActivity(intent);
                 }
             }
         });
@@ -115,6 +110,10 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
 
     public void setPriceType(int mPriceType){
         this.mPriceType = mPriceType;
+        notifyDataSetChanged();
+    }
+
+    public void setPriceType(){
         notifyDataSetChanged();
     }
 
