@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         } else {
             userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
-            userName.setText("点击头像登录");
+            userName.setText("登录｜注册");
             userHeadImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -744,7 +744,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_member:
                 StatService.onEvent(mContext, "LeftMenu_UbanMemberClickEvent", "pass", 1);
                 if (HeaderConfig.isEmptyUbanToken()){
-                    startActivity(new Intent(mContext, LoginActivity.class));
+                    startActivity(new Intent(mContext, MemberFirstActivity.class));
                 }else {
                     BaseActivityMemberStatusGoView();
                 }

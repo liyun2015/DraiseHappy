@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.uban.rent.R;
+import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.RxSchedulersHelper;
@@ -45,7 +46,9 @@ public class SplashAppActivity extends BaseActivity {
                     @Override
                     public void call(Long aLong) {
                         initData();
-                        memberStatus();
+                        if (!HeaderConfig.isEmptyUbanToken()){
+                            memberStatus();
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
