@@ -236,7 +236,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     public void call(Events<?> events) {
                         UserLoginEvents userLoginEvents = events.getContent();
                         boolean isLogin = userLoginEvents.isLoginIn();
-                        ToastUtil.makeText(mContext,isLogin+"");
                         initHeadView(isLogin);
                         if (spaceDetailRentTypeAdapter!=null){
                             spaceDetailRentTypeAdapter.setPriceType(mPriceType);//更新会员状态
