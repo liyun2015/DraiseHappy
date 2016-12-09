@@ -18,10 +18,13 @@ import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
 import com.uban.rent.ui.view.wheelview.WheelView;
@@ -183,6 +186,26 @@ public class CreateOrdersActivity extends BaseActivity {
         totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
+        registerEvents();
+    }
+
+    private void registerEvents() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_ORDER_USER_LOGIN)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        submitOrder();
+                        finish();
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                })
+                .create();
     }
 
     private void initPriceView() {
@@ -354,7 +377,11 @@ public class CreateOrdersActivity extends BaseActivity {
                         ToastUtil.makeText(mContext, "请重选结束时间！");
                     }
                 } else {
-                    submitOrder();
+                    if (HeaderConfig.isEmptyUbanToken()){
+                        startActivity(new Intent(mContext, LoginActivity.class));
+                    }else {
+                        submitOrder();
+                    }
                 }
                 break;
             case R.id.add_btn://加工位

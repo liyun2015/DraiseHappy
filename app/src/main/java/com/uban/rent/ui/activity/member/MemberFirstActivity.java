@@ -23,7 +23,6 @@ import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
-import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.util.Constants;
@@ -77,13 +76,11 @@ public class MemberFirstActivity extends BaseActivity {
 
     private void registerEvents() {
         RxBus.with(this)
-                .setEvent(Events.EVENTS_USER_LOGIN)
+                .setEvent(Events.EVENTS_MEMBER_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
-                        UserLoginEvents userLoginEvents = events.getContent();
-                        boolean isLogin = userLoginEvents.isLoginIn();
                         if (HeaderConfig.isMemberStatus()){
                             startActivity(new Intent(mContext,MemberFinalActivity.class));
                             finish();
