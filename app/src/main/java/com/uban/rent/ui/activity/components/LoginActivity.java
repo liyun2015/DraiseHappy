@@ -225,7 +225,8 @@ public class LoginActivity extends BaseActivity {
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(true);
                         RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
-                        RxBus.getInstance().send(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN, "");
+                        RxBus.getInstance().send(Events.EVENTS_MEMBER_USER_LOGIN, new Object());//发送events事件会员状态
+                        RxBus.getInstance().send(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN, new Object());
                         finish();
                     }
                 }, new Action1<Throwable>() {
