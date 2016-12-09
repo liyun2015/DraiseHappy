@@ -449,7 +449,7 @@ public class CreateOrdersActivity extends BaseActivity {
         if(TextUtils.isEmpty( HeaderConfig.ubanToken())){
             Intent intent=new Intent();
             intent.setClass(this,LoginActivity.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
         }else{
             LoginedSubmitOrder();
         }
