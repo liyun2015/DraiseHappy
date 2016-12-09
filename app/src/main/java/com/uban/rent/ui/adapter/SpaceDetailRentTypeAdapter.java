@@ -113,10 +113,6 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         notifyDataSetChanged();
     }
 
-    public void setPriceType(){
-        notifyDataSetChanged();
-    }
-
     static class ViewHolder {
         @Bind(R.id.tv_space_name)
         TextView tvSpaceName;

@@ -232,19 +232,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         RxBus.with(this)
                 .setEvent(Events.EVENTS_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
                         UserLoginEvents userLoginEvents = events.getContent();
                         boolean isLogin = userLoginEvents.isLoginIn();
+                        ToastUtil.makeText(mContext,isLogin+"");
                         initHeadView(isLogin);
-                        spaceDetailRentTypeAdapter.setPriceType();//更新会员状态
+                        if (spaceDetailRentTypeAdapter!=null){
+                            spaceDetailRentTypeAdapter.setPriceType(mPriceType);//更新会员状态
+                        }
                     }
                 })
                 .onError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        Log.e("AAGAA",throwable.getMessage());
                     }
                 })
                 .create();
@@ -316,7 +318,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 加载头像view
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initHeadView(boolean isLogin) {
         View view = navigationView.getHeaderView(0);
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);

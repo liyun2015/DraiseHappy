@@ -3,9 +3,7 @@ package com.uban.rent.ui.activity.member;
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -76,9 +74,8 @@ public class MemberFirstActivity extends BaseActivity {
 
     private void registerEvents() {
         RxBus.with(this)
-                .setEvent(Events.EVENTS_MEMBER_USER_LOGIN)
+                .setEvent(Events.EVENTS_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
                         if (HeaderConfig.isMemberStatus()){
