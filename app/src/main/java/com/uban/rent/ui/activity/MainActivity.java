@@ -95,6 +95,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 import static com.baidu.mapapi.map.MapStatusUpdateFactory.newMapStatus;
+import static com.uban.rent.R.id.user_name;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -319,8 +320,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initHeadView(boolean isLogin) {
         View view = navigationView.getHeaderView(0);
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
-        TextView userName = (TextView) view.findViewById(R.id.user_name);
-
+        TextView userName = (TextView) view.findViewById(user_name);
         if (isLogin){
             ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
             userName.setText(HeaderConfig.nickName());
@@ -329,10 +329,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 public void onClick(View view) {
                 }
             });
+            userName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         } else {
             userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
             userName.setText("登录｜注册");
             userHeadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goActivity(LoginActivity.class);
+                }
+            });
+            userName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     goActivity(LoginActivity.class);

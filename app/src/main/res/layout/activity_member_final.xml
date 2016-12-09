@@ -74,8 +74,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="有效期:2018.10.10-2018.10-10"
-                    android:textColor="@color/colorGrayHint"
                     android:layout_marginLeft="20dp"
+                    android:textColor="#D2A359"
                     android:textSize="11sp"
                     android:layout_marginTop="20dp"/>
                 <TextView
@@ -91,7 +91,12 @@
                     android:textStyle="bold"
                     android:layout_alignParentBottom="true"/>
             </RelativeLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:text="在您抵达地点后，请向工作人员出示此二维码待工作人员扫描确认后方可享受免费hot desk服务。"/>
 
             <ImageView
                 android:id="@+id/qr_code_image"
@@ -100,23 +105,9 @@
                 android:scaleType="fitXY"
                 android:layout_gravity="center"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorPrimary"
-                android:text="在您抵达地点后，请向工作人员出示此二维码待工作人员扫描确认后方可享受免费hot desk服务。"/>
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/ic_more_jingcai"/>
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="50dp" />
+                android:layout_height="10dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

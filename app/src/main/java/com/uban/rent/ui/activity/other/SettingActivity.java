@@ -150,7 +150,9 @@ public class SettingActivity extends BaseActivity {
                 .setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String city = HeaderConfig.ubanCity();
                         SPUtils.clear(mContext);
+                        SPUtils.put(mContext,Constants.UBAN_CITY,city);
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(false);
                         RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);
