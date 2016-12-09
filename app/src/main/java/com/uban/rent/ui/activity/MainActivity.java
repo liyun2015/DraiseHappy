@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .onError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.i("EventError",throwable.getMessage());
+                        Log.i("searchEventError",throwable.getMessage());
                     }
                 })
                 .create();
@@ -245,7 +245,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .onError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.e("AAGAA",throwable.getMessage());
+                        Log.e("loginEventError",throwable.getMessage());
                     }
                 })
                 .create();
@@ -322,7 +322,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ImageView userHeadImage = (ImageView) view.findViewById(R.id.user_head_image);
         TextView userName = (TextView) view.findViewById(user_name);
         if (isLogin){
-            ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+            if (TextUtils.isEmpty(HeaderConfig.userHeadImage())){
+                userHeadImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_login_head_image));
+            }else {
+                ImageLoadUtils.displayImage(HeaderConfig.userHeadImage(),userHeadImage);
+            }
+
             userName.setText(HeaderConfig.nickName());
             userHeadImage.setOnClickListener(new View.OnClickListener() {
                 @Override

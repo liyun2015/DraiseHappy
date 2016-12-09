@@ -330,7 +330,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         UnifieOrderBean unifieOrderBean = new UnifieOrderBean();
         if("MemberCreateActivity".equals(sourceActivity)){
             unifieOrderBean.setBody("优办会员");
-            unifieOrderBean.setTotal_fee(String.valueOf(1));
+            unifieOrderBean.setTotal_fee(String.valueOf(100));
             unifieOrderBean.setNotify_url(Constants.UBAN_MEMBER_NOTIFY_URL);
         }else{
             unifieOrderBean.setBody(resultsBean.getOfficespaceBasicinfo().getSpaceCnName());
