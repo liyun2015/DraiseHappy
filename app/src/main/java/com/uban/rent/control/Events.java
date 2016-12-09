@@ -16,9 +16,10 @@ public class Events<T> {
     public static final int EVENTS_NORMAL_TYPE = 0;
     public static final int EVENTS_SEARCH_TYPE = 1;
     public static final int EVENTS_USER_LOGIN = 2;
+    public static final int EVENTS_SUBMIT_ORDER_USER_LOGIN = 3;
 
     //枚举
-    @IntDef({EVENTS_NORMAL_TYPE,EVENTS_SEARCH_TYPE,EVENTS_USER_LOGIN})
+    @IntDef({EVENTS_NORMAL_TYPE,EVENTS_SEARCH_TYPE,EVENTS_USER_LOGIN,EVENTS_SUBMIT_ORDER_USER_LOGIN})
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}
 

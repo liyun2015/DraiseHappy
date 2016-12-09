@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,14 +15,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
+import com.baidu.platform.comapi.map.A;
+import com.baidu.platform.comapi.map.B;
 import com.uban.rent.R;
 import com.uban.rent.api.config.HeaderConfig;
 import com.uban.rent.api.config.ServiceFactory;
 import com.uban.rent.base.BaseActivity;
+import com.uban.rent.control.Events;
+import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
+import com.uban.rent.control.events.SearchHomeViewEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
+import com.uban.rent.ui.activity.components.LoginActivity;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.wheelview.OnWheelScrollListener;
 import com.uban.rent.ui.view.wheelview.WheelView;
@@ -183,6 +190,25 @@ public class CreateOrdersActivity extends BaseActivity {
         totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
+        registerLoginEvent();
+    }
+
+    private void registerLoginEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        LoginedSubmitOrder();
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.i("EventError",throwable.getMessage());
+                    }
+                })
+                .create();
     }
 
     private void initPriceView() {
@@ -418,6 +444,15 @@ public class CreateOrdersActivity extends BaseActivity {
 
     //提交订单
     private void submitOrder() {
+        if(TextUtils.isEmpty( HeaderConfig.ubanToken())){
+            Intent intent=new Intent();
+            intent.setClass(this,LoginActivity.class);
+            startActivityForResult(intent, 0);
+        }else{
+            LoginedSubmitOrder();
+        }
+    }
+    private void LoginedSubmitOrder() {
         String orderStart = startTime.getText().toString().trim();
         String orderEnd = endTime.getText().toString().trim();
         if (TextUtils.isEmpty(orderStart) && TextUtils.isEmpty(orderEnd)) {
@@ -495,7 +530,6 @@ public class CreateOrdersActivity extends BaseActivity {
                         hideLoadingView();
                     }
                 });
-
     }
 
     private PopupWindow timePopupWindow; // 显示popupwindow
