@@ -1,11 +1,12 @@
 package com.uban.rent.ui.activity.order;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,7 @@ import com.uban.rent.base.BaseActivity;
 import com.uban.rent.control.Events;
 import com.uban.rent.control.RxBus;
 import com.uban.rent.control.RxSchedulersHelper;
-import com.uban.rent.control.events.SearchHomeViewEvents;
+import com.uban.rent.control.events.UserLoginEvents;
 import com.uban.rent.module.CreateOrderParamaBean;
 import com.uban.rent.module.request.RequestCreatOrder;
 import com.uban.rent.module.request.RequestCreatShortRentOrderBean;
@@ -190,13 +191,14 @@ public class CreateOrdersActivity extends BaseActivity {
         totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
-        registerLoginEvent();
+        registerEvent();
     }
 
-    private void registerLoginEvent() {
+    private void registerEvent() {
         RxBus.with(this)
                 .setEvent(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
                         LoginedSubmitOrder();
@@ -205,7 +207,7 @@ public class CreateOrdersActivity extends BaseActivity {
                 .onError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.i("EventError",throwable.getMessage());
+
                     }
                 })
                 .create();
