@@ -1,7 +1,9 @@
 package com.uban.rent.ui.activity.order;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -42,8 +44,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -186,17 +188,17 @@ public class CreateOrdersActivity extends BaseActivity {
         totalPrice.setText("￥ " + StringUtils.removeZero(String.valueOf(loctionNum * rentTime * price)) + "元");
         Calendar calendar = Calendar.getInstance();
         cruYear = calendar.get(Calendar.YEAR);
-        registerEvents();
+        registerEvent();
     }
 
-    private void registerEvents() {
+    private void registerEvent() {
         RxBus.with(this)
-                .setEvent(Events.EVENTS_ORDER_USER_LOGIN)
+                .setEvent(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
-                        submitOrder();
-                        finish();
+                        LoginedSubmitOrder();
                     }
                 })
                 .onError(new Action1<Throwable>() {
@@ -340,12 +342,7 @@ public class CreateOrdersActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 
     private void goActivity(Class<?> cls, RequestCreatShortRentOrderBean.ResultsBean resultsBean) {
         Intent orderIntent = new Intent();
@@ -377,11 +374,7 @@ public class CreateOrdersActivity extends BaseActivity {
                         ToastUtil.makeText(mContext, "请重选结束时间！");
                     }
                 } else {
-                    if (HeaderConfig.isEmptyUbanToken()){
-                        startActivity(new Intent(mContext, LoginActivity.class));
-                    }else {
-                        submitOrder();
-                    }
+                    submitOrder();
                 }
                 break;
             case R.id.add_btn://加工位
@@ -445,6 +438,15 @@ public class CreateOrdersActivity extends BaseActivity {
 
     //提交订单
     private void submitOrder() {
+        if(TextUtils.isEmpty( HeaderConfig.ubanToken())){
+            Intent intent=new Intent();
+            intent.setClass(this,LoginActivity.class);
+            startActivity(intent);
+        }else{
+            LoginedSubmitOrder();
+        }
+    }
+    private void LoginedSubmitOrder() {
         String orderStart = startTime.getText().toString().trim();
         String orderEnd = endTime.getText().toString().trim();
         if (TextUtils.isEmpty(orderStart) && TextUtils.isEmpty(orderEnd)) {
@@ -522,7 +524,6 @@ public class CreateOrdersActivity extends BaseActivity {
                         hideLoadingView();
                     }
                 });
-
     }
 
     private PopupWindow timePopupWindow; // 显示popupwindow

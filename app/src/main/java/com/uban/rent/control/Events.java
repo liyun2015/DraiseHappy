@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+
 /**
  * Events 事件定义基类
  * Created by dawabos on 2016/8/11.
@@ -17,10 +18,12 @@ public class Events<T> {
     public static final int EVENTS_SEARCH_TYPE = 1;
     public static final int EVENTS_USER_LOGIN = 2;
     public static final int EVENTS_MEMBER_USER_LOGIN = 3;
-    public static final int EVENTS_ORDER_USER_LOGIN = 4;
+    public static final int EVENTS_SUBMIT_ORDER_USER_LOGIN = 4;
 
     //枚举
-    @IntDef({EVENTS_NORMAL_TYPE,EVENTS_SEARCH_TYPE,EVENTS_USER_LOGIN,EVENTS_MEMBER_USER_LOGIN,EVENTS_ORDER_USER_LOGIN})
+    @IntDef({EVENTS_NORMAL_TYPE,EVENTS_SEARCH_TYPE,
+            EVENTS_MEMBER_USER_LOGIN,EVENTS_USER_LOGIN,
+            EVENTS_SUBMIT_ORDER_USER_LOGIN})
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}
 
