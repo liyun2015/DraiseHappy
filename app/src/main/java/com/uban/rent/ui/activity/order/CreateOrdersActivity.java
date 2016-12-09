@@ -1,9 +1,7 @@
 package com.uban.rent.ui.activity.order;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -45,7 +43,6 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import retrofit2.http.HEAD;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -193,9 +190,8 @@ public class CreateOrdersActivity extends BaseActivity {
 
     private void registerEvent() {
         RxBus.with(this)
-                .setEvent(Events.EVENTS_SUBMIT_ORDER_USER_LOGIN)
+                .setEvent(Events.EVENTS_USER_LOGIN)
                 .onNext(new Action1<Events<?>>() {
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void call(Events<?> events) {
                         LoginedSubmitOrder();
