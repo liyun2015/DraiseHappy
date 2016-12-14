@@ -49,7 +49,8 @@ android {
         /*wandoujia {}
         quihu360 {}
         xiaomi {}
-        tencent {}*/
+        tencent {}
+        HUAEWI{}*/
     }
 
     productFlavors.all { flavor ->
