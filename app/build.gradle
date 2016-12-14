@@ -118,5 +118,5 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.journeyapps:zxing-android-embedded:3.4.0'
     compile project(':social_sdk_library_project')
-    compile project(':maplibrary')
+    compile project(':map_library')
 }

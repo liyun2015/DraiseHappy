@@ -1,1 +1,1 @@
-include ':app', ':social_sdk_library_project', ':maplibrary'
+include ':app', ':social_sdk_library_project', ':map_library'
