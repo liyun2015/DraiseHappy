@@ -210,7 +210,9 @@ public class CreateOrdersActivity extends BaseActivity {
 
         if (priceType == 1) {
             termOfLeaseType.setText("时租");
-            price=1;
+            if(workDeskType != 6 && workDeskType != 7){
+                price=1;
+            }
             unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/时");
             stationTimeLayout.setVisibility(View.GONE);
             endTimeLayout.setVisibility(View.VISIBLE);
@@ -219,7 +221,9 @@ public class CreateOrdersActivity extends BaseActivity {
             startTimeLine.setVisibility(View.VISIBLE);
         } else if (priceType == 2) {
             termOfLeaseType.setText("日租");
-            price=1;
+            if(workDeskType != 6 && workDeskType != 7){
+                price=1;
+            }
             unitPrice.setText(StringUtils.removeZero(String.valueOf(price)) + "元/日");
             stationTimeLayout.setVisibility(View.VISIBLE);
             timeStr.setText("日");
