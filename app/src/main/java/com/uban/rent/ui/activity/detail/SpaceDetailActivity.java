@@ -543,7 +543,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.call_phone, R.id.rl_panorama, R.id.rl_supporting, R.id.tv_look_more_desc, R.id.iv_showEquipmentList, R.id.iv_showServiceList})
+    @OnClick({R.id.call_phone, R.id.tv_space_address,R.id.rl_panorama, R.id.rl_supporting, R.id.tv_look_more_desc, R.id.iv_showEquipmentList, R.id.iv_showServiceList})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.call_phone:
@@ -586,6 +586,9 @@ public class SpaceDetailActivity extends BaseActivity {
                 serviceIntent.putExtra(EquipmentServiceActivity.KEY_NAME_LIST, servicesnames);
                 serviceIntent.putExtra(EquipmentServiceActivity.KEY_IMAGE_LIST, servicesImages);
                 startActivity(serviceIntent);
+                break;
+            case R.id.tv_space_address:
+                //工位周边
                 break;
         }
     }

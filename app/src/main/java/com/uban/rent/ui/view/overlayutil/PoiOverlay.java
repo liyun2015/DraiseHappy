@@ -1,6 +1,8 @@
 package com.uban.rent.ui.view.overlayutil;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -10,6 +12,8 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.search.poi.PoiResult;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.uban.rent.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,8 @@ public class PoiOverlay extends OverlayManager {
 
     private PoiResult mPoiResult = null;
     private int iconId;
+    private Context context;
+    private RxAppCompatActivity inflate;
     /**
      * 构造函数
      * 
@@ -40,9 +46,11 @@ public class PoiOverlay extends OverlayManager {
      * @param poiResult
      *            设置POI数据
      */
-    public void setData(PoiResult poiResult, int id) {
+    public void setData(PoiResult poiResult, int id,Context context) {
         this.mPoiResult = poiResult;
         this.iconId = id;
+        this.context = context;
+        this.inflate = (RxAppCompatActivity)context;
     }
 
     @Override
@@ -61,7 +69,11 @@ public class PoiOverlay extends OverlayManager {
             Bundle bundle = new Bundle();
             bundle.putInt("index", i);
             //BitmapDescriptor bitmap = BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark" + markerSize + ".png");
-            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(iconId);
+            //BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(iconId);
+
+            View markerView = inflate.getLayoutInflater().inflate(R.layout.view_marker_icon, null);//
+            markerView.setBackgroundResource(iconId);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromView(markerView);
             markerList.add(new MarkerOptions().icon(bitmap).extraInfo(bundle).position(mPoiResult.getAllPoi().get(i).location));
             
         }

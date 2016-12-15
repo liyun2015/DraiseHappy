@@ -58,6 +58,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 import static com.uban.rent.R.id.recycle_view_station_service_equipment;
+import static com.uban.rent.R.id.tv_workplace_address;
 
 
 /**
@@ -88,7 +89,7 @@ public class StationDetailActivity extends BaseActivity {
     TextView tvWorkplaceName;
     @Bind(R.id.tv_workplace_station)
     TextView tvWorkplaceStation;
-    @Bind(R.id.tv_workplace_address)
+    @Bind(tv_workplace_address)
     TextView tvWorkplaceAddress;
     @Bind(R.id.tv_workplace_desc)
     TextView tvWorkplaceDesc;
@@ -470,7 +471,7 @@ public class StationDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list, R.id.order_create})
+    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list, R.id.order_create,tv_workplace_address})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_go_space_detail:
@@ -501,6 +502,9 @@ public class StationDetailActivity extends BaseActivity {
                     orderIntent.putExtra(CreateOrdersActivity.KEY_CREATE_ORDER_PARAME_BEAN, createOrderParamaBean);
                     startActivity(orderIntent);
                 }
+                break;
+            case R.id.tv_workplace_address:
+
                 break;
         }
     }

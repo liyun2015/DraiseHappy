@@ -88,16 +88,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_space_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:drawableLeft="@drawable/location_icon"
-                android:text="北京市东城区东四北大街107号 科林大厦B座107室"
-                android:textColor="@color/colorGray"
-                android:textSize="13sp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,7 +129,39 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/divider_1" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/tv_space_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="45dp"
+                    android:drawableLeft="@drawable/ic_small_location_view"
+                    android:drawablePadding="5dp"
+                    android:text="东北京市东城区东四北大街107 科林大厦B座107室"
+                    android:textColor="@color/colorGray"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textSize="13sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_go_to_here"/>
+            </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider_1" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -374,6 +397,8 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <!--技术指标 -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -381,7 +406,8 @@
                 android:layout_marginTop="10dp"
                 android:text="技术指标"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -389,7 +415,8 @@
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -431,7 +458,8 @@
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/divider_1" />
+                android:background="@color/divider_1"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -439,7 +467,8 @@
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -475,6 +504,10 @@
                     android:textColor="@color/colorGray"
                     android:textSize="12sp" />
             </LinearLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
 
             <include layout="@layout/include_message_notify_layout"/>
             <android.support.design.widget.TabLayout

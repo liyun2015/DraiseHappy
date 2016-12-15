@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22.5dp"
+    android:height="18.5dp"
+    android:viewportWidth="45"
+    android:viewportHeight="37">
+
+    <path
+        android:name="Line"
+        android:fillType="evenOdd"
+        android:strokeColor="#666666"
+        android:strokeWidth="4"
+        android:strokeLineCap="square"
+        android:pathData="M2,34.5 L2,15.5" />
+    <path
+        android:name="Line"
+        android:fillType="evenOdd"
+        android:strokeColor="#666666"
+        android:strokeWidth="4"
+        android:strokeLineCap="square"
+        android:pathData="M2,15 L31,15" />
+    <path
+        android:name="Path-2"
+        android:fillColor="#666666"
+        android:fillType="evenOdd"
+        android:strokeWidth="1"
+        android:pathData="M25,4.54747e-13 L25,29.6935 L44.2999,14.5616 Z" />
+</vector>
