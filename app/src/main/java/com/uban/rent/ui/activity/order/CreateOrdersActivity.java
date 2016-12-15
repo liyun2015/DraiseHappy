@@ -466,7 +466,7 @@ public class CreateOrdersActivity extends BaseActivity {
         RequestCreatOrder requestCreatOrder = new RequestCreatOrder();
         requestCreatOrder.setBeginTime(startTimes);
         requestCreatOrder.setEndTime(endTimes);
-        requestCreatOrder.setCityId(Integer.parseInt(HeaderConfig.ubanCity()));
+        //requestCreatOrder.setCityId(Integer.parseInt(HeaderConfig.ubanCity()));
         requestCreatOrder.setDealPrice(loctionNum * rentTime * price);
         requestCreatOrder.setRentType(priceType);
         requestCreatOrder.setRentTime(rentTime);

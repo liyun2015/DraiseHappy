@@ -614,6 +614,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         requestHomeMarkerList.setOfficespaceBasicinfoId(datasBean.getOfficespaceBasicinfoId());
         requestHomeMarkerList.setLocationX(locationX);
         requestHomeMarkerList.setLocationY(locationY);
+        requestHomeMarkerList.setShortRentFlag(shortRentFlag);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestHomeMarkerList)
                 .compose(this.<SpaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())

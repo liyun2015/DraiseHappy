@@ -182,6 +182,7 @@ public class SpaceDetailActivity extends BaseActivity {
         requestSpaceDetail.setOfficespaceBasicinfoId(officeSpaceBasicInfoId);
         requestSpaceDetail.setLocationX(locationX);
         requestSpaceDetail.setLocationY(locationY);
+        requestSpaceDetail.setShortRentFlag(0);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestSpaceDetail)
                 .compose(this.<SpaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())

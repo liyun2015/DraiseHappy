@@ -10,6 +10,17 @@ public class RequestSpaceDetail {
     private double locationX;
     private double locationY;
 
+    public int getShortRentFlag() {
+        return shortRentFlag;
+    }
+
+    public void setShortRentFlag(int shortRentFlag) {
+        this.shortRentFlag = shortRentFlag;
+    }
+
+    private int shortRentFlag;//工位类型标志  0：全部，1工位信息  2会议室活动场地
+
+
     public int getOfficespaceBasicinfoId() {
         return officespaceBasicinfoId;
     }
