@@ -38,7 +38,6 @@ import com.uban.rent.ui.view.overlayutil.PoiOverlay;
 import com.uban.rent.util.ConvertUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 
 public class SupportingActivity extends BaseActivity {
@@ -53,13 +52,13 @@ public class SupportingActivity extends BaseActivity {
     MapView mMapView;
     @Bind(R.id.activity_supporting)
     LinearLayout activitySupporting;
-    @Bind(R.id.mainRg)
+    @Bind(R.id.rgMainGroup)
     RadioGroup mainRg;
     private BaiduMap mBaiduMap;
     private PoiSearch mPoiSearch = null;
     private int curCheckId;
     private Marker mMarker;
-    private static final String[] KEYWORD_TYPE = new String[]{"公交", "地铁", "健身房", "银行", "酒店", "餐厅"};
+    private static final String[] KEYWORD_TYPE = new String[]{ "地铁", "公交", "餐厅" , "银行", "酒店"};
     private LatLng point;
     public static final int REMOVE_MAP_LOGO = 1;//去除地图logo
     @Override
@@ -95,7 +94,7 @@ public class SupportingActivity extends BaseActivity {
     }
 
     private void pathOverlay() {
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_poi_support);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_location_marker);
         // 构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
         // 在地图上添加Marker，并显示
@@ -116,15 +115,15 @@ public class SupportingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
-                    case R.id.btn_baidu_map_bus:
+                    case R.id.btn_baidu_map_subway:
                         curCheckId = checkedId;
                         showPoiMarkerView(0);
                         break;
-                    case R.id.btn_baidu_map_subway:
+                    case R.id.btn_baidu_map_bus:
                         curCheckId = checkedId;
                         showPoiMarkerView(1);
                         break;
-                    case R.id.btn_baidu_map_gym:
+                    case R.id.btn_baidu_map_restaurant:
                         curCheckId = checkedId;
                         showPoiMarkerView(2);
                         break;
@@ -136,10 +135,7 @@ public class SupportingActivity extends BaseActivity {
                         curCheckId = checkedId;
                         showPoiMarkerView(4);
                         break;
-                    case R.id.btn_baidu_map_restaurant:
-                        curCheckId = checkedId;
-                        showPoiMarkerView(5);
-                        break;
+
                     default:
                         break;
                 }
@@ -148,7 +144,7 @@ public class SupportingActivity extends BaseActivity {
         mainRg.check(curCheckId);
     }
 
-    private void showPoiMarkerView(int position) {
+    private void showPoiMarkerView(final int position) {
         mPoiSearch.searchNearby(new PoiNearbySearchOption()
                 .keyword(KEYWORD_TYPE[position]).location(point).radius(1500));
         mPoiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
@@ -165,7 +161,7 @@ public class SupportingActivity extends BaseActivity {
                     pathOverlay();
                     PoiOverlay overlay = new NearPoiOverlay(mBaiduMap);
                     mBaiduMap.setOnMarkerClickListener(overlay);
-                    overlay.setData(poiResult, R.drawable.ic_location_marker);
+                    overlay.setData(poiResult, getResID(position),mContext);
                     overlay.addToMap();
                     overlay.zoomToSpan();
                 }
@@ -197,6 +193,22 @@ public class SupportingActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private int getResID(int position) {
+        int resID =0;
+        if (position==0){
+            resID = R.drawable.ic_supporting_marker_subway;
+        }else if (position==1){
+            resID = R.drawable.ic_supporting_marker_bus;
+        }else if (position==2){
+            resID = R.drawable.ic_supporting_marker_dining;
+        }else if (position==3){
+            resID = R.drawable.ic_supporting_marker_bank;
+        }else if (position==4){
+            resID = R.drawable.ic_supporting_marker_hotel;
+        }
+        return resID;
     }
 
     BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
@@ -236,10 +248,4 @@ public class SupportingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }
