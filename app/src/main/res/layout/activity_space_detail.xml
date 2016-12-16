@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:drawableLeft="@drawable/ic_phone_white_small"
             android:gravity="center_vertical"
-            android:text="@string/str_phone_number"
+            android:text="电话咨询"
             android:textColor="@android:color/white"
             android:drawablePadding="5dp"
             android:textSize="16sp"

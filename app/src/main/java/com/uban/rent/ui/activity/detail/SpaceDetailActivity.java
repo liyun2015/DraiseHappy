@@ -123,7 +123,7 @@ public class SpaceDetailActivity extends BaseActivity {
     ImageView ivShowEquipmentList;
     @Bind(R.id.iv_showServiceList)
     ImageView ivShowServiceList;
-
+    private String directorPhone2="";
     private boolean isLookMoreDesc = true;
     private int officeSpaceBasicInfoId = 0;
     private double locationX = 116.486388;
@@ -316,6 +316,7 @@ public class SpaceDetailActivity extends BaseActivity {
         setBannerImages(resultsBean);//头部banner图片
         setPanorama(resultsBean);
         setaEquipmentServiceList(resultsBean);
+        directorPhone2 =resultsBean.getDirectorPhone2();
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvSpaceName.setText(resultsBean.getSpaceCnName());
         tvSpaceAddress.setText(resultsBean.getAddress());
@@ -536,7 +537,7 @@ public class SpaceDetailActivity extends BaseActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
-                            PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
+                            PhoneUtils.call(mContext, directorPhone2);
                         } else {
                             ToastUtil.makeText(mContext, "未授权");
                         }
