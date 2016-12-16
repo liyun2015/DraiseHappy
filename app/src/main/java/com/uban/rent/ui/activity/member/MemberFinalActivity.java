@@ -74,7 +74,7 @@ public class MemberFinalActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("优办会员");
+        toolbarContentText.setText("我的会员卡");
         memberStatus();
     }
 
@@ -152,7 +152,7 @@ public class MemberFinalActivity extends BaseActivity {
                         String createAt = formatTime(String.valueOf(resultsBean.getStartAt()), "yyyy.MM.dd");
                         String endAt = TimeUtils.formatTime(String.valueOf(resultsBean.getEndAt()), "yyyy.MM.dd");
                         tvExpiryDate.setText("有效期:" + createAt + "-" + endAt);
-                        tvOrderNumber.setText("NO."+resultsBean.getMemberNo());
+                        tvOrderNumber.setText("No."+resultsBean.getMemberNo());
                         String url = String.format(Constants.MEMBER_EQUIPMENT_QRCODE,resultsBean.getOfficespaceMemberId());
                         Bitmap bitmap = QRCodeUtil.createQRCodeWithLogo(url, 1000,
                                 BitmapFactory.decodeResource(getResources(),R.drawable.ic_qr_code_logo));

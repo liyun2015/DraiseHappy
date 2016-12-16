@@ -106,10 +106,6 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
     private int viewType;
     // 搜索相关
     RoutePlanSearch mSearch = null;
-    WalkingRouteResult nowResultwalk = null;
-    BikingRouteResult nowResultbike = null;
-    TransitRouteResult nowResultransit = null;
-    DrivingRouteResult nowResultdrive  = null;
     MassTransitRouteResult nowResultmass = null;
     int nodeIndex = -1; // 节点索引,供浏览节点时使用
     RouteLine route = null;
@@ -411,7 +407,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         }
         if (walkingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
             nodeIndex = -1;
-            if ( walkingRouteResult.getRouteLines().size() == 1 ) {
+            if ( walkingRouteResult.getRouteLines().size() >= 1 ) {
                 // 直接显示
                 route = walkingRouteResult.getRouteLines().get(0);
                 WalkingRouteOverlay overlay = new MyWalkingRouteOverlay(mBaiduMap);
@@ -443,7 +439,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         }
         if (transitRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
             nodeIndex = -1;
-           if ( transitRouteResult.getRouteLines().size() == 1 ) {
+           if ( transitRouteResult.getRouteLines().size() >= 1 ) {
                 // 直接显示
                 route = transitRouteResult.getRouteLines().get(0);
                 TransitRouteOverlay overlay = new MyTransitRouteOverlay(mBaiduMap);
@@ -515,7 +511,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
             nodeIndex = -1;
 
 
-           if ( drivingRouteResult.getRouteLines().size() == 1 ) {
+           if ( drivingRouteResult.getRouteLines().size() >= 1 ) {
                 route = drivingRouteResult.getRouteLines().get(0);
                 DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
                 routeOverlay = overlay;
@@ -550,7 +546,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         }
         if (bikingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
             nodeIndex = -1;
-            if ( bikingRouteResult.getRouteLines().size() == 1 ) {
+            if ( bikingRouteResult.getRouteLines().size() >= 1 ) {
                 route = bikingRouteResult.getRouteLines().get(0);
                 BikingRouteOverlay overlay = new MyBikingRouteOverlay(mBaiduMap);
                 routeOverlay = overlay;
