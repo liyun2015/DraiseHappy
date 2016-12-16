@@ -37,11 +37,11 @@ import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
 import com.uban.rent.ui.activity.components.PanoramaActivity;
 import com.uban.rent.ui.activity.components.SupportingActivity;
 import com.uban.rent.ui.adapter.BannerPicAdapter;
-import com.uban.rent.ui.adapter.equipmentservice.deprecated.EquipmentGridViewAdapter;
-import com.uban.rent.ui.adapter.equipmentservice.SpaceEquipmentItemAdapter;
-import com.uban.rent.ui.adapter.equipmentservice.deprecated.ServiceGridViewAdapter;
-import com.uban.rent.ui.adapter.equipmentservice.SpaceServiceItemAdapter;
 import com.uban.rent.ui.adapter.SpaceDetailRentTypeAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.SpaceEquipmentItemAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.SpaceServiceItemAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.EquipmentGridViewAdapter;
+import com.uban.rent.ui.adapter.equipmentservice.deprecated.ServiceGridViewAdapter;
 import com.uban.rent.ui.view.ToastUtil;
 import com.uban.rent.ui.view.UbanListView;
 import com.uban.rent.ui.view.banner.LoopViewPager;
@@ -63,6 +63,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -123,7 +124,7 @@ public class SpaceDetailActivity extends BaseActivity {
     ImageView ivShowEquipmentList;
     @Bind(R.id.iv_showServiceList)
     ImageView ivShowServiceList;
-
+    private String directorPhone2="";
     private boolean isLookMoreDesc = true;
     private int officeSpaceBasicInfoId = 0;
     private double requestLocationX = 116.486388;
@@ -319,6 +320,7 @@ public class SpaceDetailActivity extends BaseActivity {
         setBannerImages(resultsBean);//头部banner图片
         setPanorama(resultsBean);
         setaEquipmentServiceList(resultsBean);
+        directorPhone2 =resultsBean.getDirectorPhone2();
         toolbarContentText.setText(resultsBean.getSpaceCnName());
         tvSpaceName.setText(resultsBean.getSpaceCnName());
         tvSpaceAddress.setText(resultsBean.getAddress());
@@ -401,6 +403,8 @@ public class SpaceDetailActivity extends BaseActivity {
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
         requestGoWorkPlaceDetail.setPriceType(mPriceType);
         requestGoWorkPlaceDetail.setWorkplaceDetailId(spaceDeskTypePriceListBean.getId());
+        requestGoWorkPlaceDetail.setLat(locationY);
+        requestGoWorkPlaceDetail.setLng(locationX);
         return requestGoWorkPlaceDetail;
     }
 
@@ -539,7 +543,7 @@ public class SpaceDetailActivity extends BaseActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
-                            PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
+                            PhoneUtils.call(mContext, directorPhone2);
                         } else {
                             ToastUtil.makeText(mContext, "未授权");
                         }

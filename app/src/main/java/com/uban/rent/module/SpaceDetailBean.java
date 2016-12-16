@@ -117,6 +117,7 @@ public class SpaceDetailBean {
         private int officespaceBasicinfoId;
         private String services;
         private int status;
+        private String directorPhone2;
         private String director;
         private double spaceHeight;
         private String spaceFloor;
@@ -151,6 +152,13 @@ public class SpaceDetailBean {
         private String address;
         private double perStationArea;
         private int shortestFlag;
+        public String getDirectorPhone2() {
+            return directorPhone2;
+        }
+
+        public void setDirectorPhone2(String directorPhone2) {
+            this.directorPhone2 = directorPhone2;
+        }
         /**
          * category : 1
          * cityId : 12

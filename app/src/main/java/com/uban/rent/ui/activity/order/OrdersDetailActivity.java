@@ -153,6 +153,7 @@ public class OrdersDetailActivity extends BaseActivity {
     private int workdeskType;
     private RequestCreatShortRentOrderBean.ResultsBean resultDataBean;
     private TimeCount time;
+    private String directorPhone2="";
 
     @Override
     protected int getLayoutId() {
@@ -184,6 +185,7 @@ public class OrdersDetailActivity extends BaseActivity {
         orderNumber.setText("订单编号：" + orderNum);
         orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
+        directorPhone2 = resultsBean.getOfficespaceBasicinfo().getDirectorPhone2();
         int failureAt = resultsBean.getFailureAt();
         if (state == ORDER_TYPE[0]) {//0取消
             orderState.setText(ORDER_TYPE_STR[0]);
@@ -323,6 +325,7 @@ public class OrdersDetailActivity extends BaseActivity {
         if (null == orderNum) {
             RequestCreatShortRentOrderBean.ResultsBean resultsBean = (RequestCreatShortRentOrderBean.ResultsBean) getIntent().getSerializableExtra(KEY_CREATE_ORDER_RESULTSBEAN);
             orderNum = resultsBean.getOrderNo();
+            directorPhone2 = resultsBean.getOfficespaceBasicinfo().getDirectorPhone2();
         }
         RequestOrderDetailBean requestOrderDetailBean = new RequestOrderDetailBean();
         requestOrderDetailBean.setOrderNo(orderNum);
@@ -456,7 +459,7 @@ public class OrdersDetailActivity extends BaseActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
-                            PhoneUtils.call(mContext, Constants.PHONE_NUMBER);
+                            PhoneUtils.call(mContext, directorPhone2);
                         } else {
                             ToastUtil.makeText(mContext, "未授权");
                         }

@@ -32,6 +32,7 @@ import com.uban.rent.module.request.RequestGoSpaceDetail;
 import com.uban.rent.module.request.RequestGoWorkPlaceDetail;
 import com.uban.rent.module.request.RequestWorkplaceDetail;
 import com.uban.rent.ui.activity.components.EquipmentServiceActivity;
+import com.uban.rent.ui.activity.components.SupportingActivity;
 import com.uban.rent.ui.activity.member.MemberFinalActivity;
 import com.uban.rent.ui.activity.member.MemberFirstActivity;
 import com.uban.rent.ui.activity.order.CreateOrdersActivity;
@@ -123,6 +124,8 @@ public class StationDetailActivity extends BaseActivity {
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
 
+    private double locationX;
+    private double locationY;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -201,6 +204,8 @@ public class StationDetailActivity extends BaseActivity {
             RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = (RequestGoWorkPlaceDetail) getIntent().getSerializableExtra(KEY_BUILD_WORK_PLACE_DETAIL);
             mWorkPlaceId = requestGoWorkPlaceDetail.getWorkplaceDetailId();
             mPriceType = requestGoWorkPlaceDetail.getPriceType();
+            locationY = requestGoWorkPlaceDetail.getLat();
+            locationX = requestGoWorkPlaceDetail.getLng();
         }
         initData();
     }
@@ -504,7 +509,14 @@ public class StationDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_workplace_address:
-
+                Intent spaceIntent = new Intent();
+                spaceIntent.setClass(mContext, SupportingActivity.class);
+                spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
+                spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
+                spaceIntent.putExtra(SupportingActivity.KEY_ADDRESS,tvWorkplaceAddress.getText().toString());
+                spaceIntent.putExtra(SupportingActivity.KEY_NAME,toolbarContentText.getText().toString());
+                spaceIntent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_WORK);
+                startActivity(spaceIntent);
                 break;
         }
     }
