@@ -568,6 +568,7 @@ public class SpaceDetailActivity extends BaseActivity {
                 intent.setClass(mContext, SupportingActivity.class);
                 intent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
                 intent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
+                intent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_SPACE);
                 startActivity(intent);
                 break;
             case R.id.tv_look_more_desc:
@@ -589,6 +590,12 @@ public class SpaceDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_space_address:
                 //工位周边
+                Intent spaceIntent = new Intent();
+                spaceIntent.setClass(mContext, SupportingActivity.class);
+                spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
+                spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
+                spaceIntent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_WORK);
+                startActivity(spaceIntent);
                 break;
         }
     }
