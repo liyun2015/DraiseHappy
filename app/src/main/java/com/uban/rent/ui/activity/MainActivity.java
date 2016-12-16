@@ -923,6 +923,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 } else if (mCityCode.equals("289")){
                     initSaveCitySH();
                 }
+                SPUtils.put(mContext,Constants.LOCATION_LATITUDE,locationY);
+                SPUtils.put(mContext,Constants.LOCATION_LONGITUDE,locationX);
             }
         }
     };

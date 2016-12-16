@@ -26,6 +26,8 @@
                 android:id="@+id/rb_supporting_drive"
                 style="@style/SupportingTabStyle"
                 android:text="驾驶"
+                android:checked="true"
+                android:textSize="12sp"
                 android:textColor="@drawable/selector_supporting_title_text"
                 android:drawableTop="@drawable/ic_supporting_title_selector_01"/>
 
@@ -33,12 +35,14 @@
                 android:id="@+id/rb_supporting_bus"
                 style="@style/SupportingTabStyle"
                 android:text="公交"
+                android:textSize="12sp"
                 android:textColor="@drawable/selector_supporting_title_text"
                 android:drawableTop="@drawable/ic_supporting_title_selector_02"/>
             <RadioButton
                 android:id="@+id/rb_supporting_walk"
                 style="@style/SupportingTabStyle"
                 android:text="步行"
+                android:textSize="12sp"
                 android:textColor="@drawable/selector_supporting_title_text"
                 android:drawableTop="@drawable/ic_supporting_title_selector_03"/>
         </RadioGroup>

@@ -126,6 +126,8 @@ public class SpaceDetailActivity extends BaseActivity {
 
     private boolean isLookMoreDesc = true;
     private int officeSpaceBasicInfoId = 0;
+    private double requestLocationX = 116.486388;
+    private double requestLocationY = 40.000828;
     private double locationX = 116.486388;
     private double locationY = 40.000828;
     private SpaceDetailRentTypeAdapter spaceDetailRentTypeAdapter;
@@ -158,8 +160,8 @@ public class SpaceDetailActivity extends BaseActivity {
         spaceDeskTypePriceListBeen = new ArrayList<>();
 
         requestGoSpaceDetail = (RequestGoSpaceDetail) getIntent().getSerializableExtra(KEY_BUILD_SPACE_DETAIL);
-        locationX = requestGoSpaceDetail.getLocationX();
-        locationY = requestGoSpaceDetail.getLocationY();
+        requestLocationX = requestGoSpaceDetail.getLocationX();
+        requestLocationY = requestGoSpaceDetail.getLocationY();
         officeSpaceBasicInfoId = requestGoSpaceDetail.getOfficeSpaceBasicInfoId();
         initSocial();
         initData();
@@ -180,8 +182,8 @@ public class SpaceDetailActivity extends BaseActivity {
     private void initData() {
         RequestSpaceDetail requestSpaceDetail = new RequestSpaceDetail();
         requestSpaceDetail.setOfficespaceBasicinfoId(officeSpaceBasicInfoId);
-        requestSpaceDetail.setLocationX(locationX);
-        requestSpaceDetail.setLocationY(locationY);
+        requestSpaceDetail.setLocationX(requestLocationX);
+        requestSpaceDetail.setLocationY(requestLocationY);
         ServiceFactory.getProvideHttpService().getOfficeSpaceInfo(requestSpaceDetail)
                 .compose(this.<SpaceDetailBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<SpaceDetailBean>io_main())
@@ -312,6 +314,8 @@ public class SpaceDetailActivity extends BaseActivity {
     }
 
     private void initViewData(SpaceDetailBean.ResultsBean resultsBean) {
+        locationX = resultsBean.getMapX();
+        locationY = resultsBean.getMapY();
         setBannerImages(resultsBean);//头部banner图片
         setPanorama(resultsBean);
         setaEquipmentServiceList(resultsBean);
@@ -568,6 +572,8 @@ public class SpaceDetailActivity extends BaseActivity {
                 intent.setClass(mContext, SupportingActivity.class);
                 intent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
                 intent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
+                intent.putExtra(SupportingActivity.KEY_ADDRESS,tvSpaceAddress.getText().toString());
+                intent.putExtra(SupportingActivity.KEY_NAME,toolbarContentText.getText().toString());
                 intent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_SPACE);
                 startActivity(intent);
                 break;
@@ -594,6 +600,8 @@ public class SpaceDetailActivity extends BaseActivity {
                 spaceIntent.setClass(mContext, SupportingActivity.class);
                 spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
                 spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
+                spaceIntent.putExtra(SupportingActivity.KEY_ADDRESS,tvSpaceAddress.getText().toString());
+                spaceIntent.putExtra(SupportingActivity.KEY_NAME,toolbarContentText.getText().toString());
                 spaceIntent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_WORK);
                 startActivity(spaceIntent);
                 break;

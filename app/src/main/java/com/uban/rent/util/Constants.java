@@ -21,6 +21,8 @@ public class Constants {
     public static final String HEAD_IMAGE = "headImage";
     public static final String RESERVED = "reserved";
     public static final String RESERVED_PHONE = "android";
+    public static final String LOCATION_LATITUDE = "locationLatitude";
+    public static final String LOCATION_LONGITUDE = "locationLongitude";
     public static final String[] CITY_ID= new String[] { "12", "13"};
 
     public static final int RENT_HOUSE = 1;

@@ -60,7 +60,9 @@ import com.uban.rent.ui.view.overlayutil.OverlayManager;
 import com.uban.rent.ui.view.overlayutil.PoiOverlay;
 import com.uban.rent.ui.view.overlayutil.TransitRouteOverlay;
 import com.uban.rent.ui.view.overlayutil.WalkingRouteOverlay;
+import com.uban.rent.util.Constants;
 import com.uban.rent.util.ConvertUtils;
+import com.uban.rent.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -70,7 +72,9 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         OnGetRoutePlanResultListener {
     public static final String KEY_LOCATION_X = "Location_x";
     public static final String KEY_LOCATION_Y = "Location_y";
-    public static final String KEY_VIEW_TYPE = "VIEW_TYPE";//区分空间详情或工位详情进入 0，空间 1，工位
+    public static final String KEY_VIEW_TYPE = "view_type";//区分空间详情或工位详情进入 0，空间 1，工位
+    public static final String KEY_ADDRESS = "key_address";
+    public static final String KEY_NAME = "key_name";
     public static final int KEY_VALUE_SPACE = 0;
     public static final int KEY_VALUE_WORK = 1;
 
@@ -113,6 +117,9 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
     OverlayManager routeOverlay = null;
     boolean useDefaultIcon = false;
     int nowSearchType = -1 ; // 当前进行的检索，供判断浏览节点时结果使用。
+    private int mRouteSearchViewId = 2131558676 ;
+    private String mAddress;
+    private String mName;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_supporting;
@@ -123,10 +130,11 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         double locationX = getIntent().getDoubleExtra(KEY_LOCATION_X, 0.0);
         double locationY = getIntent().getDoubleExtra(KEY_LOCATION_Y, 0.0);
         viewType = getIntent().getIntExtra(KEY_VIEW_TYPE, KEY_VALUE_WORK);
+        mAddress = getIntent().getStringExtra(KEY_ADDRESS);
+        mName = getIntent().getStringExtra(KEY_NAME);
         point = new LatLng(locationY, locationX);
         initView();
         initData();
-        ToastUtil.makeText(mContext,"dasfasdfasf");
     }
 
 
@@ -158,24 +166,30 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         mMapView.showScaleControl(false);
         mBaiduMap.setOnMarkerClickListener(onMarkerClickListener);
         pathOverlay();
-        routePlanSearch();
+
     }
     private void routePlanSearch() {
-        // 地图点击事件处理
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_location_marker);
+        OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
+        mBaiduMap.addOverlay(option);
         mBaiduMap.setOnMapClickListener(this);
-        // 初始化搜索模块，注册事件监听
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
-
-        rgSupportingTitleView.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        View markerView = getLayoutInflater().inflate(R.layout.view_supporting_map_info_window, null);//
+        TextView first = (TextView)markerView.findViewById(R.id.tv_support_info_window_first);
+        TextView second = (TextView)markerView.findViewById(R.id.tv_support_info_window_second);
+        first.setText(mName);
+        second.setText(mAddress);
+        markerView.findViewById(R.id.supporting_info_window).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                curCheckId = i;
-                ToastUtil.makeText(mContext,"bbbb");
-                searchButtonProcess(0);
+            public void onClick(View view) {
+                searchButtonProcess(mRouteSearchViewId);
             }
         });
-        rgSupportingTitleView.check(curCheckId);
+
+        InfoWindow mInfoWindow = new InfoWindow(markerView, point, ConvertUtils.dp2px(mContext, -40));
+        mBaiduMap.showInfoWindow(mInfoWindow);
+
     }
     private void pathOverlay() {
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_location_marker);
@@ -183,9 +197,14 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
         // 在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
-        // 绘制图层
-        OverlayOptions circleOptions = new CircleOptions().center(point).radius(1500).fillColor(0x99CBCAE0);
-        mBaiduMap.addOverlay(circleOptions);
+        if (viewType==KEY_VALUE_SPACE){
+            // 绘制图层
+            OverlayOptions circleOptions = new CircleOptions().center(point).radius(1500).fillColor(0x99CBCAE0);
+            mBaiduMap.addOverlay(circleOptions);
+
+        }else {
+            routePlanSearch();
+        }
         MapStatus mMapStatus = new MapStatus.Builder().zoom(15f).target(point).build();
         MapStatusUpdate msu = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.animateMapStatus(msu, 400);
@@ -341,36 +360,29 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
 
     @OnClick({R.id.rb_supporting_drive, R.id.rb_supporting_bus, R.id.rb_supporting_walk, R.id.rg_supporting_title_view})
     public void onClick(View view) {
-        ToastUtil.makeText(mContext,"aaa");
-        searchButtonProcess(0);
+        mRouteSearchViewId = view.getId();
     }
 
-    public void searchButtonProcess(int position ) {
+    public void searchButtonProcess(int curCheckId) {
+
         // 重置浏览节点的路线数据
         route = null;
         mBaiduMap.clear();
-        // 处理搜索按钮响应
-        // 设置起终点信息，对于tranist search 来说，城市名无意义
-        PlanNode stNode = PlanNode.withCityNameAndPlaceName("北京", "望京");
-        PlanNode enNode = PlanNode.withCityNameAndPlaceName("北京", "五元桥");
-
-        // 实际使用中请对起点终点城市进行正确的设定
-
-        /*if (v.getId() == R.id.mass) {
-            PlanNode stMassNode = PlanNode.withCityNameAndPlaceName("北京", "天安门");
-            PlanNode enMassNode = PlanNode.withCityNameAndPlaceName("上海", "东方明珠");
-
-            mSearch.masstransitSearch(new MassTransitRoutePlanOption().from(stMassNode).to(enMassNode));
-            nowSearchType = 0;
-        } else */if (position == 0) {
+        routePlanSearch();
+        String locationY = (String) SPUtils.get(mContext, Constants.LOCATION_LATITUDE,"0.0");
+        String locationX = (String) SPUtils.get(mContext, Constants.LOCATION_LONGITUDE,"0.0");
+        LatLng latLng = new LatLng(Double.parseDouble(locationY),Double.parseDouble(locationX));
+        PlanNode stNode = PlanNode.withLocation(latLng);
+        PlanNode enNode = PlanNode.withLocation(point);
+        if (curCheckId == R.id.rb_supporting_drive) {
             mSearch.drivingSearch((new DrivingRoutePlanOption())
                     .from(stNode).to(enNode));
             nowSearchType = 1;
-        } else if (position == 1) {
+        } else if (curCheckId == R.id.rb_supporting_bus) {
             mSearch.transitSearch((new TransitRoutePlanOption())
                     .from(stNode).city("北京").to(enNode));
             nowSearchType = 2;
-        } else if (position==2) {
+        } else if (curCheckId == R.id.rb_supporting_walk) {
             mSearch.walkingSearch((new WalkingRoutePlanOption())
                     .from(stNode).to(enNode));
             nowSearchType = 3;
@@ -379,7 +391,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
 
     @Override
     public void onMapClick(LatLng latLng) {
-        mBaiduMap.hideInfoWindow();
+       // mBaiduMap.hideInfoWindow();
     }
 
     @Override
@@ -420,7 +432,6 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
 
     @Override
     public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-
 
         if (transitRouteResult == null || transitRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
             ToastUtil.makeText(mContext,"抱歉，未找到结果");
@@ -513,6 +524,7 @@ public class SupportingActivity extends BaseActivity implements BaiduMap.OnMapCl
                 overlay.addToMap();
                 overlay.zoomToSpan();
             } else {
+               ToastUtil.makeText(mContext,"抱歉，暂无数据");
                 Log.d("route result", "结果数<0" );
                 return;
             }
