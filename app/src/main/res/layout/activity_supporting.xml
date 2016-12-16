@@ -7,7 +7,43 @@
     android:orientation="vertical"
     android:background="@color/green_background"
     tools:context="com.uban.rent.ui.activity.components.SupportingActivity">
-    <include layout="@layout/include_toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/include_toolbar"/>
+        <RadioGroup
+            android:id="@+id/rg_supporting_title_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_centerVertical="true"
+            android:visibility="visible">
+
+            <RadioButton
+                android:id="@+id/rb_supporting_drive"
+                style="@style/SupportingTabStyle"
+                android:text="驾驶"
+                android:textColor="@drawable/selector_supporting_title_text"
+                android:drawableTop="@drawable/ic_supporting_title_selector_01"/>
+
+            <RadioButton
+                android:id="@+id/rb_supporting_bus"
+                style="@style/SupportingTabStyle"
+                android:text="公交"
+                android:textColor="@drawable/selector_supporting_title_text"
+                android:drawableTop="@drawable/ic_supporting_title_selector_02"/>
+            <RadioButton
+                android:id="@+id/rb_supporting_walk"
+                style="@style/SupportingTabStyle"
+                android:text="步行"
+                android:textColor="@drawable/selector_supporting_title_text"
+                android:drawableTop="@drawable/ic_supporting_title_selector_03"/>
+        </RadioGroup>
+
+    </RelativeLayout>
 
 
     <RelativeLayout
