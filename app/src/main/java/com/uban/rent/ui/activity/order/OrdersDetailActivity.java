@@ -264,13 +264,11 @@ public class OrdersDetailActivity extends BaseActivity {
             workLoctionType.setText("独立工位");
         } else if (workDeskType == 5) {
             workLoctionType.setText("开放工位");
-        } else if (workDeskType == 6) {
-            workLoctionType.setText("会议室");
-        } else if (workDeskType == 7) {
-            workLoctionType.setText("活动场地");
+        } else if (workDeskType == 6||workDeskType == 7) {
+            workLoctionType.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
         }
         if (workDeskType == 6 || workDeskType == 7) {
-            meetingRoomNameLayout.setVisibility(View.VISIBLE);
+            meetingRoomNameLayout.setVisibility(View.GONE);
             if(null!=resultsBean.getOfficespaceWorkdeskinfo()){
                 meetingRoomName.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
             }
