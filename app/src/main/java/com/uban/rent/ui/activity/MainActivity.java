@@ -513,18 +513,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             resID = R.drawable.ic_marker_conference_activities_normal;
         }
         if (datasBean.getShortestFlag() == Constants.SHORT_NEAR_FLAG) {
-            TextView textView = new TextView(this);
-            textView.setText("距离最近");
-            textView.setTextColor(Color.WHITE);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(12f);
-            textView.setPadding(0, 0, 0, 12);
-            textView.setBackgroundResource(R.drawable.ic_marker_near_windows);
             LatLng pt = new LatLng(datasBean.getMapY(), datasBean.getMapX());
-            //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-            InfoWindow mInfoWindow = new InfoWindow(textView, pt, ConvertUtils.dp2px(mContext,-40));
-            //显示InfoWindow
-            mBaiduMap.showInfoWindow(mInfoWindow);
+            showInfoWindow("距离最近",pt);
         }
         LatLng latLng = new LatLng(datasBean.getMapY(), datasBean.getMapX());
         if (mSearchFlag){
@@ -540,6 +530,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         bundle.putSerializable(KEY_BUNDLE, datasBean);
         mMarkerBase.setExtraInfo(bundle);
         mBaiduMap.setOnMarkerClickListener(markerOnclick);
+    }
+
+    private void showInfoWindow(String content,LatLng pt){
+        TextView textView = new TextView(this);
+        textView.setText(content);
+        textView.setTextColor(Color.WHITE);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(12f);
+        textView.setPadding(0, 0, 0, 12);
+        textView.setBackgroundResource(R.drawable.ic_marker_near_windows);
+        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+        InfoWindow mInfoWindow = new InfoWindow(textView, pt, ConvertUtils.dp2px(mContext,-40));
+        mBaiduMap.showInfoWindow(mInfoWindow);
     }
 
     /**
