@@ -16,6 +16,15 @@ public class CreateOrderParamaBean implements Serializable{
     private int price;
     private int priceType;
     private int workDeskType;
+    private String workDeskNo;
+
+    public String getWorkDeskNo() {
+        return workDeskNo;
+    }
+
+    public void setWorkDeskNo(String workDeskNo) {
+        this.workDeskNo = workDeskNo;
+    }
 
     public int getWorkDeskId() {
         return workDeskId;

@@ -100,6 +100,7 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
         createOrderParamaBean.setWorkHoursBegin(spaceDeskTypePriceListBean.getWorkHoursBegin());
         createOrderParamaBean.setWorkHoursEnd(spaceDeskTypePriceListBean.getWorkHoursEnd());
         createOrderParamaBean.setWorkDeskId(spaceDeskTypePriceListBean.getId());
+        createOrderParamaBean.setWorkDeskNo(spaceDeskTypePriceListBean.getWorkDeskNo());
         return createOrderParamaBean;
     }
 
