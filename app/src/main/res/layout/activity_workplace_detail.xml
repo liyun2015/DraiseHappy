@@ -151,22 +151,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="空闲数量："
+                            android:textColor="@color/colorGray"
+                            android:textSize="12sp" />
                         <TextView
                             android:id="@+id/tv_workplace_station"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="15"
+                            android:text="12"
                             android:textStyle="bold"
                             android:textColor="@color/colorAccent"
                             android:textSize="12sp" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="个工位空闲"
+                            android:text="个"
                             android:textColor="@color/colorGray"
                             android:textSize="12sp" />
+
                     </LinearLayout>
                 </LinearLayout>
                 <ImageView
