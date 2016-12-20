@@ -92,7 +92,38 @@
             android:src="@drawable/ic_arrow_right_gray"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:text="位置导航"
+        android:background="@color/white"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/navigation_route"
+        android:layout_width="match_parent"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:lineSpacingExtra="4dp"
+        android:text="东四北大街红色的克林大厦，进入b座10楼，出电梯间左手第一间即到达。"
+        android:background="@color/white"
+        android:textColor="@color/colorGray"
+        android:textSize="14sp"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider_2"
+            android:layout_height="0.1dp"/>
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:paddingTop="10dp"
@@ -102,14 +133,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/work_loction_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="独立工位"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/price_of_order"
             android:layout_width="wrap_content"
@@ -128,6 +152,18 @@
             android:text="时租"
             android:textColor="@color/colorGray"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/work_loction_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="独立工位"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -156,6 +192,7 @@
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
+        android:visibility="gone"
         android:background="@color/white"
         android:layout_height="wrap_content">
         <TextView
