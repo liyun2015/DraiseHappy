@@ -72,10 +72,9 @@
         <meta-data
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
-        <!-- 分享 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="583bf22cf5ade46c0c000429"/>
+        <!--友盟-->
+        <meta-data android:value="583bf22cf5ade46c0c000429" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
         <!-- 定位 -->
         <service
             android:name="com.baidu.location.f"
