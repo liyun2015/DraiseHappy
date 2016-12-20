@@ -936,6 +936,15 @@ public class RequestCreatShortRentOrderBean implements Serializable{
             private int type;
             private int ubanPrice;
             private String directorPhone2;
+            private String addressDesc;
+
+            public String getAddressDesc() {
+                return addressDesc;
+            }
+
+            public void setAddressDesc(String addressDesc) {
+                this.addressDesc = addressDesc;
+            }
 
             public String getDirectorPhone2() {
                 return directorPhone2;
