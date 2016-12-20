@@ -810,6 +810,7 @@ public class SpaceDetailBean {
         public static class SpaceDeskTypePriceListBean {
             private int id;
             private int workDeskType;
+            private String workDeskNo;
             private int workDeskPrice;
             private int hourPrice;
             private int cityId;
@@ -822,6 +823,14 @@ public class SpaceDetailBean {
              * 营业时间止 格式为18:00
              */
             private String workHoursEnd;
+
+            public String getWorkDeskNo() {
+                return workDeskNo;
+            }
+
+            public void setWorkDeskNo(String workDeskNo) {
+                this.workDeskNo = workDeskNo;
+            }
 
             public String getWorkHoursBegin() {
                 return workHoursBegin;
