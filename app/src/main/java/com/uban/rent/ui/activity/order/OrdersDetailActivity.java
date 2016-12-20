@@ -141,6 +141,8 @@ public class OrdersDetailActivity extends BaseActivity {
     LinearLayout darkeningBackgroundLayout;
     @Bind(R.id.order_build_name_layout)
     RelativeLayout orderBuildNameLayout;
+    @Bind(R.id.navigation_route)
+    TextView navigationRoute;
     private int state;//0取消,1等待确认,3等待支付,4支付成功,7退款成功,5退款中,13订单失效
     private static final Integer[] ORDER_TYPE = new Integer[]{0, 1, 3, 4, 7, 5, 13};
     private static final String[] ORDER_TYPE_STR = new String[]{"已取消", "等待确认", "等待支付", "支付成功", "退款成功", "退款中", "订单失效"};
@@ -153,7 +155,7 @@ public class OrdersDetailActivity extends BaseActivity {
     private int workdeskType;
     private RequestCreatShortRentOrderBean.ResultsBean resultDataBean;
     private TimeCount time;
-    private String directorPhone2="";
+    private String directorPhone2 = "";
 
     @Override
     protected int getLayoutId() {
@@ -186,6 +188,7 @@ public class OrdersDetailActivity extends BaseActivity {
         orderTime.setText(resultsBean.getCreatAt());
         state = resultsBean.getState();
         directorPhone2 = resultsBean.getOfficespaceBasicinfo().getDirectorPhone2();
+        navigationRoute.setText(resultsBean.getOfficespaceBasicinfo().getAddressDesc());
         int failureAt = resultsBean.getFailureAt();
         if (state == ORDER_TYPE[0]) {//0取消
             orderState.setText(ORDER_TYPE_STR[0]);
@@ -264,12 +267,12 @@ public class OrdersDetailActivity extends BaseActivity {
             workLoctionType.setText("独立工位");
         } else if (workDeskType == 5) {
             workLoctionType.setText("开放工位");
-        } else if (workDeskType == 6||workDeskType == 7) {
+        } else if (workDeskType == 6 || workDeskType == 7) {
             workLoctionType.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
         }
         if (workDeskType == 6 || workDeskType == 7) {
             meetingRoomNameLayout.setVisibility(View.GONE);
-            if(null!=resultsBean.getOfficespaceWorkdeskinfo()){
+            if (null != resultsBean.getOfficespaceWorkdeskinfo()) {
                 meetingRoomName.setText(resultsBean.getOfficespaceWorkdeskinfo().getWorkDeskNo());
             }
             stationStr.setText("间");
@@ -309,7 +312,7 @@ public class OrdersDetailActivity extends BaseActivity {
         }
         stationNum.setText(String.valueOf(resultsBean.getWorkDeskNum()));
         timeNum.setText(String.valueOf(resultsBean.getRentTime()));
-        priceInTota.setText(StringUtils.removeZero(String.valueOf(resultsBean.getDealPrice()))+"元");
+        priceInTota.setText(StringUtils.removeZero(String.valueOf(resultsBean.getDealPrice())) + "元");
         endTime.setText(TimeUtils.formatTime(String.valueOf(resultsBean.getEndTime()), "MM月dd日 HH:mm"));
     }
 
@@ -388,7 +391,7 @@ public class OrdersDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.order_build_name_layout,R.id.cancel_order_btn, R.id.submit_right_btn, R.id.meeting_room_making_call, R.id.meeting_room_cancel_order, R.id.meeting_room_submit_order})
+    @OnClick({R.id.order_build_name_layout, R.id.cancel_order_btn, R.id.submit_right_btn, R.id.meeting_room_making_call, R.id.meeting_room_cancel_order, R.id.meeting_room_submit_order})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_order_btn:
@@ -428,21 +431,23 @@ public class OrdersDetailActivity extends BaseActivity {
             case R.id.order_build_name_layout:
                 Intent intent = new Intent();
                 intent.setClass(mContext, StationDetailActivity.class);
-                intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL,requestGoWorkPlaceDetailBean());
-                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL,requestGoSpaceDetailBean());
+                intent.putExtra(StationDetailActivity.KEY_BUILD_WORK_PLACE_DETAIL, requestGoWorkPlaceDetailBean());
+                intent.putExtra(SpaceDetailActivity.KEY_BUILD_SPACE_DETAIL, requestGoSpaceDetailBean());
                 startActivity(intent);
                 break;
             default:
                 break;
         }
     }
-    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean(){
+
+    private RequestGoWorkPlaceDetail requestGoWorkPlaceDetailBean() {
         RequestGoWorkPlaceDetail requestGoWorkPlaceDetail = new RequestGoWorkPlaceDetail();
         requestGoWorkPlaceDetail.setWorkplaceDetailId(resultDataBean.getWorkDeskId());
         requestGoWorkPlaceDetail.setPriceType(resultDataBean.getRentType());
         return requestGoWorkPlaceDetail;
     }
-    private RequestGoSpaceDetail requestGoSpaceDetailBean(){
+
+    private RequestGoSpaceDetail requestGoSpaceDetailBean() {
         RequestGoSpaceDetail requestGoSpaceDetail = new RequestGoSpaceDetail();
         requestGoSpaceDetail.setLocationX(resultDataBean.getOfficespaceBasicinfo().getMapX());
         requestGoSpaceDetail.setLocationY(resultDataBean.getOfficespaceBasicinfo().getMapY());
@@ -452,7 +457,7 @@ public class OrdersDetailActivity extends BaseActivity {
 
     //拨打电话
     private void callPhone() {
-        RxPermissions.getInstance(mContext).request(Manifest .permission.CALL_PHONE)
+        RxPermissions.getInstance(mContext).request(Manifest.permission.CALL_PHONE)
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
@@ -649,14 +654,15 @@ public class OrdersDetailActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPageEnd(mContext,"订单详情页");
+        StatService.onPageEnd(mContext, "订单详情页");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onPageStart(mContext,"订单详情页");
+        StatService.onPageStart(mContext, "订单详情页");
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK

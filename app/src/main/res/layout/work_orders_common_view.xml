@@ -107,7 +107,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:lineSpacingExtra="4dp"
-        android:text="东四北大街红色的克林大厦，进入b座10楼，出电梯间左手第一间即到达。"
+        tools:text="东四北大街红色的克林大厦，进入b座10楼，出电梯间左手第一间即到达。"
         android:background="@color/white"
         android:textColor="@color/colorGray"
         android:textSize="14sp"
