@@ -21,9 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class HttpClient {
 
-//    public static final String BASE_URL = "http://112.126.82.240:30104";
-    public static final String BASE_URL = "http://app.api.rest.uban.com:30104";
-
+    public static final String BASE_URL = "http://112.126.82.240:30104";
+//    public static final String BASE_URL = "http://app.api.rest.uban.com:30104";
     private static HttpClient mInstance;
     private Retrofit singleton;
 

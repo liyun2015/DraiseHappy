@@ -53,12 +53,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.uban.rent.R.id.recycle_view_station_service_equipment;
 import static com.uban.rent.R.id.tv_workplace_address;
 
 
@@ -110,7 +110,9 @@ public class StationDetailActivity extends BaseActivity {
     View viewBottom;
     @Bind(R.id.ll_station_numbers)
     LinearLayout llStationNumbers;
-    @Bind(recycle_view_station_service_equipment)
+    @Bind(R.id.tv_work_place_name)
+    TextView tvWorkPlaceName;
+    @Bind(R.id.recycle_view_station_service_equipment)
     RecyclerView recycleViewStationServiceEquipment;
     private RequestGoSpaceDetail requestGoSpaceDetail;
     private int mWorkPlaceId;
@@ -126,6 +128,7 @@ public class StationDetailActivity extends BaseActivity {
 
     private double locationX;
     private double locationY;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_workplace_detail;
@@ -321,6 +324,12 @@ public class StationDetailActivity extends BaseActivity {
         tvWorkplaceTime.setText(resultsBean.getWorkTime());
         tvWorkplaceNotice.setText(resultsBean.getBuyDesc());
         wordDeskType = resultsBean.getWorkDeskType();
+        tvWorkPlaceName.setText(resultsBean.getWorkDeskNo());
+        if (resultsBean.getWorkDeskType()==6||resultsBean.getWorkDeskType()==7){
+            tvWorkPlaceName.setText(resultsBean.getWorkDeskNo());
+        }else {
+            tvWorkPlaceName.setText(Constants.WORK_DESK_TYPE_NAME[resultsBean.getWorkDeskType()]);
+        }
         if (resultsBean.getWorkDeskType() == Constants.HOT_DESK_TYPE) {
             llStationNumbers.setVisibility(View.GONE);
             tvPriceType.setVisibility(View.GONE);
@@ -413,6 +422,13 @@ public class StationDetailActivity extends BaseActivity {
         mShareAction.close();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<StationDetailActivity> mActivity;
@@ -476,7 +492,7 @@ public class StationDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list, R.id.order_create,tv_workplace_address})
+    @OnClick({R.id.rl_go_space_detail, R.id.iv_show_equipment_service_list, R.id.order_create, tv_workplace_address})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_go_space_detail:
@@ -513,9 +529,9 @@ public class StationDetailActivity extends BaseActivity {
                 spaceIntent.setClass(mContext, SupportingActivity.class);
                 spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_X, locationX);
                 spaceIntent.putExtra(SupportingActivity.KEY_LOCATION_Y, locationY);
-                spaceIntent.putExtra(SupportingActivity.KEY_ADDRESS,tvWorkplaceAddress.getText().toString());
-                spaceIntent.putExtra(SupportingActivity.KEY_NAME,toolbarContentText.getText().toString());
-                spaceIntent.putExtra(SupportingActivity.KEY_VIEW_TYPE,SupportingActivity.KEY_VALUE_WORK);
+                spaceIntent.putExtra(SupportingActivity.KEY_ADDRESS, tvWorkplaceAddress.getText().toString());
+                spaceIntent.putExtra(SupportingActivity.KEY_NAME, toolbarContentText.getText().toString());
+                spaceIntent.putExtra(SupportingActivity.KEY_VIEW_TYPE, SupportingActivity.KEY_VALUE_WORK);
                 startActivity(spaceIntent);
                 break;
         }
