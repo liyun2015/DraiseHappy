@@ -160,6 +160,7 @@ public class CreateOrdersActivity extends BaseActivity {
     private boolean timeIsTrue = false;
     private String isStartTimeDataDay="";
     private boolean isEndTimeChoose = false;
+    private String meetRoomName;
 
     @Override
     protected int getLayoutId() {
@@ -178,6 +179,7 @@ public class CreateOrdersActivity extends BaseActivity {
         workDeskType = createOrderParamaBean.getWorkDeskType();
         workHoursBegin = createOrderParamaBean.getWorkHoursBegin();
         workHoursEnd = createOrderParamaBean.getWorkHoursEnd();
+        meetRoomName=createOrderParamaBean.getWorkDeskNo();
         initView();
         initPriceView();//价格类型
         buildOfficeName.setText(spaceDeskName);
@@ -281,12 +283,9 @@ public class CreateOrdersActivity extends BaseActivity {
             stationOrOfficeStr.setText("独立工位");
         } else if (workDeskType == 5) {
             stationOrOfficeStr.setText("开放工位");
-        } else if (workDeskType == 6) {
-            stationOrOfficeStr.setText("会议室");
+        } else if (workDeskType == 6||workDeskType == 7) {
+            stationOrOfficeStr.setText(meetRoomName);
             loctionNum = 1;
-        } else if (workDeskType == 7) {
-            loctionNum = 1;
-            stationOrOfficeStr.setText("活动场地");
         }
 
         numder_of_stations.setText(String.valueOf(loctionNum));
