@@ -359,6 +359,7 @@ public class StationDetailActivity extends BaseActivity {
         createOrderParamaBean.setWorkHoursBegin(resultsBean.getWorkHoursBegin());
         createOrderParamaBean.setWorkHoursEnd(resultsBean.getWorkHoursEnd());
         createOrderParamaBean.setWorkDeskType(resultsBean.getWorkDeskType());
+        createOrderParamaBean.setWorkDeskNo(resultsBean.getWorkDeskNo());
     }
 
     private void initView() {
