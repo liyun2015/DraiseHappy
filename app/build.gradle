@@ -50,7 +50,7 @@ android {
         quihu360 {}
         xiaomi {}
         tencent {}
-        HUAEWI{}*/
+        huawei{}*/
     }
 
     productFlavors.all { flavor ->
