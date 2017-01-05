@@ -3,15 +3,16 @@ package com.uban.rent.api;
 
 import com.uban.rent.App;
 import com.uban.rent.api.config.RequestInterceptor;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 /**
  * HttpClient
@@ -20,8 +21,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class HttpClient {
 
-//    public static final String BASE_URL = "http://112.126.82.240:30104";
-    public static final String BASE_URL = "http://app.api.rest.uban.com:30104";
+    public static final String BASE_URL = "http://112.126.82.240:30104";
+//    public static final String BASE_URL = "http://app.api.rest.uban.com:30104";
     private static HttpClient mInstance;
     private Retrofit singleton;
 
