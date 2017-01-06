@@ -138,9 +138,9 @@ public class SpaceDetailRentTypeAdapter extends UBBaseAdapter<SpaceDetailBean.Re
                 itemView.setVisibility(View.VISIBLE);
                 //1 独立空间  2 开放空间 3 hot desk 4 独立工位 5 开放工位 6 会议室 7 活动场地
                 if (spaceDeskTypePriceListBean.getWorkDeskType()==6||spaceDeskTypePriceListBean.getWorkDeskType()==7){
-                    tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()]);
-                }else {
                     tvSpaceName.setText(spaceDeskTypePriceListBean.getWorkDeskNo());
+                }else {
+                    tvSpaceName.setText(Constants.WORK_DESK_TYPE_NAME[spaceDeskTypePriceListBean.getWorkDeskType()]);
                 }
                 if ((spaceDeskTypePriceListBean.getWorkDeskType())==Constants.HOT_DESK_TYPE){
                     tvCreateOrder.setText(HeaderConfig.isMemberStatus()?"我的会员":"成为会员");
