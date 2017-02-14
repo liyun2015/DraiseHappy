@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,6 @@ import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.control.events.UserLoginEvents;
 import com.or.goodlive.module.LoginInBean;
-import com.or.goodlive.module.request.RequestLogin;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
 import com.or.goodlive.ui.activity.other.AgreementActivity;
@@ -35,6 +35,8 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.or.goodlive.R.id.agreement_str;
+
 
 /**
  * Created by Administrator on 2017/2/8.
@@ -43,36 +45,29 @@ import rx.functions.Func1;
 
 public class RegisterActivity extends BaseActivity {
 
+
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.et_login_phone_num)
-    EditText etLoginPhoneNum;
-    @Bind(R.id.et_login_code_num)
-    EditText etLoginCodeNum;
+    @Bind(R.id.et_user_name)
+    EditText etUserName;
+    @Bind(R.id.et_pass_word)
+    EditText etPassWord;
+    @Bind(R.id.et_pone_number)
+    EditText etPoneNumber;
+    @Bind(R.id.et_verification_code)
+    EditText etVerificationCode;
+    @Bind(R.id.agreement_layout)
+    LinearLayout agreementLayout;
+    @Bind(agreement_str)
+    TextView agreementStr;
     @Bind(R.id.btn_login_login_submit)
     Button btnLoginLoginSubmit;
     @Bind(R.id.activity_login)
     LinearLayout activityLogin;
-    @Bind(R.id.user_name_str)
-    TextView userNameStr;
-    @Bind(R.id.password_str)
-    TextView passwordStr;
-    @Bind(R.id.phone_number_str)
-    TextView phoneNumberStr;
-    @Bind(R.id.et_phone_number)
-    EditText etPhoneNumber;
-    @Bind(R.id.verification_code_str)
-    TextView verificationCodeStr;
-    @Bind(R.id.et_verification_code)
-    EditText etVerificationCode;
     @Bind(R.id.get_verification_code_btn)
-    Button getVerificationCodeBtn;
-    @Bind(R.id.agreement_layout)
-    LinearLayout agreementLayout;
-    @Bind(R.id.agreement_str)
-    TextView agreementStr;
+    TextView getVerificationCodeBtn;
 
     @Override
     protected int getLayoutId() {
@@ -88,13 +83,17 @@ public class RegisterActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+            actionBar.setHomeAsUpIndicator(R.drawable.back);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("注册");
-
-
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.right_textview_login, menu);
+        return true;
     }
 
     @Override
@@ -104,17 +103,20 @@ public class RegisterActivity extends BaseActivity {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.login_text:
+                startActivity(new Intent(mContext, LoginActivity.class));
+                break;
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.btn_login_login_submit,R.id.get_verification_code_btn})
+    @OnClick({R.id.btn_login_login_submit, R.id.get_verification_code_btn,R.id.agreement_str})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login_login_submit:
-                String code = etLoginCodeNum.getText().toString().trim();
-                String phone = etLoginPhoneNum.getText().toString().trim();
+                String code = etVerificationCode.getText().toString().trim();
+                String phone = etPoneNumber.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtil.makeText(mContext, "手机号不能为空");
                 } else if (phone.length() <= 10) {
@@ -130,11 +132,14 @@ public class RegisterActivity extends BaseActivity {
             case R.id.get_verification_code_btn:
                 getVerificationode();
                 break;
+            case R.id.agreement_str:
+                startActivity(new Intent(mContext, AgreementActivity.class));
+                break;
         }
     }
 
     private void getVerificationode() {
-        String iphone = etPhoneNumber.getText().toString().trim();
+        String iphone = etPoneNumber.getText().toString().trim();
         RequestVerificationCode requestVerificationCode = new RequestVerificationCode();
         requestVerificationCode.setPhone(iphone);
         ServiceFactory.getProvideHttpService().sendVerificationCode(requestVerificationCode)

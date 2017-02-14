@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
@@ -28,11 +29,11 @@ import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
 
 
 public class LoginActivity extends BaseActivity {
@@ -49,6 +50,8 @@ public class LoginActivity extends BaseActivity {
     Button btnLoginLoginSubmit;
     @Bind(R.id.activity_login)
     LinearLayout activityLogin;
+    @Bind(R.id.password_find_layout)
+    RelativeLayout passwordFindLayout;
     private String code;
     private String phone;
 
@@ -90,27 +93,27 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({ R.id.btn_login_login_submit})
+    @OnClick({R.id.btn_login_login_submit,R.id.password_find_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login_login_submit:
                 code = etLoginCodeNum.getText().toString().trim();
                 phone = etLoginPhoneNum.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.makeText(mContext,"手机号不能为空");
-                }else if (phone.length()<=10){
-                    ToastUtil.makeText(mContext,"请输入正确手机号");
+                    ToastUtil.makeText(mContext, "手机号不能为空");
+                } else if (phone.length() <= 10) {
+                    ToastUtil.makeText(mContext, "请输入正确手机号");
                 } else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
-                } else if (code.length()<=5){
-                    ToastUtil.makeText(mContext,"验证码不正确");
-                }else {
+                } else if (code.length() <= 5) {
+                    ToastUtil.makeText(mContext, "验证码不正确");
+                } else {
                     loginApp();
                 }
                 break;
-//            case R.id.read_agreement:
-//                startActivity(new Intent(mContext, AgreementActivity.class));
-//                break;
+            case R.id.password_find_layout:
+                startActivity(new Intent(mContext, ForgotPasswordActivity.class));
+                break;
         }
     }
 
@@ -140,8 +143,8 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<LoginInBean, Boolean>() {
                     @Override
                     public Boolean call(LoginInBean loginInBean) {
-                        if (loginInBean.getStatusCode()!=Constants.STATUS_CODE_SUCCESS){
-                            ToastUtil.makeText(mContext,loginInBean.getMsg());
+                        if (loginInBean.getStatusCode() != Constants.STATUS_CODE_SUCCESS) {
+                            ToastUtil.makeText(mContext, loginInBean.getMsg());
                         }
                         return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
                     }
@@ -159,7 +162,7 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
                         SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
                         SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
-                        SPUtils.put(mContext, Constants.USER_MEMBER,resultsBean.getIsVip());
+                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getIsVip());
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(true);
                         RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
@@ -178,4 +181,12 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
 }
