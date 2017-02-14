@@ -1,79 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/app_bar_main"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0.5dp"
+        android:background="@color/divider_1"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/white"
+        app:tabSelectedTextColor="@color/green_background"
+        app:tabTextColor="@color/colorGray"
+        />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:background="@color/colorPrimary"
-        app:itemTextColor="@android:color/white"
-        app:itemIconTint="@android:color/white"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
-        app:itemTextAppearance="@style/TextAppearance">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#413F48"
-                android:layout_marginBottom="80dp"
-                android:layout_alignParentBottom="true"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:layout_height="wrap_content"
-                    android:text="切换城市："
-                    android:drawableLeft="@drawable/ic_select_city"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="20dp"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textView2" />
-
-                <TextView
-                    android:id="@+id/select_city_bj"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.8"
-                    android:layout_height="40dp"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:text="北京"/>
-                <TextView
-                    android:id="@+id/select_city_sh"
-                    android:textSize="14sp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/white"
-                    android:text="上海"/>
-            </LinearLayout>
-        </RelativeLayout>
-    </android.support.design.widget.NavigationView>
-
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/font_black_7"
-    tools:context="com.uban.rent.ui.activity.order.OrdersDetailActivity">
+    tools:context="com.or.goodlive.ui.activity.order.OrdersDetailActivity">
     <RelativeLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"

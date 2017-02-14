@@ -26,8 +26,8 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="actionMenuTextColor">@color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="actionMenuTextColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="AppSplash" parent="AppWelcome">
         <item name="android:windowBackground">@drawable/ic_splash_app</item>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.activity.member.MemberCreateActivity">
+    tools:context="com.or.goodlive.ui.activity.member.MemberCreateActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"

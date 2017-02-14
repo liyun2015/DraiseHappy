@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#302F35</color>
-    <color name="colorPrimaryDark">#302F35</color>
-    <color name="colorAccent">#FF5254</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#ffffff</color>
     <color name="colorGray">#666666</color>
 
     <!--灰白-->
@@ -19,12 +19,19 @@
     <color name="font_black_6">#E0E0E0</color>
     <color name="font_black_7">#F7F7F7</color>
     <color name="font_black_9">#F9F9F9</color>
-
+    <color name="font_black_f4">#F4F4F4</color>
+    <color name="text_gray">#666666</color>
+    <color name="text_gray_9">#999999</color>
+    <color name="text_gray_a">#aaaaaa</color>
+    <color name="black">#000000</color>
     <!-- divider -->
-    <color name="divider_1">#BDBDBD</color>
-    <color name="divider_2">#E5E5E6</color>
+    <color name="divider_1">#E5E5E5</color>
+    <color name="divider_2">#BDBDBD</color>
 
     <!--黄色-->
     <color name="yellow_background">#FFF5BE</color>
     <color name="green_background">#47BAB1</color>
+    <color name="blue">#2C81FE</color>
+    <!--粉色-->
+    <color name="pink">#f86889</color>
 </resources>

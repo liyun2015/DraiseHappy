@@ -4,7 +4,7 @@
     android:id="@+id/activity_refund_order"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uban.rent.ui.activity.other.RefundOrderActivity">
+    tools:context="com.or.goodlive.ui.activity.other.RefundOrderActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.activity.components.SearchActivity">
+    tools:context="com.or.goodlive.ui.activity.components.SearchActivity">
     <RelativeLayout
         android:id="@+id/top_title_view"
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:text="大家都在搜"
                 android:layout_margin="10dp"
                 android:textColor="@color/colorGray"/>
-            <com.uban.rent.ui.view.flowlayout.TagFlowLayout
+            <com.or.goodlive.ui.view.flowlayout.TagFlowLayout
                 android:id="@+id/tag_flow_layout"
                 app:max_select="1"
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/colorGray"/>
             </RelativeLayout>
-            <com.uban.rent.ui.view.UbanListView
+            <com.or.goodlive.ui.view.UbanListView
                 android:id="@+id/search_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

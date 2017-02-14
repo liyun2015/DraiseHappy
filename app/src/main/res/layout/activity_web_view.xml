@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.uban.rent.ui.activity.other.WebViewActivity">
+    tools:context="com.or.goodlive.ui.activity.other.WebViewActivity">
 
     <include layout="@layout/include_toolbar"/>
     <WebView

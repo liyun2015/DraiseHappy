@@ -4,11 +4,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
     defaultConfig {
-        applicationId "com.uban.rent"
+        applicationId "com.or.goodlive"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 1
+        versionName "1.0"
         manifestPlaceholders = [BAIDU_CHANNEL_VALUE: "baidu"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -36,7 +36,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "uban_short_rent_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        def fileName = "com_or_goodlive_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }

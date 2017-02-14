@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.uban.rent.ui.activity.detail.StationDetailActivity">
+    tools:context="com.or.goodlive.ui.activity.detail.StationDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.uban.rent.ui.view.banner.LoopViewPager
+                <com.or.goodlive.ui.view.banner.LoopViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="250dp" />
