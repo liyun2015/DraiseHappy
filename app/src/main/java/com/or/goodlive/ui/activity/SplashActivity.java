@@ -70,7 +70,7 @@ public class SplashActivity extends BaseActivity {
             saveNumberTimes(AppUtils.getAppVersionName(mContext));
             goActivity(WelcomeActivity.class);
         } else {
-            goActivity(MainActivity.class);
+            goActivity(LoginActivity.class);
         }
     }
     private boolean isFirst() {

@@ -26,12 +26,12 @@ public class HeaderConfig {
      * 加密用户身份信息
      * @return
      */
-    public static String ubanToken(){
-        String ubanToken =  (String) SPUtils.get(App.getInstance(),Constants.UBAN_TOKEN,"");
-        if (TextUtils.isEmpty(ubanToken))
+    public static String phpsessId(){
+        String phpsessId =  (String) SPUtils.get(App.getInstance(),Constants.PHPSESSID,"");
+        if (TextUtils.isEmpty(phpsessId))
             return "";
         else
-            return ubanToken;
+            return phpsessId;
     }
 
     /**

@@ -11,14 +11,14 @@ public class LoginInBean {
     /**
      * err : 成功
      * errno : 0
-     * rst : {"user":{"avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}}
-     * timestamp : 1487125833
+     * rst : {"user":{"PHPSESSID":"toj1rde42dkbka2m6886fdsqm0","avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}}
+     * timestamp : 1487154011
      */
 
     private String err;
     private String errno;
     /**
-     * user : {"avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}
+     * user : {"PHPSESSID":"toj1rde42dkbka2m6886fdsqm0","avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}
      */
 
     private RstBean rst;
@@ -58,6 +58,7 @@ public class LoginInBean {
 
     public static class RstBean {
         /**
+         * PHPSESSID : toj1rde42dkbka2m6886fdsqm0
          * avatar_url :
          * citycode : 110
          * create_time : 1487125528
@@ -99,6 +100,7 @@ public class LoginInBean {
         }
 
         public static class UserBean {
+            private String PHPSESSID;
             private String avatar_url;
             private int citycode;
             private int create_time;
@@ -127,6 +129,14 @@ public class LoginInBean {
             private String user_type;
             private String valid;
             private int year_income;
+
+            public String getPHPSESSID() {
+                return PHPSESSID;
+            }
+
+            public void setPHPSESSID(String PHPSESSID) {
+                this.PHPSESSID = PHPSESSID;
+            }
 
             public String getAvatar_url() {
                 return avatar_url;

@@ -23,6 +23,7 @@ import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.control.events.UserLoginEvents;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RequestLogin;
+import com.or.goodlive.ui.activity.MainActivity;
 import com.or.goodlive.ui.activity.other.AgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
@@ -152,6 +153,8 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new Action1<LoginInBean.RstBean>() {
                     @Override
                     public void call(LoginInBean.RstBean resultsBean) {
+                        SPUtils.put(mContext,Constants.PHPSESSID,resultsBean.getUser().getPHPSESSID());
+                        startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
                 }, new Action1<Throwable>() {

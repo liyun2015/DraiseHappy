@@ -24,6 +24,7 @@ import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
+import com.or.goodlive.ui.activity.MainActivity;
 import com.or.goodlive.ui.activity.other.AgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
@@ -229,7 +230,7 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void call(RegisterBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "注册成功！");
-                        startActivity(new Intent(mContext, LoginActivity.class));
+                        startActivity(new Intent(mContext, MainActivity.class));
                     }
                 }, new Action1<Throwable>() {
                     @Override

@@ -12,7 +12,7 @@ public class Constants {
     public static final String UBAN_MEMBER_NOTIFY_URL = "http://idfa.dev.or.com/ubanpay/memPaynotify.html";//会员支付回调地址
 
     public static final String UBAN_TOKEN = "ubanToken";//session
-    public static final String TOKEN = "token";//time
+    public static final String PHPSESSID = "PHPSESSID";
     public static final String UBAN_CITY = "ubanCity";
 
     public static final String NICK_NAME = "nickName";

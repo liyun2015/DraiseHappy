@@ -38,6 +38,7 @@ public class RequestInterceptor implements Interceptor {
         if (NetUtil.isNetworkConnected()) {
             Request compressedRequest = originalRequest.newBuilder()
                     .header("Cache-Control", CACHE_CONTROL_NETWORK)
+                    .header(Constants.PHPSESSID, HeaderConfig.phpsessId())
                     .build();
             Response response = chain.proceed(compressedRequest);
             return response;
