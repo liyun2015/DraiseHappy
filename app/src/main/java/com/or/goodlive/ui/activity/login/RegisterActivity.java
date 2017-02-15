@@ -21,6 +21,7 @@ import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.control.events.UserLoginEvents;
 import com.or.goodlive.module.LoginInBean;
+import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
 import com.or.goodlive.ui.activity.other.AgreementActivity;
@@ -115,18 +116,22 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login_login_submit:
-                String code = etVerificationCode.getText().toString().trim();
                 String phone = etPoneNumber.getText().toString().trim();
+                String setVerifyCode = etVerificationCode.getText().toString().trim();
+                String userName = etUserName.getText().toString().trim();
+                String passWord = etPassWord.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtil.makeText(mContext, "手机号不能为空");
                 } else if (phone.length() <= 10) {
                     ToastUtil.makeText(mContext, "请输入正确手机号");
-                } else if (TextUtils.isEmpty(code)) {
+                } else if (TextUtils.isEmpty(setVerifyCode)) {
                     ToastUtil.makeText(this, "验证码不能为空");
-                } else if (code.length() <= 5) {
-                    ToastUtil.makeText(mContext, "验证码不正确");
-                } else {
-                    loginApp();
+                } else if (TextUtils.isEmpty(userName)) {
+                    ToastUtil.makeText(mContext, "用户名不能为空");
+                } else if (TextUtils.isEmpty(passWord)) {
+                    ToastUtil.makeText(mContext, "密码不能为空");
+                }else {
+                    registerApp();
                 }
                 break;
             case R.id.get_verification_code_btn:
@@ -143,46 +148,38 @@ public class RegisterActivity extends BaseActivity {
         RequestVerificationCode requestVerificationCode = new RequestVerificationCode();
         requestVerificationCode.setPhone(iphone);
         ServiceFactory.getProvideHttpService().sendVerificationCode(requestVerificationCode)
-                .compose(this.<LoginInBean>bindToLifecycle())
-                .compose(RxSchedulersHelper.<LoginInBean>io_main())
+                .compose(this.<RegisterBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RegisterBean>io_main())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         showLoadingView();
                     }
                 })
-                .filter(new Func1<LoginInBean, Boolean>() {
+                .filter(new Func1<RegisterBean, Boolean>() {
                     @Override
-                    public Boolean call(LoginInBean loginInBean) {
-                        if (loginInBean.getStatusCode() != Constants.STATUS_CODE_SUCCESS) {
-                            ToastUtil.makeText(mContext, loginInBean.getMsg());
+                    public Boolean call(RegisterBean registerBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
+                            ToastUtil.makeText(mContext, registerBean.getErr());
                         }
-                        return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
                     }
                 })
-                .map(new Func1<LoginInBean, LoginInBean.ResultsBean>() {
+                .map(new Func1<RegisterBean, RegisterBean.RstBean>() {
                     @Override
-                    public LoginInBean.ResultsBean call(LoginInBean loginInBean) {
-                        return loginInBean.getResults();
+                    public RegisterBean.RstBean call(RegisterBean registerBean) {
+                        return registerBean.getRst();
                     }
                 })
-                .subscribe(new Action1<LoginInBean.ResultsBean>() {
+                .subscribe(new Action1<RegisterBean.RstBean>() {
                     @Override
-                    public void call(LoginInBean.ResultsBean resultsBean) {
-                        SPUtils.put(mContext, Constants.NICK_NAME, resultsBean.getNickname());
-                        SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
-                        SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
-                        SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getIsVip());
-                        UserLoginEvents userLoginEvents = new UserLoginEvents();
-                        userLoginEvents.setLoginIn(true);
-                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
-                        finish();
+                    public void call(RegisterBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "发送成功！");
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, "登录失败");
+                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
                         hideLoadingView();
                     }
                 }, new Action0() {
@@ -194,53 +191,50 @@ public class RegisterActivity extends BaseActivity {
     }
 
     //注册
-    private void loginApp() {
+    private void registerApp() {
+        String iphone = etPoneNumber.getText().toString().trim();
+        String setVerifyCode = etVerificationCode.getText().toString().trim();
+        String userName = etUserName.getText().toString().trim();
+        String passWord = etPassWord.getText().toString().trim();
         RequestRegisterBean requestRegister = new RequestRegisterBean();
-        requestRegister.setPhone("15801649867");
-        requestRegister.setVerify_code("1122");
-        requestRegister.setName("liyan");
-        requestRegister.setPassword("123456");
+        requestRegister.setPhone(iphone);
+        requestRegister.setVerify_code(setVerifyCode);
+        requestRegister.setName(userName);
+        requestRegister.setPassword(passWord);
         ServiceFactory.getProvideHttpService().register(requestRegister)
-                .compose(this.<LoginInBean>bindToLifecycle())
-                .compose(RxSchedulersHelper.<LoginInBean>io_main())
+                .compose(this.<RegisterBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RegisterBean>io_main())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         showLoadingView();
                     }
                 })
-                .filter(new Func1<LoginInBean, Boolean>() {
+                .filter(new Func1<RegisterBean, Boolean>() {
                     @Override
-                    public Boolean call(LoginInBean loginInBean) {
-                        if (loginInBean.getStatusCode() != Constants.STATUS_CODE_SUCCESS) {
-                            ToastUtil.makeText(mContext, loginInBean.getMsg());
+                    public Boolean call(RegisterBean registerBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
+                            ToastUtil.makeText(mContext, registerBean.getErr());
                         }
-                        return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
                     }
                 })
-                .map(new Func1<LoginInBean, LoginInBean.ResultsBean>() {
+                .map(new Func1<RegisterBean, RegisterBean.RstBean>() {
                     @Override
-                    public LoginInBean.ResultsBean call(LoginInBean loginInBean) {
-                        return loginInBean.getResults();
+                    public RegisterBean.RstBean call(RegisterBean registerBean) {
+                        return registerBean.getRst();
                     }
                 })
-                .subscribe(new Action1<LoginInBean.ResultsBean>() {
+                .subscribe(new Action1<RegisterBean.RstBean>() {
                     @Override
-                    public void call(LoginInBean.ResultsBean resultsBean) {
-                        SPUtils.put(mContext, Constants.NICK_NAME, resultsBean.getNickname());
-                        SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
-                        SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
-                        SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getIsVip());
-                        UserLoginEvents userLoginEvents = new UserLoginEvents();
-                        userLoginEvents.setLoginIn(true);
-                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
-                        finish();
+                    public void call(RegisterBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "注册成功！");
+                        startActivity(new Intent(mContext, LoginActivity.class));
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, "登录失败");
+                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
                         hideLoadingView();
                     }
                 }, new Action0() {

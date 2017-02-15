@@ -2,6 +2,7 @@ package com.or.goodlive.api;
 
 
 import com.or.goodlive.module.LoginInBean;
+import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestLogin;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
@@ -21,12 +22,15 @@ import rx.Observable;
 public interface ApiClient {
     //发送验证码
     @POST("/user/user/register")
-    Observable<LoginInBean> sendVerificationCode(@Body RequestVerificationCode requestVerificationCode);
+    Observable<RegisterBean> sendVerificationCode(@Body RequestVerificationCode requestVerificationCode);
     //注册
     @POST("/user/user/confirmRegister")
-    Observable<LoginInBean> register(@Body RequestRegisterBean requestRegister);
+    Observable<RegisterBean> register(@Body RequestRegisterBean requestRegister);
     //登录
-    @POST("/user/user/confirmRegister")
+    @POST("/user/user/login")
     Observable<LoginInBean> getLogin(@Body RequestLogin requestLogin);
+    // 修改密码
+    @POST("/user/user/updatePassword")
+    Observable<LoginInBean> updatePassword(@Body RequestLogin requestLogin);
 
 }

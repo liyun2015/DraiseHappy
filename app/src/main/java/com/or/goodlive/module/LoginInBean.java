@@ -9,152 +9,348 @@ public class LoginInBean {
 
 
     /**
-     * msg : 成功
-     * results : {"headphoto":"http://wx.qlogo.cn/mmopen/hnwQ6KbEHeX6Yb3M43g12WFreAy1lPNXUPTLfNnFWicP2icichvguVJrTjia2DO03rzL1XYyuicPjWBvicYvoibmG8GUqibeQDbkdocD/0","isBindWeixin":"1","isVip":0,"lastLoginTime":1481169529,"nickname":"138****0000","phone":"13800000000","points":0,"token":"P6v5D-5zBM2AeWuHGtLTwOa42JFezJUEPbkC5NhAoOedEEN8BX_yJGy5wfNnycrX4VtURXF29Nm1hrMGJGsZzqzjB9t2Lhu4n9gLuwZlf5JFfsf9dcPuDv9xPp9Cqm2MzmLODEhClFWici1tqF8TAADQwokjcJjRcdKzfSQQeTGSKps71la3DzvlAKPmbhyzLKkN-vSk4ODZjkEzVIEuvVLnXwt0_C3jTcpdEuMGtKf4o3rn56U12ZqvvAFJvcPr7VdcUl89KjqdWpQ3zbIebP91yYP5p90mAecuSFtDkJ_0NjCHXkb4t15U6Yz_eHpqrBmVClgVWoGnwFenbJhA0SDO18V_wHMAxunfyD1ufM41IxAx1S5eTf7XGfmHduEKTU4P-CbL5Oemn8i91kZUPenfvm6shijd7fFTj7YlgwGuYWLbgAac5QLQjOLr2TiNf7kO0Szy08VyK2kMsRN1-g0LCqncALiX6f6qyXBi5tHozyVdILOUH23NZSbH8OYhIKPU_ajVkJ3O4kd1zt3bogEAzFmUuIZDd98v650A2Zg","userId":11714,"wexinName":"武守磊","wexinSex":0}
-     * statusCode : 0
+     * err : 成功
+     * errno : 0
+     * rst : {"user":{"avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}}
+     * timestamp : 1487125833
      */
 
-    private String msg;
+    private String err;
+    private String errno;
     /**
-     * headphoto : http://wx.qlogo.cn/mmopen/hnwQ6KbEHeX6Yb3M43g12WFreAy1lPNXUPTLfNnFWicP2icichvguVJrTjia2DO03rzL1XYyuicPjWBvicYvoibmG8GUqibeQDbkdocD/0
-     * isBindWeixin : 1
-     * isVip : 0
-     * lastLoginTime : 1481169529
-     * nickname : 138****0000
-     * phone : 13800000000
-     * points : 0
-     * token : P6v5D-5zBM2AeWuHGtLTwOa42JFezJUEPbkC5NhAoOedEEN8BX_yJGy5wfNnycrX4VtURXF29Nm1hrMGJGsZzqzjB9t2Lhu4n9gLuwZlf5JFfsf9dcPuDv9xPp9Cqm2MzmLODEhClFWici1tqF8TAADQwokjcJjRcdKzfSQQeTGSKps71la3DzvlAKPmbhyzLKkN-vSk4ODZjkEzVIEuvVLnXwt0_C3jTcpdEuMGtKf4o3rn56U12ZqvvAFJvcPr7VdcUl89KjqdWpQ3zbIebP91yYP5p90mAecuSFtDkJ_0NjCHXkb4t15U6Yz_eHpqrBmVClgVWoGnwFenbJhA0SDO18V_wHMAxunfyD1ufM41IxAx1S5eTf7XGfmHduEKTU4P-CbL5Oemn8i91kZUPenfvm6shijd7fFTj7YlgwGuYWLbgAac5QLQjOLr2TiNf7kO0Szy08VyK2kMsRN1-g0LCqncALiX6f6qyXBi5tHozyVdILOUH23NZSbH8OYhIKPU_ajVkJ3O4kd1zt3bogEAzFmUuIZDd98v650A2Zg
-     * userId : 11714
-     * wexinName : 武守磊
-     * wexinSex : 0
+     * user : {"avatar_url":"","citycode":110,"create_time":1487125528,"deal_id":0,"device":"1","easemob_password":"","easemob_username":"","email":"","email_verified":0,"gender":"woman","grade":0,"id":1395,"last_login_time":0,"last_update_time":1487125528,"married":0,"name":"liyun","parlor_id":-1,"phone":"13693133934","phone_verified":1,"points":0,"qq_id":"","source":"okhttp/3.4.1","third_platform_type":"","user_level_id":0,"user_token":"","user_type":"0","valid":"valid","year_income":0}
      */
 
-    private ResultsBean results;
-    private int statusCode;
+    private RstBean rst;
+    private String timestamp;
 
-    public String getMsg() {
-        return msg;
+    public String getErr() {
+        return err;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setErr(String err) {
+        this.err = err;
     }
 
-    public ResultsBean getResults() {
-        return results;
+    public String getErrno() {
+        return errno;
     }
 
-    public void setResults(ResultsBean results) {
-        this.results = results;
+    public void setErrno(String errno) {
+        this.errno = errno;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public RstBean getRst() {
+        return rst;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setRst(RstBean rst) {
+        this.rst = rst;
     }
 
-    public static class ResultsBean {
-        private String headphoto;
-        private String isBindWeixin;
-        private int isVip;
-        private int lastLoginTime;
-        private String nickname;
-        private String phone;
-        private int points;
-        private String token;
-        private int userId;
-        private String wexinName;
-        private int wexinSex;
+    public String getTimestamp() {
+        return timestamp;
+    }
 
-        public String getHeadphoto() {
-            return headphoto;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public static class RstBean {
+        /**
+         * avatar_url :
+         * citycode : 110
+         * create_time : 1487125528
+         * deal_id : 0
+         * device : 1
+         * easemob_password :
+         * easemob_username :
+         * email :
+         * email_verified : 0
+         * gender : woman
+         * grade : 0
+         * id : 1395
+         * last_login_time : 0
+         * last_update_time : 1487125528
+         * married : 0
+         * name : liyun
+         * parlor_id : -1
+         * phone : 13693133934
+         * phone_verified : 1
+         * points : 0
+         * qq_id :
+         * source : okhttp/3.4.1
+         * third_platform_type :
+         * user_level_id : 0
+         * user_token :
+         * user_type : 0
+         * valid : valid
+         * year_income : 0
+         */
+
+        private UserBean user;
+
+        public UserBean getUser() {
+            return user;
         }
 
-        public void setHeadphoto(String headphoto) {
-            this.headphoto = headphoto;
+        public void setUser(UserBean user) {
+            this.user = user;
         }
 
-        public String getIsBindWeixin() {
-            return isBindWeixin;
-        }
+        public static class UserBean {
+            private String avatar_url;
+            private int citycode;
+            private int create_time;
+            private int deal_id;
+            private String device;
+            private String easemob_password;
+            private String easemob_username;
+            private String email;
+            private int email_verified;
+            private String gender;
+            private int grade;
+            private int id;
+            private int last_login_time;
+            private int last_update_time;
+            private int married;
+            private String name;
+            private int parlor_id;
+            private String phone;
+            private int phone_verified;
+            private int points;
+            private String qq_id;
+            private String source;
+            private String third_platform_type;
+            private int user_level_id;
+            private String user_token;
+            private String user_type;
+            private String valid;
+            private int year_income;
 
-        public void setIsBindWeixin(String isBindWeixin) {
-            this.isBindWeixin = isBindWeixin;
-        }
+            public String getAvatar_url() {
+                return avatar_url;
+            }
 
-        public int getIsVip() {
-            return isVip;
-        }
+            public void setAvatar_url(String avatar_url) {
+                this.avatar_url = avatar_url;
+            }
 
-        public void setIsVip(int isVip) {
-            this.isVip = isVip;
-        }
+            public int getCitycode() {
+                return citycode;
+            }
 
-        public int getLastLoginTime() {
-            return lastLoginTime;
-        }
+            public void setCitycode(int citycode) {
+                this.citycode = citycode;
+            }
 
-        public void setLastLoginTime(int lastLoginTime) {
-            this.lastLoginTime = lastLoginTime;
-        }
+            public int getCreate_time() {
+                return create_time;
+            }
 
-        public String getNickname() {
-            return nickname;
-        }
+            public void setCreate_time(int create_time) {
+                this.create_time = create_time;
+            }
 
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
+            public int getDeal_id() {
+                return deal_id;
+            }
 
-        public String getPhone() {
-            return phone;
-        }
+            public void setDeal_id(int deal_id) {
+                this.deal_id = deal_id;
+            }
 
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
+            public String getDevice() {
+                return device;
+            }
 
-        public int getPoints() {
-            return points;
-        }
+            public void setDevice(String device) {
+                this.device = device;
+            }
 
-        public void setPoints(int points) {
-            this.points = points;
-        }
+            public String getEasemob_password() {
+                return easemob_password;
+            }
 
-        public String getToken() {
-            return token;
-        }
+            public void setEasemob_password(String easemob_password) {
+                this.easemob_password = easemob_password;
+            }
 
-        public void setToken(String token) {
-            this.token = token;
-        }
+            public String getEasemob_username() {
+                return easemob_username;
+            }
 
-        public int getUserId() {
-            return userId;
-        }
+            public void setEasemob_username(String easemob_username) {
+                this.easemob_username = easemob_username;
+            }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
+            public String getEmail() {
+                return email;
+            }
 
-        public String getWexinName() {
-            return wexinName;
-        }
+            public void setEmail(String email) {
+                this.email = email;
+            }
 
-        public void setWexinName(String wexinName) {
-            this.wexinName = wexinName;
-        }
+            public int getEmail_verified() {
+                return email_verified;
+            }
 
-        public int getWexinSex() {
-            return wexinSex;
-        }
+            public void setEmail_verified(int email_verified) {
+                this.email_verified = email_verified;
+            }
 
-        public void setWexinSex(int wexinSex) {
-            this.wexinSex = wexinSex;
+            public String getGender() {
+                return gender;
+            }
+
+            public void setGender(String gender) {
+                this.gender = gender;
+            }
+
+            public int getGrade() {
+                return grade;
+            }
+
+            public void setGrade(int grade) {
+                this.grade = grade;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getLast_login_time() {
+                return last_login_time;
+            }
+
+            public void setLast_login_time(int last_login_time) {
+                this.last_login_time = last_login_time;
+            }
+
+            public int getLast_update_time() {
+                return last_update_time;
+            }
+
+            public void setLast_update_time(int last_update_time) {
+                this.last_update_time = last_update_time;
+            }
+
+            public int getMarried() {
+                return married;
+            }
+
+            public void setMarried(int married) {
+                this.married = married;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getParlor_id() {
+                return parlor_id;
+            }
+
+            public void setParlor_id(int parlor_id) {
+                this.parlor_id = parlor_id;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public int getPhone_verified() {
+                return phone_verified;
+            }
+
+            public void setPhone_verified(int phone_verified) {
+                this.phone_verified = phone_verified;
+            }
+
+            public int getPoints() {
+                return points;
+            }
+
+            public void setPoints(int points) {
+                this.points = points;
+            }
+
+            public String getQq_id() {
+                return qq_id;
+            }
+
+            public void setQq_id(String qq_id) {
+                this.qq_id = qq_id;
+            }
+
+            public String getSource() {
+                return source;
+            }
+
+            public void setSource(String source) {
+                this.source = source;
+            }
+
+            public String getThird_platform_type() {
+                return third_platform_type;
+            }
+
+            public void setThird_platform_type(String third_platform_type) {
+                this.third_platform_type = third_platform_type;
+            }
+
+            public int getUser_level_id() {
+                return user_level_id;
+            }
+
+            public void setUser_level_id(int user_level_id) {
+                this.user_level_id = user_level_id;
+            }
+
+            public String getUser_token() {
+                return user_token;
+            }
+
+            public void setUser_token(String user_token) {
+                this.user_token = user_token;
+            }
+
+            public String getUser_type() {
+                return user_type;
+            }
+
+            public void setUser_type(String user_type) {
+                this.user_type = user_type;
+            }
+
+            public String getValid() {
+                return valid;
+            }
+
+            public void setValid(String valid) {
+                this.valid = valid;
+            }
+
+            public int getYear_income() {
+                return year_income;
+            }
+
+            public void setYear_income(int year_income) {
+                this.year_income = year_income;
+            }
         }
     }
 }

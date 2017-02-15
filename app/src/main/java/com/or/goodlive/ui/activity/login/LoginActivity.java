@@ -101,12 +101,8 @@ public class LoginActivity extends BaseActivity {
                 phone = etLoginPhoneNum.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtil.makeText(mContext, "手机号不能为空");
-                } else if (phone.length() <= 10) {
-                    ToastUtil.makeText(mContext, "请输入正确手机号");
-                } else if (TextUtils.isEmpty(code)) {
+                }  else if (TextUtils.isEmpty(code)) {
                     ToastUtil.makeText(this, "验证码不能为空");
-                } else if (code.length() <= 5) {
-                    ToastUtil.makeText(mContext, "验证码不正确");
                 } else {
                     loginApp();
                 }
@@ -127,10 +123,8 @@ public class LoginActivity extends BaseActivity {
     //登录
     private void loginApp() {
         RequestLogin requestLogin = new RequestLogin();
-        requestLogin.setPhone("15801649867");
-        requestLogin.setVerify_code("1122");
-        requestLogin.setName("liyan");
-        requestLogin.setPassword("123456");
+        requestLogin.setPhone(phone);
+        requestLogin.setPassword(code);
         ServiceFactory.getProvideHttpService().getLogin(requestLogin)
                 .compose(this.<LoginInBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<LoginInBean>io_main())
@@ -143,29 +137,21 @@ public class LoginActivity extends BaseActivity {
                 .filter(new Func1<LoginInBean, Boolean>() {
                     @Override
                     public Boolean call(LoginInBean loginInBean) {
-                        if (loginInBean.getStatusCode() != Constants.STATUS_CODE_SUCCESS) {
-                            ToastUtil.makeText(mContext, loginInBean.getMsg());
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
                         }
-                        return loginInBean.getStatusCode() == Constants.STATUS_CODE_SUCCESS;
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
                     }
                 })
-                .map(new Func1<LoginInBean, LoginInBean.ResultsBean>() {
+                .map(new Func1<LoginInBean, LoginInBean.RstBean>() {
                     @Override
-                    public LoginInBean.ResultsBean call(LoginInBean loginInBean) {
-                        return loginInBean.getResults();
+                    public LoginInBean.RstBean call(LoginInBean loginInBean) {
+                        return loginInBean.getRst();
                     }
                 })
-                .subscribe(new Action1<LoginInBean.ResultsBean>() {
+                .subscribe(new Action1<LoginInBean.RstBean>() {
                     @Override
-                    public void call(LoginInBean.ResultsBean resultsBean) {
-                        SPUtils.put(mContext, Constants.NICK_NAME, resultsBean.getNickname());
-                        SPUtils.put(mContext, Constants.UBAN_TOKEN, resultsBean.getToken());
-                        SPUtils.put(mContext, Constants.PHONE, resultsBean.getPhone());
-                        SPUtils.put(mContext, Constants.HEAD_IMAGE, resultsBean.getHeadphoto());
-                        SPUtils.put(mContext, Constants.USER_MEMBER, resultsBean.getIsVip());
-                        UserLoginEvents userLoginEvents = new UserLoginEvents();
-                        userLoginEvents.setLoginIn(true);
-                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);//发送events事件登录成功
+                    public void call(LoginInBean.RstBean resultsBean) {
                         finish();
                     }
                 }, new Action1<Throwable>() {

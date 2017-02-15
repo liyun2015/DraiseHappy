@@ -33,7 +33,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/user_name_str"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:src="@drawable/user_name_icon"
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
                 android:layout_toRightOf="@+id/user_name_str"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:hint="手机号/账号"
                 android:maxLength="11"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/password_str"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/pass_word_icon"
                 android:layout_marginLeft="15dp"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/password_str"
                 android:layout_height="51dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:hint="请输入密码"
                 android:background="@null"
@@ -109,7 +109,7 @@
         android:layout_height="44dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/background_filling_uban_blue"
         android:text="登录"
         android:textColor="@color/white"

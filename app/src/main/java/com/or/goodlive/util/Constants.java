@@ -32,6 +32,7 @@ public class Constants {
     public static final int SHORT_NEAR_FLAG = 1;//距离最近标识
 
     public static final int STATUS_CODE_SUCCESS = 0;
+    public static final String RESULT_CODE_SUCCESS = "0";
     public static final int STATUS_CODE_ERROR = 1;
     public static final String PHONE_NUMBER = "010-57496664";
 
