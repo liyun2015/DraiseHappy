@@ -1,6 +1,8 @@
 package com.or.goodlive.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,12 +40,16 @@ public class CoverFragment extends BaseFragment {
 
     @Bind(R.id.rcv_cover_list)
     RecyclerView rcvCoverList;
-    private Integer category_id=1;
-    private Integer pageId=1;
-    private Integer count=10;
-    private List<CoverDataBean.RstBean.HomeactBean> coverDataList=new ArrayList<>();
+    @Bind(R.id.swipe_refresh_cover)
+    SwipeRefreshLayout swipeRefreshCover;
+    private Integer category_id = 1;
+    private Integer pageId = 1;
+    private Integer count = 10;
+    private List<CoverDataBean.RstBean.HomeactBean> coverDataList = new ArrayList<>();
     private CoverAdapter adapter;
-
+    private Handler handler;
+    private int pageIndex = 1;
+    private int pageSize = 10;
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
         CoverFragment fragment = new CoverFragment();
@@ -87,15 +93,16 @@ public class CoverFragment extends BaseFragment {
                 .subscribe(new Action1<CoverDataBean>() {
                     @Override
                     public void call(CoverDataBean coverDataBean) {
-                        if(null!=coverDataBean.getRst().getHomeact()){
+                        if (null != coverDataBean.getRst().getHomeact()) {
                             initListData(coverDataBean.getRst().getHomeact());
                         }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext,throwable.getMessage());
-                        hideLoadingView();}
+                        ToastUtil.makeText(mContext, throwable.getMessage());
+                        hideLoadingView();
+                    }
                 }, new Action0() {
                     @Override
                     public void call() {
@@ -110,14 +117,30 @@ public class CoverFragment extends BaseFragment {
             CoverDataBean.RstBean.HomeactBean b = new CoverDataBean.RstBean.HomeactBean();
             coverDataList.add(b);
         }
-        adapter=new CoverAdapter(R.layout.item_coverdata_list,coverDataList);
+        adapter = new CoverAdapter(R.layout.item_coverdata_list, coverDataList);
         rcvCoverList.setAdapter(adapter);
     }
 
 
     private void initView() {
+        handler = new Handler();
         rcvCoverList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        swipeRefreshCover.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        coverDataList.clear();
+                        pageIndex = 1;
+                        initData();
+                        swipeRefreshCover.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_right_image, menu);
