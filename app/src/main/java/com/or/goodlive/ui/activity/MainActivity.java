@@ -4,7 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 /**
@@ -33,13 +40,17 @@ public class MainActivity extends BaseActivity {
     TabLayout tabLayout;
     @Bind(R.id.vp_main)
     ViewPager viewPager;
+    @Bind(R.id.toolbar_content_text)
+    TextView toolbarContentText;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
 
     private List<Fragment> fragments;
 
 
-    public int []tabIcons={R.drawable.selector_main_tab_cover,R.drawable.selector_main_tab_yaming,R.drawable.selector_main_tab_locale,R.drawable.selector_main_tab_peer};
-    public String[] titles={"封面","一鸣","现场","同行"};
+    public int[] tabIcons = {R.drawable.selector_main_tab_cover, R.drawable.selector_main_tab_yaming, R.drawable.selector_main_tab_locale, R.drawable.selector_main_tab_peer};
+    public String[] titles = {"封面", "一鸣", "现场", "同行"};
 
 
     @Override
@@ -49,26 +60,54 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-
+        initView();
         initData();
     }
 
-    private void initData(){
+    private void initView() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.search_icon);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        toolbarContentText.setText("益直播");
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_right_image, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                //搜索
+                break;
+            case R.id.right_icon:
+                //startActivity(new Intent(getActivity(), AddSubscriptionActivity.class));
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void initData() {
         fragments = new ArrayList<>();
         fragments.add(CoverFragment.newInstance());
         fragments.add(YaMingFragment.newInstance());
         fragments.add(LocaleFragment.newInstance());
         fragments.add(PeerFragment.newInstance());
 
-        List<String>list_titles=new ArrayList<>();
-        for(String titile:titles)
-        {
+        List<String> list_titles = new ArrayList<>();
+        for (String titile : titles) {
             list_titles.add(titile);
         }
         FragmentTabAdapter adapter = new FragmentTabAdapter(getSupportFragmentManager(), fragments, list_titles);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(4);
-        tabLayout.setupWithViewPager(viewPager,true);
+        tabLayout.setupWithViewPager(viewPager, true);
         setupTabIcons();
     }
 
@@ -78,6 +117,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.getTabAt(2).setCustomView(getTabView(2));
         tabLayout.getTabAt(3).setCustomView(getTabView(3));
     }
+
     public View getTabView(int position) {
         View view = LayoutInflater.from(this).inflate(R.layout.layout_main_tab, null);
         TextView txt_title = (TextView) view.findViewById(R.id.tv_main_tab);
@@ -87,4 +127,10 @@ public class MainActivity extends BaseActivity {
         return view;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

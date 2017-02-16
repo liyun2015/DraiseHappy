@@ -16,8 +16,8 @@
     </android.support.design.widget.AppBarLayout>
     <View
         android:layout_width="match_parent"
-        android:background="@color/pink"
-        android:layout_height="1dp"/>
+        android:background="@color/divider_pink"
+        android:layout_height="0.5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="45dp"

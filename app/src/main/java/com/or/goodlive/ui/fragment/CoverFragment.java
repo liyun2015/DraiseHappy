@@ -1,19 +1,13 @@
 package com.or.goodlive.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
@@ -35,16 +29,13 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+
 /**
  * Created by Administrator on 2017/2/13.
  */
 
 public class CoverFragment extends BaseFragment {
 
-    @Bind(R.id.toolbar_content_text)
-    TextView toolbarContentText;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     @Bind(R.id.rcv_cover_list)
     RecyclerView rcvCoverList;
     private Integer category_id=1;
@@ -115,21 +106,16 @@ public class CoverFragment extends BaseFragment {
 
     private void initListData(List<CoverDataBean.RstBean.HomeactBean> homeact) {
         coverDataList.addAll(homeact);
+        for (int i = 0; i < 2; i++) {
+            CoverDataBean.RstBean.HomeactBean b = new CoverDataBean.RstBean.HomeactBean();
+            coverDataList.add(b);
+        }
         adapter=new CoverAdapter(R.layout.item_coverdata_list,coverDataList);
         rcvCoverList.setAdapter(adapter);
     }
 
 
     private void initView() {
-        setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.search_icon);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        toolbarContentText.setText("益直播");
         rcvCoverList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
     @Override
@@ -137,20 +123,6 @@ public class CoverFragment extends BaseFragment {
         inflater.inflate(R.menu.menu_right_image, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case android.R.id.home:
-                //搜索
-                break;
-            case R.id.right_icon:
-                //startActivity(new Intent(getActivity(), AddSubscriptionActivity.class));
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

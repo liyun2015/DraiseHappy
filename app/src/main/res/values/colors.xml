@@ -22,6 +22,7 @@
     <color name="font_black_f4">#F4F4F4</color>
     <color name="text_gray">#666666</color>
     <color name="text_gray_9">#999999</color>
+    <color name="text_gray_89">#898989</color>
     <color name="text_gray_a">#aaaaaa</color>
     <color name="black">#000000</color>
     <!-- divider -->
@@ -34,4 +35,6 @@
     <color name="blue">#2C81FE</color>
     <!--粉色-->
     <color name="pink">#f86889</color>
+    <color name="divider_pink">#FDCDD4</color>
+    <color name="divider_pink_1">#FACDDF</color>
 </resources>
