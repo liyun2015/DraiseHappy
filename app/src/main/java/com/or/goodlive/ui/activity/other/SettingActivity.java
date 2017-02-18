@@ -95,8 +95,6 @@ public class SettingActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position) {
                     case 0:
-                        StatService.onEvent(mContext, "Setting_AboutUbanOfficeEvent", "pass", 1);
-                        goActivity(AboutUsActivity.class);
                         break;
                     case 1:
                         StatService.onEvent(mContext, "Setting_UserProtocolEvent", "pass", 1);

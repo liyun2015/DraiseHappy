@@ -1,15 +1,14 @@
 package com.or.goodlive.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.or.goodlive.R;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.ui.activity.mycenter.MyCenterActivity;
 import com.or.goodlive.ui.adapter.FragmentTabAdapter;
 import com.or.goodlive.ui.fragment.CoverFragment;
 import com.or.goodlive.ui.fragment.LocaleFragment;
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
                 //搜索
                 break;
             case R.id.right_icon:
-                //startActivity(new Intent(getActivity(), AddSubscriptionActivity.class));
+                startActivity(new Intent(this, MyCenterActivity.class));
                 break;
 
         }

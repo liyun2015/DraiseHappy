@@ -130,6 +130,36 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--个人中心-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.MyCenterActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我的消息-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.MyMessageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--关于我们-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.AboutWeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--用户协议-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.UserAgreementActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--修改密码-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.ModifyPassWordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!--欢迎引导页-->
         <activity
             android:name="com.or.goodlive.ui.activity.welcome.WelcomeActivity"

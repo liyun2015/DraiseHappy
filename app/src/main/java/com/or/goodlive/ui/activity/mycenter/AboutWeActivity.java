@@ -1,12 +1,9 @@
-package com.or.goodlive.ui.activity.login;
+package com.or.goodlive.ui.activity.mycenter;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
@@ -14,35 +11,28 @@ import com.or.goodlive.base.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 /**
- * Created by Administrator on 2017/2/14.
- * 设置密码
+ * Created by Administrator on 2017/2/18.
  */
 
-public class SetPasswordActivity extends BaseActivity {
+public class AboutWeActivity extends BaseActivity {
+
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.et_new_pass_word)
-    EditText etNewPassWord;
-    @Bind(R.id.et_affirm_new_pass_word)
-    EditText etAffirmNewPassWord;
-    @Bind(R.id.btn_submit)
-    Button btnSubmit;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_set_password;
+        return R.layout.activity_about_we;
     }
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
     }
-
     private void initView() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -51,15 +41,9 @@ public class SetPasswordActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("找回密码");
+        toolbarContentText.setText("用户协议");
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -70,8 +54,10 @@ public class SetPasswordActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @OnClick(R.id.btn_submit)
-    public void onClick() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
