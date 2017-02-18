@@ -55,6 +55,8 @@ public class MyCenterActivity extends BaseActivity {
     ImageView clearCacheIcon;
     @Bind(R.id.clear_cache_layout)
     RelativeLayout clearCacheLayout;
+    @Bind(R.id.use_information_layout)
+    RelativeLayout useInformationLayout;
 
     @Override
     protected int getLayoutId() {
@@ -95,7 +97,7 @@ public class MyCenterActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.message_icon_layout, R.id.about_us_layout, R.id.user_agreement_layout, R.id.modify_password_layout, R.id.version_upgrade_layout, R.id.clear_cache_layout})
+    @OnClick({R.id.use_information_layout,R.id.message_icon_layout, R.id.about_us_layout, R.id.user_agreement_layout, R.id.modify_password_layout, R.id.version_upgrade_layout, R.id.clear_cache_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_icon_layout://我的消息
@@ -114,6 +116,10 @@ public class MyCenterActivity extends BaseActivity {
                 break;
             case R.id.clear_cache_layout://清除缓存
                 break;
+            case R.id.use_information_layout://修改用户资料
+                startActivity(new Intent(this, ModifyUserInforActivity.class));
+                break;
         }
     }
+
 }

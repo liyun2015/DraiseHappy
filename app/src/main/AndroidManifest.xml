@@ -160,6 +160,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--修改用户资料-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.ModifyUserInforActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!--欢迎引导页-->
         <activity
             android:name="com.or.goodlive.ui.activity.welcome.WelcomeActivity"

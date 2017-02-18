@@ -4,17 +4,14 @@
     android:background="@color/font_black_f4"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/include_toolbar" />
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/include_toolbar" />
     <View
         android:layout_width="match_parent"
         android:background="@color/divider_pink"
         android:layout_height="0.5dp"/>
+
     <RelativeLayout
+        android:id="@+id/use_information_layout"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:background="@color/white"
