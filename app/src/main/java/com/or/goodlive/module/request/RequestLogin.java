@@ -9,6 +9,15 @@ package com.or.goodlive.module.request;
 public class RequestLogin {
     private String password;
     private String phone;
+    private String new_password;
+
+    public String getNew_password() {
+        return new_password;
+    }
+
+    public void setNew_password(String new_password) {
+        this.new_password = new_password;
+    }
 
     public String getPassword() {
         return password;

@@ -1,10 +1,12 @@
 package com.or.goodlive.module.request;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/2/8.
  */
 
-public class RequestRegisterBean {
+public class RequestRegisterBean implements Serializable {
     private String password;
 
     public String getPhone() {

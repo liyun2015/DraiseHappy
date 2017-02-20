@@ -13,6 +13,7 @@ import com.or.goodlive.base.BaseActivity;
 import com.or.goodlive.ui.activity.login.LoginActivity;
 import com.or.goodlive.ui.activity.welcome.WelcomeActivity;
 import com.or.goodlive.util.AppUtils;
+import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
 
 
@@ -38,7 +39,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initView() {
-        String mFlag = (String) SPUtils.get(this, "COOKIE", "");
+        String mFlag = (String) SPUtils.get(this, Constants.PHPSESSID, "");
         if (TextUtils.isEmpty(mFlag)) {
             mHandler.sendEmptyMessageDelayed(GO_LOGIN, SPLASH_DELAY_MILLIS);
         } else {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import com.or.goodlive.R;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.activity.mycenter.MyCenterActivity;
 import com.or.goodlive.ui.adapter.FragmentTabAdapter;
 import com.or.goodlive.ui.fragment.CoverFragment;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 
 /**
@@ -62,6 +66,27 @@ public class MainActivity extends BaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
         initData();
+        regiserEvent();
+    }
+
+    private void regiserEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_USER_LOGIN_OUT)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        if(!isFinishing()){
+                            finish();
+                        }
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("loginEventError",throwable.getMessage());
+                    }
+                })
+                .create();
     }
 
     private void initView() {

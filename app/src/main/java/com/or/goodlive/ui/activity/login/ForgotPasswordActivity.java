@@ -13,11 +13,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.request.RegisterBean;
+import com.or.goodlive.module.request.RequestRegisterBean;
+import com.or.goodlive.module.request.RequestVerificationCode;
+import com.or.goodlive.ui.activity.MainActivity;
+import com.or.goodlive.ui.view.ToastUtil;
+import com.or.goodlive.util.Constants;
+import com.or.goodlive.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2017/2/14.
@@ -79,14 +92,105 @@ public class ForgotPasswordActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    @OnClick({R.id.forget_password_layout, R.id.btn_next_submit})
+    @OnClick({R.id.get_verification_code_btn, R.id.btn_next_submit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.forget_password_layout:
+            case R.id.get_verification_code_btn:
+                getVerificationode();
                 break;
             case R.id.btn_next_submit:
-                startActivity(new Intent(mContext, SetPasswordActivity.class));
+                confirmForgetPasswordCode();
                 break;
         }
+    }
+    private void confirmForgetPasswordCode() {
+        RequestRegisterBean requestRegisterBean=new RequestRegisterBean();
+        ServiceFactory.getProvideHttpService().confirmForgetPasswordCode(requestRegisterBean)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<BaseResultsBean, Boolean>() {
+                    @Override
+                    public Boolean call(BaseResultsBean registerBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
+                            ToastUtil.makeText(mContext, registerBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
+                    }
+                })
+                .map(new Func1<BaseResultsBean, BaseResultsBean.RstBean>() {
+                    @Override
+                    public BaseResultsBean.RstBean call(BaseResultsBean registerBean) {
+                        return registerBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<BaseResultsBean.RstBean>() {
+                    @Override
+                    public void call(BaseResultsBean.RstBean resultsBean) {
+                        startActivity(new Intent(mContext, SetPasswordActivity.class));
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+    private void getVerificationode() {
+        String iphone = etPoneNumber.getText().toString().trim();
+        RequestVerificationCode requestVerificationCode = new RequestVerificationCode();
+        requestVerificationCode.setPhone(iphone);
+        ServiceFactory.getProvideHttpService().forgetPassword(requestVerificationCode)
+                .compose(this.<RegisterBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RegisterBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<RegisterBean, Boolean>() {
+                    @Override
+                    public Boolean call(RegisterBean registerBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
+                            ToastUtil.makeText(mContext, registerBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
+                    }
+                })
+                .map(new Func1<RegisterBean, RegisterBean.RstBean>() {
+                    @Override
+                    public RegisterBean.RstBean call(RegisterBean registerBean) {
+                        return registerBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<RegisterBean.RstBean>() {
+                    @Override
+                    public void call(RegisterBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "发送成功！");
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 }

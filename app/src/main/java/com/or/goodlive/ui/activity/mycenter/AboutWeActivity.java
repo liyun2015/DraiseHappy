@@ -41,7 +41,7 @@ public class AboutWeActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("用户协议");
+        toolbarContentText.setText("关于我们");
     }
 
     @Override

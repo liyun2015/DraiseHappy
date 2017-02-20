@@ -1,19 +1,33 @@
 package com.or.goodlive.ui.activity.mycenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.LoginInBean;
+import com.or.goodlive.module.request.RequestLogin;
+import com.or.goodlive.ui.activity.MainActivity;
+import com.or.goodlive.ui.view.ToastUtil;
+import com.or.goodlive.util.Constants;
+import com.or.goodlive.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2017/2/18.
@@ -32,6 +46,9 @@ public class ModifyPassWordActivity extends BaseActivity {
     Button btnSubmit;
     @Bind(R.id.et_old_pass_word)
     EditText etOldPassWord;
+    private String newPswAff;
+    private String oldPsw;
+    private String newPsw;
 
     @Override
     protected int getLayoutId() {
@@ -74,5 +91,65 @@ public class ModifyPassWordActivity extends BaseActivity {
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
+        oldPsw = etOldPassWord.getText().toString().trim();
+        newPsw = etNewPassWord.getText().toString().trim();
+        newPswAff = etAffirmNewPassWord.getText().toString().trim();
+        if (TextUtils.isEmpty(oldPsw)) {
+            ToastUtil.makeText(mContext, "旧密码不能为空！");
+        }  else if (TextUtils.isEmpty(newPsw)) {
+            ToastUtil.makeText(this, "新密码不能为空！");
+        } else if (TextUtils.isEmpty(newPswAff)||!newPswAff.equals(newPsw)) {
+            ToastUtil.makeText(this, "二次新密码输入有误！");
+        } else {
+            modifyPassWord();
+        }
+    }
+
+    private void modifyPassWord() {
+        RequestLogin requestLogin = new RequestLogin();
+        requestLogin.setPassword(oldPsw);
+        requestLogin.setNew_password(newPswAff);
+        ServiceFactory.getProvideHttpService().updatePassword(requestLogin)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<BaseResultsBean, Boolean>() {
+                    @Override
+                    public Boolean call(BaseResultsBean loginInBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
+                    }
+                })
+                .map(new Func1<BaseResultsBean, BaseResultsBean.RstBean>() {
+                    @Override
+                    public BaseResultsBean.RstBean call(BaseResultsBean loginInBean) {
+                        return loginInBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<BaseResultsBean.RstBean>() {
+                    @Override
+                    public void call(BaseResultsBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "修改成功！");
+                        finish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "修改失败！");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 }

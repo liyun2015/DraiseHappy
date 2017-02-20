@@ -6,25 +6,55 @@ package com.or.goodlive.module;
  * Email dawabo@163.com
  */
 public class BaseResultsBean {
-    private int statusCode;
-    private String msg;
-    private String results;
-    public int getStatusCode() {
-        return statusCode;
+    private String err;
+    private String errno;
+
+    private String timestamp;
+
+    public String getErr() {
+        return err;
     }
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+
+    public void setErr(String err) {
+        this.err = err;
     }
-    public String getMsg() {
-        return msg;
+
+    public String getErrno() {
+        return errno;
     }
-    public void setMsg(String msg) {
-        this.msg = msg;
+
+    public void setErrno(String errno) {
+        this.errno = errno;
     }
-    public String getResults() {
-        return results;
+
+
+    public String getTimestamp() {
+        return timestamp;
     }
-    public void setResults(String results) {
-        this.results = results;
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
+
+    public RstBean getRst() {
+        return rst;
+    }
+
+    public void setRst(RstBean rst) {
+        this.rst = rst;
+    }
+
+    private RstBean rst;
+    public static class RstBean {
+        private String msg;
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+    }
+
 }

@@ -150,7 +150,7 @@
             android:windowSoftInputMode="adjustPan" />
         <!--用户协议-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.UserAgreementActivity"
+            android:name="com.or.goodlive.ui.activity.login.UserAgreementActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

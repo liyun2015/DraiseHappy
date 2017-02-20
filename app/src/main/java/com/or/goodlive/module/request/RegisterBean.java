@@ -1,5 +1,7 @@
 package com.or.goodlive.module.request;
 
+import com.or.goodlive.module.LoginInBean;
+
 import static com.baidu.location.b.g.S;
 
 /**
@@ -59,33 +61,25 @@ public class RegisterBean {
     }
 
     public static class RstBean {
-        private boolean success;
-        private int wait_time;
+        private UserBean user;
 
-        public String getMsg() {
-            return msg;
+        public UserBean getUser() {
+            return user;
         }
 
-        public void setMsg(String msg) {
-            this.msg = msg;
+        public void setUser(UserBean user) {
+            this.user = user;
         }
+        public static class UserBean {
+            private String PHPSESSID;
 
-        private String msg;
+            public String getPHPSESSID() {
+                return PHPSESSID;
+            }
 
-        public boolean isSuccess() {
-            return success;
-        }
-
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-
-        public int getWait_time() {
-            return wait_time;
-        }
-
-        public void setWait_time(int wait_time) {
-            this.wait_time = wait_time;
+            public void setPHPSESSID(String PHPSESSID) {
+                this.PHPSESSID = PHPSESSID;
+            }
         }
     }
 }

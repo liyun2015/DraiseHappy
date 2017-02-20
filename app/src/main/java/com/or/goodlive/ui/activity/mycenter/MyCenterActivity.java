@@ -6,12 +6,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.HeaderConfig;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
+import com.or.goodlive.control.events.UserLoginEvents;
+import com.or.goodlive.ui.activity.login.LoginActivity;
+import com.or.goodlive.ui.activity.login.UserAgreementActivity;
+import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
+import com.or.goodlive.util.Constants;
+import com.or.goodlive.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +67,8 @@ public class MyCenterActivity extends BaseActivity {
     RelativeLayout clearCacheLayout;
     @Bind(R.id.use_information_layout)
     RelativeLayout useInformationLayout;
+    @Bind(R.id.sigin_out_btn)
+    Button siginBtn;
 
     @Override
     protected int getLayoutId() {
@@ -97,7 +109,7 @@ public class MyCenterActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.use_information_layout,R.id.message_icon_layout, R.id.about_us_layout, R.id.user_agreement_layout, R.id.modify_password_layout, R.id.version_upgrade_layout, R.id.clear_cache_layout})
+    @OnClick({R.id.sigin_out_btn,R.id.use_information_layout,R.id.message_icon_layout, R.id.about_us_layout, R.id.user_agreement_layout, R.id.modify_password_layout, R.id.version_upgrade_layout, R.id.clear_cache_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_icon_layout://我的消息
@@ -119,7 +131,34 @@ public class MyCenterActivity extends BaseActivity {
             case R.id.use_information_layout://修改用户资料
                 startActivity(new Intent(this, ModifyUserInforActivity.class));
                 break;
+            case R.id.sigin_out_btn://退出登录
+                siginOut();
+                break;
         }
+
+    }
+    /**
+     * 退出登录
+     */
+    private void siginOut() {
+        AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+        alertDialogStyleApp.builder()
+                .setMsg("确定退出登录？")
+                .setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SPUtils.clear(mContext);
+                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN_OUT, new Object());
+                        startActivity(new Intent(mContext, LoginActivity.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                }).show();
     }
 
 }

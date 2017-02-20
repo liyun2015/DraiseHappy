@@ -97,8 +97,6 @@ public class SettingActivity extends BaseActivity {
                     case 0:
                         break;
                     case 1:
-                        StatService.onEvent(mContext, "Setting_UserProtocolEvent", "pass", 1);
-                        goActivity(AgreementActivity.class);
                         break;
                     case 2:
                         StatService.onEvent(mContext, "Setting_ShareToFriendsEvent", "pass", 1);
@@ -153,7 +151,6 @@ public class SettingActivity extends BaseActivity {
                         SPUtils.put(mContext,Constants.UBAN_CITY,city);
                         UserLoginEvents userLoginEvents = new UserLoginEvents();
                         userLoginEvents.setLoginIn(false);
-                        RxBus.getInstance().send(Events.EVENTS_USER_LOGIN, userLoginEvents);
                         finish();
                     }
                 })

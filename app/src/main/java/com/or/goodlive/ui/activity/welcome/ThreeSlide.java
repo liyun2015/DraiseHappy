@@ -1,5 +1,6 @@
 package com.or.goodlive.ui.activity.welcome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.or.goodlive.R;
+import com.or.goodlive.ui.activity.login.LoginActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/2/13.
@@ -33,7 +36,10 @@ public class ThreeSlide extends Fragment {
         ivWelcomeImage.setBackgroundResource(R.drawable.ic_welcome_show_3);
         return view;
     }
-
+    @OnClick(R.id.iv_welcome_image)
+    public void onClick() {
+        startActivity(new Intent(getContext(), LoginActivity.class));
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

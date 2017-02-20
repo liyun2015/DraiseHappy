@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,19 +15,13 @@ import android.widget.TextView;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.control.events.UserLoginEvents;
-import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
 import com.or.goodlive.ui.activity.MainActivity;
-import com.or.goodlive.ui.activity.other.AgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,6 +63,7 @@ public class RegisterActivity extends BaseActivity {
     LinearLayout activityLogin;
     @Bind(R.id.get_verification_code_btn)
     TextView getVerificationCodeBtn;
+    public static final String REGISTER_PARMARS = "registerParmars";
 
     @Override
     protected int getLayoutId() {
@@ -91,12 +85,12 @@ public class RegisterActivity extends BaseActivity {
         }
         toolbarContentText.setText("注册");
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.right_textview_login, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.right_textview_login, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,9 +99,9 @@ public class RegisterActivity extends BaseActivity {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.login_text:
-                startActivity(new Intent(mContext, LoginActivity.class));
-                break;
+//            case R.id.login_text:
+//                startActivity(new Intent(mContext, LoginActivity.class));
+//                break;
 
         }
         return super.onOptionsItemSelected(item);
@@ -132,14 +126,22 @@ public class RegisterActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(passWord)) {
                     ToastUtil.makeText(mContext, "密码不能为空");
                 }else {
-                    registerApp();
+                    String iphone = etPoneNumber.getText().toString().trim();
+                    String setVerifyCodes = etVerificationCode.getText().toString().trim();
+                    String userNames = etUserName.getText().toString().trim();
+                    String passWords = etPassWord.getText().toString().trim();
+                    RequestRegisterBean requestRegister = new RequestRegisterBean();
+                    requestRegister.setPhone(iphone);
+                    requestRegister.setVerify_code(setVerifyCodes);
+                    requestRegister.setName(userNames);
+                    requestRegister.setPassword(passWords);
+                    Intent intent = new Intent(mContext, UserAgreementActivity.class);
+                    intent.putExtra(REGISTER_PARMARS, requestRegister);
+                    startActivity(intent);
                 }
                 break;
             case R.id.get_verification_code_btn:
                 getVerificationode();
-                break;
-            case R.id.agreement_str:
-                startActivity(new Intent(mContext, AgreementActivity.class));
                 break;
         }
     }
@@ -176,61 +178,6 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void call(RegisterBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "发送成功！");
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
-                        hideLoadingView();
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
-                        hideLoadingView();
-                    }
-                });
-    }
-
-    //注册
-    private void registerApp() {
-        String iphone = etPoneNumber.getText().toString().trim();
-        String setVerifyCode = etVerificationCode.getText().toString().trim();
-        String userName = etUserName.getText().toString().trim();
-        String passWord = etPassWord.getText().toString().trim();
-        RequestRegisterBean requestRegister = new RequestRegisterBean();
-        requestRegister.setPhone(iphone);
-        requestRegister.setVerify_code(setVerifyCode);
-        requestRegister.setName(userName);
-        requestRegister.setPassword(passWord);
-        ServiceFactory.getProvideHttpService().register(requestRegister)
-                .compose(this.<RegisterBean>bindToLifecycle())
-                .compose(RxSchedulersHelper.<RegisterBean>io_main())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showLoadingView();
-                    }
-                })
-                .filter(new Func1<RegisterBean, Boolean>() {
-                    @Override
-                    public Boolean call(RegisterBean registerBean) {
-                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
-                            ToastUtil.makeText(mContext, registerBean.getErr());
-                        }
-                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
-                    }
-                })
-                .map(new Func1<RegisterBean, RegisterBean.RstBean>() {
-                    @Override
-                    public RegisterBean.RstBean call(RegisterBean registerBean) {
-                        return registerBean.getRst();
-                    }
-                })
-                .subscribe(new Action1<RegisterBean.RstBean>() {
-                    @Override
-                    public void call(RegisterBean.RstBean resultsBean) {
-                        ToastUtil.makeText(mContext, "注册成功！");
-                        startActivity(new Intent(mContext, MainActivity.class));
                     }
                 }, new Action1<Throwable>() {
                     @Override

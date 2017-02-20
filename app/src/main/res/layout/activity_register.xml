@@ -50,6 +50,7 @@
             android:layout_marginRight="20dp"
             android:hint="密码"
             android:maxLength="11"
+            android:inputType="numberPassword"
             android:background="@null"
             android:singleLine="true"
             android:textColor="@color/font_black_2"
@@ -124,6 +125,7 @@
             android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="wrap_content"
@@ -141,6 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:text="注册协议"
+            android:visibility="gone"
             android:layout_toRightOf="@id/agreement_layout"
             android:textSize="14sp"
             android:textColor="@color/pink"

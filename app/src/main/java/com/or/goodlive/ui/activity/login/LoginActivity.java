@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +18,10 @@ import android.widget.TextView;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.control.events.UserLoginEvents;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RequestLogin;
 import com.or.goodlive.ui.activity.MainActivity;
-import com.or.goodlive.ui.activity.other.AgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
@@ -71,7 +68,7 @@ public class LoginActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.back);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("登录");
@@ -83,9 +80,9 @@ public class LoginActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                finish();
-                break;
+//            case android.R.id.home:
+//                finish();
+//                break;
             case R.id.register_text:
                 startActivity(new Intent(mContext, RegisterActivity.class));
                 break;
@@ -178,4 +175,13 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 }
