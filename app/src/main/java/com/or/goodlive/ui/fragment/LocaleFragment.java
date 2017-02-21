@@ -54,7 +54,7 @@ public class LocaleFragment extends BaseFragment {
         for (int i = 0; i < TITLE_NAME.length; i++) {
             listFragments.add(LocaleChildFragment.newInstance(i));
         }
-        tabLocale.setTabMode(TabLayout.MODE_FIXED);
+        tabLocale.setTabMode(TabLayout.MODE_SCROLLABLE);
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getActivity().getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
         viewPagerLocale.setAdapter(fAdapter);
         tabLocale.setupWithViewPager(viewPagerLocale);
