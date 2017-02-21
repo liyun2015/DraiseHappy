@@ -5,14 +5,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.trello.rxlifecycle.components.support.RxFragment;
+import com.or.goodlive.R;
 import com.or.goodlive.ui.view.LoadingProgress;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import butterknife.ButterKnife;
+
+import static android.R.attr.id;
 
 /**
  * BaseFragment
@@ -95,4 +101,24 @@ public abstract class BaseFragment extends RxFragment {
     protected abstract int getLayoutId();
 
     protected abstract void afterCreate(Bundle savedInstanceState);
+
+    /**
+     * 设置空数据布局
+     * @param resourceid
+     * @param message
+     */
+    public View setEmptyDataView(int resourceid,String message){
+        View view=LayoutInflater.from(mContext).inflate(R.layout.layout_nodata, null);
+        TextView textView= (TextView) view.findViewById(R.id.tv_empty_message);
+        ImageView imageView= (ImageView) view.findViewById(R.id.iv_empty);
+        if(resourceid!=-1&&imageView!=null)
+        {
+            imageView.setImageResource(resourceid);
+        }
+        if(!TextUtils.isEmpty(message)&&textView!=null)
+        {
+            textView.setText(message);
+        }
+        return view;
+    }
 }

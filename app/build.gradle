@@ -119,5 +119,6 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.4.0'
     compile project(':social_sdk_library_project')
     compile project(':map_library')
+    compile project(':SwipeBackActivity')
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.0'
 }

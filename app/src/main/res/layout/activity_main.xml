@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_pink_1"/>
-    <android.support.v4.view.ViewPager
+    <com.or.goodlive.ui.view.CustomViewPager
         android:id="@+id/vp_main"
         android:layout_width="fill_parent"
         android:layout_height="0dp"

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.base.OldBaseActivity;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RequestLogin;
@@ -34,7 +34,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends OldBaseActivity {
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -120,6 +120,7 @@ public class LoginActivity extends BaseActivity {
 
     //登录
     private void loginApp() {
+        Constants.isNoCookie=true;
         RequestLogin requestLogin = new RequestLogin();
         requestLogin.setPhone(phone);
         requestLogin.setPassword(code);

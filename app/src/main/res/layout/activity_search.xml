@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
-    tools:context="com.or.goodlive.ui.activity.components.SearchActivity">
+    android:background="@android:color/white">
     <RelativeLayout
         android:id="@+id/top_title_view"
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="17dp"
-            android:src="@drawable/ic_arrow_back"/>
+            android:src="@drawable/back"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edit_search"

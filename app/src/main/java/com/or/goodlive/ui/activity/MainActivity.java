@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
-import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.base.OldBaseActivity;
 import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.activity.mycenter.MyCenterActivity;
@@ -38,7 +38,7 @@ import rx.functions.Action1;
  * Created by Administrator on 2017/2/7.
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends OldBaseActivity {
 
     @Bind(R.id.tl_main)
     TabLayout tabLayout;
@@ -110,6 +110,7 @@ public class MainActivity extends BaseActivity {
         switch (id) {
             case android.R.id.home:
                 //搜索
+                startActivity(new Intent(this, SearchActivity.class));
                 break;
             case R.id.right_icon:
                 startActivity(new Intent(this, MyCenterActivity.class));

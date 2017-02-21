@@ -48,5 +48,8 @@ public interface ApiClient {
     // 封面
     @POST("/user/cover/list")
     Observable<CoverDataBean> getCoverList(@QueryMap Map<String,Integer> map);
+    // 同行
+    @POST("/user/news/list")
+    Observable<CoverDataBean> getNewsList(@QueryMap Map<String,Integer> map);
 
 }

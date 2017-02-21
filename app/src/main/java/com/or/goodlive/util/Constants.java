@@ -14,6 +14,7 @@ public class Constants {
     public static final String UBAN_TOKEN = "ubanToken";//session
     public static final String PHPSESSID = "PHPSESSID";
     public static final String UBAN_CITY = "ubanCity";
+    public static boolean isNoCookie = false;
 
     public static final String NICK_NAME = "nickName";
     public static final String USER_MEMBER = "userMember";

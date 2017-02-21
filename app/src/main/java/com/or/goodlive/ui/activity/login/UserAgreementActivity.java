@@ -83,6 +83,7 @@ public class UserAgreementActivity extends BaseActivity {
     }
     //注册
     private void registerApp() {
+        Constants.isNoCookie=true;
         RequestRegisterBean requestRegister=(RequestRegisterBean)getIntent().getSerializableExtra(RegisterActivity.REGISTER_PARMARS);
         ServiceFactory.getProvideHttpService().register(requestRegister)
                 .compose(this.<RegisterBean>bindToLifecycle())

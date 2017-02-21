@@ -37,7 +37,7 @@ public class YamingChildFragment extends BaseFragment {
     SwipeRefreshLayout swipeRefreshYamingChild;
     private int shortRentFlag;
     private Handler handler;
-    private List<CoverDataBean.RstBean.HomeactBean> listBeen;
+    private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
     private int pageIndex = 1;
     private int pageSize = 10;
@@ -98,7 +98,7 @@ public class YamingChildFragment extends BaseFragment {
 
     private void initData(int shortRentFlag) {
         for (int i = 0; i < 2; i++) {
-            CoverDataBean.RstBean.HomeactBean b = new CoverDataBean.RstBean.HomeactBean();
+            CoverDataBean.RstBean.ListBean b = new CoverDataBean.RstBean.ListBean();
             listBeen.add(b);
         }
         yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);

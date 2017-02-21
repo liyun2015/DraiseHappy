@@ -11,6 +11,8 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.or.goodlive.util.Constants.isNoCookie;
+
 /**
  * GzipRequestInterceptor
  * Created by dawabos on 2016/6/15.
@@ -36,10 +38,18 @@ public class RequestInterceptor implements Interceptor {
             return chain.proceed(originalRequest);
         }
         if (NetUtil.isNetworkConnected()) {
-            Request compressedRequest = originalRequest.newBuilder()
-                    .header("Cache-Control", CACHE_CONTROL_NETWORK)
-                    .header("cookie", Constants.PHPSESSID+"="+HeaderConfig.phpsessId())
-                    .build();
+            Request compressedRequest;
+            if(Constants.isNoCookie){
+                compressedRequest = originalRequest.newBuilder()
+                        .header("Cache-Control", CACHE_CONTROL_NETWORK)
+                        .build();
+            }else{
+                compressedRequest = originalRequest.newBuilder()
+                        .header("Cache-Control", CACHE_CONTROL_NETWORK)
+                        .header("cookie", Constants.PHPSESSID+"="+HeaderConfig.phpsessId())
+                        .build();
+            }
+            Constants.isNoCookie=false;
             Response response = chain.proceed(compressedRequest);
             return response;
         }else{

@@ -104,7 +104,11 @@ public class ForgotPasswordActivity extends BaseActivity {
         }
     }
     private void confirmForgetPasswordCode() {
+        String iphone = etPoneNumber.getText().toString().trim();
+        String verificationCode = etVerificationCode.getText().toString().trim();
         RequestRegisterBean requestRegisterBean=new RequestRegisterBean();
+        requestRegisterBean.setPhone(iphone);
+        requestRegisterBean.setVerify_code(verificationCode);
         ServiceFactory.getProvideHttpService().confirmForgetPasswordCode(requestRegisterBean)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())

@@ -33,7 +33,7 @@ public class LoopViewPager extends ViewPager {
     private static final String TAG = LoopViewPager.class.getSimpleName();
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
     private static final boolean DEFAULT_BOUNDARY_LOOPING = true;
-    private static final int DELAY_LONG_DUTATION = 5000;
+    private static final int DELAY_LONG_DUTATION = 3000;
     private static final int MSG_LOOP_PICTURE = 1001;
 
     private LoopPagerAdapterWrapper mAdapter;
