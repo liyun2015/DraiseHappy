@@ -110,9 +110,11 @@ public class MainActivity extends OldBaseActivity {
         switch (id) {
             case android.R.id.home:
                 //搜索
+                RxBus.getInstance().send(Events.EVENTS_DISMISS_POP,new Object());
                 startActivity(new Intent(this, SearchActivity.class));
                 break;
             case R.id.right_icon:
+                RxBus.getInstance().send(Events.EVENTS_DISMISS_POP,new Object());
                 startActivity(new Intent(this, MyCenterActivity.class));
                 break;
 

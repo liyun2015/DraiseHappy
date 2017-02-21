@@ -17,11 +17,13 @@ public class Events<T> {
     public static final int EVENTS_NORMAL_TYPE = 0;
     public static final int EVENTS_SEARCH_TYPE = 1;
     public static final int EVENTS_USER_LOGIN_OUT = 3;
+    public static final int EVENTS_DISMISS_POP = 4;
 
     //枚举
     @IntDef({EVENTS_USER_LOGIN_OUT,
             EVENTS_NORMAL_TYPE,
             EVENTS_SEARCH_TYPE,
+            EVENTS_DISMISS_POP
             })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}

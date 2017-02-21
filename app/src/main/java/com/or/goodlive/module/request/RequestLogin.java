@@ -10,6 +10,15 @@ public class RequestLogin {
     private String password;
     private String phone;
     private String new_password;
+    private String resetPassword;
+
+    public String getResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(String resetPassword) {
+        this.resetPassword = resetPassword;
+    }
 
     public String getNew_password() {
         return new_password;

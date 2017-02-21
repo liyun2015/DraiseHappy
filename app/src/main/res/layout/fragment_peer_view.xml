@@ -5,7 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <View
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="1dp"/>
     <LinearLayout
+        android:id="@+id/rb_btn_layout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -14,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_gravity="center_vertical"
+            android:paddingLeft="4dp"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -33,6 +40,7 @@
             android:src="@drawable/add_background"
             android:layout_height="wrap_content" />
         <ImageView
+            android:id="@+id/add_btn"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_gravity="center_vertical"

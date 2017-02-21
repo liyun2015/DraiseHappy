@@ -7,42 +7,47 @@
         android:id="@+id/swipe_refresh_peer_child"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
             android:layout_height="wrap_content">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <com.or.goodlive.ui.view.banner.LoopViewPager
-                    android:id="@+id/banner_home_page_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#2200ff00" />
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom">
-
-                    <com.or.goodlive.ui.view.banner.CircleIndicator
-                        android:id="@+id/indicator"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="center"
-                        android:orientation="horizontal" />
-
-                </FrameLayout>
-            </FrameLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_peer_child_list"
                 android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal|top"
                 android:layout_height="match_parent"
                 />
-        </LinearLayout>
+            <com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_height="wrap_content">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.or.goodlive.ui.view.banner.LoopViewPager
+                        android:id="@+id/banner_home_page_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@color/white" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom">
 
+                        <com.or.goodlive.ui.view.banner.CircleIndicator
+                            android:id="@+id/indicator"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="center"
+                            android:orientation="horizontal" />
 
+                    </FrameLayout>
+                </FrameLayout>
+            </com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader  >
+        </FrameLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

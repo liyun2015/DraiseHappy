@@ -44,7 +44,7 @@ public interface ApiClient {
     Observable<BaseResultsBean> confirmForgetPasswordCode(@Body RequestRegisterBean requestVerificationCode);
     //重置密码
     @POST("/user/user/resetPassword")
-    Observable<BaseResultsBean> resetPassword(@Body RequestLogin requestLogin);
+    Observable<RegisterBean> resetPassword(@Body RequestLogin requestLogin);
     // 封面
     @POST("/user/cover/list")
     Observable<CoverDataBean> getCoverList(@QueryMap Map<String,Integer> map);

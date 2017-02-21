@@ -1,6 +1,5 @@
 package com.or.goodlive.ui.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.or.goodlive.R;
@@ -48,6 +48,8 @@ public class PeerChildFragment extends BaseFragment {
     LoopViewPager bannerHomePageView;
     @Bind(R.id.indicator)
     CircleIndicator indicator;
+    @Bind(R.id.header)
+    RecyclerViewHeader header;
 
     private Handler handler;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
@@ -79,7 +81,9 @@ public class PeerChildFragment extends BaseFragment {
     }
 
     private void initView() {
+
         rcvPeerChildList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        header.attachTo(rcvPeerChildList, true);
         swipeRefreshPeerChild.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -160,13 +164,13 @@ public class PeerChildFragment extends BaseFragment {
 
         listBeen.addAll(datasList);
 
-        if(null==yamingChildAdapter){
+        if (null == yamingChildAdapter) {
             yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
             rcvPeerChildList.setAdapter(yamingChildAdapter);
-        }else{
+        } else {
             yamingChildAdapter.notifyDataSetChanged();
         }
-        if(listBeen.size()==0){
+        if (listBeen.size() == 0) {
             //yamingChildAdapter.setEmptyDataView(setEmptyDataView(R.drawable.nohousesource,"暂无数据！"));
         }
     }
@@ -174,7 +178,7 @@ public class PeerChildFragment extends BaseFragment {
     private void initBannerView(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
         List<String> drawables = new ArrayList<>();
-        for (int i=0;i<datasBannerList.size();i++){
+        for (int i = 0; i < datasBannerList.size(); i++) {
             drawables.add(datasBannerList.get(i).getPhoto());
         }
         BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);

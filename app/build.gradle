@@ -121,4 +121,5 @@ dependencies {
     compile project(':map_library')
     compile project(':SwipeBackActivity')
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.0'
+    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
 }

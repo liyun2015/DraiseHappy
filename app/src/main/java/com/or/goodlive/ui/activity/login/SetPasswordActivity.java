@@ -10,11 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.request.RegisterBean;
+import com.or.goodlive.module.request.RequestLogin;
+import com.or.goodlive.module.request.RequestVerificationCode;
+import com.or.goodlive.ui.view.ToastUtil;
+import com.or.goodlive.util.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2017/2/14.
@@ -73,5 +83,55 @@ public class SetPasswordActivity extends BaseActivity {
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
+        setPassWord();
+    }
+
+    private void setPassWord() {
+        String newPassWord = etNewPassWord.getText().toString().trim();
+        String newPassWordRe = etAffirmNewPassWord.getText().toString().trim();
+        RequestLogin requestVerificationCode = new RequestLogin();
+        requestVerificationCode.setPassword(newPassWord);
+        requestVerificationCode.setResetPassword(newPassWordRe);
+        ServiceFactory.getProvideHttpService().resetPassword(requestVerificationCode)
+                .compose(this.<RegisterBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<RegisterBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<RegisterBean, Boolean>() {
+                    @Override
+                    public Boolean call(RegisterBean registerBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno())) {
+                            ToastUtil.makeText(mContext, registerBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(registerBean.getErrno());
+                    }
+                })
+                .map(new Func1<RegisterBean, RegisterBean.RstBean>() {
+                    @Override
+                    public RegisterBean.RstBean call(RegisterBean registerBean) {
+                        return registerBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<RegisterBean.RstBean>() {
+                    @Override
+                    public void call(RegisterBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "设置成功！");
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "数据请求失败，请重试~");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 }
