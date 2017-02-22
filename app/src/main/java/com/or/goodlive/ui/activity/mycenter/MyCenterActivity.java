@@ -19,6 +19,7 @@ import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.events.UserLoginEvents;
 import com.or.goodlive.ui.activity.login.LoginActivity;
 import com.or.goodlive.ui.activity.login.UserAgreementActivity;
+import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
@@ -26,6 +27,8 @@ import com.or.goodlive.util.SPUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+
 
 /**
  * Created by Administrator on 2017/2/17.
@@ -125,8 +128,10 @@ public class MyCenterActivity extends BaseActivity {
                 startActivity(new Intent(this, ModifyPassWordActivity.class));
                 break;
             case R.id.version_upgrade_layout://版本更新
+                versionUpgrade();
                 break;
             case R.id.clear_cache_layout://清除缓存
+                clearsCache();
                 break;
             case R.id.use_information_layout://修改用户资料
                 startActivity(new Intent(this, ModifyUserInforActivity.class));
@@ -137,6 +142,33 @@ public class MyCenterActivity extends BaseActivity {
         }
 
     }
+
+    private void clearsCache() {
+        AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+        alertDialogStyleApp.builder()
+                .setTitle("提示：")
+                .setMsg("确定清除缓存？")
+                .setNegativeButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.makeText(mContext, "缓存已经清除");
+                    }
+                }).show();
+    }
+
+    private void versionUpgrade() {
+        AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+        alertDialogStyleApp.builder()
+                .setTitle("提示：")
+                .setMsg("已是最新版本！")
+                .setNegativeButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                }).show();
+    }
+
     /**
      * 退出登录
      */

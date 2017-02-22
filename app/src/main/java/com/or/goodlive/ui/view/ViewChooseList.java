@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.or.goodlive.R;
 import com.or.goodlive.module.ColumnBean;
 import com.or.goodlive.ui.adapter.ColumnItemAdapter;
+import com.or.goodlive.ui.adapter.ColumnOwnItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +28,22 @@ public class ViewChooseList {
     private MyGridView gv_select_top;
     private MyGridView gv_select_btom;
     private List<ColumnBean> columnListBeen=new ArrayList<>();
+    private List<ColumnBean> columnListOwnBeen=new ArrayList<>();
     private String[] columnStr = new String[]{"独家", "历史", "航空", "娱乐", "手机","历史", "航空", "娱乐", "手机","历史", "航空", "娱乐", "手机"};
     private ColumnItemAdapter columnItemAdapter;
     private Context mContext;
     private int width;
     private PopupWindow popupWindow;
+    private ColumnOwnItemAdapter columnOwnItemAdapter;
+
     public ViewChooseList(Context context) {
         this.mContext = context;
         init(context);
     }
-    public ViewChooseList(Context context, int width) {
+    public ViewChooseList(Context context, int width,List<ColumnBean> columnListOwnBeen) {
         this.mContext = context;
         this.width= width;
+        this.columnListOwnBeen= columnListOwnBeen;
         init(context);
     }
 
@@ -113,6 +118,12 @@ public class ViewChooseList {
             gv_select_btom.setAdapter(columnItemAdapter);
         } else {
             columnItemAdapter.changeData(columnListBeen);
+        }
+        if (columnOwnItemAdapter == null) {
+            columnOwnItemAdapter = new ColumnOwnItemAdapter(mContext, columnListOwnBeen);
+            gv_select_top.setAdapter(columnOwnItemAdapter);
+        } else {
+            columnOwnItemAdapter.changeData(columnListOwnBeen);
         }
         gv_select_btom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

@@ -2,6 +2,7 @@ package com.or.goodlive.api;
 
 
 import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.CategoryDataBean;
 import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.request.RegisterBean;
@@ -51,5 +52,8 @@ public interface ApiClient {
     // 同行
     @POST("/user/news/list")
     Observable<CoverDataBean> getNewsList(@QueryMap Map<String,Integer> map);
+    // 同行类别
+    @POST("/user/news/categoryList")
+    Observable<CategoryDataBean> getNewsTitList(@QueryMap Map<String,Integer> map);
 
 }

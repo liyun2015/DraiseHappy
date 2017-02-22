@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -7,8 +8,8 @@
         android:id="@+id/yaming_pic_image"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/yaming_icon"
-        android:layout_height="200dp" />
+        android:src="@drawable/default_photoalbum_img"
+        android:layout_height="180dp" />
     <TextView
         android:id="@+id/yaming_news_title"
         android:padding="10dp"
@@ -16,7 +17,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:lineSpacingExtra="3dp"
-        android:text="边开飞机边摄影！轰6k男神机长拍下黄岩岛美照"
+        tools:text="边开飞机边摄影！轰6k男神机长拍下黄岩岛美照"
         android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,24 +31,26 @@
             android:id="@+id/yaming_news_source"
             android:layout_width="wrap_content"
             android:textSize="10sp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingTop="2.5dp"
+            android:paddingBottom="2.5dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:gravity="center"
             android:background="@drawable/shape_round_gray_stroke_wihoutsolid"
             android:textColor="@color/text_gray_89"
-            android:text="新华社"
+            tools:text="新华社"
             android:layout_height="wrap_content" />
         <ImageView
             android:layout_width="wrap_content"
             android:src="@drawable/comment_icon"
             android:layout_marginLeft="8dp"
+            android:visibility="gone"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/comment_num"
             android:layout_width="wrap_content"
             android:textSize="10sp"
+            android:visibility="gone"
             android:textColor="@color/text_gray_89"
             android:text="356"
             android:layout_marginLeft="4dp"
@@ -56,6 +59,7 @@
             android:layout_width="wrap_content"
             android:src="@drawable/comment_time_icon"
             android:layout_marginLeft="8dp"
+            android:visibility="gone"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/comment_time"
@@ -63,6 +67,7 @@
             android:textSize="10sp"
             android:textColor="@color/text_gray_89"
             android:text="3小时"
+            android:visibility="gone"
             android:layout_marginLeft="4dp"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -10,6 +10,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.or.goodlive.BuildConfig;
@@ -148,9 +150,10 @@ public class ImageLoadUtils {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageForEmptyUri(R.drawable.ic_normal)
-                .showImageOnFail(R.drawable.ic_normal)
-                .showImageOnLoading(R.drawable.ic_normal)
+                .showImageForEmptyUri(R.drawable.header_default)
+                .showImageOnFail(R.drawable.header_default)
+                .showImageOnLoading(R.drawable.header_default)
+                .displayer(new CircleBitmapDisplayer())
                 .build();
     }
 
@@ -200,9 +203,9 @@ public class ImageLoadUtils {
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .resetViewBeforeLoading(true)
-                .showImageOnLoading(R.drawable.ic_normal)
-                .showImageForEmptyUri(R.drawable.ic_normal)
-                .showImageOnFail(R.drawable.ic_normal)
+                .showImageOnLoading(R.drawable.default_photoalbum_img)
+                .showImageForEmptyUri(R.drawable.default_photoalbum_img)
+                .showImageOnFail(R.drawable.default_photoalbum_img)
                 .build();
     }
 

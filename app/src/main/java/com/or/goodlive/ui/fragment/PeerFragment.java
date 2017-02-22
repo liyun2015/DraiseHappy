@@ -12,20 +12,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseFragment;
 import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.CategoryDataBean;
+import com.or.goodlive.module.ColumnBean;
+import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.ui.adapter.FragmentTabAdapter;
+import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.ui.view.ViewChooseList;
+import com.or.goodlive.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static android.R.attr.tag;
 
@@ -47,9 +58,8 @@ public class PeerFragment extends BaseFragment {
     View topView;
     private List<Fragment> listFragments;
 
-    private static final String[] TITLE_NAME = new String[]{"授渔", "益起来", "high"};
     private ViewChooseList viewChooseList;
-
+    private List<ColumnBean> columnListBeen=new ArrayList<>();
     public static PeerFragment newInstance() {
         Bundle args = new Bundle();
         PeerFragment fragment = new PeerFragment();
@@ -64,15 +74,65 @@ public class PeerFragment extends BaseFragment {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initView();
+        registerEvent();
+        initData();
     }
 
-    private void initView() {
-        registerEvent();
+    private void initData() {
+        getTitles();
+    }
+
+    private void getTitles() {
+        Map<String, Integer> params = new HashMap<>();
+        ServiceFactory.getProvideHttpService().getNewsTitList(params)
+                .compose(RxSchedulersHelper.<CategoryDataBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<CategoryDataBean, Boolean>() {
+                    @Override
+                    public Boolean call(CategoryDataBean categoryDataBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(categoryDataBean.getErrno())) {
+                            ToastUtil.makeText(mContext, categoryDataBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(categoryDataBean.getErrno());
+                    }
+                })
+                .subscribe(new Action1<CategoryDataBean>() {
+                    @Override
+                    public void call(CategoryDataBean categoryDataBean) {
+                        if (null != categoryDataBean.getRst()) {
+                            initView(categoryDataBean.getRst());
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, throwable.getMessage());
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+
+    private void initView(List<CategoryDataBean.RstBean> rst) {
+        String[] TITLE_NAME = new String[rst.size()];
+        for (int i=0;i<rst.size();i++){
+            ColumnBean columnBean = new ColumnBean();
+            columnBean.setValue(rst.get(i).getName());
+            columnListBeen.add(i, columnBean);
+            TITLE_NAME[i]=rst.get(i).getName();
+        }
         listFragments = new ArrayList<>();
         viewPagerPeer.setOffscreenPageLimit(TITLE_NAME.length);
         for (int i = 0; i < TITLE_NAME.length; i++) {
-            listFragments.add(PeerChildFragment.newInstance(i));
+            listFragments.add(PeerChildFragment.newInstance(rst.get(i).getId(),rst.get(i).getName()));
         }
         tabPeer.setTabMode(TabLayout.MODE_SCROLLABLE);
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getActivity().getSupportFragmentManager(), listFragments, Arrays.asList(TITLE_NAME));
@@ -149,7 +209,7 @@ public class PeerFragment extends BaseFragment {
                 viewChooseList.showAsDropDown(topView);
             }
         }else{
-            viewChooseList = new ViewChooseList(getContext(), rbBtnLayout.getMeasuredWidth());
+            viewChooseList = new ViewChooseList(getContext(), rbBtnLayout.getMeasuredWidth(),columnListBeen);
             viewChooseList.showAsDropDown(topView);
             viewChooseList
                     .setOnSelectListener(new ViewChooseList.OnSelectListener() {

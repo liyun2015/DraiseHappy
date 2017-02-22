@@ -56,19 +56,24 @@ public class PeerChildFragment extends BaseFragment {
     private YamingChildAdapter yamingChildAdapter;
     private int pageIndex = 1;
     private int pageSize = 10;
-    private Integer category_id = 1;
     private Integer pageId = 1;
     private Integer count = 10;
+    public static final String KEY_TITLE = "titleid";
+    public static final String NAME_TITLE = "titlename";
+    private int titleId;
+    public  String titleName="";
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_peer_child;
     }
 
-    public static PeerChildFragment newInstance(int workDeskType) {
+    public static PeerChildFragment newInstance(int columnType,String name) {
         Bundle args = new Bundle();
         PeerChildFragment fragment = new PeerChildFragment();
         fragment.setArguments(args);
+        args.putInt(KEY_TITLE,columnType);
+        args.putString(NAME_TITLE,name);
         return fragment;
     }
 
@@ -76,6 +81,11 @@ public class PeerChildFragment extends BaseFragment {
     protected void afterCreate(Bundle savedInstanceState) {
         listBeen = new ArrayList<>();
         handler = new Handler();
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            titleId = bundle.getInt(KEY_TITLE);
+            titleName = bundle.getString(NAME_TITLE);
+        }
         initView();
         initData();
     }
@@ -113,7 +123,7 @@ public class PeerChildFragment extends BaseFragment {
 
     private void initData() {
         Map<String, Integer> params = new HashMap<>();
-        params.put("category_id", category_id);
+        params.put("category_id", titleId);
         params.put("pageId", pageId);
         params.put("count", count);
         ServiceFactory.getProvideHttpService().getNewsList(params)
@@ -165,13 +175,13 @@ public class PeerChildFragment extends BaseFragment {
         listBeen.addAll(datasList);
 
         if (null == yamingChildAdapter) {
-            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
+            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen,titleName);
             rcvPeerChildList.setAdapter(yamingChildAdapter);
         } else {
             yamingChildAdapter.notifyDataSetChanged();
         }
         if (listBeen.size() == 0) {
-            //yamingChildAdapter.setEmptyDataView(setEmptyDataView(R.drawable.nohousesource,"暂无数据！"));
+            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
         }
     }
 
@@ -186,22 +196,6 @@ public class PeerChildFragment extends BaseFragment {
         bannerHomePageView.setAdapter(bannerPicAdapter);
         bannerHomePageView.setLooperPic(true);
         indicator.setViewPager(bannerHomePageView);
-    }
-
-
-    private void initAdapter(List<CoverDataBean.RstBean.HomeactBean> datasBeanList) {
-//        List<OrderListBean.ResultsBean.DatasBean> list = new ArrayList<>();
-//        list.addAll(datasBeanList);
-//        if (list.size()<10){
-//            lvUserOrder.setNoMore();
-//        }else {
-//            lvUserOrder.setHasMore();
-//        }
-//        pageIndex++;
-//        listBeen.addAll(list);
-//        ordersListAdapter.changeData(listBeen);
-//        lvUserOrder.getMoreComplete();
-//        swipeRefreshUserOrder.setRefreshing(false);
     }
 
     @Override
