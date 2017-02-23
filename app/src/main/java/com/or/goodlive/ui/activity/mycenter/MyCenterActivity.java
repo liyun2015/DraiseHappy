@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,22 +13,33 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
-import com.or.goodlive.api.config.HeaderConfig;
+import com.or.goodlive.api.HttpClient;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
 import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
-import com.or.goodlive.control.events.UserLoginEvents;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.UserInfoBean;
 import com.or.goodlive.ui.activity.login.LoginActivity;
 import com.or.goodlive.ui.activity.login.UserAgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
 import com.or.goodlive.util.Constants;
+import com.or.goodlive.util.ImageLoadUtils;
 import com.or.goodlive.util.SPUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
+import static android.R.attr.name;
 
 
 /**
@@ -72,6 +84,10 @@ public class MyCenterActivity extends BaseActivity {
     RelativeLayout useInformationLayout;
     @Bind(R.id.sigin_out_btn)
     Button siginBtn;
+    public static final String HEADERURL = "headerUrl";
+    public static final String USERNAME = "username";
+    private String headerUrl;
+    private String uname;
 
     @Override
     protected int getLayoutId() {
@@ -81,8 +97,80 @@ public class MyCenterActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        initData();
+        regiserEvent();
     }
 
+    private void initData() {
+        Map<String, String> params = new HashMap<>();
+        ServiceFactory.getProvideHttpService().personalCenter(params)
+                .compose(this.<UserInfoBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<UserInfoBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<UserInfoBean, Boolean>() {
+                    @Override
+                    public Boolean call(UserInfoBean resultsBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(resultsBean.getErrno())) {
+                            ToastUtil.makeText(mContext, resultsBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(resultsBean.getErrno());
+                    }
+                })
+                .map(new Func1<UserInfoBean, UserInfoBean.RstBean>() {
+                    @Override
+                    public UserInfoBean.RstBean call(UserInfoBean resultsBean) {
+                        return resultsBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<UserInfoBean.RstBean>() {
+                    @Override
+                    public void call(UserInfoBean.RstBean resultsBean) {
+                        if(resultsBean!=null){
+                            initDataView(resultsBean);
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, " 数据加载失败！");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+
+    private void initDataView(UserInfoBean.RstBean resultsBean) {
+        uname = resultsBean.getUser().getName();
+        headerUrl =resultsBean.getUser().getAvatar_url();
+        userName.setText(uname);
+        ImageLoadUtils.displayHeadIcon(headerUrl, userHeaderPic);
+    }
+    private void regiserEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_UPDATA_HEADER)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        ImageLoadUtils.displayHeadIcon(String.valueOf(events.getContent()), userHeaderPic);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("loginEventError",throwable.getMessage());
+                    }
+                })
+                .create();
+    }
     private void initView() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -128,13 +216,17 @@ public class MyCenterActivity extends BaseActivity {
                 startActivity(new Intent(this, ModifyPassWordActivity.class));
                 break;
             case R.id.version_upgrade_layout://版本更新
-                versionUpgrade();
+                checkVersion();
                 break;
             case R.id.clear_cache_layout://清除缓存
                 clearsCache();
                 break;
             case R.id.use_information_layout://修改用户资料
-                startActivity(new Intent(this, ModifyUserInforActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(mContext, ModifyUserInforActivity.class);
+                intent.putExtra(HEADERURL, headerUrl);
+                intent.putExtra(USERNAME,uname );
+                startActivity(intent);
                 break;
             case R.id.sigin_out_btn://退出登录
                 siginOut();
@@ -142,6 +234,52 @@ public class MyCenterActivity extends BaseActivity {
         }
 
     }
+
+    private void checkVersion() {
+        Map<String, String> params = new HashMap<>();
+        ServiceFactory.getProvideHttpService().heckUpdate(params)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<BaseResultsBean, Boolean>() {
+                    @Override
+                    public Boolean call(BaseResultsBean loginInBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
+                    }
+                })
+                .map(new Func1<BaseResultsBean, BaseResultsBean.RstBean>() {
+                    @Override
+                    public BaseResultsBean.RstBean call(BaseResultsBean loginInBean) {
+                        return loginInBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<BaseResultsBean.RstBean>() {
+                    @Override
+                    public void call(BaseResultsBean.RstBean resultsBean) {
+                        versionUpgrade();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "请求失败！");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+
 
     private void clearsCache() {
         AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);

@@ -13,17 +13,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
+import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
+import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.request.RequestLogin;
+import com.or.goodlive.module.request.UploadBean;
+import com.or.goodlive.ui.view.ToastUtil;
+import com.or.goodlive.util.Constants;
+import com.or.goodlive.util.FileUtils;
 import com.or.goodlive.util.ImageLoadUtils;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2017/2/18.
@@ -59,6 +78,8 @@ public class ModifyUserInforActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("修改资料");
+        userName.setText(getIntent().getStringExtra(MyCenterActivity.USERNAME));
+        ImageLoadUtils.displayHeadIcon(getIntent().getStringExtra(MyCenterActivity.HEADERURL), userHeaderImage);
     }
 
     @Override
@@ -113,9 +134,60 @@ public class ModifyUserInforActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
-            ImageLoadUtils.displayHeadIcon("file://" + pathList.get(0), userHeaderImage);
-
+            uploadHead();
         }
+    }
+    private File file=null;
+    private void uploadHead() {
+        file= FileUtils.getFileByPath(pathList.get(0));
+        MultipartBody.Builder builder=new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("avatar", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+                .build();
+        RequestBody requestBody=builder.build();
+        ServiceFactory.getProvideHttpService().uploadHead(requestBody)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<BaseResultsBean, Boolean>() {
+                    @Override
+                    public Boolean call(BaseResultsBean loginInBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
+                    }
+                })
+                .map(new Func1<BaseResultsBean, BaseResultsBean.RstBean>() {
+                    @Override
+                    public BaseResultsBean.RstBean call(BaseResultsBean loginInBean) {
+                        return loginInBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<BaseResultsBean.RstBean>() {
+                    @Override
+                    public void call(BaseResultsBean.RstBean resultsBean) {
+                        ToastUtil.makeText(mContext, "修改成功！");
+                        ImageLoadUtils.displayHeadIcon("file://" + pathList.get(0), userHeaderImage);
+                        RxBus.getInstance().send(Events.EVENTS_UPDATA_HEADER,resultsBean.getPic());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "修改失败！");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 
     @OnClick({R.id.user_header_image, R.id.user_name})

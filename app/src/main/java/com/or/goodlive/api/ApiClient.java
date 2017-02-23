@@ -5,13 +5,17 @@ import com.or.goodlive.module.BaseResultsBean;
 import com.or.goodlive.module.CategoryDataBean;
 import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.module.LoginInBean;
+import com.or.goodlive.module.MessResultsBean;
+import com.or.goodlive.module.UserInfoBean;
 import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestLogin;
 import com.or.goodlive.module.request.RequestRegisterBean;
 import com.or.goodlive.module.request.RequestVerificationCode;
+import com.or.goodlive.module.request.UploadBean;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
@@ -49,11 +53,37 @@ public interface ApiClient {
     // 封面
     @POST("/user/cover/list")
     Observable<CoverDataBean> getCoverList(@QueryMap Map<String,Integer> map);
+    // 一鸣
+    @POST("/user/yiming/list")
+    Observable<CoverDataBean> getYimingList(@QueryMap Map<String,Integer> map);
+    // 一鸣类别
+    @POST("/user/yiming/categoryList")
+    Observable<CategoryDataBean> getYimingTitList(@QueryMap Map<String,Integer> map);
+    // 现场
+    @POST("/user/scene/list")
+    Observable<CoverDataBean> getSceneList(@QueryMap Map<String,Integer> map);
+    // 现场类别
+    @POST("/user/scene/categoryList")
+    Observable<CategoryDataBean> getSceneTitList(@QueryMap Map<String,Integer> map);
     // 同行
     @POST("/user/news/list")
     Observable<CoverDataBean> getNewsList(@QueryMap Map<String,Integer> map);
     // 同行类别
     @POST("/user/news/categoryList")
     Observable<CategoryDataBean> getNewsTitList(@QueryMap Map<String,Integer> map);
-
+    // 上传头像
+    @POST("/user/user/uploadHead")
+    Observable<BaseResultsBean> uploadHead(@Body RequestBody body);
+    // 消息列表
+    @POST("/user/user/message")
+    Observable<MessResultsBean> messageList(@QueryMap Map<String,String> map);
+    // 检查更新
+    @POST("/user/user/isCheckUpdate")
+    Observable<BaseResultsBean> heckUpdate(@QueryMap Map<String,String> map);
+    // 个人中心
+    @POST("/user/user/personalCenter")
+    Observable<UserInfoBean> personalCenter(@QueryMap Map<String,String> map);
+    // 搜索
+    @POST("/user/news/search")
+    Observable<BaseResultsBean> searchResult(@QueryMap Map<String,String> map);
 }

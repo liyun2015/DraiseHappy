@@ -11,7 +11,7 @@
             android:layout_width="45dp"
             android:scaleType="fitXY"
             android:layout_margin="8dp"
-            android:src="@drawable/pic_icon"
+            android:src="@drawable/mes_type_icon"
             android:layout_height="45dp" />
         <RelativeLayout
             android:id="@+id/message_type_layout"
@@ -23,7 +23,7 @@
             android:layout_toRightOf="@id/message_image"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/message_type"
+                android:id="@+id/message_title"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@id/user_header_pic"
@@ -31,7 +31,7 @@
                 android:text="系统消息"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/user_name"
+                android:id="@+id/message_time"
                 android:layout_width="wrap_content"
                 android:textColor="@color/text_gray_9"
                 android:layout_alignParentRight="true"

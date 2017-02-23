@@ -71,9 +71,9 @@ public class PeerChildFragment extends BaseFragment {
     public static PeerChildFragment newInstance(int columnType,String name) {
         Bundle args = new Bundle();
         PeerChildFragment fragment = new PeerChildFragment();
-        fragment.setArguments(args);
         args.putInt(KEY_TITLE,columnType);
         args.putString(NAME_TITLE,name);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -188,14 +188,16 @@ public class PeerChildFragment extends BaseFragment {
     private void initBannerView(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
         List<String> drawables = new ArrayList<>();
-        for (int i = 0; i < datasBannerList.size(); i++) {
-            drawables.add(datasBannerList.get(i).getPhoto());
+        if(datasBannerList.size()>0){
+            for (int i = 0; i < datasBannerList.size(); i++) {
+                drawables.add(datasBannerList.get(i).getPhoto());
+            }
+            BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
+            bannerPicAdapter.setData(drawables);
+            bannerHomePageView.setAdapter(bannerPicAdapter);
+            bannerHomePageView.setLooperPic(true);
+            indicator.setViewPager(bannerHomePageView);
         }
-        BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
-        bannerPicAdapter.setData(drawables);
-        bannerHomePageView.setAdapter(bannerPicAdapter);
-        bannerHomePageView.setLooperPic(true);
-        indicator.setViewPager(bannerHomePageView);
     }
 
     @Override

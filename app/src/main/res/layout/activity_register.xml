@@ -50,7 +50,6 @@
             android:layout_marginRight="20dp"
             android:hint="密码"
             android:maxLength="11"
-            android:inputType="numberPassword"
             android:background="@null"
             android:singleLine="true"
             android:textColor="@color/font_black_2"

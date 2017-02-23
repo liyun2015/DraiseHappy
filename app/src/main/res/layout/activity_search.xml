@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:hint="请输入你想去的办公空间"
+            android:hint="请输入关键字..."
             android:textSize="14sp"
             android:textColorHint="@color/font_black_4"
             android:imeOptions="actionSearch"

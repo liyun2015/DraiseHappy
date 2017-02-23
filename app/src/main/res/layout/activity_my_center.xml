@@ -18,11 +18,12 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/user_header_pic"
-            android:layout_width="wrap_content"
-            android:scaleType="fitXY"
-            android:layout_margin="15dp"
+            android:layout_width="50dp"
             android:src="@drawable/pic_icon"
-            android:layout_height="wrap_content" />
+            android:layout_margin="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="50dp" />
+
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"

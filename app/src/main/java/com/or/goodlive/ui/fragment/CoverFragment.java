@@ -11,13 +11,18 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseFragment;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.ui.adapter.CoverAdapter;
+import com.or.goodlive.ui.adapter.YamingChildAdapter;
 import com.or.goodlive.ui.view.ToastUtil;
+import com.or.goodlive.ui.view.banner.BannerPicAdapter;
+import com.or.goodlive.ui.view.banner.CircleIndicator;
+import com.or.goodlive.ui.view.banner.LoopViewPager;
 import com.or.goodlive.util.Constants;
 
 import java.util.ArrayList;
@@ -42,14 +47,21 @@ public class CoverFragment extends BaseFragment {
     RecyclerView rcvCoverList;
     @Bind(R.id.swipe_refresh_cover)
     SwipeRefreshLayout swipeRefreshCover;
+    @Bind(R.id.banner_home_page_view)
+    LoopViewPager bannerHomePageView;
+    @Bind(R.id.indicator)
+    CircleIndicator indicator;
+    @Bind(R.id.header)
+    RecyclerViewHeader header;
     private Integer category_id = 1;
     private Integer pageId = 1;
     private Integer count = 10;
-    private List<CoverDataBean.RstBean.HomeactBean> coverDataList = new ArrayList<>();
     private CoverAdapter adapter;
     private Handler handler;
     private int pageIndex = 1;
     private int pageSize = 10;
+    private List<CoverDataBean.RstBean.ListBean> listBeen;
+    private YamingChildAdapter yamingChildAdapter;
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
         CoverFragment fragment = new CoverFragment();
@@ -94,7 +106,7 @@ public class CoverFragment extends BaseFragment {
                     @Override
                     public void call(CoverDataBean coverDataBean) {
                         if (null != coverDataBean.getRst().getHomeact()) {
-                            initListData(coverDataBean.getRst().getHomeact());
+                            initListData(coverDataBean.getRst());
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -111,27 +123,52 @@ public class CoverFragment extends BaseFragment {
                 });
     }
 
-    private void initListData(List<CoverDataBean.RstBean.HomeactBean> homeact) {
-        coverDataList.addAll(homeact);
-        for (int i = 0; i < 2; i++) {
-            CoverDataBean.RstBean.HomeactBean b = new CoverDataBean.RstBean.HomeactBean();
-            coverDataList.add(b);
+    private void initListData(CoverDataBean.RstBean rstBean) {
+        initBannerView(rstBean);
+        initListViewData(rstBean);
+    }
+    private void initListViewData(CoverDataBean.RstBean rstBean) {
+        List<CoverDataBean.RstBean.ListBean> datasList = rstBean.getList();
+
+        listBeen.addAll(datasList);
+
+        if (null == yamingChildAdapter) {
+            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen,"新华网");
+            rcvCoverList.setAdapter(yamingChildAdapter);
+        } else {
+            yamingChildAdapter.notifyDataSetChanged();
         }
-        adapter = new CoverAdapter(R.layout.item_coverdata_list, coverDataList);
-        rcvCoverList.setAdapter(adapter);
+        if (listBeen.size() == 0) {
+            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
+        }
     }
 
-
+    private void initBannerView(CoverDataBean.RstBean rstBean) {
+        List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
+        List<String> drawables = new ArrayList<>();
+        if(datasBannerList.size()>0){
+            for (int i = 0; i < datasBannerList.size(); i++) {
+                drawables.add(datasBannerList.get(i).getPhoto());
+            }
+            BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
+            bannerPicAdapter.setData(drawables);
+            bannerHomePageView.setAdapter(bannerPicAdapter);
+            bannerHomePageView.setLooperPic(true);
+            indicator.setViewPager(bannerHomePageView);
+        }
+    }
     private void initView() {
         handler = new Handler();
+        listBeen = new ArrayList<>();
         rcvCoverList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        header.attachTo(rcvCoverList, true);
         swipeRefreshCover.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        coverDataList.clear();
+                        listBeen.clear();
                         pageIndex = 1;
                         initData();
                         swipeRefreshCover.setRefreshing(false);

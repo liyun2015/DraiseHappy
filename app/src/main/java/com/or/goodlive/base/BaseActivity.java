@@ -5,8 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.or.goodlive.R;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.or.goodlive.ui.view.LoadingProgress;
 
@@ -67,7 +72,25 @@ public abstract class BaseActivity extends RxAppCompatActivity implements SwipeB
             return mHelper.findViewById(id);
         return v;
     }
-
+    /**
+     * 设置空数据布局
+     * @param resourceid
+     * @param message
+     */
+    public View setEmptyDataView(int resourceid,String message){
+        View view= LayoutInflater.from(mContext).inflate(R.layout.layout_nodata, null);
+        TextView textView= (TextView) view.findViewById(R.id.tv_empty_message);
+        ImageView imageView= (ImageView) view.findViewById(R.id.iv_empty);
+        if(resourceid!=-1&&imageView!=null)
+        {
+            imageView.setImageResource(resourceid);
+        }
+        if(!TextUtils.isEmpty(message)&&textView!=null)
+        {
+            textView.setText(message);
+        }
+        return view;
+    }
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
         return mHelper.getSwipeBackLayout();

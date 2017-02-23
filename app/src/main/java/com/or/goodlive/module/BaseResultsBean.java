@@ -47,6 +47,15 @@ public class BaseResultsBean {
     private RstBean rst;
     public static class RstBean {
         private String msg;
+        private String pic;
+
+        public String getPic() {
+            return pic;
+        }
+
+        public void setPic(String pic) {
+            this.pic = pic;
+        }
 
         public String getMsg() {
             return msg;
