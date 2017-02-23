@@ -160,7 +160,7 @@ public class MyCenterActivity extends BaseActivity {
                 .onNext(new Action1<Events<?>>() {
                     @Override
                     public void call(Events<?> events) {
-                        ImageLoadUtils.displayHeadIcon(String.valueOf(events.getContent()), userHeaderPic);
+                        initData();
                     }
                 })
                 .onError(new Action1<Throwable>() {

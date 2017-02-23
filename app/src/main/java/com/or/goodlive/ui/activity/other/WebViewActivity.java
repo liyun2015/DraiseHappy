@@ -19,7 +19,7 @@ import butterknife.Bind;
 
 public class WebViewActivity extends BaseActivity {
     public static final String WEB_VIEW_URL = "url";
-    public static final String WEB_VIEW_DESC = "desc";
+    public static final String WEB_VIEW_DESC = "益直播";
 
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
@@ -52,7 +52,7 @@ public class WebViewActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+            actionBar.setHomeAsUpIndicator(R.drawable.back);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }

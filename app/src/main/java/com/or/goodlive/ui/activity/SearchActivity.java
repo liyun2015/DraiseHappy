@@ -67,7 +67,6 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     @Bind(R.id.activity_search)
     RelativeLayout activitySearch;
     private String[] mValsBJ = new String[]{"东直门", "望京", "国贸", "三元桥", "中关村"};
-    private String[] mValsSH = new String[]{"静安寺", "陆家嘴", "人民广场", "中山公园", "江苏路","大虹桥"};
 
     private static final String KEY_HISTORY = "history";
     private static final String KEY_SP_HISTORY = "sp_history";
@@ -128,11 +127,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     private void initView() {
         arrList.clear();
-        if (HeaderConfig.ubanCity().equals(Constants.CITY_ID[0])){
-            arrList.addAll(Arrays.asList(mValsBJ));
-        }else if (HeaderConfig.ubanCity().equals(Constants.CITY_ID[1])){
-            arrList.addAll(Arrays.asList(mValsSH));
-        }
+        arrList.addAll(Arrays.asList(mValsBJ));
         editSearch.setOnEditorActionListener(this);
         TagAdapter<String> tagAdapter = new TagAdapter<String>(arrList) {
             @Override
@@ -147,7 +142,6 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                StatService.onEvent(mContext, "Search_HotSearchClickEvent", "pass", 1);
                 sendEvents(arrList.get(position));
                 saveHistory(arrList.get(position));
                 return true;
@@ -190,7 +184,6 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         searchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                StatService.onEvent(mContext, "Search_HistoryRecordClickEvent", "pass", 1);
                 sendEvents(historys[i]);
             }
         });
@@ -245,7 +238,6 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 KeyboardUtils.hideSoftInput(mActivity);
                 ToastUtil.makeText(mContext, "搜索内容不能为空");
             } else {
-                StatService.onEvent(mContext, "Search_KeywordSourchEvent", "pass", 1);
                 sendEvents(inputStr);
                 saveHistory(inputStr);
             }
@@ -257,12 +249,10 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPageEnd(mContext,"关键词搜索页");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onPageStart(mContext,"关键词搜索页");
     }
 }

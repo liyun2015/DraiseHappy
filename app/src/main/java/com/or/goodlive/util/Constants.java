@@ -8,6 +8,7 @@ package com.or.goodlive.util;
 
 public class Constants {
     public static final String APP_ID = "wx560d10dd4001d136";//微信支付 APP_ID
+    public static final String WEB_VIEW_HOSTURL = "http://weixin.xiaozhubanjia.com/yizhibo/detail.html?";
     public static final String NOTIFY_URL = "http://idfa.third.or.com/ubanpay/notify.html";//支付回调地址
     public static final String UBAN_MEMBER_NOTIFY_URL = "http://idfa.dev.or.com/ubanpay/memPaynotify.html";//会员支付回调地址
 

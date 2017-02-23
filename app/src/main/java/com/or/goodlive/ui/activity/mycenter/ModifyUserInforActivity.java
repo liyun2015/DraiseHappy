@@ -174,7 +174,7 @@ public class ModifyUserInforActivity extends BaseActivity {
                     public void call(BaseResultsBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "修改成功！");
                         ImageLoadUtils.displayHeadIcon("file://" + pathList.get(0), userHeaderImage);
-                        RxBus.getInstance().send(Events.EVENTS_UPDATA_HEADER,resultsBean.getPic());
+                        RxBus.getInstance().send(Events.EVENTS_UPDATA_HEADER,new Object());
                     }
                 }, new Action1<Throwable>() {
                     @Override

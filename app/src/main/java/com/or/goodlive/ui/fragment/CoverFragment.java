@@ -1,5 +1,6 @@
 package com.or.goodlive.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseFragment;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.CoverDataBean;
+import com.or.goodlive.ui.activity.other.WebViewActivity;
 import com.or.goodlive.ui.adapter.CoverAdapter;
 import com.or.goodlive.ui.adapter.YamingChildAdapter;
 import com.or.goodlive.ui.view.ToastUtil;
@@ -62,6 +66,7 @@ public class CoverFragment extends BaseFragment {
     private int pageSize = 10;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
+    public  String categoryName="cover";
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
         CoverFragment fragment = new CoverFragment();
@@ -145,13 +150,9 @@ public class CoverFragment extends BaseFragment {
 
     private void initBannerView(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
-        List<String> drawables = new ArrayList<>();
         if(datasBannerList.size()>0){
-            for (int i = 0; i < datasBannerList.size(); i++) {
-                drawables.add(datasBannerList.get(i).getPhoto());
-            }
             BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
-            bannerPicAdapter.setData(drawables);
+            bannerPicAdapter.setData(datasBannerList,categoryName);
             bannerHomePageView.setAdapter(bannerPicAdapter);
             bannerHomePageView.setLooperPic(true);
             indicator.setViewPager(bannerHomePageView);
@@ -174,6 +175,17 @@ public class CoverFragment extends BaseFragment {
                         swipeRefreshCover.setRefreshing(false);
                     }
                 }, 1000);
+            }
+        });
+        rcvCoverList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                String url = Constants.WEB_VIEW_HOSTURL+"type=cover"+"&id="+listBeen.get(position).getId();
+                Intent intent = new Intent();
+                intent.setClass(mContext, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name() );
+                mContext.startActivity(intent);
             }
         });
     }

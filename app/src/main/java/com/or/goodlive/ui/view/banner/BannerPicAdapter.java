@@ -1,6 +1,7 @@
 package com.or.goodlive.ui.view.banner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -19,11 +20,19 @@ import android.widget.ImageView;
 import com.alipay.share.sdk.Constant;
 import com.or.goodlive.R;
 import com.or.goodlive.control.RxBus;
+import com.or.goodlive.module.CoverDataBean;
+import com.or.goodlive.ui.activity.mycenter.ModifyUserInforActivity;
+import com.or.goodlive.ui.activity.other.WebViewActivity;
+import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.ImageLoadUtils;
 import com.or.goodlive.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.HEADERURL;
+import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.USERNAME;
+import static com.or.goodlive.util.Constants.WEB_VIEW_HOSTURL;
 
 /**
  * Created by Administrator on 2017/2/20.
@@ -32,14 +41,18 @@ import java.util.List;
 public class BannerPicAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<String> images ;
+    private List<CoverDataBean.RstBean.HomeactBean> images ;
+    private String category;
+    private String title="益直播";
+
     public BannerPicAdapter(Context mContext) {
         this.mContext = mContext;
         images = new ArrayList<>();
     }
 
-    public void setData(List<String> images){
+    public void setData(List<CoverDataBean.RstBean.HomeactBean> images,String category){
         this.images = images;
+        this.category = category;
     }
     @Override
     public int getCount() {
@@ -61,7 +74,7 @@ public class BannerPicAdapter extends PagerAdapter {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner_images, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.image_banner);
-        ImageLoadUtils.displayImage(images.get(position),imageView);
+        ImageLoadUtils.displayImage(images.get(position).getPhoto(),imageView);
 
         Bitmap image = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         Bitmap newimage = getRoundCornerImage(image,50);
@@ -72,18 +85,12 @@ public class BannerPicAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                }
+                String url = Constants.WEB_VIEW_HOSTURL+"type="+category+"&id="+images.get(position).getId();
+                Intent intent = new Intent();
+                intent.setClass(mContext, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,title);
+                mContext.startActivity(intent);
             }
         });
         return view;
