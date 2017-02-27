@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_search"
@@ -14,8 +14,9 @@
         android:background="@color/colorPrimary">
         <ImageView
             android:id="@+id/search_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
             android:padding="17dp"
             android:src="@drawable/back"/>
 
@@ -36,61 +37,35 @@
             android:drawableLeft="@drawable/ic_search_black"
             android:background="@drawable/ic_filling_half_round_white" />
     </RelativeLayout>
-
-    <ScrollView
-        android:layout_below="@id/top_title_view"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="大家都在搜"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorGray"/>
-            <com.or.goodlive.ui.view.flowlayout.TagFlowLayout
-                android:id="@+id/tag_flow_layout"
-                app:max_select="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:background="@color/divider_1"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="搜索记录"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/colorGray"/>
-                <TextView
-                    android:id="@+id/clean_history_dates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="清除记录"
-                    android:padding="10dp"
-                    android:drawableLeft="@drawable/ic_clean_history"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorGray"/>
-            </RelativeLayout>
-            <com.or.goodlive.ui.view.UbanListView
-                android:id="@+id/search_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
+        android:background="@color/divider_pink"
+        android:layout_height="1dp"/>
+
     <ListView
         android:id="@+id/lv_search_key_word"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:background="@color/white"
+        android:visibility="visible"
         android:layout_below="@id/top_title_view"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/no_data_layout"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/iconfont_no_data"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="抱歉！没搜到您要的结果~"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/text_gray_89"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

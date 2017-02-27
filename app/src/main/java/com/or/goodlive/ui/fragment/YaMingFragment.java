@@ -177,7 +177,14 @@ public class YaMingFragment extends BaseFragment {
         for (int i = 0; i < TITLE_NAME.length; i++) {
             listFragments.add(YamingChildFragment.newInstance(rst.get(i).getId(),rst.get(i).getName()));
         }
-        tabYaming.setTabMode(TabLayout.MODE_SCROLLABLE);
+        if(TITLE_NAME.length>4){
+            tabYaming.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }else{
+            //tabYaming.setTabMode(TabLayout.GRAVITY_CENTER);
+            tabYaming.setTabMode(TabLayout.MODE_FIXED);
+        }
+
+
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getActivity().getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
         viewPagerYaming.setAdapter(fAdapter);
         tabYaming.setupWithViewPager(viewPagerYaming);

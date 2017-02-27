@@ -138,7 +138,7 @@ public class CoverFragment extends BaseFragment {
         listBeen.addAll(datasList);
 
         if (null == yamingChildAdapter) {
-            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen,"新华网");
+            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
             rcvCoverList.setAdapter(yamingChildAdapter);
         } else {
             yamingChildAdapter.notifyDataSetChanged();
@@ -184,6 +184,8 @@ public class CoverFragment extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(listBeen.get(position).getId()));
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "cover");
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name() );
                 mContext.startActivity(intent);
             }

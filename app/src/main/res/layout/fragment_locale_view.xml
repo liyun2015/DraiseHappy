@@ -19,7 +19,6 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="0dp"
             android:layout_weight="5"
-            android:paddingLeft="4dp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -36,12 +35,15 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.01"
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:src="@drawable/add_background"
+
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/add_btn"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_weight="0.7"
             android:layout_gravity="center_vertical"
             android:src="@drawable/add_icon"

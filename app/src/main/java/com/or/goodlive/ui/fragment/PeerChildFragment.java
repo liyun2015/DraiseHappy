@@ -119,6 +119,8 @@ public class PeerChildFragment extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(listBeen.get(position).getId()));
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "news");
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name() );
                 mContext.startActivity(intent);
             }
@@ -180,7 +182,7 @@ public class PeerChildFragment extends BaseFragment {
         listBeen.addAll(datasList);
 
         if (null == yamingChildAdapter) {
-            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen,titleName);
+            yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
             rcvPeerChildList.setAdapter(yamingChildAdapter);
         } else {
             yamingChildAdapter.notifyDataSetChanged();

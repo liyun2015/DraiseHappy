@@ -91,7 +91,7 @@ public class SetPasswordActivity extends BaseActivity {
         String newPassWordRe = etAffirmNewPassWord.getText().toString().trim();
         RequestLogin requestVerificationCode = new RequestLogin();
         requestVerificationCode.setPassword(newPassWord);
-        requestVerificationCode.setResetPassword(newPassWordRe);
+        requestVerificationCode.setRepeatPassword(newPassWordRe);
         ServiceFactory.getProvideHttpService().resetPassword(requestVerificationCode)
                 .compose(this.<RegisterBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<RegisterBean>io_main())
@@ -120,6 +120,7 @@ public class SetPasswordActivity extends BaseActivity {
                     @Override
                     public void call(RegisterBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "设置成功！");
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override

@@ -3,13 +3,18 @@ package com.or.goodlive.api;
 
 import com.or.goodlive.module.BaseResultsBean;
 import com.or.goodlive.module.CategoryDataBean;
+import com.or.goodlive.module.CommentBean;
 import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.MessResultsBean;
+import com.or.goodlive.module.SearchKeyWord;
+import com.or.goodlive.module.ThridLoginInBean;
 import com.or.goodlive.module.UserInfoBean;
+import com.or.goodlive.module.WeChatUserInfoBean;
 import com.or.goodlive.module.request.RegisterBean;
 import com.or.goodlive.module.request.RequestLogin;
 import com.or.goodlive.module.request.RequestRegisterBean;
+import com.or.goodlive.module.request.RequestSearchKeyWord;
 import com.or.goodlive.module.request.RequestVerificationCode;
 import com.or.goodlive.module.request.UploadBean;
 
@@ -17,7 +22,9 @@ import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -85,5 +92,20 @@ public interface ApiClient {
     Observable<UserInfoBean> personalCenter(@QueryMap Map<String,String> map);
     // 搜索
     @POST("/user/news/search")
-    Observable<BaseResultsBean> searchResult(@QueryMap Map<String,String> map);
+    Observable<SearchKeyWord> getSearchKeyWords(@Body RequestSearchKeyWord requestSearchKeyWord);
+    // 评论列表
+    @POST("/user/NewsComment/list")
+    Observable<CommentBean> getCommentList(@QueryMap Map<String,String> map);
+    // 评论
+    @POST("/user/NewsComment/add")
+    Observable<BaseResultsBean> addComment(@Body RequestSearchKeyWord requestSearchKeyWord);
+    // 点赞
+    @POST("/user/NewsComment/operate")
+    Observable<BaseResultsBean> addfavor(@Body RequestSearchKeyWord requestSearchKeyWord);
+    //获取微信
+    @GET("https://api.weixin.qq.com/sns/userinfo")
+    Observable<WeChatUserInfoBean> getWeChatInfo(@Query("access_token") String access_token, @Query("openid") String openid);
+    // 三方登录
+    @POST("/user/user/thirdPlatformLogin")
+    Observable<LoginInBean> thirdPlatformLogin(@Body RequestLogin requestLogin);
 }

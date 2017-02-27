@@ -137,6 +137,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
                         startActivity(new Intent(mContext, SetPasswordActivity.class));
+                        finish();
                     }
                 }, new Action1<Throwable>() {
                     @Override

@@ -88,8 +88,44 @@ public class LoginInBean {
          * valid : valid
          * year_income : 0
          */
+        private String PHPSESSID;
+        private String name;
 
+        public String getPHPSESSID() {
+            return PHPSESSID;
+        }
+
+        public void setPHPSESSID(String PHPSESSID) {
+            this.PHPSESSID = PHPSESSID;
+        }
+
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
         private UserBean user;
+        private String  avatar_url;
+        private String  nick;
+
+        public String getAvatar_url() {
+            return avatar_url;
+        }
+
+        public void setAvatar_url(String avatar_url) {
+            this.avatar_url = avatar_url;
+        }
+
+        public String getNick() {
+            return nick;
+        }
+
+        public void setNick(String nick) {
+            this.nick = nick;
+        }
 
         public UserBean getUser() {
             return user;

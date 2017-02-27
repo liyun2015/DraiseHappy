@@ -129,7 +129,12 @@ public class LocaleFragment extends BaseFragment {
         for (int i = 0; i < TITLE_NAME.length; i++) {
             listFragments.add(LocaleChildFragment.newInstance(rst.get(i).getId(),rst.get(i).getName()));
         }
-        tabLocale.setTabMode(TabLayout.MODE_SCROLLABLE);
+        if(TITLE_NAME.length>4){
+            tabLocale.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }else{
+            //tabYaming.setTabMode(TabLayout.GRAVITY_CENTER);
+            tabLocale.setTabMode(TabLayout.MODE_FIXED);
+        }
         FragmentTabAdapter fAdapter = new FragmentTabAdapter(getActivity().getSupportFragmentManager(),listFragments, Arrays.asList(TITLE_NAME));
         viewPagerLocale.setAdapter(fAdapter);
         tabLocale.setupWithViewPager(viewPagerLocale);

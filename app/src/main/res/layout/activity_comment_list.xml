@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/top_title_view"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <include layout="@layout/include_toolbar" />
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider_pink"
+            android:layout_height="0.5dp"/>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/add_comment_layout"
+        android:layout_width="match_parent"
+        android:background="@color/font_black_f4"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="15dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingRight="10dp"
+        android:layout_height="50dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@color/divider_1"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/add_comment_btn"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:text="发表"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edit_comment"
+            android:layout_width="match_parent"
+            android:layout_marginRight="28dp"
+            android:textSize="12sp"
+            android:paddingLeft="8dp"
+            android:hint="写评论..."
+            android:background="@drawable/circle_line_white"
+            android:gravity="center_vertical"
+
+            android:textColor="@color/text_gray"
+            android:layout_toLeftOf="@id/add_comment_btn"
+            android:layout_centerVertical="true"
+            android:layout_height="36dp" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_comment_list"
+        android:layout_width="match_parent"
+        android:layout_below="@id/top_title_view"
+        android:layout_above="@id/add_comment_layout"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_comment_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

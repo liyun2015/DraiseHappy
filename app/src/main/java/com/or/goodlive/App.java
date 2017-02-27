@@ -8,6 +8,8 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import cn.jpush.android.api.JPushInterface;
+
 
 /**
  * App
@@ -25,14 +27,16 @@ public class App extends Application {
         SDKInitializer.initialize(this);
         ImageLoadUtils.initImageLoader(getApplicationContext());
         UMShareAPI.get(this);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this); // 初始化 JPush
         Config.DEBUG = false;//http://dev.umeng.com/social/android/quick-integration
     }
 
     //分享各平台初始化配置
     {
-        PlatformConfig.setWeixin("wx560d10dd4001d136", "4b5e1cb5ff7aaa0a8df4b6523fa65a5e");
-        PlatformConfig.setSinaWeibo("1658710715", "ac8d11b4dfae35e5a354afc5e27e9c55");
-        PlatformConfig.setQQZone("1105851078", "PkfjgLEw8sIAMAzx");
+        PlatformConfig.setWeixin("wx4975d31bb0ce551f", "c8d4dd5574ef8e0d0b8b6bcc288e0bd7");
+        PlatformConfig.setSinaWeibo("1264350362", "d92ce134e0bd051b199da42ef3fd94bc");
+        PlatformConfig.setQQZone("1105997898", "5JlyTZDFBINU61o7");
     }
 
     public static Application getInstance() {

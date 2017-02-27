@@ -20,20 +20,15 @@ import static com.or.goodlive.R.id.yaming_news_source;
 public class YamingChildAdapter extends BaseQuickAdapter<CoverDataBean.RstBean.ListBean,BaseViewHolder> {
 
 
-    private String titileName;
 
     public YamingChildAdapter(int layoutResId, List<CoverDataBean.RstBean.ListBean> data) {
         super(layoutResId, data);
-    }
-    public YamingChildAdapter(int layoutResId, List<CoverDataBean.RstBean.ListBean> data, String titleName) {
-        super(layoutResId, data);
-        titileName = titleName;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CoverDataBean.RstBean.ListBean item) {
         helper.setText(R.id.yaming_news_title,item.getTitle()+item.getSub())
-        .setText(R.id.yaming_news_source, titileName);
+        .setText(R.id.yaming_news_source, item.getCategory_name());
         ImageView imageView= (ImageView) helper.getConvertView().findViewById(R.id.yaming_pic_image);
         ImageLoadUtils.displayImageWithLoadingPicture(item.getTitle_pic(),imageView,R.drawable.default_photoalbum_img);
     }

@@ -1,7 +1,6 @@
 package com.or.goodlive.ui.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -11,36 +10,29 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.or.goodlive.R;
-import com.or.goodlive.api.config.HeaderConfig;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.control.events.SearchHomeViewEvents;
+import com.or.goodlive.module.SearchKeyWord;
+import com.or.goodlive.module.request.RequestSearchKeyWord;
+import com.or.goodlive.ui.activity.other.WebViewActivity;
 import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.ui.view.UbanListView;
-import com.or.goodlive.ui.view.flowlayout.FlowLayout;
-import com.or.goodlive.ui.view.flowlayout.TagAdapter;
-import com.or.goodlive.ui.view.flowlayout.TagFlowLayout;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.KeyboardUtils;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -58,23 +50,14 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     RelativeLayout topTitleView;
     @Bind(R.id.lv_search_key_word)
     ListView lvSearchKeyWord;
-    @Bind(R.id.tag_flow_layout)
-    TagFlowLayout tagFlowLayout;
-    @Bind(R.id.clean_history_dates)
-    TextView cleanHistoryDates;
-    @Bind(R.id.search_history)
-    UbanListView searchHistory;
     @Bind(R.id.activity_search)
-    RelativeLayout activitySearch;
-    private String[] mValsBJ = new String[]{"东直门", "望京", "国贸", "三元桥", "中关村"};
-
-    private static final String KEY_HISTORY = "history";
-    private static final String KEY_SP_HISTORY = "sp_history";
-    public static final String HISTORY_HINT = "暂时没有搜索记录";
-    private ArrayAdapter historyAdapter;
-    private List<String> keyWordList;
+    LinearLayout activitySearch;
+    @Bind(R.id.no_data_layout)
+    LinearLayout noDataLayout;
     private ArrayAdapter<String> stringArrayAdapter;
+    private List<SearchKeyWord.RstBean> keyWordList;
     private List<String> arrList;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_search;
@@ -82,25 +65,20 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        arrList = new ArrayList<>();
         keyWordList = new ArrayList<>();
+        arrList = new ArrayList<>();
         initView();
-        //历史记录
-        loadHistory();
-
-        inputSearchKeyWord();
     }
 
-    private void inputSearchKeyWord() {
-
+    private void initView() {
+        editSearch.setOnEditorActionListener(this);
         RxTextView.textChanges(editSearch)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .debounce(600, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe(new Action1<CharSequence>() {
                     @Override
                     public void call(CharSequence charSequence) {
-                        lvSearchKeyWord.setVisibility(TextUtils.isEmpty(charSequence) ? View.GONE : View.VISIBLE);
-                        if (!TextUtils.isEmpty(charSequence.toString())){
+                        if (!TextUtils.isEmpty(charSequence.toString())) {
                             searchKeyWord(charSequence.toString());
                         }
                     }
@@ -110,123 +88,92 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
                     }
                 });
-
         lvSearchKeyWord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String mKeyWord = keyWordList.get(position);
-                sendEvents(mKeyWord);
-                saveHistory(mKeyWord);
+                String typeStr = keyWordList.get(position).getTable_name();
+                String id = keyWordList.get(position).getId();
+                String url = Constants.WEB_VIEW_HOSTURL + "type="+typeStr+ "&id=" + id;
+                Intent intent = new Intent();
+                intent.setClass(mContext, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, keyWordList.get(position).getTitle());
+                startActivity(intent);
+                finish();
             }
         });
     }
+
 
     private void searchKeyWord(String mKeyWord) {
-
+        RequestSearchKeyWord requestSearchKeyWord = new RequestSearchKeyWord();
+        requestSearchKeyWord.setTitle(mKeyWord);
+        ServiceFactory.getProvideHttpService().getSearchKeyWords(requestSearchKeyWord)
+                .compose(this.<SearchKeyWord>bindToLifecycle())
+                .compose(RxSchedulersHelper.<SearchKeyWord>io_main())
+                .filter(new Func1<SearchKeyWord, Boolean>() {
+                    @Override
+                    public Boolean call(SearchKeyWord searchKeyWord) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(searchKeyWord.getErrno())) {
+                            ToastUtil.makeText(mContext, searchKeyWord.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(searchKeyWord.getErrno());
+                    }
+                })
+                .filter(new Func1<SearchKeyWord, Boolean>() {
+                    @Override
+                    public Boolean call(SearchKeyWord searchKeyWord) {
+                        return searchKeyWord != null;
+                    }
+                })
+                .filter(new Func1<SearchKeyWord, Boolean>() {
+                    @Override
+                    public Boolean call(SearchKeyWord searchKeyWord) {
+                        return searchKeyWord.getRst() != null;
+                    }
+                })
+                .subscribe(new Action1<SearchKeyWord>() {
+                    @Override
+                    public void call(SearchKeyWord searchKeyWord) {
+                        initDataList(searchKeyWord);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                });
     }
 
-    private void initView() {
+    private void initDataList(SearchKeyWord searchKeyWord) {
+        keyWordList.addAll(searchKeyWord.getRst());
         arrList.clear();
-        arrList.addAll(Arrays.asList(mValsBJ));
-        editSearch.setOnEditorActionListener(this);
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(arrList) {
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_search_tag_view, tagFlowLayout, false);
-                tv.setText(s);
-                return tv;
-            }
-        };
-
-        tagFlowLayout.setAdapter(tagAdapter);
-        tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-            @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
-                sendEvents(arrList.get(position));
-                saveHistory(arrList.get(position));
-                return true;
-            }
-        });
-        tagFlowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-            @Override
-            public void onSelected(Set<Integer> selectPosSet) {
-                //  Toast.makeText(mContext, selectPosSet.toString(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    private void sendEvents(String values) {
-        SearchHomeViewEvents searchHomeViewEvents = new SearchHomeViewEvents();
-        searchHomeViewEvents.setKeyWords(values);
-        RxBus.getInstance().send(Events.EVENTS_SEARCH_TYPE, searchHomeViewEvents);
-        finish();
-    }
-
-    private void loadHistory() {
-        SharedPreferences sp = getSharedPreferences(KEY_SP_HISTORY, 0);
-        String history = sp.getString(KEY_HISTORY, HISTORY_HINT);
-        cleanHistoryDates.setVisibility(history.equals(HISTORY_HINT) ? View.GONE : View.VISIBLE);
-        final String[] historys = history.split(",");
-        // 保留前6条数据
-        if (historys.length > 6) {
-            String[] newArrays = new String[6]; // 实现数组之间的复制
-            System.arraycopy(historys, 0, newArrays, 0, 6);
+        for (int i = 0; i < searchKeyWord.getRst().size(); i++) {
+            arrList.add(i, searchKeyWord.getRst().get(i).getTitle());
         }
-        if (historyAdapter == null) {
-            historyAdapter = new ArrayAdapter<>(this,
-                    R.layout.item_search_history_view, historys);
-            searchHistory.setAdapter(historyAdapter);
+        if (arrList.size()>0) {
+            noDataLayout.setVisibility(View.GONE);
+            lvSearchKeyWord.setVisibility(View.VISIBLE);
         } else {
-            historyAdapter.notifyDataSetChanged();
+            lvSearchKeyWord.setVisibility(View.GONE);
+            noDataLayout.setVisibility(View.VISIBLE);
         }
-
-        searchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sendEvents(historys[i]);
-            }
-        });
-    }
-
-    public void saveHistory(String text) {
-        // 获取搜索框信息
-        SharedPreferences sp = getSharedPreferences(KEY_SP_HISTORY,
-                Context.MODE_PRIVATE);
-        String oldText = sp.getString(KEY_HISTORY, "");
-
-        // 利用StringBuilder.append新增内容，逗号便于读取内容时用逗号拆分开
-        StringBuilder builder = new StringBuilder(oldText);
-        builder.append(text + ",");
-
-        // 判断搜索内容是否已经存在于历史文件，已存在则不重复添加
-        if (!oldText.contains(text + ",")) {
-            SharedPreferences.Editor myeditor = sp.edit();
-            myeditor.putString(KEY_HISTORY, builder.toString());
-            myeditor.commit();
+        if (stringArrayAdapter == null) {
+            stringArrayAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, arrList);
+            lvSearchKeyWord.setAdapter(stringArrayAdapter);
+        } else {
+            stringArrayAdapter.notifyDataSetChanged();
         }
-
+        KeyboardUtils.hideSoftInput(mActivity);
     }
 
-    // 清除搜索记录
-    public void cleanHistory() {
-        searchHistory.setVisibility(View.GONE);
-        cleanHistoryDates.setVisibility(View.GONE);
-        SharedPreferences sp = getSharedPreferences(KEY_SP_HISTORY, 0);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear();
-        editor.commit();
-    }
 
-    @OnClick({R.id.search_back, R.id.clean_history_dates})
+    @OnClick({R.id.search_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_back:
                 finish();
                 break;
-            case R.id.clean_history_dates:
-                cleanHistory();
-                break;
+
         }
     }
 
@@ -238,8 +185,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 KeyboardUtils.hideSoftInput(mActivity);
                 ToastUtil.makeText(mContext, "搜索内容不能为空");
             } else {
-                sendEvents(inputStr);
-                saveHistory(inputStr);
+                searchKeyWord(inputStr);
             }
             return true;
         }
@@ -254,5 +200,12 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
