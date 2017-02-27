@@ -359,7 +359,55 @@ public class LoginActivity extends OldBaseActivity {
     }
     //微信登录
     private void weChatLogin(WeChatUserInfoBean weChatUserInfoBean) {
-
+        Constants.isNoCookie = true;
+        RequestLogin requestLogin = new RequestLogin();
+        requestLogin.setThird_platform_type("weixin");
+        requestLogin.setAvatar_url(weChatUserInfoBean.getHeadimgurl());
+        requestLogin.setNick(weChatUserInfoBean.getNickname());
+        requestLogin.setOpenid(weChatUserInfoBean.getOpenid());
+        ServiceFactory.getProvideHttpService().thirdPlatformLogin(requestLogin)
+                .compose(this.<LoginInBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<LoginInBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingView();
+                    }
+                })
+                .filter(new Func1<LoginInBean, Boolean>() {
+                    @Override
+                    public Boolean call(LoginInBean loginInBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
+                    }
+                })
+                .map(new Func1<LoginInBean, LoginInBean.RstBean>() {
+                    @Override
+                    public LoginInBean.RstBean call(LoginInBean loginInBean) {
+                        return loginInBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<LoginInBean.RstBean>() {
+                    @Override
+                    public void call(LoginInBean.RstBean resultsBean) {
+                        SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getPHPSESSID());
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "登录失败");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
     }
 
     @Override
