@@ -50,6 +50,8 @@ public class WebViewActivity extends BaseActivity {
     public static final String WEB_VIEW_DESC = "益直播";
     public static final String WEB_VIEW_NEWS_ID = "news_id";
     public static final String WEB_VIEW_TABLE_NAME = "table_name";
+    public static final String WEB_VIEW_TITLE_NAME = "title_name";
+    public static final String WEB_VIEW_CONTENT_NAME = "content_name";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -83,6 +85,8 @@ public class WebViewActivity extends BaseActivity {
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
     private String table_name,news_id;
+    private String title="";
+    private String contentStr="";
 
     @Override
     protected int getLayoutId() {
@@ -99,8 +103,7 @@ public class WebViewActivity extends BaseActivity {
     private void initSocial() {
         SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
         };
         mShareListener = new CustomShareListener(WebViewActivity.this);
         mShareAction = new ShareAction(WebViewActivity.this).setDisplayList(shareMedias)
@@ -174,6 +177,8 @@ public class WebViewActivity extends BaseActivity {
         desc = intent.getStringExtra(WEB_VIEW_DESC);
         table_name= intent.getStringExtra(WEB_VIEW_TABLE_NAME);
         news_id  =intent.getStringExtra(WEB_VIEW_NEWS_ID);
+        title = intent.getStringExtra(WEB_VIEW_TITLE_NAME);
+        contentStr =intent.getStringExtra(WEB_VIEW_CONTENT_NAME);
     }
 
     private void initView() {
@@ -285,8 +290,8 @@ public class WebViewActivity extends BaseActivity {
                 break;
             case R.id.image_share://分享
                 UMImage shareImage;
-                String shareTitle = "精彩何处有？";
-                String shareMsg  = "直播天下事！尽在易直播，精彩随时随地！";
+                String shareTitle = title;
+                String shareMsg  = contentStr;
                 String shareUrl = Constants.WEB_VIEW_HOSTURL+"type="+table_name+"&id="+news_id;
                 shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 
@@ -344,6 +349,7 @@ public class WebViewActivity extends BaseActivity {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "点赞成功！");
+                        imageLike.setImageResource(R.drawable.love_icon);
                     }
                 }, new Action1<Throwable>() {
                     @Override

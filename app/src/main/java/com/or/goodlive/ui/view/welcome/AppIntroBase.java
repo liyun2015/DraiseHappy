@@ -30,12 +30,13 @@ import com.github.paolorotolo.appintro.PagerAdapter;
 import com.github.paolorotolo.appintro.PermissionObject;
 import com.github.paolorotolo.appintro.ProgressIndicatorController;
 import com.github.paolorotolo.appintro.util.LogHelper;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public abstract class AppIntroBase extends AppCompatActivity implements
+public abstract class AppIntroBase extends RxAppCompatActivity implements
         AppIntroViewPager.OnNextPageRequestedListener {
 
     public static final int DEFAULT_COLOR = 1;

@@ -3,8 +3,13 @@ package com.or.goodlive.ui.activity.welcome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.view.welcome.AppIntroView;
+
+import rx.functions.Action1;
 
 /**
  * Created by Administrator on 2017/2/13.
@@ -28,10 +33,26 @@ public class WelcomeActivity extends AppIntroView {
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(false);
         setVibrateIntensity(30);
-
-
+        regiserEvent();
     }
-
+    private void regiserEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_FIRST)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        if(!isFinishing()){
+                            finish();
+                        }
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                })
+                .create();
+    }
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);

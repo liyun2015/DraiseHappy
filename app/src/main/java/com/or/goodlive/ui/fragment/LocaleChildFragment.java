@@ -117,6 +117,8 @@ public class LocaleChildFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
                 intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(listBeen.get(position).getId()));
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "scene");
+                intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
+                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getContent());
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name());
                 mContext.startActivity(intent);
             }

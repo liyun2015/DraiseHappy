@@ -77,7 +77,6 @@ public class LoginActivity extends OldBaseActivity {
     private UMShareAPI mShareAPI;
     private Tencent mTencent;
     private String nickName,avatar_url;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -180,7 +179,7 @@ public class LoginActivity extends OldBaseActivity {
             }else if(platform==SHARE_MEDIA.QQ){
                 getUserInfo();
             }else{
-
+                getWeiboInfo(SHARE_MEDIA.SINA);
             }
 
         }
@@ -195,6 +194,50 @@ public class LoginActivity extends OldBaseActivity {
             showToast("取消授权!");
         }
     };
+
+    public void getWeiboInfo(SHARE_MEDIA platform)
+
+    {
+
+        mShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
+
+            @Override
+            public void onError(SHARE_MEDIA arg0, int arg1, Throwable arg2) {
+
+            }
+
+            @Override
+
+            public void onComplete(SHARE_MEDIA arg0, int arg1, Map<String, String> arg2) {
+
+                //转换为set
+
+                Set<String> keySet = arg2.keySet();
+
+                //遍历循环，得到里面的key值----用户名，头像....
+
+                for (String string : keySet) {
+
+                }
+
+                //得到key值得话，可以直接的到value
+
+                String name = arg2.get("screen_name");
+
+                String url = arg2.get("profile_image_url");
+            }
+
+            @Override
+
+            public void onCancel(SHARE_MEDIA arg0, int arg1) {
+
+            }
+
+        });
+
+    }
+
+
     /**
      * 获取用户信息
      *

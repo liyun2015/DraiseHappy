@@ -41,7 +41,7 @@
             <ImageView
                 android:id="@+id/image_like"
                 android:layout_width="wrap_content"
-                android:src="@drawable/favour_icon"
+                android:src="@drawable/unlove_icon"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/image_share"
                 android:layout_marginRight="28dp"

@@ -90,6 +90,10 @@ public class BannerPicAdapter extends PagerAdapter {
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,title);
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, category);
+//                intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, images.get(position).getTitle());
+//                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, images.get(position).getContent());
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,images.get(position).getId());
                 mContext.startActivity(intent);
             }
         });

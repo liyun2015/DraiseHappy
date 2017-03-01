@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.or.goodlive.R;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.activity.login.LoginActivity;
 
 import butterknife.Bind;
@@ -40,6 +42,7 @@ public class ThreeSlide extends Fragment {
     @OnClick(R.id.iv_welcome_image)
     public void onClick() {
         startActivity(new Intent(getContext(), LoginActivity.class));
+        RxBus.getInstance().send(Events.EVENTS_FIRST, new Object());
     }
     @Override
     public void onDestroyView() {

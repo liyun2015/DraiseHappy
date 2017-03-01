@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  */
 
 public abstract class OldBaseActivity extends RxAppCompatActivity {
-    public static final String TAG = BaseActivity.class.getSimpleName();
+    public static final String TAG = OldBaseActivity.class.getSimpleName();
     public Context mContext;
     public Activity mActivity;
     private LoadingProgress loadingProgress;

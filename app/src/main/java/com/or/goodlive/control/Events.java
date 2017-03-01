@@ -19,13 +19,15 @@ public class Events<T> {
     public static final int EVENTS_USER_LOGIN_OUT = 3;
     public static final int EVENTS_DISMISS_POP = 4;
     public static final int EVENTS_UPDATA_HEADER = 5;
+    public static final int EVENTS_FIRST = 6;
 
     //枚举
     @IntDef({EVENTS_USER_LOGIN_OUT,
             EVENTS_NORMAL_TYPE,
             EVENTS_SEARCH_TYPE,
             EVENTS_DISMISS_POP,
-            EVENTS_UPDATA_HEADER
+            EVENTS_UPDATA_HEADER,
+            EVENTS_FIRST
             })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}
