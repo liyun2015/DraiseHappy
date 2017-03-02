@@ -1,5 +1,6 @@
 package com.or.goodlive.ui.activity.login;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -29,6 +30,7 @@ import com.or.goodlive.ui.activity.MainActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.connect.UserInfo;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -48,6 +50,8 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static com.or.goodlive.util.Constants.AVATAR_URL_BASE;
 
 
 public class LoginActivity extends OldBaseActivity {
@@ -85,8 +89,23 @@ public class LoginActivity extends OldBaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        registerPermissions();
     }
+    private void registerPermissions() {
+        //Android 6.0 Permissions
+        RxPermissions.getInstance(mContext).request(
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
 
+                        } else {
+
+                        }
+                    }
+                });
+    }
     private void initView() {
         mShareAPI = UMShareAPI.get(this);
         setSupportActionBar(toolbar);
@@ -166,11 +185,15 @@ public class LoginActivity extends OldBaseActivity {
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             StringBuilder sb = new StringBuilder();
             Set<String> keys = data.keySet();
-            for (String key : keys) {
-                sb.append(key + "=" + data.get(key).toString() + "\r\n");
-            }
+//            for (String key : keys) {
+//                sb.append(key + "=" + data.get(key).toString() + "\r\n");
+//            }
             String access_token = data.get("access_token");
-            openid = data.get("openid");
+            if(platform==SHARE_MEDIA.SINA){
+                openid = data.get("uid");
+            }else{
+                openid = data.get("openid");
+            }
             String expires = data.get("expires_in");
             mTencent.setOpenId(openid);
             mTencent.setAccessToken(access_token, expires);
@@ -222,9 +245,10 @@ public class LoginActivity extends OldBaseActivity {
 
                 //得到key值得话，可以直接的到value
 
-                String name = arg2.get("screen_name");
+                nickName= arg2.get("screen_name");
 
-                String url = arg2.get("profile_image_url");
+                avatar_url= arg2.get("profile_image_url");
+                qqPlatformLogin("weibo");
             }
 
             @Override
@@ -295,7 +319,7 @@ public class LoginActivity extends OldBaseActivity {
                     }else{
                         nickName = jo.getString("nickname");
                         avatar_url = jo.getString("figureurl_qq_2");
-                        qqPlatformLogin();
+                        qqPlatformLogin("qq");
                     }
 
                 } catch (Exception e) {
@@ -315,10 +339,10 @@ public class LoginActivity extends OldBaseActivity {
         userInfo.getUserInfo(userInfoListener);
     }
 
-    private void qqPlatformLogin() {
+    private void qqPlatformLogin(String type) {
         Constants.isNoCookie = true;
         RequestLogin requestLogin = new RequestLogin();
-        requestLogin.setThird_platform_type("qq");
+        requestLogin.setThird_platform_type(type);
         requestLogin.setAvatar_url(avatar_url);
         requestLogin.setNick(nickName);
         requestLogin.setOpenid(openid);
@@ -350,6 +374,8 @@ public class LoginActivity extends OldBaseActivity {
                     @Override
                     public void call(LoginInBean.RstBean resultsBean) {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getPHPSESSID());
+                        SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getAvatar_url());
+                        SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getName());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -436,6 +462,8 @@ public class LoginActivity extends OldBaseActivity {
                     @Override
                     public void call(LoginInBean.RstBean resultsBean) {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getPHPSESSID());
+                        SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getAvatar_url());
+                        SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getName());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -501,6 +529,8 @@ public class LoginActivity extends OldBaseActivity {
                     @Override
                     public void call(LoginInBean.RstBean resultsBean) {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getUser().getPHPSESSID());
+                        SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getUser().getAvatar_url());
+                        SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getUser().getName());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }

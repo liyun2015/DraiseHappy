@@ -1,5 +1,6 @@
 package com.or.goodlive.ui.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +16,9 @@ import com.or.goodlive.ui.activity.welcome.WelcomeActivity;
 import com.or.goodlive.util.AppUtils;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
+import rx.functions.Action1;
 
 
 /**
@@ -46,6 +49,7 @@ public class SplashActivity extends BaseActivity {
             mHandler.sendEmptyMessageDelayed(GO_HOME, SPLASH_DELAY_MILLIS);
         }
     }
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {

@@ -288,10 +288,8 @@ public class WebViewActivity extends BaseActivity {
                 break;
             case R.id.image_share://分享
                 UMImage shareImage;
-                String shareTitle = "随时随地";
-                String shareMsg  = "精彩不断";
-//                String shareTitle = title;
-//                String shareMsg  = contentStr;
+                String shareTitle = title;
+                String shareMsg  = contentStr;
                 String shareUrl = Constants.WEB_VIEW_HOSTURL+"type="+table_name+"&id="+news_id;
                 shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 

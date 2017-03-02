@@ -7,7 +7,7 @@
         android:id="@+id/cover_pic_image"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/cover_pic1"
+        android:src="@drawable/default_photoalbum_img"
         android:layout_height="200dp" />
     <TextView
         android:id="@+id/cover_news_title"

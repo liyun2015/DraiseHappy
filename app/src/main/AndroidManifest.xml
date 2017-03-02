@@ -159,6 +159,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--改昵称-->
+        <activity
+            android:name="com.or.goodlive.ui.activity.mycenter.ModifyNameActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!--用户协议-->
         <activity
             android:name="com.or.goodlive.ui.activity.login.UserAgreementActivity"

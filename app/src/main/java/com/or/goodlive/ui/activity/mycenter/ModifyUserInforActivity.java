@@ -6,10 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
@@ -19,20 +20,17 @@ import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.BaseResultsBean;
-import com.or.goodlive.module.request.RequestLogin;
-import com.or.goodlive.module.request.UploadBean;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.FileUtils;
 import com.or.goodlive.util.ImageLoadUtils;
+import com.or.goodlive.util.SPUtils;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,8 +55,11 @@ public class ModifyUserInforActivity extends BaseActivity {
     ImageView userHeaderImage;
     @Bind(R.id.user_name)
     TextView userName;
+    @Bind(R.id.user_name_layout)
+    LinearLayout userNameLayout;
     private List<String> pathList;
     private static final int REQUEST_CODE = 0;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_modify_user_infor;
@@ -67,6 +68,7 @@ public class ModifyUserInforActivity extends BaseActivity {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
+        regiserEvent();
     }
 
     private void initView() {
@@ -81,7 +83,24 @@ public class ModifyUserInforActivity extends BaseActivity {
         userName.setText(getIntent().getStringExtra(MyCenterActivity.USERNAME));
         ImageLoadUtils.displayHeadIcon(getIntent().getStringExtra(MyCenterActivity.HEADERURL), userHeaderImage);
     }
-
+    private void regiserEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_UPDATA_HEADER)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        String name =(String) SPUtils.get(ModifyUserInforActivity.this,Constants.USER_NAME,"");
+                        userName.setText(name);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("loginEventError",throwable.getMessage());
+                    }
+                })
+                .create();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -137,14 +156,16 @@ public class ModifyUserInforActivity extends BaseActivity {
             uploadHead();
         }
     }
-    private File file=null;
+
+    private File file = null;
+
     private void uploadHead() {
-        file= FileUtils.getFileByPath(pathList.get(0));
-        MultipartBody.Builder builder=new MultipartBody.Builder();
+        file = FileUtils.getFileByPath(pathList.get(0));
+        MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         builder.addFormDataPart("avatar", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                 .build();
-        RequestBody requestBody=builder.build();
+        RequestBody requestBody = builder.build();
         ServiceFactory.getProvideHttpService().uploadHead(requestBody)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
@@ -172,9 +193,10 @@ public class ModifyUserInforActivity extends BaseActivity {
                 .subscribe(new Action1<BaseResultsBean.RstBean>() {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
+                        SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE + resultsBean.getPic());
                         ToastUtil.makeText(mContext, "修改成功！");
                         ImageLoadUtils.displayHeadIcon("file://" + pathList.get(0), userHeaderImage);
-                        RxBus.getInstance().send(Events.EVENTS_UPDATA_HEADER,new Object());
+                        RxBus.getInstance().send(Events.EVENTS_UPDATA_HEADER, new Object());
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -190,13 +212,16 @@ public class ModifyUserInforActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.user_header_image, R.id.user_name})
+    @OnClick({R.id.user_header_image, R.id.user_name_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_header_image:
                 Multiselect();
                 break;
-            case R.id.user_name:
+            case R.id.user_name_layout:
+                Intent intent = new Intent();
+                intent.setClass(ModifyUserInforActivity.this, ModifyNameActivity.class);
+                startActivityForResult(intent, 0);
                 break;
         }
     }

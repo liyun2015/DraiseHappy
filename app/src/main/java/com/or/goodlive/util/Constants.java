@@ -13,7 +13,10 @@ public class Constants {
     public static final String UBAN_MEMBER_NOTIFY_URL = "http://idfa.dev.or.com/ubanpay/memPaynotify.html";//会员支付回调地址
 
     public static final String UBAN_TOKEN = "ubanToken";//session
-    public static final String PHPSESSID = "PHPSESSID";
+    public static final String PHPSESSID = "PHPSESSID";//登录状态
+    public static final String AVATAR_URL = "AVATAR_URL";//头像
+    public static final String AVATAR_URL_BASE = "http://weixin.xiaozhubanjia.com";//头像
+    public static final String USER_NAME = "USER_NAME";//昵称
     public static final String UBAN_CITY = "ubanCity";
     public static boolean isNoCookie = false;
 

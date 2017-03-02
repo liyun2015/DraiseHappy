@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.or.goodlive.App;
 import com.or.goodlive.R;
 import com.or.goodlive.api.HttpClient;
 import com.or.goodlive.api.config.ServiceFactory;
@@ -102,6 +104,17 @@ public class MyCenterActivity extends BaseActivity {
     }
 
     private void initData() {
+        headerUrl =  (String) SPUtils.get(this,Constants.AVATAR_URL,"");
+        uname =  (String) SPUtils.get(this,Constants.USER_NAME,"");
+        if(TextUtils.isEmpty(headerUrl)||TextUtils.isEmpty(uname)){
+            getUserInfor();
+        }else{
+            userName.setText(uname);
+            ImageLoadUtils.displayHeadIcon(headerUrl, userHeaderPic);
+        }
+    }
+
+    private void getUserInfor() {
         Map<String, String> params = new HashMap<>();
         ServiceFactory.getProvideHttpService().personalCenter(params)
                 .compose(this.<UserInfoBean>bindToLifecycle())

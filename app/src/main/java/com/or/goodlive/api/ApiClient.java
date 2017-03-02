@@ -47,6 +47,9 @@ public interface ApiClient {
     // 修改密码
     @POST("/user/user/updatePassword")
     Observable<BaseResultsBean> updatePassword(@Body RequestLogin requestLogin);
+    // 修改昵称
+    @POST("/user/user/update")
+    Observable<LoginInBean> updateName(@Body RequestLogin requestLogin);
     //忘记密码三部曲
     //发送验证码
     @POST("/user/user/forgetPassword")

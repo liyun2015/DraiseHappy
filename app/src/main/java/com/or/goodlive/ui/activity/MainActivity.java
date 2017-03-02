@@ -1,6 +1,9 @@
 package com.or.goodlive.ui.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,8 @@ import com.or.goodlive.ui.fragment.CoverFragment;
 import com.or.goodlive.ui.fragment.LocaleFragment;
 import com.or.goodlive.ui.fragment.PeerFragment;
 import com.or.goodlive.ui.fragment.YaMingFragment;
+import com.or.goodlive.util.SPUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +71,24 @@ public class MainActivity extends OldBaseActivity {
     protected void afterCreate(Bundle savedInstanceState) {
         initView();
         initData();
+        registerPermissions();
         regiserEvent();
     }
+    private void registerPermissions() {
+        //Android 6.0 Permissions
+        RxPermissions.getInstance(mContext).request(
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
 
+                        } else {
+
+                        }
+                    }
+                });
+    }
     private void regiserEvent() {
         RxBus.with(this)
                 .setEvent(Events.EVENTS_USER_LOGIN_OUT)
@@ -83,7 +103,6 @@ public class MainActivity extends OldBaseActivity {
                 .onError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.e("loginEventError",throwable.getMessage());
                     }
                 })
                 .create();

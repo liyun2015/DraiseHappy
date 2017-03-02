@@ -15,6 +15,15 @@ public class RequestLogin {
     private String openid;
     private String nick;
     private String avatar_url;
+    private String name ;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getThird_platform_type() {
         return third_platform_type;

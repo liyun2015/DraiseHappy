@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/user_header_image"
             android:layout_width="60dp"
-            android:src="@drawable/pic_icon"
+            android:src="@drawable/header_default"
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:layout_height="60dp" />
@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <LinearLayout
+        android:id="@+id/user_name_layout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="@color/white"
