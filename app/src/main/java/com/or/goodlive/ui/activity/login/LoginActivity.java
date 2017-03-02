@@ -98,7 +98,7 @@ public class LoginActivity extends OldBaseActivity {
         }
         toolbarContentText.setText("登录");
 
-        mTencent = Tencent.createInstance("1105997898", LoginActivity.this);
+        mTencent = Tencent.createInstance("1106010252", LoginActivity.this);
     }
 
     @Override

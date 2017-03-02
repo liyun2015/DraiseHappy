@@ -16,6 +16,9 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxEms="8"
+            android:singleLine="true"
             android:gravity="center"
             android:textColor="@color/black"
             android:layout_gravity="center" />

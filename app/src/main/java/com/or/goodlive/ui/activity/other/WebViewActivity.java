@@ -124,8 +124,7 @@ public class WebViewActivity extends BaseActivity {
                 //ToastUtil.makeText(mActivity.get(),"收藏成功啦");
                 // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
-                        &&platform!=SHARE_MEDIA.EMAIL
+                if (platform!= SHARE_MEDIA.MORE
                         &&platform!=SHARE_MEDIA.FLICKR
                         &&platform!=SHARE_MEDIA.FOURSQUARE
                         &&platform!=SHARE_MEDIA.TUMBLR
@@ -144,8 +143,7 @@ public class WebViewActivity extends BaseActivity {
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            if (platform!= SHARE_MEDIA.MORE&&platform!=SHARE_MEDIA.SMS
-                    &&platform!=SHARE_MEDIA.EMAIL
+            if (platform!= SHARE_MEDIA.MORE
                     &&platform!=SHARE_MEDIA.FLICKR
                     &&platform!=SHARE_MEDIA.FOURSQUARE
                     &&platform!=SHARE_MEDIA.TUMBLR
@@ -290,14 +288,16 @@ public class WebViewActivity extends BaseActivity {
                 break;
             case R.id.image_share://分享
                 UMImage shareImage;
-                String shareTitle = title;
-                String shareMsg  = contentStr;
+                String shareTitle = "随时随地";
+                String shareMsg  = "精彩不断";
+//                String shareTitle = title;
+//                String shareMsg  = contentStr;
                 String shareUrl = Constants.WEB_VIEW_HOSTURL+"type="+table_name+"&id="+news_id;
                 shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
 
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
-                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
+                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE); // 圆角背景
 //                config.setTitleVisibility(false); // 隐藏title
 //                config.setCancelButtonVisibility(false); // 隐藏取消按钮
                 mShareAction.withTitle(shareTitle)
@@ -308,7 +308,21 @@ public class WebViewActivity extends BaseActivity {
                 break;
         }
     }
-
+    private void sharePlatform() {
+//        String shareTitle = "我在优办网发现一套" + officeName + "房源";
+//        String shareMsg = officeName + "," + houseArea + "㎡," + deliverStandard + "," + monthPrice + "元/天/㎡的在租房源。点此查看详情";
+//        String shareUrl = "http://m.uban.com/" + HeaderConfig.getCityShortName() + "/fangyuan-" + houseId + ".html";
+//        UMImage shareImage = new UMImage(this, (null != imgPathList && imgPathList.size() > 0) ? imgPathList.get(0) : "");
+//
+//        ShareBoardConfig config = new ShareBoardConfig();
+//        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
+//        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
+//        mShareAction.withTitle(shareTitle)
+//                .withText(shareMsg)
+//                .withMedia(shareImage)
+//                .withTargetUrl(shareUrl)
+//                .open(config);
+    }
     private void goToCommentList() {
         Intent intent = new Intent();
         intent.setClass(mContext, CommentListActivity.class);
