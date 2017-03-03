@@ -52,6 +52,7 @@ public class WebViewActivity extends BaseActivity {
     public static final String WEB_VIEW_TABLE_NAME = "table_name";
     public static final String WEB_VIEW_TITLE_NAME = "title_name";
     public static final String WEB_VIEW_CONTENT_NAME = "content_name";
+    public static final String WEB_VIEW_FAVOR_STATE = "web_view_favor_state";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -87,6 +88,7 @@ public class WebViewActivity extends BaseActivity {
     private String table_name,news_id;
     private String title="";
     private String contentStr="";
+    private int favorState=0;
 
     @Override
     protected int getLayoutId() {
@@ -177,6 +179,7 @@ public class WebViewActivity extends BaseActivity {
         news_id  =intent.getStringExtra(WEB_VIEW_NEWS_ID);
         title = intent.getStringExtra(WEB_VIEW_TITLE_NAME);
         contentStr =intent.getStringExtra(WEB_VIEW_CONTENT_NAME);
+        favorState =intent.getIntExtra(WEB_VIEW_FAVOR_STATE,0);
     }
 
     private void initView() {
@@ -213,7 +216,11 @@ public class WebViewActivity extends BaseActivity {
             }
         });
         webView.loadUrl(url);
-
+        if(1==favorState){
+            imageLike.setImageResource(R.drawable.love_icon);
+        }else{
+            imageLike.setImageResource(R.drawable.unlove_icon);
+        }
     }
 
     @Override
@@ -333,6 +340,7 @@ public class WebViewActivity extends BaseActivity {
         RequestSearchKeyWord requestSearchKeyWord = new RequestSearchKeyWord();
         requestSearchKeyWord.setNews_id(news_id);
         requestSearchKeyWord.setTable_name(table_name);
+        requestSearchKeyWord.setStatus(favorState);
         ServiceFactory.getProvideHttpService().addfavor(requestSearchKeyWord)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
@@ -360,8 +368,15 @@ public class WebViewActivity extends BaseActivity {
                 .subscribe(new Action1<BaseResultsBean.RstBean>() {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
-                        ToastUtil.makeText(mContext, "点赞成功！");
-                        imageLike.setImageResource(R.drawable.love_icon);
+                        if(1==favorState){
+                            ToastUtil.makeText(mContext, "取消成功！");
+                            imageLike.setImageResource(R.drawable.unlove_icon);
+                            favorState=0;
+                        }else{
+                            ToastUtil.makeText(mContext, "点赞成功！");
+                            imageLike.setImageResource(R.drawable.love_icon);
+                            favorState=1;
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override

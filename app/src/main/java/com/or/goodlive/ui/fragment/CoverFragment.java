@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -57,6 +58,8 @@ public class CoverFragment extends BaseFragment {
     CircleIndicator indicator;
     @Bind(R.id.header)
     RecyclerViewHeader header;
+    @Bind(R.id.banner_top_view)
+    FrameLayout bannerTopView;
     private Integer category_id = 1;
     private Integer pageId = 1;
     private Integer count = 10;
@@ -66,7 +69,8 @@ public class CoverFragment extends BaseFragment {
     private int pageSize = 10;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
-    public  String categoryName="cover";
+    public String categoryName = "cover";
+
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
         CoverFragment fragment = new CoverFragment();
@@ -132,6 +136,7 @@ public class CoverFragment extends BaseFragment {
         initBannerView(rstBean);
         initListViewData(rstBean);
     }
+
     private void initListViewData(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.ListBean> datasList = rstBean.getList();
 
@@ -144,20 +149,24 @@ public class CoverFragment extends BaseFragment {
             yamingChildAdapter.notifyDataSetChanged();
         }
         if (listBeen.size() == 0) {
-            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
+            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data, "暂无数据！"));
         }
     }
 
     private void initBannerView(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
-        if(datasBannerList.size()>0){
+        if (datasBannerList.size() > 0) {
+            bannerTopView.setVisibility(View.VISIBLE);
             BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
-            bannerPicAdapter.setData(datasBannerList,categoryName);
+            bannerPicAdapter.setData(datasBannerList, categoryName);
             bannerHomePageView.setAdapter(bannerPicAdapter);
             bannerHomePageView.setLooperPic(true);
             indicator.setViewPager(bannerHomePageView);
+        } else {
+            bannerTopView.setVisibility(View.GONE);
         }
     }
+
     private void initView() {
         handler = new Handler();
         listBeen = new ArrayList<>();
@@ -180,7 +189,7 @@ public class CoverFragment extends BaseFragment {
         rcvCoverList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String url = Constants.WEB_VIEW_HOSTURL+"type=cover"+"&id="+listBeen.get(position).getId();
+                String url = Constants.WEB_VIEW_HOSTURL + "type=cover" + "&id=" + listBeen.get(position).getId();
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
@@ -188,7 +197,8 @@ public class CoverFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "cover");
                 intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getContent());
-                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name() );
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getCategory_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
                 mContext.startActivity(intent);
             }
         });

@@ -24,6 +24,7 @@
                 android:layout_gravity="center_horizontal|top"
                 android:layout_height="wrap_content">
                 <FrameLayout
+                    android:id="@+id/banner_top_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.or.goodlive.ui.view.banner.LoopViewPager
@@ -34,6 +35,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginBottom="40dp"
                         android:layout_gravity="bottom">
 
                         <com.or.goodlive.ui.view.banner.CircleIndicator

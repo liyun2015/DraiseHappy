@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -37,8 +38,6 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static android.R.attr.id;
-
 /**
  * Created by Administrator on 2017/2/16.
  */
@@ -54,6 +53,8 @@ public class PeerChildFragment extends BaseFragment {
     CircleIndicator indicator;
     @Bind(R.id.header)
     RecyclerViewHeader header;
+    @Bind(R.id.banner_top_view)
+    FrameLayout bannerTopView;
 
     private Handler handler;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
@@ -65,18 +66,19 @@ public class PeerChildFragment extends BaseFragment {
     public static final String KEY_TITLE = "titleid";
     public static final String NAME_TITLE = "titlename";
     private int titleId;
-    public  String titleName="";
-    public  String categoryName="news";
+    public String titleName = "";
+    public String categoryName = "news";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_peer_child;
     }
 
-    public static PeerChildFragment newInstance(int columnType,String name) {
+    public static PeerChildFragment newInstance(int columnType, String name) {
         Bundle args = new Bundle();
         PeerChildFragment fragment = new PeerChildFragment();
-        args.putInt(KEY_TITLE,columnType);
-        args.putString(NAME_TITLE,name);
+        args.putInt(KEY_TITLE, columnType);
+        args.putString(NAME_TITLE, name);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,7 +88,7 @@ public class PeerChildFragment extends BaseFragment {
         listBeen = new ArrayList<>();
         handler = new Handler();
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             titleId = bundle.getInt(KEY_TITLE);
             titleName = bundle.getString(NAME_TITLE);
         }
@@ -115,7 +117,7 @@ public class PeerChildFragment extends BaseFragment {
         rcvPeerChildList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String url = Constants.WEB_VIEW_HOSTURL+"type=news"+"&id="+listBeen.get(position).getId();
+                String url = Constants.WEB_VIEW_HOSTURL + "type=news" + "&id=" + listBeen.get(position).getId();
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
@@ -123,7 +125,8 @@ public class PeerChildFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "news");
                 intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getContent());
-                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,listBeen.get(position).getCategory_name() );
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getCategory_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
                 mContext.startActivity(intent);
             }
         });
@@ -190,18 +193,21 @@ public class PeerChildFragment extends BaseFragment {
             yamingChildAdapter.notifyDataSetChanged();
         }
         if (listBeen.size() == 0) {
-            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
+            yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data, "暂无数据！"));
         }
     }
 
     private void initBannerView(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.HomeactBean> datasBannerList = rstBean.getHomeact();
-        if(datasBannerList.size()>0){
+        if (datasBannerList.size() > 0) {
+            bannerTopView.setVisibility(View.VISIBLE);
             BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
-            bannerPicAdapter.setData(datasBannerList,categoryName);
+            bannerPicAdapter.setData(datasBannerList, categoryName);
             bannerHomePageView.setAdapter(bannerPicAdapter);
             bannerHomePageView.setLooperPic(true);
             indicator.setViewPager(bannerHomePageView);
+        }else{
+            bannerTopView.setVisibility(View.GONE);
         }
     }
 

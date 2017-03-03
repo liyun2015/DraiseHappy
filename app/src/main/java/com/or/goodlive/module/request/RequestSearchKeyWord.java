@@ -11,6 +11,15 @@ public class RequestSearchKeyWord {
     private String news_id;
     private String table_name;
     private String content;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getNews_id() {
         return news_id;

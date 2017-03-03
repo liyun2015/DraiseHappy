@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alipay.share.sdk.Constant;
 import com.or.goodlive.R;
@@ -73,6 +74,10 @@ public class BannerPicAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner_images, container, false);
+        TextView news_title = (TextView) view.findViewById(R.id.news_title);
+        TextView news_resouce = (TextView) view.findViewById(R.id.news_resouce);
+        news_title.setText(images.get(position).getNote());
+        news_resouce.setText(images.get(position).getNote());
         ImageView imageView = (ImageView) view.findViewById(R.id.image_banner);
         ImageLoadUtils.displayImage(images.get(position).getPhoto(),imageView);
 
@@ -91,6 +96,7 @@ public class BannerPicAdapter extends PagerAdapter {
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,title);
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, category);
+//                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE,images.get(position).getIs_like());
 //                intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, images.get(position).getTitle());
 //                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, images.get(position).getContent());
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,images.get(position).getId());
