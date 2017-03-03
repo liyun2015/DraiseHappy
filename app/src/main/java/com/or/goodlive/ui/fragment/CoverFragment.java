@@ -69,7 +69,6 @@ public class CoverFragment extends BaseFragment {
     private int pageSize = 10;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
-    public String categoryName = "cover";
 
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
@@ -158,7 +157,7 @@ public class CoverFragment extends BaseFragment {
         if (datasBannerList.size() > 0) {
             bannerTopView.setVisibility(View.VISIBLE);
             BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
-            bannerPicAdapter.setData(datasBannerList, categoryName);
+            bannerPicAdapter.setData(datasBannerList);
             bannerHomePageView.setAdapter(bannerPicAdapter);
             bannerHomePageView.setLooperPic(true);
             indicator.setViewPager(bannerHomePageView);
@@ -196,9 +195,11 @@ public class CoverFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(listBeen.get(position).getId()));
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "cover");
                 intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
-                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getContent());
+                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getSub());
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getCategory_name());
                 intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
+                intent.putExtra(WebViewActivity.WEB_VIEW_PIC, listBeen.get(position).getTitle_pic());
+                intent.putExtra(WebViewActivity.WEB_VIEW_COMMENT_NUM, String.valueOf(listBeen.get(position).getComment_num()));
                 mContext.startActivity(intent);
             }
         });

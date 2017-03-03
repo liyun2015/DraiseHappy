@@ -31,6 +31,7 @@ import com.or.goodlive.util.SPUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.category;
 import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.HEADERURL;
 import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.USERNAME;
 import static com.or.goodlive.util.Constants.WEB_VIEW_HOSTURL;
@@ -43,7 +44,6 @@ public class BannerPicAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<CoverDataBean.RstBean.HomeactBean> images ;
-    private String category;
     private String title="益直播";
 
     public BannerPicAdapter(Context mContext) {
@@ -51,9 +51,8 @@ public class BannerPicAdapter extends PagerAdapter {
         images = new ArrayList<>();
     }
 
-    public void setData(List<CoverDataBean.RstBean.HomeactBean> images,String category){
+    public void setData(List<CoverDataBean.RstBean.HomeactBean> images){
         this.images = images;
-        this.category = category;
     }
     @Override
     public int getCount() {
@@ -77,7 +76,7 @@ public class BannerPicAdapter extends PagerAdapter {
         TextView news_title = (TextView) view.findViewById(R.id.news_title);
         TextView news_resouce = (TextView) view.findViewById(R.id.news_resouce);
         news_title.setText(images.get(position).getNote());
-        news_resouce.setText(images.get(position).getNote());
+        news_resouce.setText(images.get(position).getCategory_name());
         ImageView imageView = (ImageView) view.findViewById(R.id.image_banner);
         ImageLoadUtils.displayImage(images.get(position).getPhoto(),imageView);
 
@@ -90,16 +89,22 @@ public class BannerPicAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = Constants.WEB_VIEW_HOSTURL+"type="+category+"&id="+images.get(position).getId();
+                String url = Constants.WEB_VIEW_HOSTURL+"type="+images.get(position).getTable_name()+"&id="+images.get(position).getId();
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC,title);
-                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, category);
-//                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE,images.get(position).getIs_like());
-//                intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, images.get(position).getTitle());
-//                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, images.get(position).getContent());
-                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,images.get(position).getId());
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, images.get(position).getTable_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, images.get(position).getNote());
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC,images.get(position).getCategory_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_PIC, images.get(position).getPhoto());
+                intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, images.get(position).getId());
+
+//                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getSub());
+//                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
+
+
+
                 mContext.startActivity(intent);
             }
         });

@@ -13,6 +13,14 @@
             android:layout_margin="8dp"
             android:src="@drawable/mes_type_icon"
             android:layout_height="45dp" />
+        <ImageView
+            android:id="@+id/message_remend_icon"
+            android:layout_width="wrap_content"
+            android:src="@drawable/red_icon"
+            android:layout_alignRight="@id/message_image"
+            android:layout_marginTop="4dp"
+            android:layout_alignTop="@id/message_image"
+            android:layout_height="wrap_content" />
         <RelativeLayout
             android:id="@+id/message_type_layout"
             android:layout_width="match_parent"

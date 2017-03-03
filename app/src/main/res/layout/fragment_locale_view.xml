@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
+                app:tabTextAppearance = "@style/tabLayoutTextSize"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabSelectedTextColor="@color/colorAccent"
                 app:tabTextColor="@color/colorGray" />
@@ -38,7 +39,6 @@
             android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:src="@drawable/add_background"
-
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/add_btn"

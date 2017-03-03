@@ -22,5 +22,6 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:layout_gravity="center" />
+
     </android.support.v7.widget.Toolbar>
 </merge>

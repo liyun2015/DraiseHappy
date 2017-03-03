@@ -20,6 +20,7 @@
             <com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader
                 android:id="@+id/header"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_gravity="center_horizontal|top"
                 android:layout_height="wrap_content">
                 <FrameLayout
@@ -29,12 +30,12 @@
                     <com.or.goodlive.ui.view.banner.LoopViewPager
                         android:id="@+id/banner_home_page_view"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="220dp"
                         android:background="@color/white" />
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginBottom="40dp"
+                        android:layout_marginBottom="60dp"
                         android:layout_gravity="bottom">
 
                         <com.or.goodlive.ui.view.banner.CircleIndicator

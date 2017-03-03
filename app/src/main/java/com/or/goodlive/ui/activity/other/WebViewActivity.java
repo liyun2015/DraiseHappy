@@ -18,12 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.or.goodlive.R;
-import com.or.goodlive.api.config.HeaderConfig;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.BaseResultsBean;
-import com.or.goodlive.module.SearchKeyWord;
 import com.or.goodlive.module.request.RequestSearchKeyWord;
 import com.or.goodlive.ui.activity.CommentListActivity;
 import com.or.goodlive.ui.view.ToastUtil;
@@ -53,6 +51,8 @@ public class WebViewActivity extends BaseActivity {
     public static final String WEB_VIEW_TITLE_NAME = "title_name";
     public static final String WEB_VIEW_CONTENT_NAME = "content_name";
     public static final String WEB_VIEW_FAVOR_STATE = "web_view_favor_state";
+    public static final String WEB_VIEW_PIC = "web_view_pic";
+    public static final String WEB_VIEW_COMMENT_NUM = "comment_num";
     @Bind(R.id.toolbar_content_text)
     TextView toolbarContentText;
     @Bind(R.id.toolbar)
@@ -81,14 +81,19 @@ public class WebViewActivity extends BaseActivity {
     LinearLayout bottomView;
     @Bind(R.id.comment_top_layout)
     RelativeLayout commentTopLayout;
+    @Bind(R.id.comment_num)
+    TextView commentNum;
     private String desc;
     private String url;
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
-    private String table_name,news_id;
-    private String title="";
-    private String contentStr="";
-    private int favorState=0;
+    private String table_name, news_id;
+    private String title = "";
+    private String contentStr = "";
+    private int favorState = 0;
+    private int isfavorState = 0;
+    private String imgPathList = "";
+    private String comment_num = "0";
 
     @Override
     protected int getLayoutId() {
@@ -102,15 +107,16 @@ public class WebViewActivity extends BaseActivity {
         initView();
         initSocial();
     }
+
     private void initSocial() {
         SHARE_MEDIA[] shareMedias = new SHARE_MEDIA[]{
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
+                SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA
         };
         mShareListener = new CustomShareListener(WebViewActivity.this);
         mShareAction = new ShareAction(WebViewActivity.this).setDisplayList(shareMedias)
                 .setCallback(mShareListener);
     }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<WebViewActivity> mActivity;
@@ -126,17 +132,17 @@ public class WebViewActivity extends BaseActivity {
                 //ToastUtil.makeText(mActivity.get(),"收藏成功啦");
                 // Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                if (platform!= SHARE_MEDIA.MORE
-                        &&platform!=SHARE_MEDIA.FLICKR
-                        &&platform!=SHARE_MEDIA.FOURSQUARE
-                        &&platform!=SHARE_MEDIA.TUMBLR
-                        &&platform!=SHARE_MEDIA.POCKET
-                        &&platform!=SHARE_MEDIA.PINTEREST
-                        &&platform!=SHARE_MEDIA.LINKEDIN
-                        &&platform!=SHARE_MEDIA.INSTAGRAM
-                        &&platform!=SHARE_MEDIA.GOOGLEPLUS
-                        &&platform!=SHARE_MEDIA.YNOTE
-                        &&platform!=SHARE_MEDIA.EVERNOTE){
+                if (platform != SHARE_MEDIA.MORE
+                        && platform != SHARE_MEDIA.FLICKR
+                        && platform != SHARE_MEDIA.FOURSQUARE
+                        && platform != SHARE_MEDIA.TUMBLR
+                        && platform != SHARE_MEDIA.POCKET
+                        && platform != SHARE_MEDIA.PINTEREST
+                        && platform != SHARE_MEDIA.LINKEDIN
+                        && platform != SHARE_MEDIA.INSTAGRAM
+                        && platform != SHARE_MEDIA.GOOGLEPLUS
+                        && platform != SHARE_MEDIA.YNOTE
+                        && platform != SHARE_MEDIA.EVERNOTE) {
                     // Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
@@ -145,19 +151,19 @@ public class WebViewActivity extends BaseActivity {
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            if (platform!= SHARE_MEDIA.MORE
-                    &&platform!=SHARE_MEDIA.FLICKR
-                    &&platform!=SHARE_MEDIA.FOURSQUARE
-                    &&platform!=SHARE_MEDIA.TUMBLR
-                    &&platform!=SHARE_MEDIA.POCKET
-                    &&platform!=SHARE_MEDIA.PINTEREST
-                    &&platform!=SHARE_MEDIA.LINKEDIN
-                    &&platform!=SHARE_MEDIA.INSTAGRAM
-                    &&platform!=SHARE_MEDIA.GOOGLEPLUS
-                    &&platform!=SHARE_MEDIA.YNOTE
-                    &&platform!=SHARE_MEDIA.EVERNOTE){
+            if (platform != SHARE_MEDIA.MORE
+                    && platform != SHARE_MEDIA.FLICKR
+                    && platform != SHARE_MEDIA.FOURSQUARE
+                    && platform != SHARE_MEDIA.TUMBLR
+                    && platform != SHARE_MEDIA.POCKET
+                    && platform != SHARE_MEDIA.PINTEREST
+                    && platform != SHARE_MEDIA.LINKEDIN
+                    && platform != SHARE_MEDIA.INSTAGRAM
+                    && platform != SHARE_MEDIA.GOOGLEPLUS
+                    && platform != SHARE_MEDIA.YNOTE
+                    && platform != SHARE_MEDIA.EVERNOTE) {
                 //   Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                ToastUtil.makeText(mActivity.get(),"分享失败啦");
+                ToastUtil.makeText(mActivity.get(), "分享失败啦");
                 if (t != null) {
                     Log.d("throw", "throw:" + t.getMessage());
                 }
@@ -171,15 +177,23 @@ public class WebViewActivity extends BaseActivity {
             //  Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void initData() {
         Intent intent = getIntent();
         url = intent.getStringExtra(WEB_VIEW_URL);
         desc = intent.getStringExtra(WEB_VIEW_DESC);
-        table_name= intent.getStringExtra(WEB_VIEW_TABLE_NAME);
-        news_id  =intent.getStringExtra(WEB_VIEW_NEWS_ID);
+        table_name = intent.getStringExtra(WEB_VIEW_TABLE_NAME);
+        news_id = intent.getStringExtra(WEB_VIEW_NEWS_ID);
         title = intent.getStringExtra(WEB_VIEW_TITLE_NAME);
-        contentStr =intent.getStringExtra(WEB_VIEW_CONTENT_NAME);
-        favorState =intent.getIntExtra(WEB_VIEW_FAVOR_STATE,0);
+        contentStr = intent.getStringExtra(WEB_VIEW_CONTENT_NAME);
+        favorState = intent.getIntExtra(WEB_VIEW_FAVOR_STATE, 0);
+        imgPathList = intent.getStringExtra(WEB_VIEW_PIC);
+        comment_num = intent.getStringExtra(WEB_VIEW_COMMENT_NUM);
+        getDetailData();
+    }
+
+    private void getDetailData() {
+
     }
 
     private void initView() {
@@ -216,11 +230,14 @@ public class WebViewActivity extends BaseActivity {
             }
         });
         webView.loadUrl(url);
-        if(1==favorState){
+        if (1 == favorState) {
             imageLike.setImageResource(R.drawable.love_icon);
-        }else{
+            isfavorState = 0;
+        } else {
             imageLike.setImageResource(R.drawable.unlove_icon);
+            isfavorState = 1;
         }
+        commentNum.setText(comment_num);
     }
 
     @Override
@@ -268,7 +285,7 @@ public class WebViewActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.image_like,R.id.add_comment_btn, R.id.text_comment, R.id.image_comments,R.id.image_share})
+    @OnClick({R.id.image_like, R.id.add_comment_btn, R.id.text_comment, R.id.image_comments, R.id.image_share})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_comment_btn://发表
@@ -276,9 +293,9 @@ public class WebViewActivity extends BaseActivity {
                 addCommentLayout.setVisibility(View.GONE);
                 KeyboardUtils.hideSoftInput(mActivity);
                 String content = editComment.getText().toString().trim();
-                if(TextUtils.isEmpty(content)){
+                if (TextUtils.isEmpty(content)) {
                     ToastUtil.makeText(mContext, "内容不能为空！");
-                }else{
+                } else {
 
                     sendComment(content);
                 }
@@ -294,14 +311,12 @@ public class WebViewActivity extends BaseActivity {
                 goToCommentList();
                 break;
             case R.id.image_share://分享
-                UMImage shareImage;
                 String shareTitle = title;
-                String shareMsg  = contentStr;
-                String shareUrl = Constants.WEB_VIEW_HOSTURL+"type="+table_name+"&id="+news_id;
-                shareImage = new UMImage(mContext,R.mipmap.ic_launcher);
-
+                String shareMsg = contentStr;
+                String shareUrl = Constants.WEB_VIEW_HOSTURL + "type=" + table_name + "&id=" + news_id;
+                UMImage shareImage = new UMImage(this, imgPathList);
                 ShareBoardConfig config = new ShareBoardConfig();
-                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
+                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE); // 圆角背景
 //                config.setTitleVisibility(false); // 隐藏title
 //                config.setCancelButtonVisibility(false); // 隐藏取消按钮
@@ -313,6 +328,7 @@ public class WebViewActivity extends BaseActivity {
                 break;
         }
     }
+
     private void sharePlatform() {
 //        String shareTitle = "我在优办网发现一套" + officeName + "房源";
 //        String shareMsg = officeName + "," + houseArea + "㎡," + deliverStandard + "," + monthPrice + "元/天/㎡的在租房源。点此查看详情";
@@ -328,6 +344,7 @@ public class WebViewActivity extends BaseActivity {
 //                .withTargetUrl(shareUrl)
 //                .open(config);
     }
+
     private void goToCommentList() {
         Intent intent = new Intent();
         intent.setClass(mContext, CommentListActivity.class);
@@ -340,7 +357,7 @@ public class WebViewActivity extends BaseActivity {
         RequestSearchKeyWord requestSearchKeyWord = new RequestSearchKeyWord();
         requestSearchKeyWord.setNews_id(news_id);
         requestSearchKeyWord.setTable_name(table_name);
-        requestSearchKeyWord.setStatus(favorState);
+        requestSearchKeyWord.setStatus(isfavorState);
         ServiceFactory.getProvideHttpService().addfavor(requestSearchKeyWord)
                 .compose(this.<BaseResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
@@ -368,14 +385,14 @@ public class WebViewActivity extends BaseActivity {
                 .subscribe(new Action1<BaseResultsBean.RstBean>() {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
-                        if(1==favorState){
+                        if (1 == favorState) {
                             ToastUtil.makeText(mContext, "取消成功！");
                             imageLike.setImageResource(R.drawable.unlove_icon);
-                            favorState=0;
-                        }else{
+                            isfavorState = 1;
+                        } else {
                             ToastUtil.makeText(mContext, "点赞成功！");
                             imageLike.setImageResource(R.drawable.love_icon);
-                            favorState=1;
+                            isfavorState = 0;
                         }
                     }
                 }, new Action1<Throwable>() {

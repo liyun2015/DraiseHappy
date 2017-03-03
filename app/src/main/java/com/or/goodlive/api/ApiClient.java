@@ -111,4 +111,5 @@ public interface ApiClient {
     // 三方登录
     @POST("/user/user/thirdPlatformLogin")
     Observable<LoginInBean> thirdPlatformLogin(@Body RequestLogin requestLogin);
+    //
 }

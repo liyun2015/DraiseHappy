@@ -27,7 +27,7 @@ public class YamingChildAdapter extends BaseQuickAdapter<CoverDataBean.RstBean.L
 
     @Override
     protected void convert(BaseViewHolder helper, CoverDataBean.RstBean.ListBean item) {
-        helper.setText(R.id.yaming_news_title,item.getTitle()+item.getSub())
+        helper.setText(R.id.yaming_news_title,item.getTitle())
         .setText(R.id.yaming_news_source, item.getCategory_name());
         ImageView imageView= (ImageView) helper.getConvertView().findViewById(R.id.yaming_pic_image);
         ImageLoadUtils.displayImageWithLoadingPicture(item.getTitle_pic(),imageView,R.drawable.default_photoalbum_img);
