@@ -59,15 +59,14 @@ public class PeerChildFragment extends BaseFragment {
     private Handler handler;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
-    private int pageIndex = 1;
-    private int pageSize = 10;
-    private Integer pageId = 1;
-    private Integer count = 10;
+    private int pageId = 1;
+    private int count = 10;
     public static final String KEY_TITLE = "titleid";
     public static final String NAME_TITLE = "titlename";
     private int titleId;
     public String titleName = "";
-
+    private boolean isDownFresh=false;
+    private boolean isLoadMore=false;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_peer_child;
@@ -105,8 +104,9 @@ public class PeerChildFragment extends BaseFragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        listBeen.clear();
-                        pageIndex = 1;
+                        isLoadMore=false;
+                        isDownFresh=true;
+                        pageId = 1;
                         initData();
                         swipeRefreshPeerChild.setRefreshing(false);
                     }
@@ -131,6 +131,22 @@ public class PeerChildFragment extends BaseFragment {
                 mContext.startActivity(intent);
             }
         });
+        yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
+        rcvPeerChildList.setAdapter(yamingChildAdapter);
+        yamingChildAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rcvPeerChildList.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isLoadMore=true;
+                        isDownFresh=false;
+                        pageId=pageId+1;
+                        initData();
+                    }
+                }, 1000);
+            }
+        });
 
     }
 
@@ -144,7 +160,9 @@ public class PeerChildFragment extends BaseFragment {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
+                        if(!isDownFresh&&!isLoadMore){
+                            showLoadingView();
+                        }
                     }
                 })
                 .filter(new Func1<CoverDataBean, Boolean>() {
@@ -184,7 +202,9 @@ public class PeerChildFragment extends BaseFragment {
 
     private void initListViewData(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.ListBean> datasList = rstBean.getList();
-
+        if(isDownFresh){
+            listBeen.clear();
+        }
         listBeen.addAll(datasList);
 
         if (null == yamingChildAdapter) {
@@ -192,6 +212,13 @@ public class PeerChildFragment extends BaseFragment {
             rcvPeerChildList.setAdapter(yamingChildAdapter);
         } else {
             yamingChildAdapter.notifyDataSetChanged();
+        }
+        if (!rstBean.getPageInfo().isHasNext()) {
+            //数据全部加完了
+            yamingChildAdapter.loadMoreEnd();
+        } else {
+            yamingChildAdapter.loadMoreComplete();
+
         }
         if (listBeen.size() == 0) {
             yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data, "暂无数据！"));

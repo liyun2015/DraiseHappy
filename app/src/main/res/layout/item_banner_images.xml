@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content" >
     <ImageView
         android:id="@+id/image_banner"
         android:layout_width="match_parent"
         android:layout_height="160dp"
+        android:background="@drawable/default_photoalbum_img"
         android:scaleType="fitXY" />
     <TextView
         android:id="@+id/news_title"
@@ -19,6 +21,9 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:lineSpacingExtra="3dp"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
         tools:text="边开飞机边摄影！轰6k男神机长拍下黄岩岛美照"
         android:layout_height="wrap_content" />
     <TextView

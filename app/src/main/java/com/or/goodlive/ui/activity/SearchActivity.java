@@ -97,6 +97,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, typeStr);
+                intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(keyWordList.get(position).getId()));
                 intent.putExtra(WebViewActivity.WEB_VIEW_DESC, keyWordList.get(position).getTitle());
                 startActivity(intent);
                 finish();

@@ -17,16 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.Text;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.BaseResultsBean;
+import com.or.goodlive.module.DetailsBean;
+import com.or.goodlive.module.MessResultsBean;
 import com.or.goodlive.module.request.RequestSearchKeyWord;
+import com.or.goodlive.service.WebAppInterface;
 import com.or.goodlive.ui.activity.CommentListActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.KeyboardUtils;
+import com.or.goodlive.util.SPUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -35,6 +42,8 @@ import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.utils.Log;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +51,7 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
 
 public class WebViewActivity extends BaseActivity {
     public static final String WEB_VIEW_URL = "url";
@@ -93,7 +103,7 @@ public class WebViewActivity extends BaseActivity {
     private int favorState = 0;
     private int isfavorState = 0;
     private String imgPathList = "";
-    private String comment_num = "0";
+    private int comment_num = 0;
 
     @Override
     protected int getLayoutId() {
@@ -106,6 +116,25 @@ public class WebViewActivity extends BaseActivity {
         //初始化
         initView();
         initSocial();
+        resterEvent();
+    }
+
+    private void resterEvent() {
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_COMMENT_NUM)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        comment_num=comment_num+1;
+                        commentNum.setText(String.valueOf(comment_num));
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                })
+                .create();
     }
 
     private void initSocial() {
@@ -188,12 +217,180 @@ public class WebViewActivity extends BaseActivity {
         contentStr = intent.getStringExtra(WEB_VIEW_CONTENT_NAME);
         favorState = intent.getIntExtra(WEB_VIEW_FAVOR_STATE, 0);
         imgPathList = intent.getStringExtra(WEB_VIEW_PIC);
-        comment_num = intent.getStringExtra(WEB_VIEW_COMMENT_NUM);
         getDetailData();
     }
 
     private void getDetailData() {
+        if("cover".equals(table_name)){
+            getCoverDetailData();
+            bottomView.setVisibility(View.VISIBLE);
+        }else if("yiming".equals(table_name)){
+            getYimingDetailData();
+            bottomView.setVisibility(View.VISIBLE);
+        }else if("news".equals(table_name)){
+            getNewsDetailData();
+            bottomView.setVisibility(View.VISIBLE);
+        }else{
+            bottomView.setVisibility(View.GONE);
+        }
+    }
 
+
+
+    private void getNewsDetailData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", news_id);
+        ServiceFactory.getProvideHttpService().getNewsDetail(params)
+                .compose(this.<DetailsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<DetailsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<DetailsBean, Boolean>() {
+                    @Override
+                    public Boolean call(DetailsBean messResultsBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno())) {
+                            ToastUtil.makeText(mContext, messResultsBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno());
+                    }
+                })
+                .map(new Func1<DetailsBean, DetailsBean.RstBean>() {
+                    @Override
+                    public DetailsBean.RstBean call(DetailsBean messResultsBean) {
+                        return messResultsBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<DetailsBean.RstBean>() {
+                    @Override
+                    public void call(DetailsBean.RstBean resultsBean) {
+                        if(resultsBean.getData()!=null){
+
+                            initDataView(resultsBean.getData());
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, " 数据加载失败！");
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                });
+    }
+
+    private void getYimingDetailData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", news_id);
+        ServiceFactory.getProvideHttpService().getYimingDetail(params)
+                .compose(this.<DetailsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<DetailsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<DetailsBean, Boolean>() {
+                    @Override
+                    public Boolean call(DetailsBean messResultsBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno())) {
+                            ToastUtil.makeText(mContext, messResultsBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno());
+                    }
+                })
+                .map(new Func1<DetailsBean, DetailsBean.RstBean>() {
+                    @Override
+                    public DetailsBean.RstBean call(DetailsBean messResultsBean) {
+                        return messResultsBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<DetailsBean.RstBean>() {
+                    @Override
+                    public void call(DetailsBean.RstBean resultsBean) {
+                        if(resultsBean.getData()!=null){
+
+                            initDataView(resultsBean.getData());
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, " 数据加载失败！");
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                });
+    }
+
+    private void getCoverDetailData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", news_id);
+        ServiceFactory.getProvideHttpService().getCoverDetail(params)
+                .compose(this.<DetailsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<DetailsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<DetailsBean, Boolean>() {
+                    @Override
+                    public Boolean call(DetailsBean messResultsBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno())) {
+                            ToastUtil.makeText(mContext, messResultsBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(messResultsBean.getErrno());
+                    }
+                })
+                .map(new Func1<DetailsBean, DetailsBean.RstBean>() {
+                    @Override
+                    public DetailsBean.RstBean call(DetailsBean messResultsBean) {
+                        return messResultsBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<DetailsBean.RstBean>() {
+                    @Override
+                    public void call(DetailsBean.RstBean resultsBean) {
+                        if(resultsBean.getData()!=null){
+
+                            initDataView(resultsBean.getData());
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, " 数据加载失败！");
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                });
+    }
+
+    private void initDataView(DetailsBean.RstBean.DataBean data) {
+        if(TextUtils.isEmpty(imgPathList)){
+            imgPathList=data.getTitle_pic();
+            title=data.getTitle();
+            contentStr=data.getSub();
+        }
+        favorState=Integer.parseInt(data.getIs_like());
+        comment_num=Integer.parseInt(data.getComment_num());
+        if (1 == favorState) {
+            imageLike.setImageResource(R.drawable.love_icon);
+            isfavorState = 0;
+        } else {
+            imageLike.setImageResource(R.drawable.unlove_icon);
+            isfavorState = 1;
+        }
+        commentNum.setText(String.valueOf(comment_num));
     }
 
     private void initView() {
@@ -211,7 +408,8 @@ public class WebViewActivity extends BaseActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setAppCacheEnabled(true);
-
+        // WebView中的JS代码绑定
+        webView.addJavascriptInterface(new WebAppInterface(this), "Android");
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -229,15 +427,10 @@ public class WebViewActivity extends BaseActivity {
                 return true;
             }
         });
+        String uid = (String) SPUtils.get(this,Constants.USER_ID,"");
+        url = url+"&uid="+uid;
         webView.loadUrl(url);
-        if (1 == favorState) {
-            imageLike.setImageResource(R.drawable.love_icon);
-            isfavorState = 0;
-        } else {
-            imageLike.setImageResource(R.drawable.unlove_icon);
-            isfavorState = 1;
-        }
-        commentNum.setText(comment_num);
+
     }
 
     @Override
@@ -296,7 +489,6 @@ public class WebViewActivity extends BaseActivity {
                 if (TextUtils.isEmpty(content)) {
                     ToastUtil.makeText(mContext, "内容不能为空！");
                 } else {
-
                     sendComment(content);
                 }
                 break;
@@ -317,7 +509,7 @@ public class WebViewActivity extends BaseActivity {
                 UMImage shareImage = new UMImage(this, imgPathList);
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
-                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE); // 圆角背景
+                config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
 //                config.setTitleVisibility(false); // 隐藏title
 //                config.setCancelButtonVisibility(false); // 隐藏取消按钮
                 mShareAction.withTitle(shareTitle)
@@ -329,21 +521,6 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
-    private void sharePlatform() {
-//        String shareTitle = "我在优办网发现一套" + officeName + "房源";
-//        String shareMsg = officeName + "," + houseArea + "㎡," + deliverStandard + "," + monthPrice + "元/天/㎡的在租房源。点此查看详情";
-//        String shareUrl = "http://m.uban.com/" + HeaderConfig.getCityShortName() + "/fangyuan-" + houseId + ".html";
-//        UMImage shareImage = new UMImage(this, (null != imgPathList && imgPathList.size() > 0) ? imgPathList.get(0) : "");
-//
-//        ShareBoardConfig config = new ShareBoardConfig();
-//        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
-//        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR); // 圆角背景
-//        mShareAction.withTitle(shareTitle)
-//                .withText(shareMsg)
-//                .withMedia(shareImage)
-//                .withTargetUrl(shareUrl)
-//                .open(config);
-    }
 
     private void goToCommentList() {
         Intent intent = new Intent();
@@ -389,10 +566,11 @@ public class WebViewActivity extends BaseActivity {
                             ToastUtil.makeText(mContext, "取消成功！");
                             imageLike.setImageResource(R.drawable.unlove_icon);
                             isfavorState = 1;
+                            favorState=0;
                         } else {
                             ToastUtil.makeText(mContext, "点赞成功！");
                             imageLike.setImageResource(R.drawable.love_icon);
-                            isfavorState = 0;
+                            favorState=1;
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -443,6 +621,8 @@ public class WebViewActivity extends BaseActivity {
                     public void call(BaseResultsBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "发布成功！");
                         goToCommentList();
+                        comment_num=comment_num+1;
+                        commentNum.setText(String.valueOf(comment_num));
                     }
                 }, new Action1<Throwable>() {
                     @Override

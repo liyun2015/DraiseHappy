@@ -5,6 +5,7 @@ import com.or.goodlive.module.BaseResultsBean;
 import com.or.goodlive.module.CategoryDataBean;
 import com.or.goodlive.module.CommentBean;
 import com.or.goodlive.module.CoverDataBean;
+import com.or.goodlive.module.DetailsBean;
 import com.or.goodlive.module.LoginInBean;
 import com.or.goodlive.module.MessResultsBean;
 import com.or.goodlive.module.SearchKeyWord;
@@ -111,5 +112,16 @@ public interface ApiClient {
     // 三方登录
     @POST("/user/user/thirdPlatformLogin")
     Observable<LoginInBean> thirdPlatformLogin(@Body RequestLogin requestLogin);
-    //
+    //封面详情页
+    @POST("/user/cover/info")
+    Observable<DetailsBean> getCoverDetail(@QueryMap Map<String,String> map);
+    //一鸣详情页
+    @POST("/user/yiming/info")
+    Observable<DetailsBean> getYimingDetail(@QueryMap Map<String,String> map);
+    //现场详情页
+    @POST("/user/video/info")
+    Observable<DetailsBean> getVideoDetail(@QueryMap Map<String,String> map);
+    //同行详情页
+    @POST("/user/news/info")
+    Observable<DetailsBean> getNewsDetail(@QueryMap Map<String,String> map);
 }

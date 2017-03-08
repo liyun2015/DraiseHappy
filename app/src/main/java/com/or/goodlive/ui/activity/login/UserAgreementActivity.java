@@ -56,7 +56,7 @@ public class UserAgreementActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        toolbarContentText.setText("用户协议");
+        toolbarContentText.setText("注册协议");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class UserAgreementActivity extends BaseActivity {
 
     @OnClick(R.id.btn_agree_submit)
     public void onClick() {
-        registerApp();
+        //registerApp();
     }
     //注册
     private void registerApp() {

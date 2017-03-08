@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.or.goodlive.App;
 import com.or.goodlive.R;
 import com.or.goodlive.base.OldBaseActivity;
 import com.or.goodlive.control.Events;
@@ -28,6 +30,7 @@ import com.or.goodlive.ui.fragment.CoverFragment;
 import com.or.goodlive.ui.fragment.LocaleFragment;
 import com.or.goodlive.ui.fragment.PeerFragment;
 import com.or.goodlive.ui.fragment.YaMingFragment;
+import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -36,6 +39,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.functions.Action1;
 
 
@@ -49,12 +53,14 @@ public class MainActivity extends OldBaseActivity {
     TabLayout tabLayout;
     @Bind(R.id.vp_main)
     ViewPager viewPager;
-    @Bind(R.id.toolbar_content_text)
-    TextView toolbarContentText;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-
+    @Bind(R.id.search_icon)
+    ImageView search_icon;
+    @Bind(R.id.my_center_str)
+    ImageView my_center_str;
+    @Bind(R.id.my_center)
+    ImageView my_center;
+    @Bind(R.id.message_remend_icon)
+    ImageView message_remend_icon;
     private List<Fragment> fragments;
 
 
@@ -74,6 +80,16 @@ public class MainActivity extends OldBaseActivity {
         registerPermissions();
         regiserEvent();
     }
+
+    private void initView() {
+        String newMessage =  (String) SPUtils.get(mContext, Constants.EVENTS_HAVE_NEW_MESSAGE,"");
+        if(!TextUtils.isEmpty(newMessage)){
+            message_remend_icon.setVisibility(View.VISIBLE);
+        }else{
+            message_remend_icon.setVisibility(View.GONE);
+        }
+    }
+
     private void registerPermissions() {
         //Android 6.0 Permissions
         RxPermissions.getInstance(mContext).request(
@@ -106,40 +122,56 @@ public class MainActivity extends OldBaseActivity {
                     }
                 })
                 .create();
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_NEW_MESSAGE)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        message_remend_icon.setVisibility(View.VISIBLE);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                })
+                .create();
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_CANSEL_MESSAGE)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        message_remend_icon.setVisibility(View.GONE);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                })
+                .create();
     }
 
-    private void initView() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.search_icon);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        toolbarContentText.setText("益直播");
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_right_image, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case android.R.id.home:
+
+    @OnClick({R.id.search_icon,R.id.my_center,R.id.my_center_str})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.search_icon:
                 //搜索
                 RxBus.getInstance().send(Events.EVENTS_DISMISS_POP,new Object());
                 startActivity(new Intent(this, SearchActivity.class));
                 break;
-            case R.id.right_icon:
+            case R.id.my_center:
+            case R.id.my_center_str:
+                //个人中心
+                message_remend_icon.setVisibility(View.GONE);
                 RxBus.getInstance().send(Events.EVENTS_DISMISS_POP,new Object());
                 startActivity(new Intent(this, MyCenterActivity.class));
                 break;
 
         }
-        return super.onOptionsItemSelected(item);
     }
+
     private void initData() {
         fragments = new ArrayList<>();
         fragments.add(CoverFragment.newInstance());

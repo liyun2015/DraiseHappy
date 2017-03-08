@@ -19,10 +19,8 @@
         android:layout_width="match_parent"
         android:background="@color/font_black_f4"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="15dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:paddingRight="10dp"
         android:layout_height="50dp">
         <View
             android:layout_width="match_parent"
@@ -31,7 +29,7 @@
             android:layout_height="0.5dp"/>
         <TextView
             android:id="@+id/add_comment_btn"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="30dp"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:textColor="@color/black"
@@ -43,12 +41,12 @@
             android:id="@+id/edit_comment"
             android:layout_width="match_parent"
             android:layout_marginRight="28dp"
+            android:layout_marginLeft="15dp"
             android:textSize="12sp"
             android:paddingLeft="8dp"
             android:hint="写评论..."
             android:background="@drawable/circle_line_white"
             android:gravity="center_vertical"
-
             android:textColor="@color/text_gray"
             android:layout_toLeftOf="@id/add_comment_btn"
             android:layout_centerVertical="true"

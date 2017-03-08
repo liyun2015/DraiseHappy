@@ -1,5 +1,7 @@
 package com.or.goodlive.module;
 
+import static android.R.attr.id;
+
 /**
  * LoginInBean
  * Created by dawabos on 2016/6/21.
@@ -90,6 +92,15 @@ public class LoginInBean {
          */
         private String PHPSESSID;
         private String name;
+        private String id;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getPHPSESSID() {
             return PHPSESSID;

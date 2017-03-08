@@ -5,6 +5,7 @@
     <color name="colorAccent">#f86889</color>
     <color name="colorGray">#666666</color>
 
+    <color name="nocolor">#00000000</color>
     <!--灰白-->
     <color name="white">#FFFFFF</color>
     <color name="colorGrayHint">#999999</color>

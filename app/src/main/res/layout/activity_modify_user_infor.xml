@@ -19,6 +19,7 @@
             android:layout_width="60dp"
             android:src="@drawable/header_default"
             android:layout_marginTop="15dp"
+            android:scaleType="centerInside"
             android:layout_gravity="center_horizontal"
             android:layout_height="60dp" />
         <TextView

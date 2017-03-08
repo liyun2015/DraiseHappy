@@ -20,6 +20,9 @@ public class Events<T> {
     public static final int EVENTS_DISMISS_POP = 4;
     public static final int EVENTS_UPDATA_HEADER = 5;
     public static final int EVENTS_FIRST = 6;
+    public static final int EVENTS_NEW_MESSAGE = 7;
+    public static final int EVENTS_CANSEL_MESSAGE = 8;
+    public static final int EVENTS_COMMENT_NUM = 9;
 
     //枚举
     @IntDef({EVENTS_USER_LOGIN_OUT,
@@ -27,7 +30,10 @@ public class Events<T> {
             EVENTS_SEARCH_TYPE,
             EVENTS_DISMISS_POP,
             EVENTS_UPDATA_HEADER,
-            EVENTS_FIRST
+            EVENTS_FIRST,
+            EVENTS_NEW_MESSAGE,
+            EVENTS_CANSEL_MESSAGE,
+            EVENTS_COMMENT_NUM
             })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventCode {}

@@ -14,9 +14,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
+import com.or.goodlive.control.Events;
+import com.or.goodlive.control.RxBus;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.BaseResultsBean;
 import com.or.goodlive.module.CommentBean;
@@ -39,6 +42,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+
 /**
  * Created by Wang on 2017/2/23.
  */
@@ -58,8 +62,10 @@ public class CommentListActivity extends BaseActivity {
     EditText editComment;
     private Handler handler;
     private String table_name,news_id;
-    private String pageId = "1";
-    private String count = "1000";
+    private int pageId = 1;
+    private String count = "10";
+    private boolean isDownFresh=false;
+    private boolean isLoadMore=false;
     private List<CommentBean.RstBean.ListBean> dataList = new ArrayList<>();
     private CommentAdapter adapter;
 
@@ -78,7 +84,7 @@ public class CommentListActivity extends BaseActivity {
         Map<String, String> params = new HashMap<>();
         params.put("news_id",news_id);
         params.put("table_name",table_name);
-        params.put("pageId", pageId);
+        params.put("pageId", String.valueOf(pageId));
         params.put("count", count);
         ServiceFactory.getProvideHttpService().getCommentList(params)
                 .compose(this.<CommentBean>bindToLifecycle())
@@ -86,7 +92,9 @@ public class CommentListActivity extends BaseActivity {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
+                        if(!isDownFresh&&!isLoadMore){
+                            showLoadingView();
+                        }
                     }
                 })
                 .filter(new Func1<CommentBean, Boolean>() {
@@ -127,7 +135,9 @@ public class CommentListActivity extends BaseActivity {
 
     private void initListView(CommentBean.RstBean resultsBean) {
         List<CommentBean.RstBean.ListBean> datasList = resultsBean.getList();
-
+        if(isDownFresh){
+            dataList.clear();
+        }
         dataList.addAll(datasList);
 
         if (null == adapter) {
@@ -135,6 +145,13 @@ public class CommentListActivity extends BaseActivity {
             rcv_comment_list.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
+        }
+        if (!resultsBean.getPageInfo().isHasNext()) {
+            //数据全部加完了
+            adapter.loadMoreEnd();
+        } else {
+            adapter.loadMoreComplete();
+
         }
         if (dataList.size() == 0) {
             adapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
@@ -158,9 +175,27 @@ public class CommentListActivity extends BaseActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        dataList.clear();
+                        isLoadMore=false;
+                        isDownFresh=true;
+                        pageId=1;
                         initData();
                         swipe_refresh_comment_list.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+        adapter = new CommentAdapter(R.layout.item_comment_list, dataList);
+        rcv_comment_list.setAdapter(adapter);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rcv_comment_list.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageId=pageId+1;
+                        isLoadMore=true;
+                        isDownFresh=false;
+                        initData();
                     }
                 }, 1000);
             }
@@ -193,7 +228,6 @@ public class CommentListActivity extends BaseActivity {
                 if(TextUtils.isEmpty(content)){
                     ToastUtil.makeText(mContext, "内容不能为空！");
                 }else{
-
                     sendComment(content);
                 }
                 break;
@@ -233,7 +267,10 @@ public class CommentListActivity extends BaseActivity {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
                         ToastUtil.makeText(mContext, "发布成功！");
-                        dataList.clear();
+                        RxBus.getInstance().send(Events.EVENTS_COMMENT_NUM,new Object());
+                        pageId=1;
+                        isLoadMore=false;
+                        isDownFresh=true;
                         editComment.setText("");
                         initData();
                     }

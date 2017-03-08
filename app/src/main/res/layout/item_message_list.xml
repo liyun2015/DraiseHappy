@@ -19,6 +19,7 @@
             android:src="@drawable/red_icon"
             android:layout_alignRight="@id/message_image"
             android:layout_marginTop="4dp"
+            android:visibility="gone"
             android:layout_alignTop="@id/message_image"
             android:layout_height="wrap_content" />
         <RelativeLayout
@@ -53,6 +54,9 @@
                 android:textColor="@color/text_gray"
                 android:textSize="12sp"
                 android:layout_marginRight="30dp"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:ellipsize="end"
                 android:layout_alignParentBottom="true"
                 android:text="[链接]12岁留美天才女孩获得太空中的特异功能..."
                 android:layout_height="wrap_content" />

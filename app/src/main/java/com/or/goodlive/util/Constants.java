@@ -17,6 +17,8 @@ public class Constants {
     public static final String AVATAR_URL = "AVATAR_URL";//头像
     public static final String AVATAR_URL_BASE = "http://weixin.xiaozhubanjia.com";//头像
     public static final String USER_NAME = "USER_NAME";//昵称
+    public static final String USER_ID = "USERID";//用户id
+    public static final String EVENTS_HAVE_NEW_MESSAGE = "EVENTS_HAVE_NEW_MESSAGE";
     public static final String UBAN_CITY = "ubanCity";
     public static boolean isNoCookie = false;
 

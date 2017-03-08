@@ -122,33 +122,38 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/agreement_layout"
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/agree_btn_view"
+                android:padding="6dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/agree_btn"
                 android:layout_width="wrap_content"
-                android:src="@drawable/select_box"
+                android:background="@drawable/select_box"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_width="wrap_content"
                 android:text="我同意"
                 android:textSize="14sp"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/agree_btn"
                 android:textColor="@color/text_gray_a"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </RelativeLayout>
         <TextView
             android:id="@+id/agreement_str"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:text="注册协议"
-            android:visibility="gone"
             android:layout_toRightOf="@id/agreement_layout"
             android:textSize="14sp"
-            android:textColor="@color/pink"
+            android:textColor="#ea3f3a"
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <Button

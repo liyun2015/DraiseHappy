@@ -22,14 +22,18 @@ import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.OldBaseActivity;
 import com.or.goodlive.control.RxSchedulersHelper;
 import com.or.goodlive.module.LoginInBean;
-import com.or.goodlive.module.SearchKeyWord;
 import com.or.goodlive.module.WeChatUserInfoBean;
 import com.or.goodlive.module.request.RequestLogin;
-import com.or.goodlive.module.request.RequestSearchKeyWord;
 import com.or.goodlive.ui.activity.MainActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.connect.UserInfo;
 import com.tencent.tauth.IUiListener;
@@ -39,6 +43,7 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -50,8 +55,6 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static com.or.goodlive.util.Constants.AVATAR_URL_BASE;
 
 
 public class LoginActivity extends OldBaseActivity {
@@ -81,6 +84,9 @@ public class LoginActivity extends OldBaseActivity {
     private UMShareAPI mShareAPI;
     private Tencent mTencent;
     private String nickName,avatar_url;
+    private AuthInfo authInfo;
+    private SsoHandler ssoHandler;
+    public static final String SWB_REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -118,6 +124,7 @@ public class LoginActivity extends OldBaseActivity {
         toolbarContentText.setText("登录");
 
         mTencent = Tencent.createInstance("1106010252", LoginActivity.this);
+
     }
 
     @Override
@@ -144,7 +151,7 @@ public class LoginActivity extends OldBaseActivity {
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtil.makeText(mContext, "手机号不能为空");
                 } else if (TextUtils.isEmpty(code)) {
-                    ToastUtil.makeText(this, "验证码不能为空");
+                    ToastUtil.makeText(this, " 密码不能为空");
                 } else {
                     loginApp();
                 }
@@ -168,9 +175,45 @@ public class LoginActivity extends OldBaseActivity {
                 }
                 break;
             case R.id.weibo_layout:
-                AuthLogin(SHARE_MEDIA.SINA);
+                weiboThirdLogin();
                 break;
         }
+    }
+
+    private void weiboThirdLogin() {
+        authInfo = new AuthInfo(this, "1264350362", SWB_REDIRECT_URL, "d92ce134e0bd051b199da42ef3fd94bc");
+        ssoHandler = new SsoHandler(LoginActivity.this, authInfo);
+        ssoHandler.authorize(new AuthListener());
+    }
+
+    public class AuthListener implements WeiboAuthListener{
+
+        @Override
+        public void onCancel() {
+            // TODO Auto-generated method stub
+            Toast.makeText(LoginActivity.this, "授权取消", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onComplete(Bundle values) {
+            // TODO Auto-generated method stub
+
+            Oauth2AccessToken  accessToken = Oauth2AccessToken.parseAccessToken(values); // 从Bundle中解析Token
+            if (accessToken.isSessionValid()){
+                openid = accessToken.getUid();
+                getWeiboInfo(SHARE_MEDIA.SINA);
+            }else{
+                showToast("授权失败!");
+            }
+
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+            // TODO Auto-generated method stub
+        }
+
+
     }
 
 
@@ -183,17 +226,8 @@ public class LoginActivity extends OldBaseActivity {
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            Set<String> keys = data.keySet();
-//            for (String key : keys) {
-//                sb.append(key + "=" + data.get(key).toString() + "\r\n");
-//            }
             String access_token = data.get("access_token");
-            if(platform==SHARE_MEDIA.SINA){
-                openid = data.get("uid");
-            }else{
-                openid = data.get("openid");
-            }
+            openid = data.get("openid");
             String expires = data.get("expires_in");
             mTencent.setOpenId(openid);
             mTencent.setAccessToken(access_token, expires);
@@ -201,8 +235,6 @@ public class LoginActivity extends OldBaseActivity {
                 getWeChatInfo(access_token,openid);
             }else if(platform==SHARE_MEDIA.QQ){
                 getUserInfo();
-            }else{
-                getWeiboInfo(SHARE_MEDIA.SINA);
             }
 
         }
@@ -232,18 +264,6 @@ public class LoginActivity extends OldBaseActivity {
             @Override
 
             public void onComplete(SHARE_MEDIA arg0, int arg1, Map<String, String> arg2) {
-
-                //转换为set
-
-                Set<String> keySet = arg2.keySet();
-
-                //遍历循环，得到里面的key值----用户名，头像....
-
-                for (String string : keySet) {
-
-                }
-
-                //得到key值得话，可以直接的到value
 
                 nickName= arg2.get("screen_name");
 
@@ -376,6 +396,7 @@ public class LoginActivity extends OldBaseActivity {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getPHPSESSID());
                         SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getAvatar_url());
                         SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getName());
+                        SPUtils.put(mContext, Constants.USER_ID, resultsBean.getId());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -464,6 +485,7 @@ public class LoginActivity extends OldBaseActivity {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getPHPSESSID());
                         SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getAvatar_url());
                         SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getName());
+                        SPUtils.put(mContext, Constants.USER_ID, resultsBean.getId());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -485,6 +507,9 @@ public class LoginActivity extends OldBaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mShareAPI.onActivityResult(requestCode, resultCode, data);
+        if(ssoHandler != null){
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -531,6 +556,7 @@ public class LoginActivity extends OldBaseActivity {
                         SPUtils.put(mContext, Constants.PHPSESSID, resultsBean.getUser().getPHPSESSID());
                         SPUtils.put(mContext, Constants.AVATAR_URL, Constants.AVATAR_URL_BASE+resultsBean.getUser().getAvatar_url());
                         SPUtils.put(mContext, Constants.USER_NAME, resultsBean.getUser().getName());
+                        SPUtils.put(mContext, Constants.USER_ID, String.valueOf(resultsBean.getUser().getId()));
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }

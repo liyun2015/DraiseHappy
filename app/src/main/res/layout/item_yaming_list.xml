@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/yaming_pic_image"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/default_photoalbum_img"
-        android:layout_height="200dp" />
+        android:layout_height="230dp" />
     <TextView
         android:id="@+id/yaming_news_title"
         android:paddingBottom="5dp"
@@ -18,6 +19,9 @@
         android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:textSize="16sp"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
         android:textColor="@color/black"
         android:lineSpacingExtra="3dp"
         tools:text="边开飞机边摄影！轰6k男神机长拍下黄岩岛美照"

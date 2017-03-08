@@ -60,16 +60,14 @@ public class CoverFragment extends BaseFragment {
     RecyclerViewHeader header;
     @Bind(R.id.banner_top_view)
     FrameLayout bannerTopView;
-    private Integer category_id = 1;
-    private Integer pageId = 1;
-    private Integer count = 10;
-    private CoverAdapter adapter;
+    private int category_id = 1;
+    private int pageId = 1;
+    private int count = 10;
     private Handler handler;
-    private int pageIndex = 1;
-    private int pageSize = 10;
     private List<CoverDataBean.RstBean.ListBean> listBeen;
     private YamingChildAdapter yamingChildAdapter;
-
+    private boolean isDownFresh=false;
+    private boolean isLoadMore=false;
     public static CoverFragment newInstance() {
         Bundle args = new Bundle();
         CoverFragment fragment = new CoverFragment();
@@ -98,7 +96,9 @@ public class CoverFragment extends BaseFragment {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
+                        if(!isDownFresh&&!isLoadMore){
+                            showLoadingView();
+                        }
                     }
                 })
                 .filter(new Func1<CoverDataBean, Boolean>() {
@@ -138,18 +138,27 @@ public class CoverFragment extends BaseFragment {
 
     private void initListViewData(CoverDataBean.RstBean rstBean) {
         List<CoverDataBean.RstBean.ListBean> datasList = rstBean.getList();
-
+        if(isDownFresh){
+            listBeen.clear();
+        }
         listBeen.addAll(datasList);
-
         if (null == yamingChildAdapter) {
             yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
             rcvCoverList.setAdapter(yamingChildAdapter);
         } else {
             yamingChildAdapter.notifyDataSetChanged();
         }
+        if (!rstBean.getPageInfo().isHasNext()) {
+            //数据全部加完了
+            yamingChildAdapter.loadMoreEnd();
+        } else {
+            yamingChildAdapter.loadMoreComplete();
+
+        }
         if (listBeen.size() == 0) {
             yamingChildAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data, "暂无数据！"));
         }
+
     }
 
     private void initBannerView(CoverDataBean.RstBean rstBean) {
@@ -177,8 +186,9 @@ public class CoverFragment extends BaseFragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        listBeen.clear();
-                        pageIndex = 1;
+                        isLoadMore=false;
+                        isDownFresh=true;
+                        pageId=1;
                         initData();
                         swipeRefreshCover.setRefreshing(false);
                     }
@@ -201,6 +211,22 @@ public class CoverFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_PIC, listBeen.get(position).getTitle_pic());
                 intent.putExtra(WebViewActivity.WEB_VIEW_COMMENT_NUM, String.valueOf(listBeen.get(position).getComment_num()));
                 mContext.startActivity(intent);
+            }
+        });
+        yamingChildAdapter = new YamingChildAdapter(R.layout.item_yaming_list, listBeen);
+        rcvCoverList.setAdapter(yamingChildAdapter);
+        yamingChildAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rcvCoverList.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isLoadMore=true;
+                        isDownFresh=false;
+                        pageId=pageId+1;
+                        initData();
+                    }
+                }, 1000);
             }
         });
     }

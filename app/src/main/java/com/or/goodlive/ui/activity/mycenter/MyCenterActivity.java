@@ -42,6 +42,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 import static android.R.attr.name;
+import static com.or.goodlive.util.ImageLoadUtils.imageLoader;
 
 
 /**
@@ -86,6 +87,8 @@ public class MyCenterActivity extends BaseActivity {
     RelativeLayout useInformationLayout;
     @Bind(R.id.sigin_out_btn)
     Button siginBtn;
+    @Bind(R.id.message_remend_icon)
+    ImageView message_remend_icon;
     public static final String HEADERURL = "headerUrl";
     public static final String USERNAME = "username";
     private String headerUrl;
@@ -183,6 +186,20 @@ public class MyCenterActivity extends BaseActivity {
                     }
                 })
                 .create();
+        RxBus.with(this)
+                .setEvent(Events.EVENTS_NEW_MESSAGE)
+                .onNext(new Action1<Events<?>>() {
+                    @Override
+                    public void call(Events<?> events) {
+                        message_remend_icon.setVisibility(View.VISIBLE);
+                    }
+                })
+                .onError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                })
+                .create();
     }
     private void initView() {
         setSupportActionBar(toolbar);
@@ -193,6 +210,12 @@ public class MyCenterActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         toolbarContentText.setText("我的");
+        String newMessage =  (String) SPUtils.get(mContext, Constants.EVENTS_HAVE_NEW_MESSAGE,"");
+        if(!TextUtils.isEmpty(newMessage)){
+            message_remend_icon.setVisibility(View.VISIBLE);
+        }else{
+            message_remend_icon.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -217,6 +240,9 @@ public class MyCenterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_icon_layout://我的消息
+                message_remend_icon.setVisibility(View.GONE);
+                RxBus.getInstance().send(Events.EVENTS_CANSEL_MESSAGE,new Object());
+                SPUtils.put(this, Constants.EVENTS_HAVE_NEW_MESSAGE, "");
                 startActivity(new Intent(this, MyMessageActivity.class));
                 break;
             case R.id.about_us_layout:
@@ -302,6 +328,7 @@ public class MyCenterActivity extends BaseActivity {
                 .setNegativeButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // img缓存
                         ToastUtil.makeText(mContext, "缓存已经清除");
                     }
                 }).show();

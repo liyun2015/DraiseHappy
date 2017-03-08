@@ -121,21 +121,26 @@ public class ModifyUserInforActivity extends BaseActivity {
 
     public void Multiselect() {
         ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
-                .multiSelect(true)
+                .multiSelect(false)
                 .btnText("确定")
                 .btnTextColor(Color.WHITE)
                 // 是否记住上次选中记录
                 .rememberSelected(false)
                 // 使用沉浸式状态栏
                 .title("相册")
-                .titleColor(Color.WHITE)
+                // 标题文字颜色
+                // TitleBar 背景色
+                .titleBgColor(Color.parseColor("#302F35"))
+                .titleColor(Color.parseColor("#ffffff"))
                 .needCrop(true)
-                .cropSize(1, 1, 200, 200)
+                .cropSize(60, 60, 200, 200)
+//                // 返回图标 ResId
+//                .backResId(R.drawable.back)
                 // 第一个是否显示相机
                 .needCamera(true)
                 // 最大选择图片数量
                 .maxNum(1)
-                .statusBarColor(getResources().getColor(R.color.colorPrimary))
+                .statusBarColor(Color.parseColor("#302F35"))
                 .build();
 
         ImgSelActivity.startActivity(this, config, REQUEST_CODE);

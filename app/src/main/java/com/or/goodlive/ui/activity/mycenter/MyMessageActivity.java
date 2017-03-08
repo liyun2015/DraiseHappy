@@ -1,5 +1,6 @@
 package com.or.goodlive.ui.activity.mycenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,20 +9,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseActivity;
 import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.BaseResultsBean;
-import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.module.MessResultsBean;
+import com.or.goodlive.ui.activity.other.WebViewActivity;
 import com.or.goodlive.ui.adapter.MessageAdapter;
-import com.or.goodlive.ui.adapter.YamingChildAdapter;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.ImageLoadUtils;
+import com.or.goodlive.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,9 +50,12 @@ public class MyMessageActivity extends BaseActivity {
     @Bind(R.id.swipe_refresh_message)
     SwipeRefreshLayout swipeRefreshMessage;
     private List<MessResultsBean.RstBean.ListBean> dataList = new ArrayList<>();
-    private MessageAdapter adapter;
+    private MessageAdapter meAdapter;
     private Handler handler;
-
+    private int pageId = 1;
+    private String count = "10";
+    private boolean isDownFresh=false;
+    private boolean isLoadMore=false;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_my_message;
@@ -64,13 +69,17 @@ public class MyMessageActivity extends BaseActivity {
 
     private void initData() {
         Map<String, String> params = new HashMap<>();
+        params.put("pageId", String.valueOf(pageId));
+        params.put("count", count);
         ServiceFactory.getProvideHttpService().messageList(params)
                 .compose(this.<MessResultsBean>bindToLifecycle())
                 .compose(RxSchedulersHelper.<MessResultsBean>io_main())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showLoadingView();
+                        if(!isDownFresh&&!isLoadMore){
+                            showLoadingView();
+                        }
                     }
                 })
                 .filter(new Func1<MessResultsBean, Boolean>() {
@@ -111,17 +120,26 @@ public class MyMessageActivity extends BaseActivity {
 
     private void initListView(MessResultsBean.RstBean resultsBean) {
         List<MessResultsBean.RstBean.ListBean> datasList = resultsBean.getList();
-
+        if(isDownFresh){
+            dataList.clear();
+        }
         dataList.addAll(datasList);
 
-        if (null == adapter) {
-            adapter = new MessageAdapter(R.layout.item_message_list, dataList);
-            rcvMessageList.setAdapter(adapter);
+        if (null == meAdapter) {
+            meAdapter = new MessageAdapter(mContext,R.layout.item_message_list, dataList);
+            rcvMessageList.setAdapter(meAdapter);
         } else {
-            adapter.notifyDataSetChanged();
+            meAdapter.notifyDataSetChanged();
+        }
+        if (!resultsBean.getPageInfo().isHasNext()) {
+            //数据全部加完了
+            meAdapter.loadMoreEnd();
+        } else {
+            meAdapter.loadMoreComplete();
+
         }
         if (dataList.size() == 0) {
-            adapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
+            meAdapter.setEmptyView(setEmptyDataView(R.drawable.iconfont_no_data,"暂无数据！"));
         }
     }
 
@@ -142,9 +160,40 @@ public class MyMessageActivity extends BaseActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        dataList.clear();
+                        isLoadMore=false;
+                        isDownFresh=true;
+                        pageId=1;
                         initData();
                         swipeRefreshMessage.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+        rcvMessageList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent();
+                intent.setClass(mContext, MessageDetailActivity.class);
+                intent.putExtra(MessageDetailActivity.MESSAGE_TITLE, dataList.get(position).getTitle());
+                intent.putExtra(MessageDetailActivity.MESSAGE_CONTENT, dataList.get(position).getContent());
+                mContext.startActivity(intent);
+                String flag =String.valueOf(dataList.get(position).getNews_id());
+                SPUtils.put(mContext,flag, String.valueOf(dataList.get(position).getNews_id()));
+                meAdapter.notifyDataSetChanged();
+            }
+        });
+        meAdapter = new MessageAdapter(mContext,R.layout.item_message_list, dataList);
+        rcvMessageList.setAdapter(meAdapter);
+        meAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rcvMessageList.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageId=pageId+1;
+                        isLoadMore=true;
+                        isDownFresh=false;
+                        initData();
                     }
                 }, 1000);
             }

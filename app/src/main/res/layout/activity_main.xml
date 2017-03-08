@@ -2,9 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <include layout="@layout/include_toolbar"/>
+    <RelativeLayout
+        android:id="@+id/top_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="17dp"
+            android:src="@drawable/search_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/my_center_str"
+            android:layout_width="40dp"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+             />
+        <ImageView
+            android:id="@+id/my_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="17dp"
+            android:src="@drawable/my_icon"/>
+        <ImageView
+            android:id="@+id/message_remend_icon"
+            android:layout_width="wrap_content"
+            android:src="@drawable/red_icon"
+            android:layout_alignRight="@id/my_center"
+            android:visibility="gone"
+            android:layout_marginTop="-3dp"
+            android:layout_alignTop="@id/my_center"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
