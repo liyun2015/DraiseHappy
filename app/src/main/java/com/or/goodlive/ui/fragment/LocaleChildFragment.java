@@ -229,6 +229,9 @@ public class LocaleChildFragment extends BaseFragment {
             bannerTopView.setVisibility(View.VISIBLE);
             BannerPicAdapter bannerPicAdapter = new BannerPicAdapter(mContext);
             bannerPicAdapter.setData(datasBannerList);
+            if(isDownFresh){
+                bannerHomePageView.removeAllViews();
+            }
             bannerHomePageView.setAdapter(bannerPicAdapter);
             bannerHomePageView.setLooperPic(true);
             indicator.setViewPager(bannerHomePageView);
