@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/default_photoalbum_img"
-        android:layout_height="230dp" />
+        android:layout_height="210dp" />
     <TextView
         android:id="@+id/yaming_news_title"
         android:paddingBottom="5dp"

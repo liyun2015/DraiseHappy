@@ -31,7 +31,7 @@
                     <com.or.goodlive.ui.view.banner.LoopViewPager
                         android:id="@+id/banner_home_page_view"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
+                        android:layout_height="270dp"
                         android:background="@color/white" />
                     <FrameLayout
                         android:layout_width="match_parent"
