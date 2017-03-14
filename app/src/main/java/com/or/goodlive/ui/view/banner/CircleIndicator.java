@@ -87,7 +87,7 @@ public class CircleIndicator extends LinearLayout {
                         R.drawable.white_radius);
         mIndicatorUnselectedBackgroundResId =
                 typedArray.getResourceId(R.styleable.CircleIndicator_ci_drawable_unselected,
-                        mIndicatorBackgroundResId);
+                        R.drawable.white_radius_unselected);
 
         int orientation = typedArray.getInt(R.styleable.CircleIndicator_ci_orientation, -1);
         setOrientation(orientation == VERTICAL ? VERTICAL : HORIZONTAL);

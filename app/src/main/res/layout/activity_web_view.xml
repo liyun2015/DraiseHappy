@@ -17,12 +17,22 @@
             android:background="@color/divider_pink"
             android:layout_height="0.5dp"/>
     </LinearLayout>
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_above="@id/bottom_view"
+        android:layout_below="@id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <RelativeLayout
             android:id="@+id/comment_top_layout"
             android:layout_width="match_parent"
@@ -113,11 +123,4 @@
                 android:layout_height="36dp" />
         </RelativeLayout>
     </LinearLayout>
-
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_above="@id/bottom_view"
-        android:layout_below="@id/top_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </RelativeLayout>
