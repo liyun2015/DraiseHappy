@@ -100,7 +100,7 @@ public class BannerPicAdapter extends PagerAdapter {
                 intent.putExtra(WebViewActivity.WEB_VIEW_PIC, images.get(position).getPhoto());
                 intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, images.get(position).getId());
 
-//                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getSub());
+//                intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, images.get(position).getSub());
 //                intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
 
 

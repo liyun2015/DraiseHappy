@@ -376,7 +376,7 @@ public class WebViewActivity extends BaseActivity {
     }
 
     private void initDataView(DetailsBean.RstBean.DataBean data) {
-        if(TextUtils.isEmpty(imgPathList)){
+        if(TextUtils.isEmpty(imgPathList)||TextUtils.isEmpty(title)||TextUtils.isEmpty(contentStr)){
             imgPathList=data.getTitle_pic();
             title=data.getTitle();
             contentStr=data.getSub();
