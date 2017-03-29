@@ -48,6 +48,24 @@ public class BaseResultsBean {
     public static class RstBean {
         private String msg;
         private String pic;
+        private String url;
+        private String android_version;
+
+        public String getAndroid_version() {
+            return android_version;
+        }
+
+        public void setAndroid_version(String android_version) {
+            this.android_version = android_version;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
 
         public String getPic() {
             return pic;

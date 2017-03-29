@@ -1,6 +1,7 @@
 package com.or.goodlive.ui.activity.mycenter;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ import com.or.goodlive.ui.activity.login.LoginActivity;
 import com.or.goodlive.ui.activity.login.UserAgreementActivity;
 import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
+import com.or.goodlive.util.AppUtils;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.ImageLoadUtils;
 import com.or.goodlive.util.SPUtils;
@@ -303,7 +305,7 @@ public class MyCenterActivity extends BaseActivity {
                 .subscribe(new Action1<BaseResultsBean.RstBean>() {
                     @Override
                     public void call(BaseResultsBean.RstBean resultsBean) {
-                        versionUpgrade();
+                        versionUpgrade(resultsBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -333,20 +335,44 @@ public class MyCenterActivity extends BaseActivity {
                     }
                 }).show();
     }
+    private String msgStr = "已是最新版本！";
+    private void versionUpgrade(BaseResultsBean.RstBean resultsBean) {
+        String version = resultsBean.getAndroid_version();
+        String versionNow = AppUtils.getAppVersionName(this);
+        final String downloadUrl = resultsBean.getUrl();
+        if(version.equals(versionNow)){
+            msgStr = "已是最新版本！";
+            AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+            alertDialogStyleApp.builder()
+                    .setTitle("提示：")
+                    .setMsg(msgStr)
+                    .setNegativeButton("知道了", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-    private void versionUpgrade() {
-        AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
-        alertDialogStyleApp.builder()
-                .setTitle("提示：")
-                .setMsg("已是最新版本！")
-                .setNegativeButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                        }
+                    }).show();
+        }else{
+            msgStr = "发现新版本，是否更新？";
+            AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+            alertDialogStyleApp.builder()
+                    .setTitle("提示：")
+                    .setMsg(msgStr)
+                    .setNegativeButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startDownload(downloadUrl);
+                        }
+                    }).show();
+        }
 
-                    }
-                }).show();
     }
-
+    private void startDownload(String downloadUrl) {
+        Uri uri = Uri.parse(downloadUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+        finish();
+    }
     /**
      * 退出登录
      */

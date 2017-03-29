@@ -10,6 +10,7 @@ import android.util.Log;
 import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.activity.MainActivity;
+import com.or.goodlive.ui.activity.login.LoginActivity;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
 
@@ -39,10 +40,16 @@ public class pushService extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "onReceive: "+ JPushInterface.ACTION_NOTIFICATION_OPENED);
             Log.d(TAG, "onReceive: "+intent.getAction());
-            Intent intents = new Intent();
-            intents = new Intent(context, MainActivity.class);
-            intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intents);
+            String mFlag = (String) SPUtils.get(context, Constants.PHPSESSID, "");
+            if (TextUtils.isEmpty(mFlag)) {
+                Intent loginIn = new Intent(context, LoginActivity.class);
+                loginIn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                context.startActivity(loginIn);
+            } else {
+                Intent intents = new Intent(context, MainActivity.class);
+                intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intents);
+            }
         }
     }
 
