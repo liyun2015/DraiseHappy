@@ -124,7 +124,7 @@ public class PeerChildFragment extends BaseFragment {
                 intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "news");
                 intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getSub());
-                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getCategory_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
                 intent.putExtra(WebViewActivity.WEB_VIEW_PIC, listBeen.get(position).getTitle_pic());
                 intent.putExtra(WebViewActivity.WEB_VIEW_COMMENT_NUM, String.valueOf(listBeen.get(position).getComment_num()));

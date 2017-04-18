@@ -201,15 +201,15 @@ public class CoverFragment extends BaseFragment {
         rcvCoverList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String url = Constants.WEB_VIEW_HOSTURL + "type=cover" + "&id=" + listBeen.get(position).getId();
+                String url = Constants.WEB_VIEW_HOSTURL + "type="+listBeen.get(position).getTable_name() + "&id=" + listBeen.get(position).getId();
                 Intent intent = new Intent();
                 intent.setClass(mContext, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.WEB_VIEW_URL, url);
                 intent.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, String.valueOf(listBeen.get(position).getId()));
-                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, "cover");
+                intent.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, listBeen.get(position).getTable_name());
                 intent.putExtra(WebViewActivity.WEB_VIEW_TITLE_NAME, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_CONTENT_NAME, listBeen.get(position).getSub());
-                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getCategory_name());
+                intent.putExtra(WebViewActivity.WEB_VIEW_DESC, listBeen.get(position).getTitle());
                 intent.putExtra(WebViewActivity.WEB_VIEW_FAVOR_STATE, listBeen.get(position).getIs_like());
                 intent.putExtra(WebViewActivity.WEB_VIEW_PIC, listBeen.get(position).getTitle_pic());
                 intent.putExtra(WebViewActivity.WEB_VIEW_COMMENT_NUM, String.valueOf(listBeen.get(position).getComment_num()));
