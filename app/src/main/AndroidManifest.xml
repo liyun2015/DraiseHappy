@@ -258,7 +258,9 @@
             android:theme="@style/Theme.UMDefault" />
         <activity android:name="com.or.goodlive.ui.activity.other.WebViewActivity"></activity>
 
+        <!-- 极光推送 -->
         <!-- ###################jpush###################### -->
+
         <service
             android:name="cn.jpush.android.service.PushService"
             android:process=":mult"

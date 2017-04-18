@@ -8,11 +8,11 @@ android {
         multiDexEnabled true
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         manifestPlaceholders = [BAIDU_CHANNEL_VALUE: "baidu",
                                 JPUSH_PKGNAME : applicationId,
-                                JPUSH_APPKEY : "aad36ed58f7ca13eb0c52b75",
+                                JPUSH_APPKEY : "aad36ed58f7ca13eb0c52b75",//测试14993df37d5c9269265f3de2；正式aad36ed58f7ca13eb0c52b75
                                 JPUSH_CHANNEL : "developer-default"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -134,4 +134,5 @@ dependencies {
     compile 'com.yuyh.imgsel:library:1.3.7'
     compile 'cn.jiguang.sdk:jpush:3.0.0'
     compile 'cn.jiguang.sdk:jcore:1.0.0'
+    compile 'com.alibaba:fastjson:1.1.55.android'
 }

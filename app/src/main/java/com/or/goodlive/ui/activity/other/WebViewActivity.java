@@ -380,6 +380,7 @@ public class WebViewActivity extends BaseActivity {
             imgPathList=data.getTitle_pic();
             title=data.getTitle();
             contentStr=data.getSub();
+            toolbarContentText.setText(title);
         }
         favorState=Integer.parseInt(data.getIs_like());
         comment_num=Integer.parseInt(data.getComment_num());

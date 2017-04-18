@@ -37,6 +37,10 @@
                 android:textColor="@color/black"
                 android:layout_toRightOf="@id/user_header_pic"
                 android:textSize="14sp"
+                android:layout_marginRight="150dp"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:ellipsize="end"
                 android:text="系统消息"
                 android:layout_height="wrap_content" />
             <TextView

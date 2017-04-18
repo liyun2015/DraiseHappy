@@ -11,6 +11,7 @@ import com.or.goodlive.control.Events;
 import com.or.goodlive.control.RxBus;
 import com.or.goodlive.ui.activity.MainActivity;
 import com.or.goodlive.ui.activity.login.LoginActivity;
+import com.or.goodlive.ui.activity.other.WebViewActivity;
 import com.or.goodlive.util.Constants;
 import com.or.goodlive.util.SPUtils;
 
@@ -26,6 +27,7 @@ import cn.jpush.android.api.JPushInterface;
 public class pushService extends BroadcastReceiver {
 
     private static final String TAG = "pushService";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -41,14 +43,32 @@ public class pushService extends BroadcastReceiver {
             Log.d(TAG, "onReceive: "+ JPushInterface.ACTION_NOTIFICATION_OPENED);
             Log.d(TAG, "onReceive: "+intent.getAction());
             String mFlag = (String) SPUtils.get(context, Constants.PHPSESSID, "");
+
             if (TextUtils.isEmpty(mFlag)) {
                 Intent loginIn = new Intent(context, LoginActivity.class);
                 loginIn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
                 context.startActivity(loginIn);
             } else {
-                Intent intents = new Intent(context, MainActivity.class);
-                intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intents);
+                    com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(mJsonString);
+                    if (ExampleUtil.isRunningApp(context, Constants.APK_PACKAGENAME)) {
+                        Intent intents = new Intent(context, WebViewActivity.class);
+                        intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intents.putExtra(WebViewActivity.WEB_VIEW_URL, jsonObject.getString("url"));
+                        intents.putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, jsonObject.getString("id"));
+                        intents.putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, jsonObject.getString("type"));
+                        context.startActivity(intents);
+                    }else{
+                        Intent[] intents = new Intent[2];
+                        intents[0] = new Intent(context, MainActivity.class);
+                        intents[1] = new Intent(context, WebViewActivity.class);
+                        intents[0].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intents[1].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intents[1].putExtra(WebViewActivity.WEB_VIEW_URL, jsonObject.getString("url"));
+                        intents[1].putExtra(WebViewActivity.WEB_VIEW_NEWS_ID, jsonObject.getString("id"));
+                        intents[1].putExtra(WebViewActivity.WEB_VIEW_TABLE_NAME, jsonObject.getString("type"));
+                        context.startActivities(intents);
+                }
+
             }
         }
     }

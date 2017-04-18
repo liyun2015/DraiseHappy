@@ -1,5 +1,6 @@
 package com.or.goodlive.service;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -15,6 +16,7 @@ import android.util.Log;
 
 import com.or.goodlive.ui.view.ToastUtil;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,4 +104,17 @@ public class ExampleUtil {
 		}
 		return imei;
 	}
+    public static boolean isRunningApp(Context context, String packageName) {
+        boolean isAppRunning = false;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(packageName) && info.baseActivity.getPackageName().equals(packageName)) {
+                isAppRunning = true;
+                // find it, break
+                break;
+            }
+        }
+        return isAppRunning;
+    }
 }

@@ -11,7 +11,7 @@ public class Constants {
     public static final String WEB_VIEW_HOSTURL = "http://weixin.xiaozhubanjia.com/yizhibo/detail.html?";
     public static final String NOTIFY_URL = "http://idfa.third.or.com/ubanpay/notify.html";//支付回调地址
     public static final String UBAN_MEMBER_NOTIFY_URL = "http://idfa.dev.or.com/ubanpay/memPaynotify.html";//会员支付回调地址
-
+    public static final String APK_PACKAGENAME = "com.or.goodlive";
     public static final String UBAN_TOKEN = "ubanToken";//session
     public static final String PHPSESSID = "PHPSESSID";//登录状态
     public static final String AVATAR_URL = "AVATAR_URL";//头像
