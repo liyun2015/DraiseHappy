@@ -8,8 +8,8 @@ android {
         multiDexEnabled true
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.3"
         manifestPlaceholders = [BAIDU_CHANNEL_VALUE: "baidu",
                                 JPUSH_PKGNAME : applicationId,
                                 JPUSH_APPKEY : "aad36ed58f7ca13eb0c52b75",//测试14993df37d5c9269265f3de2；正式aad36ed58f7ca13eb0c52b75

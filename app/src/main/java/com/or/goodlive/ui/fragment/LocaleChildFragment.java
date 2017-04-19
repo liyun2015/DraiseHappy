@@ -105,6 +105,7 @@ public class LocaleChildFragment extends BaseFragment {
                         listBeen.clear();
                         isLoadMore=false;
                         isDownFresh=true;
+                        pageId = 1;
                         initData();
                         swipeRefreshLocaleChild.setRefreshing(false);
                     }

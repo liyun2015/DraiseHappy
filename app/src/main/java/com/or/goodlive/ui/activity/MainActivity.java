@@ -36,10 +36,13 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import rx.functions.Action1;
 
 
@@ -75,12 +78,43 @@ public class MainActivity extends OldBaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        setAlias();
         initView();
         initData();
         registerPermissions();
         regiserEvent();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
 
+    @Override
+    public void onPause() {
+        JPushInterface.onPause(this);
+        super.onPause();
+    }
+    private void setAlias() {
+        String mPhone = (String) SPUtils.get(mContext, Constants.USER_ID, "");
+        if (!TextUtils.isEmpty(mPhone)) {
+            JPushInterface.setAlias(getApplicationContext(), mPhone, mAliasCallback);
+        }
+    }
+
+    TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int i, String s, Set<String> set) {
+            switch (i) {
+                case 0:
+//                    ToastUtil.makeText(mContext,"success push");
+                    break;
+                case 6002:
+//                    ToastUtil.makeText(mContext,"timeout");
+                    break;
+            }
+        }
+    };
     private void initView() {
         String newMessage =  (String) SPUtils.get(mContext, Constants.EVENTS_HAVE_NEW_MESSAGE,"");
         if(!TextUtils.isEmpty(newMessage)){
