@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.os.Handler;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package com.or.goodlive.service;
+package com.or.draise_happy.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.ui.activity.MainActivity;
-import com.or.goodlive.ui.activity.login.LoginActivity;
-import com.or.goodlive.ui.activity.other.WebViewActivity;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.control.Events;
+import com.or.draise_happy.control.RxBus;
+import com.or.draise_happy.ui.activity.MainActivity;
+import com.or.draise_happy.ui.activity.login.LoginActivity;
+import com.or.draise_happy.ui.activity.other.WebViewActivity;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
 
 import cn.jpush.android.api.JPushInterface;
 

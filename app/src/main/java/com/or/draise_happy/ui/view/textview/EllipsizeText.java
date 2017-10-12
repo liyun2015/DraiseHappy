@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.textview;
+package com.or.draise_happy.ui.view.textview;
 
 import android.content.Context;
 import android.graphics.Canvas;

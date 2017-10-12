@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -19,8 +19,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ProgressBar;
 
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.progress.internal.DrawableCompat;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.progress.internal.DrawableCompat;
 
 
 /**

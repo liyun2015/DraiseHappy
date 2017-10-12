@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress.internal;
+package com.or.draise_happy.ui.view.progress.internal;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;

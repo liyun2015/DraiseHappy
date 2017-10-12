@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.welcome;
+package com.or.draise_happy.ui.view.welcome;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

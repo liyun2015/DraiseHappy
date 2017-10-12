@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.or.goodlive.ui.activity.detail.SpaceDetailActivity">
+    tools:context="com.or.draise_happy.ui.activity.detail.SpaceDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.or.goodlive.ui.view.banner.LoopViewPager
+                <com.or.draise_happy.ui.view.banner.LoopViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="250dp" />
@@ -253,7 +253,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
 
-            <com.or.goodlive.ui.view.textview.EllipsizeText
+            <com.or.draise_happy.ui.view.textview.EllipsizeText
                 android:id="@+id/tv_space_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -524,7 +524,7 @@
                 android:layout_height="0.1dp"
                 android:background="@color/divider_1" />
 
-            <com.or.goodlive.ui.view.UbanListView
+            <com.or.draise_happy.ui.view.UbanListView
                 android:id="@+id/lv_space_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

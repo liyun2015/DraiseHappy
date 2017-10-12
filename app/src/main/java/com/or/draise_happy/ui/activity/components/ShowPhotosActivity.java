@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.components;
+package com.or.draise_happy.ui.activity.components;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
-import com.or.goodlive.R;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.ui.view.ToastUtil;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.ui.view.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.or.goodlive.service;
+package com.or.draise_happy.service;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 
-import com.or.goodlive.ui.view.ToastUtil;
+import com.or.draise_happy.ui.view.ToastUtil;
 
 import java.util.List;
 import java.util.regex.Matcher;

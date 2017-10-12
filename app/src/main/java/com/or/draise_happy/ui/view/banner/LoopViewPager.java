@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.or.goodlive.ui.view.banner;
+package com.or.draise_happy.ui.view.banner;
 
 import android.content.Context;
 import android.os.Handler;

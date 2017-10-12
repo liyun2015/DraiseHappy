@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,8 +18,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.graphics.ColorUtils;
 import android.util.Log;
 
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.progress.internal.ThemeUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.progress.internal.ThemeUtils;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.or.goodlive.apshare;
+package com.or.draise_happy.apshare;
 
 import com.umeng.socialize.media.ShareCallbackActivity;
 

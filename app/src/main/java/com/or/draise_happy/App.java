@@ -1,9 +1,9 @@
-package com.or.goodlive;
+package com.or.draise_happy;
 
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.or.goodlive.util.ImageLoadUtils;
+import com.or.draise_happy.util.ImageLoadUtils;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;

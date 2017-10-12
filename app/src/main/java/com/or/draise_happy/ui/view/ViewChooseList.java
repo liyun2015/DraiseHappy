@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.module.ColumnBean;
-import com.or.goodlive.ui.adapter.ColumnItemAdapter;
-import com.or.goodlive.ui.adapter.ColumnOwnItemAdapter;
+import com.or.draise_happy.R;
+import com.or.draise_happy.module.ColumnBean;
+import com.or.draise_happy.ui.adapter.ColumnItemAdapter;
+import com.or.draise_happy.ui.adapter.ColumnOwnItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

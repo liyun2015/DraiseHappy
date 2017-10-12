@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.other;
+package com.or.draise_happy.ui.activity.other;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,16 +15,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
-import com.or.goodlive.R;
-import com.or.goodlive.api.config.HeaderConfig;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.control.events.UserLoginEvents;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.HeaderConfig;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.control.events.UserLoginEvents;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.ui.view.dialog.AlertDialogStyleApp;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;

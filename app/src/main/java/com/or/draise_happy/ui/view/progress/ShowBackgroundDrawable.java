@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 /**
  * A {@code Drawable} that has ic_home_meun_member background.

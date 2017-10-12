@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.components;
+package com.or.draise_happy.ui.activity.components;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -50,19 +50,19 @@ import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
-import com.or.goodlive.R;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.ui.view.overlayutil.BikingRouteOverlay;
-import com.or.goodlive.ui.view.overlayutil.DrivingRouteOverlay;
-import com.or.goodlive.ui.view.overlayutil.MassTransitRouteOverlay;
-import com.or.goodlive.ui.view.overlayutil.OverlayManager;
-import com.or.goodlive.ui.view.overlayutil.PoiOverlay;
-import com.or.goodlive.ui.view.overlayutil.TransitRouteOverlay;
-import com.or.goodlive.ui.view.overlayutil.WalkingRouteOverlay;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.ConvertUtils;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.ui.view.overlayutil.BikingRouteOverlay;
+import com.or.draise_happy.ui.view.overlayutil.DrivingRouteOverlay;
+import com.or.draise_happy.ui.view.overlayutil.MassTransitRouteOverlay;
+import com.or.draise_happy.ui.view.overlayutil.OverlayManager;
+import com.or.draise_happy.ui.view.overlayutil.PoiOverlay;
+import com.or.draise_happy.ui.view.overlayutil.TransitRouteOverlay;
+import com.or.draise_happy.ui.view.overlayutil.WalkingRouteOverlay;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.ConvertUtils;
+import com.or.draise_happy.util.SPUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;

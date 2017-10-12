@@ -1,4 +1,4 @@
-package com.or.goodlive.module.request;
+package com.or.draise_happy.module.request;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,7 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

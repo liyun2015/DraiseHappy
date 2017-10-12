@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.flowlayout;
+package com.or.draise_happy.ui.view.flowlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,8 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.progress.MaterialProgressBar;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.progress.MaterialProgressBar;
 
 public class GetMoreListView extends ListView {
 

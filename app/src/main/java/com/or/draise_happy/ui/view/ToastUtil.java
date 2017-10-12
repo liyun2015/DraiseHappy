@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 
 public class ToastUtil {

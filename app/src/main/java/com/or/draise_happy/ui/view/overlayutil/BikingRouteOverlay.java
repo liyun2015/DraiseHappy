@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.or.goodlive.ui.view.overlayutil;
+package com.or.draise_happy.ui.view.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;

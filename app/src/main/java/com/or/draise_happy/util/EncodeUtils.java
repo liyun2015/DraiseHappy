@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.os.Build;
 import android.text.Html;

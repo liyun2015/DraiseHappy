@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.components;
+package com.or.draise_happy.ui.activity.components;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -23,9 +23,9 @@ import com.android.volley.toolbox.Volley;
 import com.panoramagl.PLImage;
 import com.panoramagl.PLSpherical2Panorama;
 import com.panoramagl.PLView;
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.LoadingProgress;
-import com.or.goodlive.ui.view.ToastUtil;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.LoadingProgress;
+import com.or.draise_happy.ui.view.ToastUtil;
 
 import java.util.ArrayList;
 

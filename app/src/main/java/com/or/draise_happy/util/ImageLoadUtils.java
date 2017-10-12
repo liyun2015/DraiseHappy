@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,11 +11,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.or.goodlive.BuildConfig;
-import com.or.goodlive.R;
+import com.or.draise_happy.BuildConfig;
+import com.or.draise_happy.R;
 
 /**
  * ImageLoadUtils Imageloader统一封装配置Helper

@@ -1,6 +1,5 @@
-package com.or.goodlive.ui.activity.welcome;
+package com.or.draise_happy.ui.activity.welcome;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.or.goodlive.R;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.ui.activity.login.LoginActivity;
+import com.or.draise_happy.R;
+import com.or.draise_happy.control.Events;
+import com.or.draise_happy.control.RxBus;
+import com.or.draise_happy.ui.activity.login.LoginActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

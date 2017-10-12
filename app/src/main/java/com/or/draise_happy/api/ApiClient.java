@@ -1,23 +1,21 @@
-package com.or.goodlive.api;
+package com.or.draise_happy.api;
 
 
-import com.or.goodlive.module.BaseResultsBean;
-import com.or.goodlive.module.CategoryDataBean;
-import com.or.goodlive.module.CommentBean;
-import com.or.goodlive.module.CoverDataBean;
-import com.or.goodlive.module.DetailsBean;
-import com.or.goodlive.module.LoginInBean;
-import com.or.goodlive.module.MessResultsBean;
-import com.or.goodlive.module.SearchKeyWord;
-import com.or.goodlive.module.ThridLoginInBean;
-import com.or.goodlive.module.UserInfoBean;
-import com.or.goodlive.module.WeChatUserInfoBean;
-import com.or.goodlive.module.request.RegisterBean;
-import com.or.goodlive.module.request.RequestLogin;
-import com.or.goodlive.module.request.RequestRegisterBean;
-import com.or.goodlive.module.request.RequestSearchKeyWord;
-import com.or.goodlive.module.request.RequestVerificationCode;
-import com.or.goodlive.module.request.UploadBean;
+import com.or.draise_happy.module.BaseResultsBean;
+import com.or.draise_happy.module.CategoryDataBean;
+import com.or.draise_happy.module.CommentBean;
+import com.or.draise_happy.module.CoverDataBean;
+import com.or.draise_happy.module.DetailsBean;
+import com.or.draise_happy.module.LoginInBean;
+import com.or.draise_happy.module.MessResultsBean;
+import com.or.draise_happy.module.SearchKeyWord;
+import com.or.draise_happy.module.UserInfoBean;
+import com.or.draise_happy.module.WeChatUserInfoBean;
+import com.or.draise_happy.module.request.RegisterBean;
+import com.or.draise_happy.module.request.RequestLogin;
+import com.or.draise_happy.module.request.RequestRegisterBean;
+import com.or.draise_happy.module.request.RequestSearchKeyWord;
+import com.or.draise_happy.module.request.RequestVerificationCode;
 
 import java.util.Map;
 

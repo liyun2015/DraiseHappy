@@ -1,4 +1,4 @@
-package com.or.goodlive;
+package com.or.draise_happy;
 
 import org.junit.Test;
 

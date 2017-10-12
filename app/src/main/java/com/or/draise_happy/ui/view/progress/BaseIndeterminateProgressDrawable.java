@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
@@ -11,8 +11,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Animatable;
 
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.progress.internal.ThemeUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.progress.internal.ThemeUtils;
 
 
 abstract class BaseIndeterminateProgressDrawable extends BaseProgressDrawable

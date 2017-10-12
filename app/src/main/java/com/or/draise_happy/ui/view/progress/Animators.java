@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -11,7 +11,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Path;
 
-import com.or.goodlive.ui.view.progress.internal.ObjectAnimatorCompat;
+import com.or.draise_happy.ui.view.progress.internal.ObjectAnimatorCompat;
 
 
 /**

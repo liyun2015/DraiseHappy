@@ -1,4 +1,4 @@
-package com.or.goodlive.service;
+package com.or.draise_happy.service;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 
 import com.baidu.mobstat.StatService;
-import com.or.goodlive.ui.activity.CommentListActivity;
-import com.or.goodlive.ui.activity.other.WebViewActivity;
+import com.or.draise_happy.ui.activity.CommentListActivity;
+import com.or.draise_happy.ui.activity.other.WebViewActivity;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;

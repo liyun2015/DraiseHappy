@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.or.goodlive.ui.view.wheelview;
+package com.or.draise_happy.ui.view.wheelview;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -33,8 +33,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.wheelview.adapter.WheelViewAdapter;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.wheelview.adapter.WheelViewAdapter;
 
 import java.util.LinkedList;
 import java.util.List;

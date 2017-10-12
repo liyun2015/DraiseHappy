@@ -4,7 +4,7 @@
     android:id="@+id/activity_web_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.or.goodlive.ui.activity.other.WebViewActivity">
+    tools:context="com.or.draise_happy.ui.activity.other.WebViewActivity">
     <LinearLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"

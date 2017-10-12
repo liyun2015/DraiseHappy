@@ -1,18 +1,14 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.baidu.mapapi.map.Text;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.or.goodlive.R;
-import com.or.goodlive.module.CoverDataBean;
-import com.or.goodlive.module.MessResultsBean;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.module.MessResultsBean;
+import com.or.draise_happy.util.SPUtils;
 
 import java.util.List;
 

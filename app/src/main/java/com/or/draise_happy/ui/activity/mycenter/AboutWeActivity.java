@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.mycenter;
+package com.or.draise_happy.ui.activity.mycenter;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -6,8 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.base.BaseActivity;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

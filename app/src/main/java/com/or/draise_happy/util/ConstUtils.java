@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 /**
  * ConstUtils 常量相关工具类
  * Created by dawabos on 2016/10/27.

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.dialog;
+package com.or.draise_happy.ui.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 
 public class AlertDialogStyleApp {

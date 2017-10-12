@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.filterview;
+package com.or.draise_happy.ui.view.filterview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.base.UBBaseAdapter;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.UBBaseAdapter;
 
 import java.util.List;
 

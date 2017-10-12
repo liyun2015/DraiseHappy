@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.or.goodlive.ui.view.progress;
+package com.or.draise_happy.ui.view.progress;
 
 import android.graphics.Path;
 import android.support.v4.view.animation.PathInterpolatorCompat;

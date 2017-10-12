@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.login;
+package com.or.draise_happy.ui.activity.login;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,23 +17,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.or.goodlive.R;
-import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.OldBaseActivity;
-import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.LoginInBean;
-import com.or.goodlive.module.WeChatUserInfoBean;
-import com.or.goodlive.module.request.RequestLogin;
-import com.or.goodlive.ui.activity.MainActivity;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.ServiceFactory;
+import com.or.draise_happy.base.OldBaseActivity;
+import com.or.draise_happy.control.RxSchedulersHelper;
+import com.or.draise_happy.module.LoginInBean;
+import com.or.draise_happy.module.WeChatUserInfoBean;
+import com.or.draise_happy.module.request.RequestLogin;
+import com.or.draise_happy.ui.activity.MainActivity;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.connect.UserInfo;
 import com.tencent.tauth.IUiListener;
@@ -43,11 +42,9 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,11 +1,11 @@
-package com.or.goodlive.api.config;
+package com.or.draise_happy.api.config;
 
 import android.text.TextUtils;
 
-import com.or.goodlive.App;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
-import com.or.goodlive.util.encry.Des3;
+import com.or.draise_happy.App;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
+import com.or.draise_happy.util.encry.Des3;
 
 
 /**

@@ -1,11 +1,11 @@
-package com.or.goodlive.base;
+package com.or.draise_happy.base;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.or.goodlive.ui.view.LoadingProgress;
+import com.or.draise_happy.ui.view.LoadingProgress;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;

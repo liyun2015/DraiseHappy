@@ -1,4 +1,4 @@
-package com.or.goodlive;
+package com.or.draise_happy;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

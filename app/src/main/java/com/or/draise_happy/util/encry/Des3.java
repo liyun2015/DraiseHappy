@@ -1,4 +1,4 @@
-package com.or.goodlive.util.encry;
+package com.or.draise_happy.util.encry;
 import java.security.Key;
 
 import javax.crypto.Cipher;

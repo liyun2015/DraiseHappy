@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.welcome;
+package com.or.draise_happy.ui.activity.welcome;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

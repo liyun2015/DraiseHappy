@@ -1,4 +1,4 @@
-package com.or.goodlive.module.request;
+package com.or.draise_happy.module.request;
 
 /**
  * Created by Administrator on 2017/2/8.

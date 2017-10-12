@@ -1,14 +1,13 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.media.ExifInterface;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.or.goodlive.R;
-import com.or.goodlive.module.CommentBean;
-import com.or.goodlive.module.MessResultsBean;
-import com.or.goodlive.util.ImageLoadUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.module.CommentBean;
+import com.or.draise_happy.util.ImageLoadUtils;
 
 import java.io.IOException;
 import java.util.List;

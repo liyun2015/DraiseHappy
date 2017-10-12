@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -36,7 +36,7 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 
 public class CircleImageView extends ImageView {

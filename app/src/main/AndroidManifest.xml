@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.or.goodlive">
+    package="com.or.draise_happy">
     <!-- Required 自定义用来收发消息的相关权限 -->
     <permission
-        android:name="com.or.goodlive.permission.JPUSH_MESSAGE"
+        android:name="com.or.draise_happy.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- 这个权限用于进行网络定位 -->
@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <application
-        android:name="com.or.goodlive.App"
+        android:name="com.or.draise_happy.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -87,7 +87,7 @@
             android:process=":remote" />
 
         <activity
-            android:name="com.or.goodlive.ui.activity.SplashActivity"
+            android:name="com.or.draise_happy.ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppSplash"
@@ -106,116 +106,116 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.or.goodlive.ui.activity.MainActivity"
+            android:name="com.or.draise_happy.ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.or.goodlive.ui.activity.CommentListActivity" />
+            android:name="com.or.draise_happy.ui.activity.CommentListActivity" />
         <activity
-            android:name="com.or.goodlive.ui.activity.SearchActivity"
+            android:name="com.or.draise_happy.ui.activity.SearchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--登录-->
         <activity
-            android:name="com.or.goodlive.ui.activity.login.LoginActivity"
+            android:name="com.or.draise_happy.ui.activity.login.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--注册-->
         <activity
-            android:name="com.or.goodlive.ui.activity.login.RegisterActivity"
+            android:name="com.or.draise_happy.ui.activity.login.RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--找回密码发送验证码-->
         <activity
-            android:name="com.or.goodlive.ui.activity.login.ForgotPasswordActivity"
+            android:name="com.or.draise_happy.ui.activity.login.ForgotPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--设置新密码-->
         <activity
-            android:name="com.or.goodlive.ui.activity.login.SetPasswordActivity"
+            android:name="com.or.draise_happy.ui.activity.login.SetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--个人中心-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.MyCenterActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.MyCenterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--我的消息-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.MyMessageActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.MyMessageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--关于我们-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.AboutWeActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.AboutWeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--消息详情-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.MessageDetailActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.MessageDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--改昵称-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.ModifyNameActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.ModifyNameActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--用户协议-->
         <activity
-            android:name="com.or.goodlive.ui.activity.login.UserAgreementActivity"
+            android:name="com.or.draise_happy.ui.activity.login.UserAgreementActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--修改密码-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.ModifyPassWordActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.ModifyPassWordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--修改用户资料-->
         <activity
-            android:name="com.or.goodlive.ui.activity.mycenter.ModifyUserInforActivity"
+            android:name="com.or.draise_happy.ui.activity.mycenter.ModifyUserInforActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--欢迎引导页-->
         <activity
-            android:name="com.or.goodlive.ui.activity.welcome.WelcomeActivity"
+            android:name="com.or.draise_happy.ui.activity.welcome.WelcomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppWelcome" />
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.or.draise_happy.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.or.goodlive.apshare.ShareEntryActivity"
+            android:name="com.or.draise_happy.apshare.ShareEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <receiver android:name="com.or.goodlive.AppRegister">
+        <receiver android:name="com.or.draise_happy.AppRegister">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.or.goodlive.WBShareActivity"
+            android:name="com.or.draise_happy.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -256,7 +256,7 @@
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.UMDefault" />
-        <activity android:name="com.or.goodlive.ui.activity.other.WebViewActivity"></activity>
+        <activity android:name="com.or.draise_happy.ui.activity.other.WebViewActivity"></activity>
 
         <!-- 极光推送 -->
         <!-- ###################jpush###################### -->
@@ -306,7 +306,7 @@
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false" />
         <receiver
-            android:name=".service.pushService"
+            android:name="com.or.draise_happy.service.pushService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

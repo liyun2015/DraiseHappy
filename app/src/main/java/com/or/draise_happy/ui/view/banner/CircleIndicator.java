@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.banner;
+package com.or.draise_happy.ui.view.banner;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import static android.support.v4.view.ViewPager.OnPageChangeListener;
 

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.mycenter;
+package com.or.draise_happy.ui.activity.mycenter;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,24 +14,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.or.goodlive.App;
-import com.or.goodlive.R;
-import com.or.goodlive.api.HttpClient;
-import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.BaseResultsBean;
-import com.or.goodlive.module.UserInfoBean;
-import com.or.goodlive.ui.activity.login.LoginActivity;
-import com.or.goodlive.ui.activity.login.UserAgreementActivity;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
-import com.or.goodlive.util.AppUtils;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.ImageLoadUtils;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.ServiceFactory;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.control.Events;
+import com.or.draise_happy.control.RxBus;
+import com.or.draise_happy.control.RxSchedulersHelper;
+import com.or.draise_happy.module.BaseResultsBean;
+import com.or.draise_happy.module.UserInfoBean;
+import com.or.draise_happy.ui.activity.login.LoginActivity;
+import com.or.draise_happy.ui.activity.login.UserAgreementActivity;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.ui.view.dialog.AlertDialogStyleApp;
+import com.or.draise_happy.util.AppUtils;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.ImageLoadUtils;
+import com.or.draise_happy.util.SPUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +40,6 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static android.R.attr.name;
-import static com.or.goodlive.util.ImageLoadUtils.imageLoader;
 
 
 /**

@@ -1,6 +1,5 @@
-package com.or.goodlive.ui.activity;
+package com.or.draise_happy.ui.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,16 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.or.goodlive.R;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.ui.activity.login.LoginActivity;
-import com.or.goodlive.ui.activity.welcome.WelcomeActivity;
-import com.or.goodlive.util.AppUtils;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
-import com.tbruyelle.rxpermissions.RxPermissions;
-
-import rx.functions.Action1;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.ui.activity.login.LoginActivity;
+import com.or.draise_happy.ui.activity.welcome.WelcomeActivity;
+import com.or.draise_happy.util.AppUtils;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
 
 
 /**

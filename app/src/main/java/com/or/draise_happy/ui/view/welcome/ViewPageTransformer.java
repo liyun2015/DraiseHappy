@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.welcome;
+package com.or.draise_happy.ui.view.welcome;
 
 import android.annotation.SuppressLint;
 import android.support.v4.view.ViewPager;

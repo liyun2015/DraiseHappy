@@ -1,4 +1,4 @@
-package com.or.goodlive.util.encry;
+package com.or.draise_happy.util.encry;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

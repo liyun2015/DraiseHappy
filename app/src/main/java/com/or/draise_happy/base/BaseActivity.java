@@ -1,4 +1,4 @@
-package com.or.goodlive.base;
+package com.or.draise_happy.base;
 
 
 import android.app.Activity;
@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.or.goodlive.ui.view.LoadingProgress;
+import com.or.draise_happy.ui.view.LoadingProgress;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;

@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,10 +18,10 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import static com.or.goodlive.util.ConstUtils.BYTE;
-import static com.or.goodlive.util.ConstUtils.GB;
-import static com.or.goodlive.util.ConstUtils.KB;
-import static com.or.goodlive.util.ConstUtils.MB;
+import static com.or.draise_happy.util.ConstUtils.BYTE;
+import static com.or.draise_happy.util.ConstUtils.GB;
+import static com.or.draise_happy.util.ConstUtils.KB;
+import static com.or.draise_happy.util.ConstUtils.MB;
 
 
 /**

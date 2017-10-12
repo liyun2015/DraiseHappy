@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.mycenter;
+package com.or.draise_happy.ui.activity.mycenter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,16 +14,15 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.or.goodlive.R;
-import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.MessResultsBean;
-import com.or.goodlive.ui.activity.other.WebViewActivity;
-import com.or.goodlive.ui.adapter.MessageAdapter;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.ServiceFactory;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.control.RxSchedulersHelper;
+import com.or.draise_happy.module.MessResultsBean;
+import com.or.draise_happy.ui.adapter.MessageAdapter;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

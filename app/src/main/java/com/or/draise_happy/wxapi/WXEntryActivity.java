@@ -1,4 +1,4 @@
-package com.or.goodlive.wxapi;
+package com.or.draise_happy.wxapi;
 
 
 import com.umeng.socialize.weixin.view.WXCallbackActivity;

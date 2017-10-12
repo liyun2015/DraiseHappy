@@ -1,8 +1,8 @@
-package com.or.goodlive.api.config;
+package com.or.draise_happy.api.config;
 
 
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.NetUtil;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.NetUtil;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -10,8 +10,6 @@ import java.nio.charset.Charset;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static com.or.goodlive.util.Constants.isNoCookie;
 
 /**
  * GzipRequestInterceptor

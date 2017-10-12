@@ -1,17 +1,14 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.or.goodlive.R;
-import com.or.goodlive.module.CoverDataBean;
-import com.or.goodlive.ui.fragment.PeerChildFragment;
-import com.or.goodlive.util.ImageLoadUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.module.CoverDataBean;
+import com.or.draise_happy.util.ImageLoadUtils;
 
 import java.util.List;
-
-import static com.or.goodlive.R.id.yaming_news_source;
 
 /**
  * Created by Administrator on 2017/2/16.

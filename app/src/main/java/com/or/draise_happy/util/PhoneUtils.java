@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;

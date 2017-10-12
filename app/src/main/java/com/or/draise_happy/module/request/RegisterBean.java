@@ -1,8 +1,4 @@
-package com.or.goodlive.module.request;
-
-import com.or.goodlive.module.LoginInBean;
-
-import static com.baidu.location.b.g.S;
+package com.or.draise_happy.module.request;
 
 /**
  * Created by Administrator on 2017/2/14.

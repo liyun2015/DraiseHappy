@@ -4,7 +4,7 @@
     android:id="@+id/activity_uban_member"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.or.goodlive.ui.activity.member.MemberFirstActivity">
+    tools:context="com.or.draise_happy.ui.activity.member.MemberFirstActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/top_view"

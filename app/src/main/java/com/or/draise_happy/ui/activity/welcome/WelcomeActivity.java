@@ -1,13 +1,12 @@
-package com.or.goodlive.ui.activity.welcome;
+package com.or.draise_happy.ui.activity.welcome;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.ui.view.welcome.AppIntroView;
+import com.or.draise_happy.control.Events;
+import com.or.draise_happy.control.RxBus;
+import com.or.draise_happy.ui.view.welcome.AppIntroView;
 
 import rx.functions.Action1;
 

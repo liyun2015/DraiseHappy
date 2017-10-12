@@ -1,4 +1,4 @@
-package com.or.goodlive.control;
+package com.or.draise_happy.control;
 
 
 import com.trello.rxlifecycle.ActivityEvent;

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,9 +7,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.base.UBBaseAdapter;
-import com.or.goodlive.module.ColumnBean;
+import com.or.draise_happy.R;
+import com.or.draise_happy.base.UBBaseAdapter;
+import com.or.draise_happy.module.ColumnBean;
 
 import java.util.List;
 

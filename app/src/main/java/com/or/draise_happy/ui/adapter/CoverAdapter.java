@@ -1,8 +1,8 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.or.goodlive.module.CoverDataBean;
+import com.or.draise_happy.module.CoverDataBean;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.overlayutil;
+package com.or.draise_happy.ui.view.overlayutil;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import java.util.ArrayList;
 import java.util.List;

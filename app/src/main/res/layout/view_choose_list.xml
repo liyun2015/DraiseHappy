@@ -60,7 +60,7 @@
                     android:textColor="@color/pink" />
             </RelativeLayout>
 
-            <com.or.goodlive.ui.view.MyGridView
+            <com.or.draise_happy.ui.view.MyGridView
                 android:id="@+id/gv_select_top"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
@@ -86,7 +86,7 @@
                 android:layout_marginLeft="20dp"
                 android:textSize="15sp"
                 android:textColor="@color/black" />
-            <com.or.goodlive.ui.view.MyGridView
+            <com.or.draise_happy.ui.view.MyGridView
                 android:id="@+id/gv_select_btom"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"

@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 
 import android.content.Context;

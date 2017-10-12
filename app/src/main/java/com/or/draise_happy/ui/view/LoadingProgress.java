@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view;
+package com.or.draise_happy.ui.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 
 /**

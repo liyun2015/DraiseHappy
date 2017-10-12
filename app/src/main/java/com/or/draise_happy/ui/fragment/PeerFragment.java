@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.fragment;
+package com.or.draise_happy.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,19 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.or.goodlive.R;
-import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.BaseFragment;
-import com.or.goodlive.control.Events;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.CategoryDataBean;
-import com.or.goodlive.module.ColumnBean;
-import com.or.goodlive.module.CoverDataBean;
-import com.or.goodlive.ui.adapter.FragmentTabAdapter;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.ui.view.ViewChooseList;
-import com.or.goodlive.util.Constants;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.ServiceFactory;
+import com.or.draise_happy.base.BaseFragment;
+import com.or.draise_happy.control.Events;
+import com.or.draise_happy.control.RxBus;
+import com.or.draise_happy.control.RxSchedulersHelper;
+import com.or.draise_happy.module.CategoryDataBean;
+import com.or.draise_happy.module.ColumnBean;
+import com.or.draise_happy.ui.adapter.FragmentTabAdapter;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.ui.view.ViewChooseList;
+import com.or.draise_happy.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,8 +36,6 @@ import butterknife.OnClick;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static android.R.attr.tag;
 
 /**
  * Created by Administrator on 2017/2/13.

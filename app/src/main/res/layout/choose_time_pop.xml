@@ -21,19 +21,19 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <com.or.goodlive.ui.view.wheelview.WheelView
+        <com.or.draise_happy.ui.view.wheelview.WheelView
             android:id="@+id/month_wheelView"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-        <com.or.goodlive.ui.view.wheelview.WheelView
+        <com.or.draise_happy.ui.view.wheelview.WheelView
             android:id="@+id/day_wheelView"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-        <com.or.goodlive.ui.view.wheelview.WheelView
+        <com.or.draise_happy.ui.view.wheelview.WheelView
             android:id="@+id/time_wheelView"
             android:layout_width="0dp"
             android:layout_weight="2"

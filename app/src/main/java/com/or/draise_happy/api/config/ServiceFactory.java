@@ -1,8 +1,8 @@
-package com.or.goodlive.api.config;
+package com.or.draise_happy.api.config;
 
 
-import com.or.goodlive.api.ApiClient;
-import com.or.goodlive.api.HttpClient;
+import com.or.draise_happy.api.ApiClient;
+import com.or.draise_happy.api.HttpClient;
 
 import java.util.HashMap;
 import java.util.Map;

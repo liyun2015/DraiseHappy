@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.adapter;
+package com.or.draise_happy.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.baidu.mobstat.StatService;
-import com.or.goodlive.R;
-import com.or.goodlive.ui.activity.components.ShowPhotosActivity;
-import com.or.goodlive.util.ImageLoadUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.activity.components.ShowPhotosActivity;
+import com.or.draise_happy.util.ImageLoadUtils;
 
 import java.util.ArrayList;
 import java.util.List;

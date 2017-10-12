@@ -15,7 +15,7 @@
     </TextView>
 
 
-    <com.or.goodlive.ui.view.progress.MaterialProgressBar
+    <com.or.draise_happy.ui.view.progress.MaterialProgressBar
         android:id="@+id/pb_foot_refreshing"
         android:layout_width="20dp"
         android:layout_height="20dp"

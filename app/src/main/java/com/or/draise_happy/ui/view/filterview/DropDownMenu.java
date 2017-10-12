@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.filterview;
+package com.or.draise_happy.ui.view.filterview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
+import com.or.draise_happy.R;
 
 import java.util.List;
 

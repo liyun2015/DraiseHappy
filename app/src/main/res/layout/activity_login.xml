@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/font_black_f4"
     android:orientation="vertical"
-    tools:context="com.or.goodlive.ui.activity.login.LoginActivity">
+    tools:context="com.or.draise_happy.ui.activity.login.LoginActivity">
 
 
     <include layout="@layout/include_toolbar" />

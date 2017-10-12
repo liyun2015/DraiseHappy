@@ -27,7 +27,7 @@
             android:drawableLeft="@drawable/ic_search"
             android:background="@drawable/ic_filling_half_round_white" />
     </android.support.v7.widget.Toolbar>
-    <com.or.goodlive.ui.view.filterview.DropDownMenu
+    <com.or.draise_happy.ui.view.filterview.DropDownMenu
         android:id="@+id/dropDownMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,7 +40,7 @@
         app:ddmaskColor="#88888888"
         app:ddmenuBackgroundColor="@color/white"
         app:ddmenuUnselectedIcon="@drawable/ic_expand_more_gray"
-        tools:context="com.or.goodlive.ui.activity.MainListActivity">
+        tools:context="com.or.draise_happy.ui.activity.MainListActivity">
 
         <!--
          app:ddmenuTextSize="13sp" //tab字体大小
@@ -53,6 +53,6 @@
         app:ddmaskColor="@color/mask_color"     //遮罩颜色，一般是半透明
         app:ddmenuBackgroundColor="@color/white" //tab 背景颜色
         -->
-    </com.or.goodlive.ui.view.filterview.DropDownMenu>
+    </com.or.draise_happy.ui.view.filterview.DropDownMenu>
 
 </LinearLayout>

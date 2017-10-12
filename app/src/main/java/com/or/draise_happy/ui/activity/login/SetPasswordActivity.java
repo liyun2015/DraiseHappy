@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.activity.login;
+package com.or.draise_happy.ui.activity.login;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -6,18 +6,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.api.config.ServiceFactory;
-import com.or.goodlive.base.BaseActivity;
-import com.or.goodlive.control.RxSchedulersHelper;
-import com.or.goodlive.module.request.RegisterBean;
-import com.or.goodlive.module.request.RequestLogin;
-import com.or.goodlive.module.request.RequestVerificationCode;
-import com.or.goodlive.ui.view.ToastUtil;
-import com.or.goodlive.util.Constants;
+import com.or.draise_happy.R;
+import com.or.draise_happy.api.config.ServiceFactory;
+import com.or.draise_happy.base.BaseActivity;
+import com.or.draise_happy.control.RxSchedulersHelper;
+import com.or.draise_happy.module.request.RegisterBean;
+import com.or.draise_happy.module.request.RequestLogin;
+import com.or.draise_happy.ui.view.ToastUtil;
+import com.or.draise_happy.util.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

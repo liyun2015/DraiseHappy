@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.or.goodlive.ui.view.banner;
+package com.or.draise_happy.ui.view.banner;
 
 import android.os.Parcelable;
 import android.support.v4.app.FragmentPagerAdapter;

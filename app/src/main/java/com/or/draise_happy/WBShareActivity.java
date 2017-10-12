@@ -1,4 +1,4 @@
-package com.or.goodlive;
+package com.or.draise_happy;
 
 import com.umeng.socialize.media.WBShareCallBackActivity;
 

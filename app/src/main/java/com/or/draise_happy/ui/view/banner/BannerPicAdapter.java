@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.banner;
+package com.or.draise_happy.ui.view.banner;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,23 +17,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alipay.share.sdk.Constant;
-import com.or.goodlive.R;
-import com.or.goodlive.control.RxBus;
-import com.or.goodlive.module.CoverDataBean;
-import com.or.goodlive.ui.activity.mycenter.ModifyUserInforActivity;
-import com.or.goodlive.ui.activity.other.WebViewActivity;
-import com.or.goodlive.util.Constants;
-import com.or.goodlive.util.ImageLoadUtils;
-import com.or.goodlive.util.SPUtils;
+import com.or.draise_happy.R;
+import com.or.draise_happy.module.CoverDataBean;
+import com.or.draise_happy.ui.activity.other.WebViewActivity;
+import com.or.draise_happy.util.Constants;
+import com.or.draise_happy.util.ImageLoadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.category;
-import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.HEADERURL;
-import static com.or.goodlive.ui.activity.mycenter.MyCenterActivity.USERNAME;
-import static com.or.goodlive.util.Constants.WEB_VIEW_HOSTURL;
 
 /**
  * Created by Administrator on 2017/2/20.

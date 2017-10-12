@@ -1,4 +1,4 @@
-package com.or.goodlive.util;
+package com.or.draise_happy.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,8 +14,8 @@ import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import static com.or.goodlive.util.ConvertUtils.bytes2HexString;
-import static com.or.goodlive.util.ConvertUtils.hexString2Bytes;
+import static com.or.draise_happy.util.ConvertUtils.bytes2HexString;
+import static com.or.draise_happy.util.ConvertUtils.hexString2Bytes;
 
 
 /**

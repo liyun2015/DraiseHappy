@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_pink_1"/>
-    <com.or.goodlive.ui.view.CustomViewPager
+    <com.or.draise_happy.ui.view.CustomViewPager
         android:id="@+id/vp_main"
         android:layout_width="fill_parent"
         android:layout_height="0dp"

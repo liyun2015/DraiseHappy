@@ -1,4 +1,4 @@
-package com.or.goodlive.ui.view.welcome;
+package com.or.draise_happy.ui.view.welcome;
 
 import android.animation.ArgbEvaluator;
 import android.os.Build;
@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package com.or.goodlive.base;
+package com.or.draise_happy.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,13 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.or.goodlive.R;
-import com.or.goodlive.ui.view.LoadingProgress;
+import com.or.draise_happy.R;
+import com.or.draise_happy.ui.view.LoadingProgress;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import butterknife.ButterKnife;
-
-import static android.R.attr.id;
 
 /**
  * BaseFragment

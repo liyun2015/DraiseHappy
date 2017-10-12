@@ -1,8 +1,8 @@
-package com.or.goodlive.api;
+package com.or.draise_happy.api;
 
 
-import com.or.goodlive.App;
-import com.or.goodlive.api.config.RequestInterceptor;
+import com.or.draise_happy.App;
+import com.or.draise_happy.api.config.RequestInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

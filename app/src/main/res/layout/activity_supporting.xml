@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/green_background"
-    tools:context="com.or.goodlive.ui.activity.components.SupportingActivity">
+    tools:context="com.or.draise_happy.ui.activity.components.SupportingActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

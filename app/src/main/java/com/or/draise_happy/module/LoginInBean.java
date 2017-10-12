@@ -1,6 +1,4 @@
-package com.or.goodlive.module;
-
-import static android.R.attr.id;
+package com.or.draise_happy.module;
 
 /**
  * LoginInBean
