@@ -1,6 +1,7 @@
 package com.or.goodlive.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import com.or.goodlive.R;
 import com.or.goodlive.api.config.ServiceFactory;
 import com.or.goodlive.base.BaseFragment;
 import com.or.goodlive.control.RxSchedulersHelper;
+import com.or.goodlive.module.BaseResultsBean;
 import com.or.goodlive.module.CoverDataBean;
 import com.or.goodlive.ui.activity.other.WebViewActivity;
 import com.or.goodlive.ui.adapter.CoverAdapter;
@@ -28,6 +30,8 @@ import com.or.goodlive.ui.view.ToastUtil;
 import com.or.goodlive.ui.view.banner.BannerPicAdapter;
 import com.or.goodlive.ui.view.banner.CircleIndicator;
 import com.or.goodlive.ui.view.banner.LoopViewPager;
+import com.or.goodlive.ui.view.dialog.AlertDialogStyleApp;
+import com.or.goodlive.util.AppUtils;
 import com.or.goodlive.util.Constants;
 
 import java.util.ArrayList;
@@ -87,6 +91,7 @@ public class CoverFragment extends BaseFragment {
     }
 
     private void initData() {
+        //checkVersion();
         Map<String, Integer> params = new HashMap<>();
         params.put("category_id", category_id);
         params.put("pageId", pageId);
@@ -130,7 +135,80 @@ public class CoverFragment extends BaseFragment {
                     }
                 });
     }
-
+    private void checkVersion() {
+        Map<String, String> params = new HashMap<>();
+        ServiceFactory.getProvideHttpService().heckUpdate(params)
+                .compose(this.<BaseResultsBean>bindToLifecycle())
+                .compose(RxSchedulersHelper.<BaseResultsBean>io_main())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                    }
+                })
+                .filter(new Func1<BaseResultsBean, Boolean>() {
+                    @Override
+                    public Boolean call(BaseResultsBean loginInBean) {
+                        if (!Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno())) {
+                            ToastUtil.makeText(mContext, loginInBean.getErr());
+                        }
+                        return Constants.RESULT_CODE_SUCCESS.equals(loginInBean.getErrno());
+                    }
+                })
+                .map(new Func1<BaseResultsBean, BaseResultsBean.RstBean>() {
+                    @Override
+                    public BaseResultsBean.RstBean call(BaseResultsBean loginInBean) {
+                        return loginInBean.getRst();
+                    }
+                })
+                .subscribe(new Action1<BaseResultsBean.RstBean>() {
+                    @Override
+                    public void call(BaseResultsBean.RstBean resultsBean) {
+                        versionUpgrade(resultsBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.makeText(mContext, "请求失败！");
+                        hideLoadingView();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingView();
+                    }
+                });
+    }
+    private String msgStr = "已是最新版本！";
+    private void versionUpgrade(BaseResultsBean.RstBean resultsBean) {
+        //String version = resultsBean.getAndroid_version();
+        String version = "1.2";
+        String versionNow = AppUtils.getAppVersionName(mContext);
+        final String downloadUrl = resultsBean.getUrl();
+        if(!version.equals(versionNow)){
+            msgStr = "发现新版本，是否更新？";
+            AlertDialogStyleApp alertDialogStyleApp = new AlertDialogStyleApp(mContext);
+            alertDialogStyleApp.builder()
+                    .setTitle("提示：")
+                    .setMsg(msgStr)
+                    .setPositiveButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            
+                        }
+                    })
+                    .setNegativeButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startDownload(downloadUrl);
+                        }
+                    }).show();
+        }
+    }
+    private void startDownload(String downloadUrl) {
+        Uri uri = Uri.parse(downloadUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
     private void initListData(CoverDataBean.RstBean rstBean) {
         initBannerView(rstBean);
         initListViewData(rstBean);
